@@ -3,9 +3,20 @@
         <item name="colorPrimary">@color/accent</item>
         <item name="colorPrimaryVariant">@color/accent</item>
         <item name="colorOnPrimary">@color/black</item>
+        <item name="colorPrimaryContainer">@color/card</item>
+        <item name="colorOnPrimaryContainer">@color/text</item>
         <item name="colorSecondary">@color/accent</item>
         <item name="colorSecondaryVariant">@color/accent</item>
         <item name="colorOnSecondary">@color/black</item>
+        <item name="colorOnBackground">@color/text</item>
+        <item name="colorSurface">@color/card</item>
+        <item name="colorOnSurface">@color/text</item>
+        <item name="colorSurfaceVariant">@color/nav_surface</item>
+        <item name="colorOnSurfaceVariant">@color/subtext</item>
+        <item name="colorOutline">@color/card_stroke</item>
+        <item name="colorError">@color/red</item>
+        <item name="colorOnError">@color/white</item>
+        <item name="android:colorBackground">@color/bg</item>
         <item name="android:statusBarColor" tools:targetApi="21">@android:color/black</item>
         <item name="android:navigationBarColor">@android:color/black</item>
         <item name="android:colorControlHighlight">#00000000</item>

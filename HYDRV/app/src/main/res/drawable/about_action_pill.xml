@@ -1,5 +1,6 @@
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
+﻿<shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
-    <solid android:color="@color/about_pill" />
+    <solid android:color="?attr/colorSurfaceVariant" />
     <corners android:radius="22dp" />
 </shape>
+

@@ -37,4 +37,5 @@
     <color name="text_on_red_chip">#FFFFFF</color>
     <color name="text_on_dark_chip">#FFFFFF</color>
     <color name="text_on_light_chip">#000000</color>
+    <color name="red">#EF4444</color>
 </resources>

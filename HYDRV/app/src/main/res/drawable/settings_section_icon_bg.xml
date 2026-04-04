@@ -1,4 +1,5 @@
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="@color/settings_section_icon_bg" />
+﻿<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="?attr/colorSurfaceVariant" />
     <corners android:radius="24dp" />
 </shape>
+

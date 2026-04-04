@@ -29,6 +29,7 @@ import androidx.work.WorkManager
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
+import com.google.android.material.R as MaterialR
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.json.JSONObject
 import java.text.SimpleDateFormat
@@ -560,14 +561,10 @@ class SettingsFragment : Fragment() {
             )
             optionViews.iconView.imageTintList =
                 android.content.res.ColorStateList.valueOf(
-                    requireContext().getColor(
-                        if (isSelected) R.color.accent else R.color.subtext
-                    )
+                    requireContext().getColor(if (isSelected) R.color.accent else R.color.subtext)
                 )
             optionViews.labelView.setTextColor(
-                requireContext().getColor(
-                    if (isSelected) R.color.accent else R.color.text
-                )
+                requireContext().getColor(if (isSelected) R.color.accent else R.color.text)
             )
             optionViews.labelView.alpha = if (isSelected) 1f else 0.85f
         }
@@ -1264,8 +1261,12 @@ class SettingsFragment : Fragment() {
         val input = EditText(context).apply {
             inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_URI
             hint = ""
-            setTextColor(context.getColor(R.color.text))
-            setHintTextColor(context.getColor(R.color.subtext))
+            setTextColor(
+                context.getColor(R.color.text)
+            )
+            setHintTextColor(
+                context.getColor(R.color.subtext)
+            )
             setBackgroundResource(R.drawable.dialog_input_background)
             setPadding(28, 20, 28, 20)
         }

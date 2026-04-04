@@ -1,13 +1,14 @@
-<inset xmlns:android="http://schemas.android.com/apk/res/android"
+﻿<inset xmlns:android="http://schemas.android.com/apk/res/android"
     android:insetLeft="1dp"
     android:insetTop="1dp"
     android:insetRight="1dp"
     android:insetBottom="1dp">
     <shape>
-        <solid android:color="@color/nav_surface" />
+        <solid android:color="?attr/colorSurfaceVariant" />
         <stroke
             android:width="1.5dp"
-            android:color="@color/nav_stroke" />
+            android:color="?attr/colorOutline" />
         <corners android:radius="40dp" />
     </shape>
 </inset>
+

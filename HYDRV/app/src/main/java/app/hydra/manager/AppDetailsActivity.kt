@@ -82,7 +82,13 @@ class AppDetailsActivity : AppCompatActivity() {
         if (app.versions.isEmpty()) {
             val empty = TextView(this).apply {
                 text = getString(R.string.app_details_missing_versions)
-                setTextColor(getColor(R.color.subtext))
+                setTextColor(
+                    ThemeColors.color(
+                        this@AppDetailsActivity,
+                        com.google.android.material.R.attr.colorOnSurfaceVariant,
+                        R.color.subtext
+                    )
+                )
             }
             container.addView(empty)
             return
@@ -95,16 +101,34 @@ class AppDetailsActivity : AppCompatActivity() {
 
             val title = TextView(this)
             title.text = getString(R.string.app_details_version_title, v.version_name)
-            title.setTextColor(getColor(R.color.text))
+            title.setTextColor(
+                ThemeColors.color(
+                    this,
+                    com.google.android.material.R.attr.colorOnBackground,
+                    R.color.text
+                )
+            )
 
             val changelog = TextView(this)
             changelog.text = v.changelog
-            changelog.setTextColor(getColor(R.color.subtext))
+            changelog.setTextColor(
+                ThemeColors.color(
+                    this,
+                    com.google.android.material.R.attr.colorOnSurfaceVariant,
+                    R.color.subtext
+                )
+            )
 
             val btn = androidx.appcompat.widget.AppCompatButton(this)
             btn.text = getString(R.string.app_details_download)
             btn.setBackgroundResource(R.drawable.button_install)
-            btn.setTextColor(getColor(R.color.text_on_accent_chip))
+            btn.setTextColor(
+                ThemeColors.color(
+                    this,
+                    com.google.android.material.R.attr.colorOnPrimary,
+                    R.color.text_on_accent_chip
+                )
+            )
             btn.backgroundTintList = null
 
             val params = LinearLayout.LayoutParams(
@@ -184,13 +208,25 @@ class AppDetailsActivity : AppCompatActivity() {
         fun resetButton() {
             btn.text = getString(R.string.app_details_download)
             btn.isEnabled = true
-            btn.setTextColor(getColor(R.color.text_on_accent_chip))
+            btn.setTextColor(
+                ThemeColors.color(
+                    this@AppDetailsActivity,
+                    com.google.android.material.R.attr.colorOnPrimary,
+                    R.color.text_on_accent_chip
+                )
+            )
             btn.setBackgroundResource(R.drawable.button_install)
         }
 
         fun showDone() {
             btn.text = getString(R.string.app_details_done)
-            btn.setTextColor(getColor(R.color.text_on_accent_chip))
+            btn.setTextColor(
+                ThemeColors.color(
+                    this@AppDetailsActivity,
+                    com.google.android.material.R.attr.colorOnPrimary,
+                    R.color.text_on_accent_chip
+                )
+            )
             btn.setBackgroundResource(R.drawable.button_done)
 
             btn.postDelayed({

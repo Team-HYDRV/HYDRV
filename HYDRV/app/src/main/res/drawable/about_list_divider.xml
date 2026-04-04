@@ -1,5 +1,6 @@
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
+﻿<shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
     <size android:height="1dp" />
-    <solid android:color="@color/about_outline" />
+    <solid android:color="?attr/colorOutline" />
 </shape>
+

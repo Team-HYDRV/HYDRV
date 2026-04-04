@@ -1,7 +1,8 @@
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
+﻿<shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="oval">
-    <solid android:color="@color/about_logo_surface" />
+    <solid android:color="?attr/colorSurfaceVariant" />
     <stroke
         android:width="2dp"
-        android:color="@color/accent" />
+        android:color="?attr/colorPrimary" />
 </shape>
+

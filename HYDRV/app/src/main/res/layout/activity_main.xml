@@ -1,6 +1,6 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+﻿<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/rootLayout"
-    android:background="@color/bg"
+    android:background="?android:colorBackground"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -27,7 +27,7 @@
         android:id="@+id/launchOverlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/bg"
+        android:background="?android:colorBackground"
         android:clickable="true"
         android:focusable="true">
 
@@ -43,7 +43,7 @@
                 android:paddingHorizontal="16dp"
                 android:paddingBottom="8dp"
                 android:text="@string/app_name"
-                android:textColor="@color/text"
+                android:textColor="?attr/colorOnBackground"
                 android:textSize="22sp"
                 android:textStyle="bold" />
 
@@ -65,7 +65,7 @@
                 <View
                     android:layout_width="28dp"
                     android:layout_height="3dp"
-                    android:background="@color/accent" />
+                    android:background="?attr/colorPrimary" />
 
                 <View
                     android:layout_width="54dp"
@@ -116,3 +116,6 @@
     </FrameLayout>
 
 </FrameLayout>
+
+
+

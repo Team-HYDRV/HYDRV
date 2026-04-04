@@ -15,6 +15,7 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
+import com.google.android.material.R as MaterialR
 import com.google.android.material.color.DynamicColors
 import com.google.android.material.snackbar.Snackbar
 
@@ -34,8 +35,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var launchOverlay: View
     private var installSnackbar: Snackbar? = null
 
-    private val activeColor = Color.parseColor("#1ED760")
-    private val inactiveColor = Color.parseColor("#B3FFFFFF")
+    private var activeColor = Color.parseColor("#1ED760")
+    private var inactiveColor = Color.parseColor("#B3FFFFFF")
 
     private var activeFragment: Fragment? = null
     private var activeTag: String = TAG_HOME
@@ -96,6 +97,8 @@ class MainActivity : AppCompatActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContentView(R.layout.activity_main)
         AppearancePreferences.applyPureBlackBackgroundIfNeeded(findViewById(R.id.rootLayout))
+        activeColor = Color.parseColor("#1ED760")
+        inactiveColor = Color.parseColor("#B3FFFFFF")
 
         supportActionBar?.hide()
 

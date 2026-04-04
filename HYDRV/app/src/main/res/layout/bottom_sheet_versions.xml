@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+﻿<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/sheetRoot"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
         android:paddingHorizontal="20dp"
-        android:textColor="@color/text"
+        android:textColor="?attr/colorOnBackground"
         android:textSize="24sp"
         android:textStyle="bold" />
 
@@ -32,7 +32,7 @@
         android:layout_marginBottom="14dp"
         android:paddingHorizontal="20dp"
         android:text="@string/available_versions"
-        android:textColor="@color/subtext"
+        android:textColor="?attr/colorOnSurfaceVariant"
         android:textSize="13sp" />
 
     <FrameLayout
@@ -68,3 +68,4 @@
     </FrameLayout>
 
 </LinearLayout>
+

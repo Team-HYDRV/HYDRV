@@ -597,8 +597,10 @@ class HomeFragment : Fragment() {
                 if (selected) R.drawable.home_filter_chip_selected else R.drawable.home_filter_chip
             )
             setTextColor(
-                ContextCompat.getColor(
+                ThemeColors.color(
                     context,
+                    if (selected) com.google.android.material.R.attr.colorOnPrimary
+                    else com.google.android.material.R.attr.colorOnBackground,
                     if (selected) android.R.color.black else R.color.text
                 )
             )

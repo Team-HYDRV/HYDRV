@@ -1,8 +1,8 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+﻿<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/headerContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg"
+    android:background="?android:colorBackground"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
@@ -23,7 +23,7 @@
             android:focusable="true"
             android:padding="8dp"
             android:src="@drawable/ic_arrow_back"
-            android:tint="@color/text"
+            android:tint="?attr/colorOnBackground"
             android:visibility="gone" />
 
         <TextView
@@ -33,7 +33,7 @@
             android:layout_weight="1"
             android:paddingHorizontal="8dp"
             android:text="@string/settings_title"
-            android:textColor="@color/text"
+            android:textColor="?attr/colorOnBackground"
             android:textSize="22sp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -84,7 +84,7 @@
                             android:layout_height="24dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_settings"
-                            android:tint="@color/accent" />
+                            android:tint="?attr/colorPrimary" />
                     </FrameLayout>
 
                     <LinearLayout
@@ -98,7 +98,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/settings_general_title"
-                            android:textColor="@color/text"
+                            android:textColor="?attr/colorOnBackground"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
@@ -107,7 +107,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:text="@string/settings_general_subtitle"
-                            android:textColor="@color/subtext"
+                            android:textColor="?attr/colorOnSurfaceVariant"
                             android:textSize="13sp" />
                     </LinearLayout>
                 </LinearLayout>
@@ -138,7 +138,7 @@
                             android:layout_height="24dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_updates"
-                            android:tint="@color/accent" />
+                            android:tint="?attr/colorPrimary" />
                     </FrameLayout>
 
                     <LinearLayout
@@ -152,7 +152,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/settings_updates_title"
-                            android:textColor="@color/text"
+                            android:textColor="?attr/colorOnBackground"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
@@ -161,7 +161,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:text="@string/settings_updates_subtitle"
-                            android:textColor="@color/subtext"
+                            android:textColor="?attr/colorOnSurfaceVariant"
                             android:textSize="13sp" />
                     </LinearLayout>
                 </LinearLayout>
@@ -192,7 +192,7 @@
                             android:layout_height="24dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_advance"
-                            android:tint="@color/accent" />
+                            android:tint="?attr/colorPrimary" />
                     </FrameLayout>
 
                     <LinearLayout
@@ -206,7 +206,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/settings_advance_title"
-                            android:textColor="@color/text"
+                            android:textColor="?attr/colorOnBackground"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
@@ -215,7 +215,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:text="@string/settings_advance_subtitle"
-                            android:textColor="@color/subtext"
+                            android:textColor="?attr/colorOnSurfaceVariant"
                             android:textSize="13sp" />
                     </LinearLayout>
                 </LinearLayout>
@@ -246,7 +246,7 @@
                             android:layout_height="24dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_support"
-                            android:tint="@color/accent" />
+                            android:tint="?attr/colorPrimary" />
                     </FrameLayout>
 
                     <LinearLayout
@@ -260,7 +260,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/settings_about_title"
-                            android:textColor="@color/text"
+                            android:textColor="?attr/colorOnBackground"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
@@ -269,7 +269,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:text="@string/settings_about_subtitle"
-                            android:textColor="@color/subtext"
+                            android:textColor="?attr/colorOnSurfaceVariant"
                             android:textSize="13sp" />
                     </LinearLayout>
                 </LinearLayout>
@@ -294,14 +294,14 @@
                         android:layout_width="18dp"
                         android:layout_height="18dp"
                         android:src="@drawable/ic_settings"
-                        android:tint="@color/subtext" />
+                        android:tint="?attr/colorOnSurfaceVariant" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:text="@string/settings_section_appearance"
-                        android:textColor="@color/subtext"
+                        android:textColor="?attr/colorOnSurfaceVariant"
                         android:textSize="14sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -340,7 +340,7 @@
                                 android:layout_height="28dp"
                                 android:layout_gravity="center"
                                 android:src="@drawable/ic_theme_system"
-                                android:tint="@color/subtext" />
+                                android:tint="?attr/colorOnSurfaceVariant" />
                         </FrameLayout>
 
                         <TextView
@@ -349,7 +349,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:text="@string/theme_system"
-                            android:textColor="@color/text"
+                            android:textColor="?attr/colorOnBackground"
                             android:textSize="14sp"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -378,7 +378,7 @@
                                 android:layout_height="28dp"
                                 android:layout_gravity="center"
                                 android:src="@drawable/ic_theme_light"
-                                android:tint="@color/subtext" />
+                                android:tint="?attr/colorOnSurfaceVariant" />
                         </FrameLayout>
 
                         <TextView
@@ -387,7 +387,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:text="@string/theme_light"
-                            android:textColor="@color/text"
+                            android:textColor="?attr/colorOnBackground"
                             android:textSize="14sp"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -416,7 +416,7 @@
                                 android:layout_height="28dp"
                                 android:layout_gravity="center"
                                 android:src="@drawable/ic_theme_dark"
-                                android:tint="@color/subtext" />
+                                android:tint="?attr/colorOnSurfaceVariant" />
                         </FrameLayout>
 
                         <TextView
@@ -425,7 +425,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:text="@string/theme_dark"
-                            android:textColor="@color/text"
+                            android:textColor="?attr/colorOnBackground"
                             android:textSize="14sp"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -456,7 +456,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/dynamic_color_title"
-                            android:textColor="@color/text"
+                            android:textColor="?attr/colorOnBackground"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
@@ -465,7 +465,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:text="@string/dynamic_color_summary"
-                            android:textColor="@color/subtext"
+                            android:textColor="?attr/colorOnSurfaceVariant"
                             android:textSize="13sp" />
                     </LinearLayout>
 
@@ -509,7 +509,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/pure_black_title"
-                            android:textColor="@color/text"
+                            android:textColor="?attr/colorOnBackground"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
@@ -518,7 +518,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:text="@string/pure_black_summary"
-                            android:textColor="@color/subtext"
+                            android:textColor="?attr/colorOnSurfaceVariant"
                             android:textSize="13sp" />
                     </LinearLayout>
 
@@ -562,7 +562,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/language_title"
-                            android:textColor="@color/text"
+                            android:textColor="?attr/colorOnBackground"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
@@ -571,7 +571,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:text="@string/language_summary"
-                            android:textColor="@color/subtext"
+                            android:textColor="?attr/colorOnSurfaceVariant"
                             android:textSize="13sp" />
                     </LinearLayout>
 
@@ -579,7 +579,7 @@
                         android:id="@+id/languageValue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/subtext"
+                        android:textColor="?attr/colorOnSurfaceVariant"
                         android:textSize="14sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -609,7 +609,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/download_via_title"
-                            android:textColor="@color/text"
+                            android:textColor="?attr/colorOnBackground"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
@@ -618,7 +618,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:text="@string/download_via_summary"
-                            android:textColor="@color/subtext"
+                            android:textColor="?attr/colorOnSurfaceVariant"
                             android:textSize="13sp" />
                     </LinearLayout>
 
@@ -626,7 +626,7 @@
                         android:id="@+id/downloadNetworkValue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/subtext"
+                        android:textColor="?attr/colorOnSurfaceVariant"
                         android:textSize="14sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -656,7 +656,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/update_notifications_title"
-                            android:textColor="@color/text"
+                            android:textColor="?attr/colorOnBackground"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
@@ -665,7 +665,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:text="@string/update_notifications_summary"
-                            android:textColor="@color/subtext"
+                            android:textColor="?attr/colorOnSurfaceVariant"
                             android:textSize="13sp" />
                     </LinearLayout>
 
@@ -711,7 +711,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/home_sort_title"
-                            android:textColor="@color/text"
+                            android:textColor="?attr/colorOnBackground"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
@@ -720,7 +720,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:text="@string/home_sort_summary"
-                            android:textColor="@color/subtext"
+                            android:textColor="?attr/colorOnSurfaceVariant"
                             android:textSize="13sp" />
                     </LinearLayout>
 
@@ -728,7 +728,7 @@
                         android:id="@+id/homeSortValue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/subtext"
+                        android:textColor="?attr/colorOnSurfaceVariant"
                         android:textSize="14sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -758,7 +758,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/favorites_sort_title"
-                            android:textColor="@color/text"
+                            android:textColor="?attr/colorOnBackground"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
@@ -767,7 +767,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:text="@string/favorites_sort_summary"
-                            android:textColor="@color/subtext"
+                            android:textColor="?attr/colorOnSurfaceVariant"
                             android:textSize="13sp" />
                     </LinearLayout>
 
@@ -775,7 +775,7 @@
                         android:id="@+id/favoritesSortValue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/subtext"
+                        android:textColor="?attr/colorOnSurfaceVariant"
                         android:textSize="14sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -805,7 +805,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/installed_sort_title"
-                            android:textColor="@color/text"
+                            android:textColor="?attr/colorOnBackground"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
@@ -814,7 +814,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:text="@string/installed_sort_summary"
-                            android:textColor="@color/subtext"
+                            android:textColor="?attr/colorOnSurfaceVariant"
                             android:textSize="13sp" />
                     </LinearLayout>
 
@@ -822,7 +822,7 @@
                         android:id="@+id/installedSortValue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/subtext"
+                        android:textColor="?attr/colorOnSurfaceVariant"
                         android:textSize="14sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -839,14 +839,14 @@
                         android:layout_width="18dp"
                         android:layout_height="18dp"
                         android:src="@drawable/ic_download"
-                        android:tint="@color/subtext" />
+                        android:tint="?attr/colorOnSurfaceVariant" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:text="@string/settings_section_lists"
-                        android:textColor="@color/subtext"
+                        android:textColor="?attr/colorOnSurfaceVariant"
                         android:textSize="14sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -876,7 +876,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/version_sort_title"
-                            android:textColor="@color/text"
+                            android:textColor="?attr/colorOnBackground"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
@@ -885,7 +885,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:text="@string/version_sort_summary"
-                            android:textColor="@color/subtext"
+                            android:textColor="?attr/colorOnSurfaceVariant"
                             android:textSize="13sp" />
                     </LinearLayout>
 
@@ -893,7 +893,7 @@
                         android:id="@+id/versionSortValue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/subtext"
+                        android:textColor="?attr/colorOnSurfaceVariant"
                         android:textSize="14sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -923,7 +923,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/download_sort_title"
-                            android:textColor="@color/text"
+                            android:textColor="?attr/colorOnBackground"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
@@ -932,7 +932,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:text="@string/download_sort_summary"
-                            android:textColor="@color/subtext"
+                            android:textColor="?attr/colorOnSurfaceVariant"
                             android:textSize="13sp" />
                     </LinearLayout>
 
@@ -940,7 +940,7 @@
                         android:id="@+id/downloadSortValue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/subtext"
+                        android:textColor="?attr/colorOnSurfaceVariant"
                         android:textSize="14sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -978,7 +978,7 @@
                                 android:layout_height="22dp"
                                 android:layout_gravity="center"
                                 android:src="@drawable/ic_updates"
-                                android:tint="@color/text" />
+                                android:tint="?attr/colorOnBackground" />
                         </FrameLayout>
 
                         <LinearLayout
@@ -990,7 +990,7 @@
 
                             <TextView
                             android:text="@string/app_name"
-                                android:textColor="@color/text"
+                                android:textColor="?attr/colorOnBackground"
                                 android:textSize="18sp"
                                 android:textStyle="bold"
                                 android:layout_width="wrap_content"
@@ -1002,7 +1002,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
                                 android:text="@string/updates_never_checked"
-                                android:textColor="@color/subtext"
+                                android:textColor="?attr/colorOnSurfaceVariant"
                                 android:textSize="13sp" />
 
                             <TextView
@@ -1012,7 +1012,7 @@
                                 android:layout_marginTop="8dp"
                                 android:alpha="0.72"
                                 android:text="@string/updates_never_checked"
-                                android:textColor="@color/subtext"
+                                android:textColor="?attr/colorOnSurfaceVariant"
                                 android:textSize="11sp" />
                         </LinearLayout>
                     </LinearLayout>
@@ -1028,7 +1028,7 @@
                         android:paddingHorizontal="18dp"
                         android:text="@string/updates_view_changelog"
                         android:textAllCaps="false"
-                        android:textColor="@color/text" />
+                        android:textColor="?attr/colorOnBackground" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -1054,7 +1054,7 @@
 
                         <TextView
                             android:text="@string/updates_launch_check_title"
-                            android:textColor="@color/text"
+                            android:textColor="?attr/colorOnBackground"
                             android:textSize="16sp"
                             android:textStyle="bold"
                             android:layout_width="wrap_content"
@@ -1062,7 +1062,7 @@
 
                         <TextView
                             android:text="@string/updates_launch_check_summary"
-                            android:textColor="@color/subtext"
+                            android:textColor="?attr/colorOnSurfaceVariant"
                             android:textSize="13sp"
                             android:layout_marginTop="4dp"
                             android:layout_width="wrap_content"
@@ -1109,7 +1109,7 @@
 
                         <TextView
                             android:text="@string/updates_launch_message_title"
-                            android:textColor="@color/text"
+                            android:textColor="?attr/colorOnBackground"
                             android:textSize="16sp"
                             android:textStyle="bold"
                             android:layout_width="wrap_content"
@@ -1117,7 +1117,7 @@
 
                         <TextView
                             android:text="@string/updates_launch_message_summary"
-                            android:textColor="@color/subtext"
+                            android:textColor="?attr/colorOnSurfaceVariant"
                             android:textSize="13sp"
                             android:layout_marginTop="4dp"
                             android:layout_width="wrap_content"
@@ -1154,7 +1154,7 @@
                     android:paddingHorizontal="20dp"
                     android:text="@string/updates_check_now"
                     android:textAllCaps="false"
-                    android:textColor="@color/text" />
+                    android:textColor="?attr/colorOnBackground" />
             </LinearLayout>
 
             <LinearLayout
@@ -1189,7 +1189,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/ads_support_title"
-                            android:textColor="@color/text"
+                            android:textColor="?attr/colorOnBackground"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
@@ -1198,7 +1198,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:text="@string/ads_support_summary"
-                            android:textColor="@color/subtext"
+                            android:textColor="?attr/colorOnSurfaceVariant"
                             android:textSize="13sp" />
                     </LinearLayout>
 
@@ -1244,7 +1244,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/battery_optimization_title"
-                            android:textColor="@color/text"
+                            android:textColor="?attr/colorOnBackground"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
@@ -1253,7 +1253,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:text="@string/battery_optimization_summary"
-                            android:textColor="@color/subtext"
+                            android:textColor="?attr/colorOnSurfaceVariant"
                             android:textSize="13sp" />
                     </LinearLayout>
 
@@ -1262,7 +1262,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
-                        android:textColor="@color/subtext"
+                        android:textColor="?attr/colorOnSurfaceVariant"
                         android:textSize="14sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -1298,7 +1298,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/backend_title"
-                                android:textColor="@color/text"
+                                android:textColor="?attr/colorOnBackground"
                                 android:textSize="16sp"
                                 android:textStyle="bold" />
 
@@ -1307,7 +1307,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
                                 android:text="@string/backend_summary"
-                                android:textColor="@color/subtext"
+                                android:textColor="?attr/colorOnSurfaceVariant"
                                 android:textSize="13sp" />
                         </LinearLayout>
 
@@ -1315,7 +1315,7 @@
                             android:id="@+id/backendUrlValue"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/subtext"
+                            android:textColor="?attr/colorOnSurfaceVariant"
                             android:textSize="14sp"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -1337,7 +1337,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/backend_help_title"
-                            android:textColor="@color/text"
+                            android:textColor="?attr/colorOnBackground"
                             android:textSize="15sp"
                             android:textStyle="bold" />
 
@@ -1346,7 +1346,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="6dp"
                             android:text="@string/backend_help_body"
-                            android:textColor="@color/subtext"
+                            android:textColor="?attr/colorOnSurfaceVariant"
                             android:textSize="13sp" />
                     </LinearLayout>
                 </LinearLayout>
@@ -1363,14 +1363,14 @@
                         android:layout_width="18dp"
                         android:layout_height="18dp"
                         android:src="@drawable/ic_advance"
-                        android:tint="@color/subtext" />
+                        android:tint="?attr/colorOnSurfaceVariant" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:text="@string/debug_section_title"
-                        android:textColor="@color/subtext"
+                        android:textColor="?attr/colorOnSurfaceVariant"
                         android:textSize="14sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -1393,7 +1393,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/backend_health_title"
-                        android:textColor="@color/text"
+                        android:textColor="?attr/colorOnBackground"
                         android:textSize="16sp" />
 
                     <TextView
@@ -1401,7 +1401,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:text="@string/backend_health_summary"
-                        android:textColor="@color/subtext"
+                        android:textColor="?attr/colorOnSurfaceVariant"
                         android:textSize="13sp" />
                 </LinearLayout>
 
@@ -1423,7 +1423,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/debug_export_logs_title"
-                        android:textColor="@color/text"
+                        android:textColor="?attr/colorOnBackground"
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -1445,7 +1445,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/settings_backup_export_title"
-                        android:textColor="@color/text"
+                        android:textColor="?attr/colorOnBackground"
                         android:textSize="16sp" />
 
                     <TextView
@@ -1453,7 +1453,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:text="@string/settings_backup_export_summary"
-                        android:textColor="@color/subtext"
+                        android:textColor="?attr/colorOnSurfaceVariant"
                         android:textSize="13sp" />
                 </LinearLayout>
 
@@ -1475,7 +1475,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/settings_backup_import_title"
-                        android:textColor="@color/text"
+                        android:textColor="?attr/colorOnBackground"
                         android:textSize="16sp" />
 
                     <TextView
@@ -1483,7 +1483,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:text="@string/settings_backup_import_summary"
-                        android:textColor="@color/subtext"
+                        android:textColor="?attr/colorOnSurfaceVariant"
                         android:textSize="13sp" />
                 </LinearLayout>
 
@@ -1501,7 +1501,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/device_info_title"
-                        android:textColor="@color/text"
+                        android:textColor="?attr/colorOnBackground"
                         android:textSize="15sp"
                         android:textStyle="bold" />
 
@@ -1510,7 +1510,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:textColor="@color/subtext"
+                        android:textColor="?attr/colorOnSurfaceVariant"
                         android:textSize="13sp" />
                 </LinearLayout>
             </LinearLayout>
@@ -1563,7 +1563,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/app_name"
-                                android:textColor="@color/text"
+                                android:textColor="?attr/colorOnBackground"
                                 android:textSize="28sp"
                                 android:textStyle="bold" />
 
@@ -1573,7 +1573,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
                                 android:gravity="center"
-                                android:textColor="@color/subtext"
+                                android:textColor="?attr/colorOnSurfaceVariant"
                                 android:textSize="14sp" />
                         </LinearLayout>
                     </LinearLayout>
@@ -1584,7 +1584,7 @@
                         android:layout_marginTop="18dp"
                         android:gravity="center"
                         android:text="@string/about_tagline"
-                        android:textColor="@color/subtext"
+                        android:textColor="?attr/colorOnSurfaceVariant"
                         android:textSize="14sp" />
 
                     <View
@@ -1598,7 +1598,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:text="@string/about_description_title"
-                        android:textColor="@color/text"
+                        android:textColor="?attr/colorOnBackground"
                         android:textSize="17sp"
                         android:textStyle="bold" />
 
@@ -1608,7 +1608,7 @@
                         android:layout_marginTop="10dp"
                         android:lineSpacingExtra="3dp"
                         android:text="@string/about_description_body"
-                        android:textColor="@color/subtext"
+                        android:textColor="?attr/colorOnSurfaceVariant"
                         android:textSize="14sp" />
                 </LinearLayout>
 
@@ -1618,7 +1618,7 @@
                     android:layout_marginHorizontal="18dp"
                     android:layout_marginTop="18dp"
                     android:text="@string/about_quick_label"
-                    android:textColor="@color/subtext"
+                    android:textColor="?attr/colorOnSurfaceVariant"
                     android:textSize="13sp"
                     android:textStyle="bold" />
 
@@ -1647,7 +1647,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/about_link_website"
-                            android:textColor="@color/accent"
+                            android:textColor="?attr/colorPrimary"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
@@ -1656,7 +1656,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:text="@string/about_link_website_caption"
-                            android:textColor="@color/subtext"
+                            android:textColor="?attr/colorOnSurfaceVariant"
                             android:textSize="13sp" />
                     </LinearLayout>
 
@@ -1678,7 +1678,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/about_link_discord"
-                            android:textColor="@color/accent"
+                            android:textColor="?attr/colorPrimary"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
@@ -1687,7 +1687,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:text="@string/about_link_discord_caption"
-                            android:textColor="@color/subtext"
+                            android:textColor="?attr/colorOnSurfaceVariant"
                             android:textSize="13sp" />
                     </LinearLayout>
                 </LinearLayout>
@@ -1717,7 +1717,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/about_link_donate"
-                            android:textColor="@color/accent"
+                            android:textColor="?attr/colorPrimary"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
@@ -1726,7 +1726,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:text="@string/about_link_donate_caption"
-                            android:textColor="@color/subtext"
+                            android:textColor="?attr/colorOnSurfaceVariant"
                             android:textSize="13sp" />
                     </LinearLayout>
 
@@ -1748,7 +1748,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/about_link_github"
-                            android:textColor="@color/accent"
+                            android:textColor="?attr/colorPrimary"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
@@ -1757,7 +1757,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:text="@string/about_link_github_caption"
-                            android:textColor="@color/subtext"
+                            android:textColor="?attr/colorOnSurfaceVariant"
                             android:textSize="13sp" />
                     </LinearLayout>
                 </LinearLayout>
@@ -1786,7 +1786,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/about_issue_title"
-                            android:textColor="@color/text"
+                            android:textColor="?attr/colorOnBackground"
                             android:textSize="17sp"
                             android:textStyle="bold" />
 
@@ -1795,7 +1795,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:text="@string/about_issue_summary"
-                            android:textColor="@color/subtext"
+                            android:textColor="?attr/colorOnSurfaceVariant"
                             android:textSize="14sp" />
                     </LinearLayout>
 
@@ -1819,7 +1819,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/about_contributors_title"
-                            android:textColor="@color/text"
+                            android:textColor="?attr/colorOnBackground"
                             android:textSize="17sp"
                             android:textStyle="bold" />
 
@@ -1828,7 +1828,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:text="@string/about_contributors_summary"
-                            android:textColor="@color/subtext"
+                            android:textColor="?attr/colorOnSurfaceVariant"
                             android:textSize="14sp" />
                     </LinearLayout>
 
@@ -1852,7 +1852,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/about_licenses_title"
-                            android:textColor="@color/text"
+                            android:textColor="?attr/colorOnBackground"
                             android:textSize="17sp"
                             android:textStyle="bold" />
 
@@ -1861,7 +1861,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:text="@string/about_licenses_summary"
-                            android:textColor="@color/subtext"
+                            android:textColor="?attr/colorOnSurfaceVariant"
                             android:textSize="14sp" />
                     </LinearLayout>
                 </LinearLayout>
@@ -1869,3 +1869,6 @@
         </FrameLayout>
     </ScrollView>
 </LinearLayout>
+
+
+

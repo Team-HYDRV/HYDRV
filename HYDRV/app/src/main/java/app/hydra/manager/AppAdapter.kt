@@ -12,6 +12,7 @@ import android.view.animation.OvershootInterpolator
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -168,13 +169,25 @@ class AppAdapter :
                 holder.badge.visibility = View.VISIBLE
                 holder.badge.text = holder.itemView.context.getString(R.string.badge_update)
                 holder.badge.setBackgroundResource(R.drawable.badge_update)
-                holder.badge.setTextColor(holder.itemView.context.getColor(R.color.text_on_accent_chip))
+                holder.badge.setTextColor(
+                    ThemeColors.color(
+                        holder.itemView.context,
+                        com.google.android.material.R.attr.colorOnPrimary,
+                        R.color.text_on_accent_chip
+                    )
+                )
             }
             else -> {
                 holder.badge.visibility = View.VISIBLE
                 holder.badge.text = holder.itemView.context.getString(R.string.badge_installed)
                 holder.badge.setBackgroundResource(R.drawable.badge_installed)
-                holder.badge.setTextColor(holder.itemView.context.getColor(R.color.text_on_accent_chip))
+                holder.badge.setTextColor(
+                    ThemeColors.color(
+                        holder.itemView.context,
+                        com.google.android.material.R.attr.colorOnPrimary,
+                        R.color.text_on_accent_chip
+                    )
+                )
             }
         }
     }

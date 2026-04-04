@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/bg">
+    android:background="?android:colorBackground">
 
     <LinearLayout
         android:id="@+id/headerContainer"
@@ -23,7 +23,7 @@
             android:layout_height="40dp"
             android:padding="8dp"
             android:src="@drawable/ic_arrow_back"
-            android:tint="@color/text"
+            android:tint="?attr/colorOnBackground"
             android:contentDescription="@string/back_label" />
 
         <TextView
@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:text="@string/language_title"
-            android:textColor="@color/text"
+            android:textColor="?attr/colorOnBackground"
             android:textSize="17sp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -47,3 +47,6 @@
         android:paddingBottom="24dp" />
 
 </LinearLayout>
+
+
+

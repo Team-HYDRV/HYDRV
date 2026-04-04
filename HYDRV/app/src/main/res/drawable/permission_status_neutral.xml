@@ -1,4 +1,5 @@
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="@color/permission_chip_neutral" />
+﻿<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="?attr/colorSurfaceVariant" />
     <corners android:radius="999dp" />
 </shape>
+

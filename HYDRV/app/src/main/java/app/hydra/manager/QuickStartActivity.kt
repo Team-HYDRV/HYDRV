@@ -13,6 +13,7 @@ import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
+import com.google.android.material.R as MaterialR
 import com.google.android.material.color.DynamicColors
 
 class QuickStartActivity : AppCompatActivity() {
@@ -96,17 +97,13 @@ class QuickStartActivity : AppCompatActivity() {
         val isConnected = isInternetAvailable()
         internetStatus.text = if (isConnected) getString(R.string.permission_online) else getString(R.string.permission_offline)
         internetStatus.setBackgroundResource(R.drawable.permission_status_info)
-        internetStatus.setTextColor(
-            getColor(if (isConnected) R.color.accent else R.color.text_on_dark_chip)
-        )
+        internetStatus.setTextColor(getColor(if (isConnected) R.color.accent else R.color.text_on_dark_chip))
 
         val canInstall = canInstallUnknownApps()
         installStatus.text =
             if (canInstall) getString(R.string.permission_allowed) else getString(R.string.permission_not_allowed)
         installStatus.setBackgroundResource(R.drawable.permission_status_info)
-        installStatus.setTextColor(
-            getColor(if (canInstall) R.color.accent else android.R.color.white)
-        )
+        installStatus.setTextColor(getColor(if (canInstall) R.color.accent else android.R.color.white))
         installAction.text =
             if (canInstall) getString(R.string.permission_enabled) else getString(R.string.permission_open_settings)
         installAction.isEnabled = !canInstall
@@ -116,9 +113,7 @@ class QuickStartActivity : AppCompatActivity() {
         notificationsStatus.text =
             if (canNotify) getString(R.string.permission_allowed) else getString(R.string.permission_not_allowed)
         notificationsStatus.setBackgroundResource(R.drawable.permission_status_info)
-        notificationsStatus.setTextColor(
-            getColor(if (canNotify) R.color.accent else android.R.color.white)
-        )
+        notificationsStatus.setTextColor(getColor(if (canNotify) R.color.accent else android.R.color.white))
         notificationsAction.text =
             if (canNotify) getString(R.string.permission_enabled) else getString(R.string.permission_enable)
         notificationsAction.isEnabled = !canNotify

@@ -1,7 +1,7 @@
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+﻿<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/bg"
+    android:background="?android:colorBackground"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -9,13 +9,13 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="220dp"
-        android:background="@color/bg">
+        android:background="?android:colorBackground">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:contentScrim="@color/bg">
+            app:contentScrim="?android:colorBackground">
 
             
             <LinearLayout
@@ -33,7 +33,7 @@
 
                 <TextView
                     android:id="@+id/name"
-                    android:textColor="@color/text"
+                    android:textColor="?attr/colorOnBackground"
                     android:textSize="22sp"
                     android:textStyle="bold"
                     android:layout_marginTop="12dp"
@@ -66,7 +66,7 @@
 
             <TextView
                 android:id="@+id/latest"
-                android:textColor="@color/subtext"
+                android:textColor="?attr/colorOnSurfaceVariant"
                 android:textSize="13sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
@@ -84,7 +84,7 @@
 
             <TextView
                 android:text="@string/app_details_versions_title"
-                android:textColor="@color/text"
+                android:textColor="?attr/colorOnBackground"
                 android:textStyle="bold"
                 android:textSize="16sp"
                 android:layout_marginTop="20dp"
@@ -102,3 +102,7 @@
     </ScrollView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+
+

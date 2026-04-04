@@ -38,10 +38,10 @@ object AppSnackbar {
         snackbar.view.minimumHeight = 0
 
         snackbar.view.findViewById<TextView>(MaterialR.id.snackbar_text)?.apply {
-            setTextColor(ContextCompat.getColor(context, R.color.text))
+            setTextColor(context.getColor(R.color.text))
             maxLines = 2
         }
-        snackbar.setActionTextColor(ContextCompat.getColor(context, R.color.accent))
+        snackbar.setActionTextColor(context.getColor(R.color.accent))
         if (!actionLabel.isNullOrBlank() && action != null) {
             snackbar.setAction(actionLabel) { action() }
         }

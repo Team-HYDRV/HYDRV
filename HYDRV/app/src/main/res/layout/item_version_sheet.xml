@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+﻿<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="12dp"
@@ -24,7 +24,7 @@
                 android:id="@+id/versionTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/text"
+                android:textColor="?attr/colorOnBackground"
                 android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -48,7 +48,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:textColor="@color/subtext"
+        android:textColor="?attr/colorOnSurfaceVariant"
         android:textSize="13sp" />
 
     <LinearLayout
@@ -76,7 +76,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_weight="1"
-            android:textColor="@color/subtext"
+            android:textColor="?attr/colorOnSurfaceVariant"
             android:textSize="12sp" />
     </LinearLayout>
 
@@ -85,7 +85,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:textColor="@color/accent"
+        android:textColor="?attr/colorPrimary"
         android:textSize="12sp"
         android:textStyle="bold"
         android:visibility="gone" />
@@ -154,3 +154,5 @@
         </FrameLayout>
     </FrameLayout>
 </LinearLayout>
+
+

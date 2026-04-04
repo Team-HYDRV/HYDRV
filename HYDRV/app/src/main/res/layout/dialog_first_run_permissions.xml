@@ -1,4 +1,4 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+﻿<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:fillViewport="true"
@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/permission_setup_title"
-            android:textColor="@color/text"
+            android:textColor="?attr/colorOnBackground"
             android:textSize="22sp"
             android:textStyle="bold" />
 
@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@string/permission_setup_summary"
-            android:textColor="@color/subtext"
+            android:textColor="?attr/colorOnSurfaceVariant"
             android:textSize="14sp" />
 
         <LinearLayout
@@ -39,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/permission_internet_title"
-                android:textColor="@color/text"
+                android:textColor="?attr/colorOnBackground"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -48,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:text="@string/permission_internet_summary"
-                android:textColor="@color/subtext"
+                android:textColor="?attr/colorOnSurfaceVariant"
                 android:textSize="13sp" />
 
             <TextView
@@ -77,7 +77,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/permission_install_title"
-                android:textColor="@color/text"
+                android:textColor="?attr/colorOnBackground"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -86,7 +86,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:text="@string/permission_install_summary"
-                android:textColor="@color/subtext"
+                android:textColor="?attr/colorOnSurfaceVariant"
                 android:textSize="13sp" />
 
             <LinearLayout
@@ -104,7 +104,7 @@
                     android:paddingHorizontal="12dp"
                     android:paddingVertical="6dp"
                     android:text="@string/permission_not_allowed"
-                    android:textColor="@color/text"
+                    android:textColor="?attr/colorOnBackground"
                     android:textSize="12sp"
                     android:textStyle="bold" />
 
@@ -140,7 +140,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/permission_notifications_title"
-                android:textColor="@color/text"
+                android:textColor="?attr/colorOnBackground"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -149,7 +149,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:text="@string/permission_notifications_summary"
-                android:textColor="@color/subtext"
+                android:textColor="?attr/colorOnSurfaceVariant"
                 android:textSize="13sp" />
 
             <LinearLayout
@@ -167,7 +167,7 @@
                     android:paddingHorizontal="12dp"
                     android:paddingVertical="6dp"
                     android:text="@string/permission_not_allowed"
-                    android:textColor="@color/text"
+                    android:textColor="?attr/colorOnBackground"
                     android:textSize="12sp"
                     android:textStyle="bold" />
 
@@ -204,3 +204,5 @@
             android:textStyle="bold" />
     </LinearLayout>
 </ScrollView>
+
+
