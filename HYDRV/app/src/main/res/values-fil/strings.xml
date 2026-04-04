@@ -1,4 +1,4 @@
-<resources>
+﻿<resources>
     <string name="app_name">HYDRV</string>
 
     <string name="settings_title">Mga Setting</string>
@@ -144,7 +144,7 @@
     <string name="install_failed_file_not_found">Bigo ang install: hindi nakita ang file</string>
     <string name="install_waiting_confirmation_format">Naghihintay ng install confirmation para sa %1$s</string>
     <string name="install_success_format">Matagumpay na na-install ang %1$s</string>
-    <string name="install_preparing_format">Inihahanda ang %1$s para sa install…</string>
+    <string name="install_preparing_format">Inihahanda ang %1$s para sa installâ€¦</string>
     <string name="install_failed_error_format">Bigo ang install: %1$s</string>
     <string name="unknown_error">hindi kilalang error</string>
     <string name="file_not_found">Hindi nakita ang file</string>
@@ -198,13 +198,13 @@
     <string name="updates_summary_format">v%1$s  -  %2$s</string>
     <string name="updates_view_changelog">Tingnan ang changelog</string>
     <string name="updates_launch_check_title">Mag-check ng updates sa pagbukas</string>
-    <string name="updates_launch_check_summary">Awtomatikong tingnan ang backend changes sa tuwing bubuksan mo ang HYDRV.</string>
+    <string name="updates_launch_check_summary">Awtomatikong tingnan ang latest GitHub release sa tuwing bubuksan mo ang HYDRV.</string>
     <string name="updates_launch_message_title">Magpakita ng update message sa pagbukas</string>
-    <string name="updates_launch_message_summary">Magpakita ng in-app message kapag may bagong available.</string>
+    <string name="updates_launch_message_summary">Magpakita ng in-app message kapag nagbago ang latest repo release.</string>
     <string name="updates_check_now">Suriin ang updates</string>
-    <string name="updates_checking">Sinusuri…</string>
-    <string name="updates_changelog_title">Update changelog</string>
-    <string name="updates_changelog_body">Kaya na ngayong tingnan ng HYDRV ang backend changes sa pagbukas, magpakita ng in-app update message kapag may bago, at magpadala ng notification kapag naka-enable ang update alerts.</string>
+    <string name="updates_checking">Sinusuriâ€¦</string>
+    <string name="updates_changelog_title">Release changelog</string>
+    <string name="updates_changelog_body">Ipinapakita ng HYDRV dito ang latest GitHub release notes para manatiling tugma ang in-app changelog sa repo release.</string>
     <string name="updates_check_failed">Hindi masuri ang updates sa ngayon.</string>
     <string name="updates_check_live_with_version">May bagong changes na live: %1$s %2$s.</string>
     <string name="updates_check_live_generic">May bagong changes na available sa HYDRV.</string>
@@ -250,3 +250,4 @@
         <item quantity="other">%d napili</item>
     </plurals>
 </resources>
+

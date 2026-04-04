@@ -294,13 +294,13 @@
     <string name="updates_summary_format">v%1$s  -  %2$s</string>
     <string name="updates_view_changelog">View changelog</string>
     <string name="updates_launch_check_title">Check for updates on launch</string>
-    <string name="updates_launch_check_summary">Automatically look for backend changes whenever you open HYDRV.</string>
+    <string name="updates_launch_check_summary">Automatically check the latest GitHub release whenever you open HYDRV.</string>
     <string name="updates_launch_message_title">Show update message on launch</string>
-    <string name="updates_launch_message_summary">Display an in-app message when something new is available.</string>
+    <string name="updates_launch_message_summary">Display an in-app message when the latest repo release changes.</string>
     <string name="updates_check_now">Check for updates</string>
     <string name="updates_checking">Checking…</string>
-    <string name="updates_changelog_title">Update changelog</string>
-    <string name="updates_changelog_body">HYDRV can now check GitHub releases on launch, surface an in-app update message when something new is available, and send notifications when update alerts are enabled.</string>
+    <string name="updates_changelog_title">Release changelog</string>
+    <string name="updates_changelog_body">HYDRV shows the latest GitHub release notes here so the in-app changelog stays aligned with the repo release.</string>
     <string name="updates_changelog_loading">Loading the latest GitHub release notes…</string>
     <string name="updates_release_unavailable">Release unavailable</string>
     <string name="updates_check_failed">Couldn\'t check for updates right now.</string>

@@ -1,4 +1,4 @@
-<resources>
+﻿<resources>
     <string name="app_name">HYDRV</string>
 
     <string name="settings_title">Pengaturan</string>
@@ -144,7 +144,7 @@
     <string name="install_failed_file_not_found">Instalasi gagal: file tidak ditemukan</string>
     <string name="install_waiting_confirmation_format">Menunggu konfirmasi instalasi untuk %1$s</string>
     <string name="install_success_format">%1$s berhasil dipasang</string>
-    <string name="install_preparing_format">Menyiapkan %1$s untuk dipasang…</string>
+    <string name="install_preparing_format">Menyiapkan %1$s untuk dipasangâ€¦</string>
     <string name="install_failed_error_format">Instalasi gagal: %1$s</string>
     <string name="unknown_error">kesalahan tidak dikenal</string>
     <string name="file_not_found">File tidak ditemukan</string>
@@ -198,13 +198,13 @@
     <string name="updates_summary_format">v%1$s  -  %2$s</string>
     <string name="updates_view_changelog">Lihat changelog</string>
     <string name="updates_launch_check_title">Cek pembaruan saat aplikasi dibuka</string>
-    <string name="updates_launch_check_summary">Cari perubahan backend secara otomatis setiap kali Anda membuka HYDRV.</string>
+    <string name="updates_launch_check_summary">Periksa rilis GitHub terbaru secara otomatis setiap kali Anda membuka HYDRV.</string>
     <string name="updates_launch_message_title">Tampilkan pesan pembaruan saat dibuka</string>
-    <string name="updates_launch_message_summary">Tampilkan pesan di aplikasi saat ada sesuatu yang baru tersedia.</string>
+    <string name="updates_launch_message_summary">Tampilkan pesan di aplikasi saat rilis terbaru repo berubah.</string>
     <string name="updates_check_now">Cek pembaruan</string>
-    <string name="updates_checking">Memeriksa…</string>
-    <string name="updates_changelog_title">Catatan pembaruan</string>
-    <string name="updates_changelog_body">HYDRV sekarang dapat memeriksa perubahan backend saat dibuka, menampilkan pesan pembaruan di dalam aplikasi saat ada hal baru, dan mengirim notifikasi ketika peringatan pembaruan diaktifkan.</string>
+    <string name="updates_checking">Memeriksaâ€¦</string>
+    <string name="updates_changelog_title">Catatan rilis</string>
+    <string name="updates_changelog_body">HYDRV menampilkan catatan rilis GitHub terbaru di sini agar changelog di aplikasi tetap selaras dengan rilis repo.</string>
     <string name="updates_check_failed">Tidak dapat memeriksa pembaruan sekarang.</string>
     <string name="updates_check_live_with_version">Perubahan baru tersedia: %1$s %2$s.</string>
     <string name="updates_check_live_generic">Ada perubahan baru di HYDRV.</string>
@@ -250,3 +250,4 @@
         <item quantity="other">%d dipilih</item>
     </plurals>
 </resources>
+
