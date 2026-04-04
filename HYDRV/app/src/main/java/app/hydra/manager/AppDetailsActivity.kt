@@ -15,6 +15,7 @@ class AppDetailsActivity : AppCompatActivity() {
     private val activeDownloadObservers = mutableMapOf<String, Observer<List<DownloadItem>>>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AppearancePreferences.applyActivityTheme(this)
         if (AppearancePreferences.isDynamicColorEnabled(this)) {
             DynamicColors.applyToActivityIfAvailable(this)
         }

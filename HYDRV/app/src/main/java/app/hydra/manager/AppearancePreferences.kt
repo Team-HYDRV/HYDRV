@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.res.Configuration
 import android.graphics.Color
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 
 object AppearancePreferences {
 
@@ -16,6 +17,14 @@ object AppearancePreferences {
     fun isDynamicColorEnabled(context: Context): Boolean {
         return context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
             .getBoolean(KEY_DYNAMIC_COLOR, DEFAULT_DYNAMIC_COLOR)
+    }
+
+    fun themeStyleRes(context: Context): Int {
+        return if (isDynamicColorEnabled(context)) {
+            R.style.Theme_HYDRV_Material
+        } else {
+            R.style.Theme_HYDRV
+        }
     }
 
     fun setDynamicColorEnabled(context: Context, enabled: Boolean) {
@@ -47,5 +56,9 @@ object AppearancePreferences {
         if (isPureBlackActive(view.context)) {
             view.setBackgroundColor(Color.BLACK)
         }
+    }
+
+    fun applyActivityTheme(activity: AppCompatActivity) {
+        activity.setTheme(themeStyleRes(activity))
     }
 }

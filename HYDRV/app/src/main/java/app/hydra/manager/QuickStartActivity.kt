@@ -35,7 +35,7 @@ class QuickStartActivity : AppCompatActivity() {
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(R.style.Theme_HYDRV)
+        AppearancePreferences.applyActivityTheme(this)
         if (AppearancePreferences.isDynamicColorEnabled(this)) {
             DynamicColors.applyToActivityIfAvailable(this)
         }

@@ -39,6 +39,7 @@ class ContributorsActivity : AppCompatActivity() {
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AppearancePreferences.applyActivityTheme(this)
         if (AppearancePreferences.isDynamicColorEnabled(this)) {
             DynamicColors.applyToActivityIfAvailable(this)
         }
