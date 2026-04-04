@@ -183,9 +183,7 @@ object AppCatalogService {
             if (validation.isSuccess) {
                 Result.success(validation.getOrThrow())
             } else {
-                Result.success(
-                    apps.filter { it.versions.isNotEmpty() }
-                )
+                Result.failure(validation.exceptionOrNull() ?: IOException("Catalog validation failed"))
             }
         } catch (e: Exception) {
             Result.failure(e)
