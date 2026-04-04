@@ -147,9 +147,29 @@ The main brand mark used for HYDRV lives in the app resources:
   <img src="assets/ic_rounded.png" alt="HYDRV brand mark" width="260">
 </p>
 
+## Screenshots
+
+<table>
+  <tr>
+    <td width="33%" align="center" valign="top">
+      <img src="assets/screenshots/about.png" alt="HYDRV About screen" width="100%">
+      <p><strong>About</strong><br>Brand-forward app identity, quick links, and project info.</p>
+    </td>
+    <td width="33%" align="center" valign="top">
+      <img src="assets/screenshots/permissions.png" alt="HYDRV permissions screen" width="100%">
+      <p><strong>Permissions</strong><br>Clear setup steps before you start downloading.</p>
+    </td>
+    <td width="33%" align="center" valign="top">
+      <img src="assets/screenshots/advanced.png" alt="HYDRV advanced settings screen" width="100%">
+      <p><strong>Advanced</strong><br>Backend controls, diagnostics, and support options.</p>
+    </td>
+  </tr>
+</table>
+
 ## Repository Map
 
 - `HYDRV/` - Android app source
+- `assets/` - README branding and screenshot assets
 - `HYDRV/docs/` - backend and workflow examples
 - `.github/` - CI, release, and contribution automation
 - `CHANGELOG.md` - release note template
