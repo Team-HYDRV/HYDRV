@@ -25,6 +25,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import android.content.res.ColorStateList
 import androidx.core.widget.NestedScrollView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -269,6 +270,7 @@ class VersionSheet(
                 label = buttonLabel,
                 icon = buttonIcon
             )
+            applyVersionButtonPalette(buttonViewsByKey.getValue(key), ctx)
             applyIdleState(buttonViewsByKey.getValue(key))
             attachPressAnimation(button)
 
@@ -582,6 +584,7 @@ class VersionSheet(
     }
 
     private fun applyIdleState(views: DownloadButtonViews) {
+        applyVersionButtonPalette(views, views.container.context)
         views.container.isEnabled = true
         views.container.animate().cancel()
         views.track.animate().cancel()
@@ -599,6 +602,7 @@ class VersionSheet(
     }
 
     private fun applyOpenState(views: DownloadButtonViews) {
+        applyVersionButtonPalette(views, views.container.context)
         views.container.isEnabled = true
         views.container.animate().cancel()
         views.track.animate().cancel()
@@ -616,6 +620,7 @@ class VersionSheet(
     }
 
     private fun applyProgressState(views: DownloadButtonViews, progress: Int, label: String) {
+        applyVersionButtonPalette(views, views.container.context)
         views.container.isEnabled = false
         views.track.animate().cancel()
         views.icon.visibility = View.GONE
@@ -636,8 +641,9 @@ class VersionSheet(
     }
 
     private fun applyDoneState(views: DownloadButtonViews) {
+        applyVersionButtonPalette(views, views.container.context)
         views.container.isEnabled = false
-        (views.fill as? ImageView)?.setImageResource(R.drawable.version_download_fill_clip)
+        (views.fill as? ImageView)?.setImageResource(versionFillDrawable(views.container.context))
         views.label.setTextColor(Color.BLACK)
         animateFillTo(views.fill, 100)
         val doneLabel = getString(R.string.download_status_done)
@@ -694,6 +700,7 @@ class VersionSheet(
     }
 
     private fun applyErrorState(views: DownloadButtonViews) {
+        applyVersionButtonPalette(views, views.container.context)
         views.container.isEnabled = true
         (views.fill as? ImageView)?.setImageResource(R.drawable.version_download_fill_error_clip)
         animateFillTo(views.fill, 100)
@@ -775,6 +782,43 @@ class VersionSheet(
             })
             imageView.setTag(R.id.versionDownloadTrack, this)
             start()
+        }
+    }
+
+    private fun applyVersionButtonPalette(views: DownloadButtonViews, context: android.content.Context) {
+        val trackRes = versionTrackDrawable(context)
+        val fillRes = versionFillDrawable(context)
+        views.track.setBackgroundResource(trackRes)
+        (views.fill as? ImageView)?.setImageResource(fillRes)
+        views.label.setTextColor(
+            ThemeColors.color(
+                context,
+                com.google.android.material.R.attr.colorOnPrimaryContainer,
+                R.color.text_on_accent_chip
+            )
+        )
+        views.icon.imageTintList = ColorStateList.valueOf(
+            ThemeColors.color(
+                context,
+                com.google.android.material.R.attr.colorOnPrimaryContainer,
+                R.color.text_on_accent_chip
+            )
+        )
+    }
+
+    private fun versionTrackDrawable(context: android.content.Context): Int {
+        return if (AppearancePreferences.isDynamicColorEnabled(context)) {
+            R.drawable.version_download_button_bg
+        } else {
+            R.drawable.version_download_button_bg_brand
+        }
+    }
+
+    private fun versionFillDrawable(context: android.content.Context): Int {
+        return if (AppearancePreferences.isDynamicColorEnabled(context)) {
+            R.drawable.version_download_fill_clip
+        } else {
+            R.drawable.version_download_fill_brand_clip
         }
     }
 
