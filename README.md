@@ -1,15 +1,15 @@
 <p align="center">
-  <img src="assets/ic_rounded.png" alt="HYDRV logo" width="180">
+  <img src="assets/ic_rounded.png" alt="HYDRV logo" width="176">
 </p>
 
 <h1 align="center">HYDRV</h1>
 
 <p align="center">
-  <strong>Browse releases, ship signed downloads, and keep the public face of the project polished.</strong>
+  <strong>Release browsing, signed downloads, and a cleaner public home for Android updates.</strong>
 </p>
 
 <p align="center">
-  <em>An Android release browser with a Cloudflare-backed catalogue, signed download links, and GitHub release integration.</em>
+  <em>An Android release browser with a Cloudflare-backed catalogue, GitHub release awareness, and a polished update flow.</em>
 </p>
 
 <p align="center">
@@ -41,27 +41,21 @@
 
 ---
 
-## Overview
-
-HYDRV is the public release front door for the project: a polished Android app, a signed-download backend, and a website that keeps releases easy to find.
-
-The app reads a public catalogue, the backend resolves the real file path privately, and the website mirrors the release story with a clean public-facing landing page.
-
-## What You Get
+## Snapshot
 
 <table>
   <tr>
     <td width="33%" valign="top">
-      <h3>Browse</h3>
-      <p>Discover app releases from Android with a layout tuned for updates, versions, and install flow.</p>
+      <h3>App</h3>
+      <p>Browse releases, queue downloads, and manage installs from Android.</p>
     </td>
     <td width="33%" valign="top">
-      <h3>Deliver</h3>
-      <p>Serve files through a Cloudflare Worker and R2-backed catalogue with signed download URLs.</p>
+      <h3>Backend</h3>
+      <p>Resolve the private file path and issue signed download URLs through Cloudflare.</p>
     </td>
     <td width="33%" valign="top">
-      <h3>Publish</h3>
-      <p>Ship APK releases through GitHub tags, CI, and release automation with a matching public website.</p>
+      <h3>Website</h3>
+      <p>Show the latest release story, changelogs, and supporting pages in a public landing page.</p>
     </td>
   </tr>
 </table>
@@ -71,50 +65,25 @@ The app reads a public catalogue, the backend resolves the real file path privat
 <table>
   <tr>
     <td width="50%" valign="top">
-      <h3>Android App</h3>
-      <ul>
-        <li>Browse releases, queue downloads, and manage installs.</li>
-        <li>Load the public catalogue from the backend.</li>
-        <li>Open the latest GitHub release directly from update prompts.</li>
-      </ul>
+      <h3>Polished release browsing</h3>
+      <p>Open an app, scan its versions, and move through release details without clutter.</p>
     </td>
     <td width="50%" valign="top">
-      <h3>Cloudflare Backend</h3>
-      <ul>
-        <li>Keep the real file path private in R2.</li>
-        <li>Issue signed, short-lived download URLs.</li>
-        <li>Support resume-friendly downloads when the client asks for them.</li>
-      </ul>
+      <h3>Signed download flow</h3>
+      <p>The public catalogue points at token endpoints, while the Worker keeps the real file path private.</p>
     </td>
   </tr>
   <tr>
     <td width="50%" valign="top">
-      <h3>Website</h3>
-      <ul>
-        <li>Show the public release story in a lightweight landing page.</li>
-        <li>Surface the latest GitHub releases and changelogs.</li>
-        <li>Keep privacy, terms, and support pages close at hand.</li>
-      </ul>
+      <h3>GitHub release awareness</h3>
+      <p>The app and website both surface the latest GitHub release so changelogs stay aligned.</p>
     </td>
     <td width="50%" valign="top">
-      <h3>Repo Quality</h3>
-      <ul>
-        <li>CI and release workflows are already wired in.</li>
-        <li>Issue, PR, security, and contribution templates are included.</li>
-        <li>Release notes and backend docs live alongside the app source.</li>
-      </ul>
+      <h3>Clean project tooling</h3>
+      <p>CI, release automation, docs, contribution templates, and support links are already in place.</p>
     </td>
   </tr>
 </table>
-
-## At a Glance
-
-| Area | What it covers |
-| --- | --- |
-| App | Browse releases, queue downloads, and manage installs from Android. |
-| Backend | Serve the public catalogue and resolve signed download links. |
-| Website | Present the public project, latest releases, and supporting pages. |
-| Releases | Publish APK builds through GitHub tags and release automation. |
 
 ## Quick Links
 
@@ -124,28 +93,6 @@ The app reads a public catalogue, the backend resolves the real file path privat
 - [Release checklist](RELEASES.md)
 - [Changelog](CHANGELOG.md)
 - [Support on Ko-fi](https://ko-fi.com/xc3fff0e)
-
-## Quick Start
-
-1. Open `HYDRV/` in Android Studio.
-2. Sync Gradle.
-3. Run the app on a device or emulator.
-
-## Build
-
-From `HYDRV/`:
-
-```powershell
-.\gradlew.bat assembleDebug
-```
-
-## Visual Identity
-
-The main brand mark used for HYDRV lives in the app resources:
-
-<p align="center">
-  <img src="assets/ic_rounded.png" alt="HYDRV brand mark" width="260">
-</p>
 
 ## Screenshots
 
@@ -165,6 +112,35 @@ The main brand mark used for HYDRV lives in the app resources:
     </td>
   </tr>
 </table>
+
+## At a Glance
+
+| Area | What it covers |
+| --- | --- |
+| App | Browse releases, queue downloads, and manage installs from Android. |
+| Backend | Serve the public catalogue and resolve signed download links. |
+| Website | Present the public project, latest releases, and supporting pages. |
+| Releases | Publish APK builds through GitHub tags and release automation. |
+
+## Visual Identity
+
+<p align="center">
+  <img src="assets/ic_rounded.png" alt="HYDRV brand mark" width="260">
+</p>
+
+## Quick Start
+
+1. Open `HYDRV/` in Android Studio.
+2. Sync Gradle.
+3. Run the app on a device or emulator.
+
+## Build
+
+From `HYDRV/`:
+
+```powershell
+.\gradlew.bat assembleDebug
+```
 
 ## Repository Map
 
