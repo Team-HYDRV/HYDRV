@@ -1,8 +1,5 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <gradient
-        android:angle="0"
-        android:startColor="@color/permission_button_surface"
-        android:endColor="@color/accent" />
+    <solid android:color="@color/accent" />
     <stroke
         android:width="1dp"
         android:color="@color/accent" />
