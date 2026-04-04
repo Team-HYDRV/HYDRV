@@ -1,22 +1,50 @@
-# HYDRV
+<p align="center">
+  <img src="HYDRV/app/src/main/res/drawable-nodpi/ic_launcher_foreground_image.png" alt="HYDRV logo" width="180">
+</p>
 
-[![Android CI](https://github.com/Team-HYDRV/HYDRV/actions/workflows/android-ci.yml/badge.svg)](https://github.com/Team-HYDRV/HYDRV/actions/workflows/android-ci.yml)
-[![Release](https://img.shields.io/github/v/release/Team-HYDRV/HYDRV?include_prereleases)](https://github.com/Team-HYDRV/HYDRV/releases/latest)
+<h1 align="center">HYDRV</h1>
 
-HYDRV is an Android release browser for discovering app updates and downloading files through signed download links.
+<p align="center">
+  Android release browser for discovering app updates and downloading files through signed download links.
+</p>
 
-## Highlights
+<p align="center">
+  <a href="https://github.com/Team-HYDRV/HYDRV/actions/workflows/android-ci.yml">
+    <img src="https://github.com/Team-HYDRV/HYDRV/actions/workflows/android-ci.yml/badge.svg" alt="Android CI">
+  </a>
+  <a href="https://github.com/Team-HYDRV/HYDRV/releases/latest">
+    <img src="https://img.shields.io/github/v/release/Team-HYDRV/HYDRV?include_prereleases" alt="Latest release">
+  </a>
+  <a href="https://hydrv.app">
+    <img src="https://img.shields.io/badge/Website-hydrv.app-111111?style=flat-square" alt="HYDRV website">
+  </a>
+</p>
 
-- Browse releases from a public catalogue
-- Resolve downloads through a Cloudflare Worker and R2 backend
-- Keep the app and update flow tied to the latest GitHub release
-- Ship clean builds with Android CI and release automation
+<p align="center">
+  <a href="https://github.com/Team-HYDRV/HYDRV/releases/latest">Latest release</a>
+  &middot;
+  <a href="https://hydrv.app">Website</a>
+  &middot;
+  <a href="HYDRV/docs/backend-example.md">Backend example</a>
+  &middot;
+  <a href="RELEASES.md">Release checklist</a>
+</p>
 
-## Repository Layout
+## What Lives Here
 
-- `HYDRV/` - Android app source
-- `HYDRV/docs/` - backend examples and release notes
-- `.github/` - CI, release, and contribution templates
+- Android app source for the HYDRV release browser
+- Cloudflare Worker and R2-backed download flow documentation
+- GitHub Actions for CI and release builds
+- Issue, pull request, security, and contribution templates
+
+## At a Glance
+
+| Area | What it covers |
+| --- | --- |
+| App | Browse releases, queue downloads, and manage installs from Android. |
+| Backend | Serve the public catalogue and resolve signed download links. |
+| Website | Present the public project, latest releases, and supporting pages. |
+| Releases | Publish APK builds through GitHub tags and release automation. |
 
 ## Quick Start
 
@@ -31,6 +59,14 @@ From `HYDRV/`:
 ```powershell
 .\gradlew.bat assembleDebug
 ```
+
+## Visual Identity
+
+The app artwork and launcher styling live under `HYDRV/app/src/main/res/`. The main brand mark used for the app is:
+
+<p align="center">
+  <img src="HYDRV/app/src/main/res/drawable-nodpi/ic_launcher_foreground_image.png" alt="HYDRV brand mark" width="260">
+</p>
 
 ## Release Flow
 
@@ -57,3 +93,4 @@ See [`HYDRV/docs/backend-example.md`](HYDRV/docs/backend-example.md) for a Cloud
 ## Website
 
 The public website is hosted separately on Cloudflare and is not part of this repository.
+
