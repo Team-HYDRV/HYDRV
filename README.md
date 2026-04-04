@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="HYDRV/app/src/main/res/drawable-nodpi/ic_launcher_foreground_image.png" alt="HYDRV logo" width="180">
+  <img src="assets/ic_rounded.png" alt="HYDRV logo" width="180">
 </p>
 
 <h1 align="center">HYDRV</h1>
@@ -144,7 +144,7 @@ From `HYDRV/`:
 The main brand mark used for HYDRV lives in the app resources:
 
 <p align="center">
-  <img src="HYDRV/app/src/main/res/drawable-nodpi/ic_launcher_foreground_image.png" alt="HYDRV brand mark" width="260">
+  <img src="assets/ic_rounded.png" alt="HYDRV brand mark" width="260">
 </p>
 
 ## Repository Map
