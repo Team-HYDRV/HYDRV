@@ -7,7 +7,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Gravity
 import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -26,6 +29,13 @@ class ContributorsActivity : AppCompatActivity() {
         val summary: String,
         val avatarUrl: String,
         val profileUrl: String
+    )
+
+    private data class ContributorGroup(
+        val title: String,
+        val summary: String,
+        val countLabel: String,
+        val members: List<ContributorCredit>
     )
 
     private val fallbackContributors = listOf(
@@ -94,7 +104,7 @@ class ContributorsActivity : AppCompatActivity() {
         findViewById<View>(R.id.backButton).setOnClickListener { finish() }
 
         statusText.text = getString(R.string.contributors_loading)
-        adapter.submitList(fallbackContributors)
+        adapter.submitList(buildContributorGroups(fallbackContributors))
         loadGitHubContributors(statusText, adapter)
     }
 
@@ -122,16 +132,33 @@ class ContributorsActivity : AppCompatActivity() {
                     }
                     .takeIf { it.isNotEmpty() }
                     ?: fallbackContributors
+                val groups = buildContributorGroups(credits)
 
                 statusText.text = getString(
                     R.string.contributors_loaded,
                     credits.size
                 )
-                adapter.submitList(credits)
+                adapter.submitList(groups)
             }.onFailure {
                 statusText.text = getString(R.string.contributors_failed)
-                adapter.submitList(fallbackContributors)
+                adapter.submitList(buildContributorGroups(fallbackContributors))
             }
+        }
+    }
+
+    private fun buildContributorGroups(contributors: List<ContributorCredit>): List<ContributorGroup> {
+        val filtered = contributors.filter { it.name.isNotBlank() }
+        if (filtered.isEmpty()) return emptyList()
+
+        val chunks = filtered.chunked(6)
+        return chunks.mapIndexed { index, chunk ->
+            val pageLabel = "${index + 1}/${chunks.size}"
+            ContributorGroup(
+                title = "${getString(R.string.about_contributors_title)} ($pageLabel)",
+                summary = getString(R.string.contributors_group_summary),
+                countLabel = chunk.size.toString(),
+                members = chunk
+            )
         }
     }
 
@@ -148,9 +175,9 @@ class ContributorsActivity : AppCompatActivity() {
         private val onClick: (String) -> Unit
     ) : RecyclerView.Adapter<ContributorsAdapter.ContributorViewHolder>() {
 
-        private val items = mutableListOf<ContributorCredit>()
+        private val items = mutableListOf<ContributorGroup>()
 
-        fun submitList(newItems: List<ContributorCredit>) {
+        fun submitList(newItems: List<ContributorGroup>) {
             items.clear()
             items.addAll(newItems)
             notifyDataSetChanged()
@@ -172,27 +199,92 @@ class ContributorsActivity : AppCompatActivity() {
             itemView: View,
             private val onClick: (String) -> Unit
         ) : RecyclerView.ViewHolder(itemView) {
-            private val avatar: ImageView = itemView.findViewById(R.id.contributorAvatar)
-            private val name: TextView = itemView.findViewById(R.id.contributorName)
-            private val role: TextView = itemView.findViewById(R.id.contributorRole)
-            private val summary: TextView = itemView.findViewById(R.id.contributorSummary)
+            private val groupTitle: TextView = itemView.findViewById(R.id.groupTitle)
+            private val groupCount: TextView = itemView.findViewById(R.id.groupCount)
+            private val groupSummary: TextView = itemView.findViewById(R.id.groupSummary)
+            private val avatarsContainer: LinearLayout = itemView.findViewById(R.id.avatarsContainer)
+            private val groupFooter: TextView = itemView.findViewById(R.id.groupFooter)
 
-            fun bind(item: ContributorCredit) {
-                name.text = item.name
-                role.text = item.role
-                summary.text = item.summary
-                if (item.avatarUrl.isNotBlank()) {
-                    Picasso.get()
-                        .load(item.avatarUrl)
-                        .placeholder(R.drawable.ic_app_placeholder)
-                        .error(R.drawable.ic_app_placeholder)
-                        .fit()
-                        .centerCrop()
-                        .into(avatar)
-                } else {
-                    avatar.setImageResource(R.drawable.ic_app_placeholder)
+            fun bind(item: ContributorGroup) {
+                groupTitle.text = item.title
+                groupCount.text = item.countLabel
+                groupSummary.text = item.summary
+                groupFooter.text = itemView.context.getString(
+                    R.string.contributors_avatar_hint,
+                    item.members.size
+                )
+                avatarsContainer.removeAllViews()
+                val context = itemView.context
+                val rows = item.members.chunked(4)
+                rows.forEachIndexed { rowIndex, rowMembers ->
+                    val row = LinearLayout(context).apply {
+                        orientation = LinearLayout.HORIZONTAL
+                        gravity = Gravity.START or Gravity.CENTER_VERTICAL
+                    }
+                    rowMembers.forEach { member ->
+                        row.addView(createAvatarView(context, member))
+                    }
+                    if (rowIndex > 0) {
+                        val params = row.layoutParams as? ViewGroup.MarginLayoutParams
+                        if (params != null) {
+                            params.topMargin = dpToPx(context, 12)
+                            row.layoutParams = params
+                        } else {
+                            row.layoutParams = LinearLayout.LayoutParams(
+                                ViewGroup.LayoutParams.MATCH_PARENT,
+                                ViewGroup.LayoutParams.WRAP_CONTENT
+                            ).apply {
+                                topMargin = dpToPx(context, 12)
+                            }
+                        }
+                    } else {
+                        row.layoutParams = LinearLayout.LayoutParams(
+                            ViewGroup.LayoutParams.MATCH_PARENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT
+                        )
+                    }
+                    avatarsContainer.addView(row)
                 }
-                itemView.setOnClickListener { onClick(item.profileUrl) }
+            }
+
+            private fun createAvatarView(context: android.content.Context, item: ContributorCredit): View {
+                val size = dpToPx(context, 52)
+                val marginEnd = dpToPx(context, 10)
+                val frame = FrameLayout(context).apply {
+                    layoutParams = LinearLayout.LayoutParams(size, size).apply {
+                        rightMargin = marginEnd
+                    }
+                    background = context.getDrawable(R.drawable.about_logo_ring)
+                    isClickable = true
+                    isFocusable = true
+                    setOnClickListener { onClick(item.profileUrl) }
+                    contentDescription = item.name
+                    addView(ImageView(context).apply {
+                        layoutParams = FrameLayout.LayoutParams(
+                            ViewGroup.LayoutParams.MATCH_PARENT,
+                            ViewGroup.LayoutParams.MATCH_PARENT
+                        ).apply {
+                            setMargins(dpToPx(context, 6), dpToPx(context, 6), dpToPx(context, 6), dpToPx(context, 6))
+                        }
+                        scaleType = ImageView.ScaleType.CENTER_CROP
+                        if (item.avatarUrl.isNotBlank()) {
+                            Picasso.get()
+                                .load(item.avatarUrl)
+                                .placeholder(R.drawable.ic_app_placeholder)
+                                .error(R.drawable.ic_app_placeholder)
+                                .fit()
+                                .centerCrop()
+                                .into(this)
+                        } else {
+                            setImageResource(R.drawable.ic_app_placeholder)
+                        }
+                    })
+                }
+                return frame
+            }
+
+            private fun dpToPx(context: android.content.Context, value: Int): Int {
+                return (value * context.resources.displayMetrics.density).toInt()
             }
         }
     }
