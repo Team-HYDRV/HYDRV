@@ -245,6 +245,8 @@ class VersionSheet(
             val sourceLabel = version.downloadSourceLabel()
             val sourceHostText = version.downloadHost()
             val unknownSourceText = getString(R.string.version_source_unknown)
+            applyVersionBadgePalette(badge)
+            applyVersionBadgePalette(sourceBadge)
             sourceBadge.text = sourceLabel
             if (
                 sourceHostText.isNullOrBlank() ||
@@ -339,6 +341,24 @@ class VersionSheet(
                 updateScrollFade()
             }
         }
+    }
+
+    private fun applyVersionBadgePalette(badge: TextView) {
+        val context = badge.context
+        badge.setBackgroundResource(
+            if (AppearancePreferences.isDynamicColorEnabled(context)) {
+                R.drawable.version_badge_latest_material
+            } else {
+                R.drawable.version_badge_latest_brand
+            }
+        )
+        badge.setTextColor(
+            ThemeColors.color(
+                context,
+                com.google.android.material.R.attr.colorOnPrimaryContainer,
+                R.color.text_on_accent_chip
+            )
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
