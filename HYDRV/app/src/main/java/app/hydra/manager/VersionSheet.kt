@@ -144,6 +144,10 @@ class VersionSheet(
         rootView = view
         if (AppearancePreferences.isPureBlackActive(requireContext())) {
             view.setBackgroundResource(R.drawable.bottom_sheet_bg_pure_black)
+        } else if (AppearancePreferences.isDynamicColorEnabled(requireContext())) {
+            view.setBackgroundResource(R.drawable.bottom_sheet_bg)
+        } else {
+            view.setBackgroundResource(R.drawable.bottom_sheet_bg_brand)
         }
 
         scrollView = view.findViewById(R.id.scrollView)
@@ -353,11 +357,15 @@ class VersionSheet(
             }
         )
         badge.setTextColor(
-            ThemeColors.color(
-                context,
-                com.google.android.material.R.attr.colorOnPrimaryContainer,
-                R.color.text_on_accent_chip
-            )
+            if (AppearancePreferences.isDynamicColorEnabled(context)) {
+                ThemeColors.color(
+                    context,
+                    com.google.android.material.R.attr.colorOnPrimaryContainer,
+                    R.color.text_on_accent_chip
+                )
+            } else {
+                Color.BLACK
+            }
         )
     }
 
