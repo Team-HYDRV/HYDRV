@@ -39,7 +39,7 @@
   <tr>
     <td width="33%" valign="top">
       <h3>App</h3>
-      <p>Browse releases, queue downloads, and manage installs from Android.</p>
+      <p>Browse releases, follow downloads, and manage installs from Android.</p>
     </td>
     <td width="33%" valign="top">
       <h3>Backend</h3>
@@ -47,7 +47,7 @@
     </td>
     <td width="33%" valign="top">
       <h3>Website</h3>
-      <p>Show the latest release story, changelogs, and supporting pages in a public landing page.</p>
+      <p>Surface the latest release story, changelogs, and supporting pages in one public landing page.</p>
     </td>
   </tr>
 </table>
@@ -58,7 +58,7 @@
   <tr>
     <td width="25%" valign="top">
       <h3>Release</h3>
-      <p><a href="https://github.com/Team-HYDRV/HYDRV/releases/latest">Open the latest tag</a></p>
+      <p><a href="https://github.com/Team-HYDRV/HYDRV/releases/latest">View the latest release</a></p>
     </td>
     <td width="25%" valign="top">
       <h3>CI</h3>
@@ -83,9 +83,9 @@
       <h3>Latest GitHub release</h3>
       <p>The app and website both point to the repository's latest release so the public story stays in sync.</p>
       <p>
-        <a href="https://github.com/Team-HYDRV/HYDRV/releases/latest"><strong>Open latest release</strong></a>
+        <a href="https://github.com/Team-HYDRV/HYDRV/releases/latest"><strong>View latest release</strong></a>
         &middot;
-        <a href="CHANGELOG.md"><strong>Read changelog template</strong></a>
+        <a href="CHANGELOG.md"><strong>Release changelog template</strong></a>
       </p>
     </td>
     <td width="34%" valign="top">
@@ -152,7 +152,7 @@ In practice, HYDRV keeps the public release story simple: the app reads the visi
   <tr>
     <td width="33%" align="center" valign="top">
       <img src="assets/screenshots/about.png" alt="HYDRV About screen" width="100%">
-      <p><strong>About</strong><br>Brand-forward app identity, quick links, and project info.</p>
+      <p><strong>About</strong><br>Brand-led app identity, quick links, and project info.</p>
     </td>
     <td width="33%" align="center" valign="top">
       <img src="assets/screenshots/permissions.png" alt="HYDRV permissions screen" width="100%">
@@ -197,7 +197,7 @@ From `HYDRV/`:
 ## Project Structure
 
 - `HYDRV/` - Android app source
-- `HYDRV/docs/` - backend, release, and docs landing pages
+- `HYDRV/docs/` - backend, release, and docs hub
 - `assets/` - README branding, banner, and screenshot assets
 - `.github/` - CI, release, and contribution automation
 - `CHANGELOG.md` - release note template

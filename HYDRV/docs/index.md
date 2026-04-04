@@ -1,6 +1,6 @@
 # HYDRV Docs
 
-This folder is the quick path to the most useful project references.
+This folder is the quickest path to the project references most people will need.
 
 ## Start Here
 
