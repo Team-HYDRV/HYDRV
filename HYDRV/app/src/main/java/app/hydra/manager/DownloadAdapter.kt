@@ -631,7 +631,7 @@ class DownloadAdapter(
 
     private fun isApkDownload(item: DownloadItem): Boolean {
         return item.filePath.endsWith(".apk", ignoreCase = true) ||
-            item.url.endsWith(".apk", ignoreCase = true)
+            item.url.isApkUrl()
     }
 
     private fun formatSpeed(item: DownloadItem): String {

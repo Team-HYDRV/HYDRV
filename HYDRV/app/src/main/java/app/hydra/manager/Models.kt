@@ -99,19 +99,19 @@ data class Version(
     fun downloadSourceLabel(): String {
         val host = downloadHost()?.lowercase(Locale.US).orEmpty()
         val normalizedUrl = url.trim().lowercase(Locale.US)
-            return when {
-                host == "api.hydrv.app" ||
+        return when {
+            host == "api.hydrv.app" ||
                     host == "downloads.hydrv.app" ||
                     normalizedUrl.startsWith("https://downloads.hydrv.app/") ||
                     normalizedUrl.startsWith("https://api.hydrv.app/") ||
                     normalizedUrl == "https://downloads.hydrv.app" ||
                     normalizedUrl == "https://api.hydrv.app" ||
-                    normalizedUrl.contains("/token/") ||
-                    normalizedUrl.contains("/download/") -> "HYDRV Verified"
+            normalizedUrl.contains("/token/") ||
+            normalizedUrl.contains("/download/") -> "HYDRV Verified"
             host.contains("cloudflare") || host.endsWith(".r2.dev") -> "Cloudflare"
             host.endsWith(".githubusercontent.com") || host == "github.com" -> "GitHub"
             host.contains("we.tl") || host.contains("wetransfer") -> "Mirror"
-            url.trim().endsWith(".apk", ignoreCase = true) -> "Direct download"
+            url.isApkUrl() -> "Direct download"
             host.isNotBlank() -> "Direct link"
             else -> "Unknown source"
         }
@@ -195,4 +195,12 @@ data class Version(
 
 private fun versionSortTextKey(value: String): String {
     return value.trim().lowercase(Locale.US)
+}
+
+internal fun String.isApkUrl(): Boolean {
+    return try {
+        URI(trim()).path?.endsWith(".apk", ignoreCase = true) == true
+    } catch (_: Exception) {
+        trim().substringBefore('?', trim()).substringBefore('#', trim()).endsWith(".apk", ignoreCase = true)
+    }
 }
