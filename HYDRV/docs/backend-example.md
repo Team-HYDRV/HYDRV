@@ -1,6 +1,6 @@
 # Backend Example
 
-This example shows the catalogue shape for HYDRV’s signed download flow.
+This example shows the catalogue shape for HYDRV's signed download flow.
 
 ## Public Catalogue
 

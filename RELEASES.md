@@ -1,6 +1,6 @@
-# Release Notes
+# Releases
 
-Use this file as the simple release checklist for HYDRV GitHub releases.
+Use this file as the release checklist for HYDRV GitHub releases.
 
 ## Tag Format
 

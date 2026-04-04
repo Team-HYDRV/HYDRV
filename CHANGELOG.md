@@ -1,12 +1,23 @@
 # Changelog
 
-All notable changes to HYDRV should be documented here.
+All notable changes to HYDRV are recorded here.
 
 ## [Unreleased]
 
-- Add your upcoming changes here before tagging a release.
+### Added
+
+- Planned updates and improvements will appear here before the next tag.
+
+### Changed
+
+- Ongoing polish and refinements will be summarized here.
+
+### Fixed
+
+- Bug fixes will be listed here as they land.
 
 ## [1.0.0] - 2026-04-04
 
-- Initial public repository import.
+### Added
 
+- Initial public repository import.
