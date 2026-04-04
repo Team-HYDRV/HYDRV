@@ -1,0 +1,17 @@
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="#33FFFFFF">
+
+    <item>
+        <inset
+            android:insetLeft="1dp"
+            android:insetTop="1dp"
+            android:insetRight="1dp"
+            android:insetBottom="1dp">
+            <shape>
+                <solid android:color="#FF3B30" />
+                <corners android:radius="50dp" />
+            </shape>
+        </inset>
+    </item>
+
+</ripple>

@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">HYDRV</string>
+    <string name="settings_title">設定</string>
+    <string name="settings_general_title">一般</string>
+    <string name="settings_updates_title">アップデート</string>
+    <string name="settings_about_title">概要</string>
+    <string name="language_title">言語</string>
+    <string name="language_system_default">システムの既定</string>
+    <string name="language_english">英語</string>
+    <string name="language_filipino">フィリピン語</string>
+    <string name="language_spanish">スペイン語</string>
+    <string name="language_indonesian">インドネシア語</string>
+    <string name="language_french">フランス語</string>
+    <string name="language_german">ドイツ語</string>
+    <string name="language_portuguese_brazil">ポルトガル語（ブラジル）</string>
+    <string name="language_chinese_simplified">中国語（簡体字）</string>
+    <string name="language_hindi">ヒンディー語</string>
+    <string name="language_arabic">アラビア語</string>
+    <string name="language_russian">ロシア語</string>
+    <string name="language_japanese">日本語</string>
+    <string name="language_korean">韓国語</string>
+</resources>

@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">HYDRV</string>
+    <string name="settings_title">الإعدادات</string>
+    <string name="settings_general_title">عام</string>
+    <string name="settings_updates_title">التحديثات</string>
+    <string name="settings_about_title">حول</string>
+    <string name="language_title">اللغة</string>
+    <string name="language_system_default">افتراضي النظام</string>
+    <string name="language_english">الإنجليزية</string>
+    <string name="language_filipino">الفلبينية</string>
+    <string name="language_spanish">الإسبانية</string>
+    <string name="language_indonesian">الإندونيسية</string>
+    <string name="language_french">الفرنسية</string>
+    <string name="language_german">الألمانية</string>
+    <string name="language_portuguese_brazil">البرتغالية (البرازيل)</string>
+    <string name="language_chinese_simplified">الصينية المبسطة</string>
+    <string name="language_hindi">الهندية</string>
+    <string name="language_arabic">العربية</string>
+    <string name="language_russian">الروسية</string>
+    <string name="language_japanese">اليابانية</string>
+    <string name="language_korean">الكورية</string>
+</resources>

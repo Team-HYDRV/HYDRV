@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardRoot"
+    android:orientation="vertical"
+    android:background="@drawable/card"
+    android:padding="16dp"
+    android:layout_marginBottom="12dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/name"
+            android:text="@string/sample_app_name"
+            android:textColor="@color/text"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/selectCheck"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:visibility="gone"
+            android:clickable="false"
+            android:focusable="false"
+            android:button="@drawable/download_checkbox_selector" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/downloadedTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="@string/sample_downloaded_now"
+        android:textColor="@color/subtext"
+        android:textSize="12sp" />
+
+    
+    <ProgressBar
+        android:id="@+id/progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_marginTop="10dp"
+        android:max="100"
+        android:progressDrawable="@drawable/button_progress"/>
+
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            
+            <TextView
+                android:id="@+id/percent"
+                android:text="0%"
+                android:textColor="@color/subtext"
+                android:textSize="12sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            
+            <TextView
+                android:id="@+id/status"
+                android:text="@string/download_status_downloading"
+                android:textColor="#1ED760"
+                android:textStyle="bold"
+                android:textSize="12sp"
+                android:layout_marginTop="2dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            
+            <LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginTop="2dp">
+
+    <TextView
+        android:id="@+id/speed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sample_download_speed"
+        android:textColor="#9CA3AF"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/eta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="--"
+        android:textColor="#9CA3AF"
+        android:textSize="12sp"
+        android:layout_marginStart="12dp" />
+</LinearLayout>
+
+        </LinearLayout>
+
+        
+        <LinearLayout
+            android:id="@+id/actionGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            
+            <Button
+                android:id="@+id/action"
+                android:layout_width="88dp"
+                android:layout_height="36dp"
+                android:text="@string/download_action_install"
+                android:textAllCaps="false"
+                android:background="@drawable/button_install"
+                android:backgroundTint="@null"
+                app:backgroundTint="@null"
+                android:textColor="@color/text_on_accent_chip"
+                android:textSize="12sp"
+                android:layout_marginEnd="8dp"/>
+
+            
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/delete"
+                android:layout_width="88dp"
+                android:layout_height="36dp"
+                android:text="@string/downloads_delete"
+                android:textAllCaps="true"
+                android:background="@drawable/button_delete"
+                android:backgroundTint="@null"
+                app:backgroundTint="@null"
+                android:textColor="@color/text_on_red_chip"
+                android:textSize="12sp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
+
+

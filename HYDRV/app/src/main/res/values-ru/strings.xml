@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">HYDRV</string>
+    <string name="settings_title">Настройки</string>
+    <string name="settings_general_title">Общие</string>
+    <string name="settings_updates_title">Обновления</string>
+    <string name="settings_about_title">О приложении</string>
+    <string name="language_title">Язык</string>
+    <string name="language_system_default">Системный</string>
+    <string name="language_english">Английский</string>
+    <string name="language_filipino">Филиппинский</string>
+    <string name="language_spanish">Испанский</string>
+    <string name="language_indonesian">Индонезийский</string>
+    <string name="language_french">Французский</string>
+    <string name="language_german">Немецкий</string>
+    <string name="language_portuguese_brazil">Португальский (Бразилия)</string>
+    <string name="language_chinese_simplified">Китайский (упрощенный)</string>
+    <string name="language_hindi">Хинди</string>
+    <string name="language_arabic">Арабский</string>
+    <string name="language_russian">Русский</string>
+    <string name="language_japanese">Японский</string>
+    <string name="language_korean">Корейский</string>
+</resources>

@@ -1,0 +1,4 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/permission_button_surface" />
+    <corners android:radius="999dp" />
+</shape>

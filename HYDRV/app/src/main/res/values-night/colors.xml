@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#BB86FC</color>
+    <color name="purple_500">#6200EE</color>
+    <color name="purple_700">#3700B3</color>
+    <color name="teal_200">#03DAC5</color>
+    <color name="teal_700">#018786</color>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="bg">#151419</color>
+    <color name="card">#1C1C1E</color>
+    <color name="card_stroke">#00000000</color>
+    <color name="nav_surface">#171719</color>
+    <color name="nav_stroke">#242428</color>
+    <color name="settings_section_selected">#25282A</color>
+    <color name="settings_section_icon_bg">#343438</color>
+    <color name="settings_section_icon_bg_selected">#1E3A27</color>
+    <color name="text">#FFFFFF</color>
+    <color name="subtext">#AAAAAA</color>
+    <color name="accent">#22C55E</color>
+    <color name="nav_fade_end">#E6151419</color>
+    <color name="shimmer_base">#181818</color>
+    <color name="shimmer_highlight">#2A2A2A</color>
+    <color name="placeholder">#333333</color>
+    <color name="placeholder_alt">#222222</color>
+    <color name="dialog_input_surface">#2A2A2D</color>
+    <color name="dialog_input_stroke">#343438</color>
+    <color name="text_on_accent_chip">#000000</color>
+    <color name="text_on_red_chip">#FFFFFF</color>
+    <color name="text_on_dark_chip">#FFFFFF</color>
+    <color name="text_on_light_chip">#000000</color>
+</resources>

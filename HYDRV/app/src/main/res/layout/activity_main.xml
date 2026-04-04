@@ -1,0 +1,118 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootLayout"
+    android:background="@color/bg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="92dp"
+        android:background="@drawable/nav_top_fade" />
+
+    <include
+        android:id="@+id/bottomNav"
+        layout="@layout/bottom_nav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"/>
+
+    <FrameLayout
+        android:id="@+id/launchOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg"
+        android:clickable="true"
+        android:focusable="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingTop="44dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="16dp"
+                android:paddingBottom="8dp"
+                android:text="@string/app_name"
+                android:textColor="@color/text"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/card" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="16dp"
+                android:paddingBottom="8dp">
+
+                <View
+                    android:layout_width="28dp"
+                    android:layout_height="3dp"
+                    android:background="@color/accent" />
+
+                <View
+                    android:layout_width="54dp"
+                    android:layout_height="3dp"
+                    android:layout_marginStart="32dp"
+                    android:background="@color/placeholder" />
+
+                <View
+                    android:layout_width="54dp"
+                    android:layout_height="3dp"
+                    android:layout_marginStart="32dp"
+                    android:background="@color/placeholder" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingHorizontal="12dp"
+                android:paddingTop="12dp">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="86dp"
+                    android:layout_marginBottom="12dp"
+                    android:background="@drawable/card" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="86dp"
+                    android:layout_marginBottom="12dp"
+                    android:background="@drawable/card" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="86dp"
+                    android:layout_marginBottom="12dp"
+                    android:background="@drawable/card" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="86dp"
+                    android:layout_marginBottom="12dp"
+                    android:background="@drawable/card" />
+            </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
+
+</FrameLayout>

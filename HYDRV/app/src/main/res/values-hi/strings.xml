@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">HYDRV</string>
+    <string name="settings_title">सेटिंग्स</string>
+    <string name="settings_general_title">सामान्य</string>
+    <string name="settings_updates_title">अपडेट</string>
+    <string name="settings_about_title">जानकारी</string>
+    <string name="language_title">भाषा</string>
+    <string name="language_system_default">सिस्टम डिफ़ॉल्ट</string>
+    <string name="language_english">अंग्रेज़ी</string>
+    <string name="language_filipino">फिलिपिनो</string>
+    <string name="language_spanish">स्पेनिश</string>
+    <string name="language_indonesian">इंडोनेशियाई</string>
+    <string name="language_french">फ़्रेंच</string>
+    <string name="language_german">जर्मन</string>
+    <string name="language_portuguese_brazil">पुर्तगाली (ब्राज़ील)</string>
+    <string name="language_chinese_simplified">चीनी (सरलीकृत)</string>
+    <string name="language_hindi">हिंदी</string>
+    <string name="language_arabic">अरबी</string>
+    <string name="language_russian">रूसी</string>
+    <string name="language_japanese">जापानी</string>
+    <string name="language_korean">कोरियाई</string>
+</resources>

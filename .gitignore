@@ -1,0 +1,24 @@
+# Android / Gradle
+**/.gradle/
+**/.kotlin/
+**/build/
+**/local.properties
+**/*.keystore
+**/*.jks
+
+# IDE
+**/.idea/
+**/*.iml
+
+# Codex / temp files
+output.txt
+**/.codex-video-frames/
+
+# Non-app project folders
+website/
+tools/
+Scraper Icon/
+
+# OS files
+.DS_Store
+Thumbs.db

@@ -1,0 +1,251 @@
+package app.hydra.manager
+
+import android.os.Bundle
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowCompat
+import androidx.lifecycle.Observer
+import com.google.android.material.color.DynamicColors
+import com.squareup.picasso.Picasso
+
+class AppDetailsActivity : AppCompatActivity() {
+
+    private val activeDownloadObservers = mutableMapOf<String, Observer<List<DownloadItem>>>()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        if (AppearancePreferences.isDynamicColorEnabled(this)) {
+            DynamicColors.applyToActivityIfAvailable(this)
+        }
+        super.onCreate(savedInstanceState)
+        LanguagePreferences.applySavedLanguage(this)
+        setContentView(R.layout.activity_app_details)
+        AppearancePreferences.applyPureBlackBackgroundIfNeeded(findViewById(android.R.id.content))
+
+        val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.title = ""
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        WindowCompat.setDecorFitsSystemWindows(window, true)
+
+        val app = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            intent.getSerializableExtra("app", AppModel::class.java)
+        } else {
+            @Suppress("DEPRECATION")
+            intent.getSerializableExtra("app") as? AppModel
+        } ?: run {
+            finish()
+            return
+        }
+
+        val icon = findViewById<ImageView>(R.id.icon)
+        val name = findViewById<TextView>(R.id.name)
+        val latest = findViewById<TextView>(R.id.latest)
+        val install = findViewById<androidx.appcompat.widget.AppCompatButton>(R.id.install)
+        val container = findViewById<LinearLayout>(R.id.versionsContainer)
+
+        Picasso.get()
+            .load(app.icon)
+            .placeholder(R.drawable.ic_app_placeholder)
+            .error(R.drawable.ic_app_placeholder)
+            .fit()
+            .centerInside()
+            .noFade()
+            .into(icon)
+
+        name.text = app.name
+        val latestVersion = app.latestVersion()
+        latest.text = if (latestVersion != null) {
+            getString(R.string.app_details_latest_version, latestVersion.version_name)
+        } else {
+            getString(R.string.app_details_latest_unavailable)
+        }
+        RewardedAdManager.preload(this)
+
+        install.isEnabled = latestVersion != null
+        install.alpha = if (latestVersion != null) 1f else 0.55f
+        install.setOnClickListener {
+            val version = latestVersion ?: return@setOnClickListener
+            maybeStartDownloadWithAds(
+                btn = install,
+                url = version.url,
+                name = app.name,
+                packageName = app.packageName,
+                versionName = version.version_name
+            )
+        }
+
+        container.removeAllViews()
+
+        if (app.versions.isEmpty()) {
+            val empty = TextView(this).apply {
+                text = getString(R.string.app_details_missing_versions)
+                setTextColor(getColor(R.color.subtext))
+            }
+            container.addView(empty)
+            return
+        }
+
+        for (v in app.sortedVersionsNewestFirst()) {
+            val item = LinearLayout(this)
+            item.orientation = LinearLayout.VERTICAL
+            item.setPadding(0, 20, 0, 20)
+
+            val title = TextView(this)
+            title.text = getString(R.string.app_details_version_title, v.version_name)
+            title.setTextColor(getColor(R.color.text))
+
+            val changelog = TextView(this)
+            changelog.text = v.changelog
+            changelog.setTextColor(getColor(R.color.subtext))
+
+            val btn = androidx.appcompat.widget.AppCompatButton(this)
+            btn.text = getString(R.string.app_details_download)
+            btn.setBackgroundResource(R.drawable.button_install)
+            btn.setTextColor(getColor(R.color.text_on_accent_chip))
+            btn.backgroundTintList = null
+
+            val params = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+            params.topMargin = 16
+            btn.layoutParams = params
+
+            btn.setOnClickListener {
+                maybeStartDownloadWithAds(
+                    btn = btn,
+                    url = v.url,
+                    name = app.name,
+                    packageName = app.packageName,
+                    versionName = v.version_name
+                )
+            }
+
+            item.addView(title)
+            item.addView(changelog)
+            item.addView(btn)
+
+            container.addView(item)
+        }
+    }
+
+    override fun onDestroy() {
+        activeDownloadObservers.values.forEach { observer ->
+            DownloadRepository.downloadsLive.removeObserver(observer)
+        }
+        activeDownloadObservers.clear()
+        super.onDestroy()
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return true
+    }
+
+    private fun maybeStartDownloadWithAds(
+        btn: androidx.appcompat.widget.AppCompatButton,
+        url: String,
+        name: String,
+        packageName: String,
+        versionName: String
+    ) {
+        if (!AdsPreferences.areRewardedAdsEnabled(this)) {
+            startDownload(btn, url, name, packageName, versionName)
+            return
+        }
+
+        RewardedAdManager.showThen(
+            activity = this,
+            onRewardEarned = {
+                startDownload(btn, url, name, packageName, versionName)
+            },
+            onAdUnavailable = {
+                AppSnackbar.show(
+                    findViewById(android.R.id.content),
+                    getString(R.string.rewarded_ad_required_message)
+                )
+            }
+        )
+    }
+
+    private fun startDownload(
+        btn: androidx.appcompat.widget.AppCompatButton,
+        url: String,
+        name: String,
+        packageName: String,
+        versionName: String
+    ) {
+        btn.isEnabled = false
+        btn.text = "0%"
+
+        fun resetButton() {
+            btn.text = getString(R.string.app_details_download)
+            btn.isEnabled = true
+            btn.setTextColor(getColor(R.color.text_on_accent_chip))
+            btn.setBackgroundResource(R.drawable.button_install)
+        }
+
+        fun showDone() {
+            btn.text = getString(R.string.app_details_done)
+            btn.setTextColor(getColor(R.color.text_on_accent_chip))
+            btn.setBackgroundResource(R.drawable.button_done)
+
+            btn.postDelayed({
+                resetButton()
+            }, 1000)
+        }
+
+        val item = DownloadItem(
+            name = name,
+            url = url,
+            packageName = packageName,
+            versionName = versionName
+        )
+
+        val result = DownloadRepository.startDownload(this, item)
+        if (result != DownloadRepository.StartResult.STARTED) {
+            resetButton()
+            AppSnackbar.show(
+                findViewById(android.R.id.content),
+                DownloadRepository.startResultMessage(this, result)
+                    ?: DownloadNetworkPolicy.blockedMessage(this)
+            )
+            return
+        }
+
+        val downloadKey = item.requestKey()
+        activeDownloadObservers.remove(downloadKey)?.let {
+            DownloadRepository.downloadsLive.removeObserver(it)
+        }
+
+        val observer = Observer<List<DownloadItem>> { downloads ->
+            val match = downloads.lastOrNull {
+                it.requestKey() == downloadKey
+            } ?: return@Observer
+
+            when {
+                match.status == "Done" || match.progress >= 100 -> {
+                    activeDownloadObservers.remove(downloadKey)?.let {
+                        DownloadRepository.downloadsLive.removeObserver(it)
+                    }
+                    showDone()
+                }
+                match.status == "Failed" -> {
+                    activeDownloadObservers.remove(downloadKey)?.let {
+                        DownloadRepository.downloadsLive.removeObserver(it)
+                    }
+                    resetButton()
+                }
+                else -> {
+                    btn.text = "${match.progress}%"
+                }
+            }
+        }
+
+        activeDownloadObservers[downloadKey] = observer
+        DownloadRepository.downloadsLive.observe(this, observer)
+    }
+}
