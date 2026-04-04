@@ -1,5 +1,7 @@
 # HYDRV
 
+[![Android CI](https://github.com/Team-HYDRV/HYDRV/actions/workflows/android-ci.yml/badge.svg)](https://github.com/Team-HYDRV/HYDRV/actions/workflows/android-ci.yml)
+
 HYDRV is an Android app for browsing releases and downloading files through short-lived links.
 
 ## Repo Layout
@@ -30,3 +32,4 @@ See [`HYDRV/docs/backend-example.md`](HYDRV/docs/backend-example.md) for a simpl
 - The app uses a public `catalogue.json` and a private `catalogue.private.json`.
 - Public catalogue entries point at token URLs.
 - The Worker resolves the private path and returns a short-lived download URL.
+- The public website is hosted separately on Cloudflare, so it is not part of this repo.
