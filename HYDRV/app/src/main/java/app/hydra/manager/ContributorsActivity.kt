@@ -38,37 +38,6 @@ class ContributorsActivity : AppCompatActivity() {
         val members: List<ContributorCredit>
     )
 
-    private val fallbackContributors = listOf(
-        ContributorCredit(
-            name = "HYDRV Core",
-            role = "Project direction",
-            summary = "Shapes the app experience, release goals, and overall product direction.",
-            avatarUrl = "",
-            profileUrl = RuntimeConfig.githubRepoUrl
-        ),
-        ContributorCredit(
-            name = "UI and UX",
-            role = "Design and interface polish",
-            summary = "Refines layouts, interaction details, and the visual consistency across screens.",
-            avatarUrl = "",
-            profileUrl = RuntimeConfig.githubRepoUrl
-        ),
-        ContributorCredit(
-            name = "Package and install flow",
-            role = "Downloads and installs",
-            summary = "Keeps download handling, package installs, and update behavior moving reliably.",
-            avatarUrl = "",
-            profileUrl = RuntimeConfig.githubRepoUrl
-        ),
-        ContributorCredit(
-            name = "Translations and QA",
-            role = "Localization and testing",
-            summary = "Helps expand language support and catch rough edges before release.",
-            avatarUrl = "",
-            profileUrl = RuntimeConfig.githubRepoUrl
-        )
-    )
-
     override fun onCreate(savedInstanceState: Bundle?) {
         if (AppearancePreferences.isDynamicColorEnabled(this)) {
             DynamicColors.applyToActivityIfAvailable(this)
@@ -104,7 +73,7 @@ class ContributorsActivity : AppCompatActivity() {
         findViewById<View>(R.id.backButton).setOnClickListener { finish() }
 
         statusText.text = getString(R.string.contributors_loading)
-        adapter.submitList(buildContributorGroups(fallbackContributors))
+        adapter.submitList(emptyList())
         loadGitHubContributors(statusText, adapter)
     }
 
@@ -130,18 +99,17 @@ class ContributorsActivity : AppCompatActivity() {
                             profileUrl = contributor.htmlUrl
                         )
                     }
-                    .takeIf { it.isNotEmpty() }
-                    ?: fallbackContributors
                 val groups = buildContributorGroups(credits)
 
-                statusText.text = getString(
-                    R.string.contributors_loaded,
-                    credits.size
-                )
+                statusText.text = if (credits.isNotEmpty()) {
+                    getString(R.string.contributors_loaded, credits.size)
+                } else {
+                    getString(R.string.contributors_failed)
+                }
                 adapter.submitList(groups)
             }.onFailure {
                 statusText.text = getString(R.string.contributors_failed)
-                adapter.submitList(buildContributorGroups(fallbackContributors))
+                adapter.submitList(emptyList())
             }
         }
     }
