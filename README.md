@@ -7,7 +7,7 @@
     <img src="https://github.com/Team-HYDRV/HYDRV/actions/workflows/android-ci.yml/badge.svg" alt="Android CI">
   </a>
   <a href="https://github.com/Team-HYDRV/HYDRV/releases/latest">
-    <img src="https://img.shields.io/github/v/release/Team-HYDRV/HYDRV?include_prereleases" alt="Latest release">
+    <img src="https://img.shields.io/badge/Latest%20release-GitHub-181717?style=flat-square&logo=github" alt="Latest release">
   </a>
   <a href="https://hydrv.app">
     <img src="https://img.shields.io/badge/Website-hydrv.app-111111?style=flat-square" alt="HYDRV website">
