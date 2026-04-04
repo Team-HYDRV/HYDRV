@@ -1,4 +1,8 @@
 <p align="center">
+  <img src="assets/readme-banner.svg" alt="HYDRV banner">
+</p>
+
+<p align="center">
   <img src="assets/ic_rounded.png" alt="HYDRV logo" width="176">
 </p>
 
@@ -37,6 +41,8 @@
   <a href="RELEASES.md">Release checklist</a>
   &middot;
   <a href="CHANGELOG.md">Changelog</a>
+  &middot;
+  <a href="HYDRV/docs/index.md">Docs</a>
 </p>
 
 ---
@@ -56,6 +62,26 @@
     <td width="33%" valign="top">
       <h3>Website</h3>
       <p>Show the latest release story, changelogs, and supporting pages in a public landing page.</p>
+    </td>
+  </tr>
+</table>
+
+## Release Preview
+
+<table>
+  <tr>
+    <td width="66%" valign="top">
+      <h3>Latest GitHub release</h3>
+      <p>The app and website both point to the repository's latest release so the public story stays in sync.</p>
+      <p>
+        <a href="https://github.com/Team-HYDRV/HYDRV/releases/latest"><strong>Open latest release</strong></a>
+        &middot;
+        <a href="CHANGELOG.md"><strong>Read changelog template</strong></a>
+      </p>
+    </td>
+    <td width="34%" valign="top">
+      <h3>Public release flow</h3>
+      <p>Tag a build, publish the GitHub release, and let the app surface the same notes to users.</p>
     </td>
   </tr>
 </table>
@@ -85,11 +111,26 @@
   </tr>
 </table>
 
+## How It Fits Together
+
+```mermaid
+flowchart LR
+    A["Android app"] --> B["Public catalogue.json"]
+    B --> C["Token endpoint"]
+    C --> D["Cloudflare Worker"]
+    D --> E["Private catalogue.private.json"]
+    D --> F["Signed download URL"]
+    F --> G["R2 file download"]
+    A --> H["GitHub latest release"]
+    H --> I["Release notes and changelog"]
+```
+
 ## Quick Links
 
 - [Latest GitHub release](https://github.com/Team-HYDRV/HYDRV/releases/latest)
 - [Public website](https://hydrv.app)
 - [Backend example](HYDRV/docs/backend-example.md)
+- [Docs landing page](HYDRV/docs/index.md)
 - [Release checklist](RELEASES.md)
 - [Changelog](CHANGELOG.md)
 - [Support on Ko-fi](https://ko-fi.com/xc3fff0e)
@@ -142,11 +183,11 @@ From `HYDRV/`:
 .\gradlew.bat assembleDebug
 ```
 
-## Repository Map
+## Project Structure
 
 - `HYDRV/` - Android app source
-- `assets/` - README branding and screenshot assets
-- `HYDRV/docs/` - backend and workflow examples
+- `HYDRV/docs/` - backend, release, and docs landing pages
+- `assets/` - README branding, banner, and screenshot assets
 - `.github/` - CI, release, and contribution automation
 - `CHANGELOG.md` - release note template
 - `RELEASES.md` - tag and publish checklist
