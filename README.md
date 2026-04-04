@@ -27,6 +27,10 @@ From `HYDRV/`:
 
 See [`HYDRV/docs/backend-example.md`](HYDRV/docs/backend-example.md) for a simple Cloudflare Worker + R2 catalogue example that matches the app's token flow.
 
+## Releases
+
+See [`RELEASES.md`](RELEASES.md) for the simple tag and release checklist.
+
 ## Notes
 
 - The app uses a public `catalogue.json` and a private `catalogue.private.json`.
