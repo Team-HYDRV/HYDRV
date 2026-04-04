@@ -52,6 +52,29 @@
   </tr>
 </table>
 
+## Live At a Glance
+
+<table>
+  <tr>
+    <td width="25%" valign="top">
+      <h3>Release</h3>
+      <p><a href="https://github.com/Team-HYDRV/HYDRV/releases/latest">Open the latest tag</a></p>
+    </td>
+    <td width="25%" valign="top">
+      <h3>CI</h3>
+      <p><a href="https://github.com/Team-HYDRV/HYDRV/actions/workflows/android-ci.yml">Android CI status</a></p>
+    </td>
+    <td width="25%" valign="top">
+      <h3>Website</h3>
+      <p><a href="https://hydrv.app">Public project site</a></p>
+    </td>
+    <td width="25%" valign="top">
+      <h3>Docs</h3>
+      <p><a href="HYDRV/docs/index.md">Docs landing page</a></p>
+    </td>
+  </tr>
+</table>
+
 ## Release Preview
 
 <table>
@@ -110,6 +133,8 @@ flowchart LR
     A --> H["GitHub latest release"]
     H --> I["Release notes and changelog"]
 ```
+
+In practice, HYDRV keeps the public release story simple: the app reads the visible catalogue, the Worker signs the real download path, and GitHub remains the source of truth for release notes.
 
 ## Quick Links
 
@@ -177,6 +202,29 @@ From `HYDRV/`:
 - `.github/` - CI, release, and contribution automation
 - `CHANGELOG.md` - release note template
 - `RELEASES.md` - tag and publish checklist
+
+## For Contributors
+
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <h3>Before you send a PR</h3>
+      <ul>
+        <li>Open the app in Android Studio and run <code>assembleDebug</code>.</li>
+        <li>Update the release checklist if you tag a new build.</li>
+        <li>Keep screenshots and docs in sync with visible UI changes.</li>
+      </ul>
+    </td>
+    <td width="50%" valign="top">
+      <h3>Keep an eye on</h3>
+      <ul>
+        <li>The public catalogue should stay aligned with the backend example.</li>
+        <li>Release note wording should also reflect GitHub releases.</li>
+        <li>Brand assets belong in <code>assets/</code> so the README can render them cleanly.</li>
+      </ul>
+    </td>
+  </tr>
+</table>
 
 ## Release Flow
 
