@@ -152,9 +152,8 @@ class ContributorsActivity : AppCompatActivity() {
 
         val chunks = filtered.chunked(6)
         return chunks.mapIndexed { index, chunk ->
-            val pageLabel = "${index + 1}/${chunks.size}"
             ContributorGroup(
-                title = "${getString(R.string.about_contributors_title)} ($pageLabel)",
+                title = getString(R.string.about_contributors_title),
                 summary = getString(R.string.contributors_group_summary),
                 countLabel = chunk.size.toString(),
                 members = chunk
@@ -203,16 +202,11 @@ class ContributorsActivity : AppCompatActivity() {
             private val groupCount: TextView = itemView.findViewById(R.id.groupCount)
             private val groupSummary: TextView = itemView.findViewById(R.id.groupSummary)
             private val avatarsContainer: LinearLayout = itemView.findViewById(R.id.avatarsContainer)
-            private val groupFooter: TextView = itemView.findViewById(R.id.groupFooter)
 
             fun bind(item: ContributorGroup) {
                 groupTitle.text = item.title
                 groupCount.text = item.countLabel
                 groupSummary.text = item.summary
-                groupFooter.text = itemView.context.getString(
-                    R.string.contributors_avatar_hint,
-                    item.members.size
-                )
                 avatarsContainer.removeAllViews()
                 val context = itemView.context
                 val rows = item.members.chunked(4)

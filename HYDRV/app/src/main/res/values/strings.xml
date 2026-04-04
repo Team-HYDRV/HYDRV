@@ -334,8 +334,7 @@
     <string name="about_issue_email_body">Share what happened, what you expected, and any steps that help reproduce it.</string>
     <string name="about_contributors_dialog_title">Contributors</string>
     <string name="about_contributors_dialog_body">This screen pulls the contributor list from the HYDRV GitHub repository so it stays in sync with the latest project activity.</string>
-    <string name="contributors_group_summary">GitHub contributors grouped into visual cards.</string>
-    <string name="contributors_avatar_hint">%1$d contributors in this group.</string>
+    <string name="contributors_group_summary">Live GitHub contributors shown in a compact card.</string>
     <string name="contributors_loading">Loading GitHub contributors…</string>
     <string name="contributors_loaded">%1$d contributors loaded from GitHub.</string>
     <string name="contributors_failed">Couldn’t load GitHub contributors right now.</string>
