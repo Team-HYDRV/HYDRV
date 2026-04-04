@@ -5,7 +5,7 @@
 <h1 align="center">HYDRV</h1>
 
 <p align="center">
-  <strong>Release browsing, signed downloads, and a cleaner public home for Android updates.</strong>
+  <strong>Android release browsing, kept clean.</strong>
 </p>
 
 <p align="center">
