@@ -596,7 +596,6 @@ class VersionSheet(
         views.label.alpha = 1f
         views.label.translationY = 0f
         views.label.text = getString(R.string.download_label)
-        (views.fill as? ImageView)?.setImageResource(R.drawable.version_download_fill_clip)
         views.label.setTextColor(Color.BLACK)
         animateFillTo(views.fill, 0)
     }
@@ -615,7 +614,6 @@ class VersionSheet(
         views.label.translationY = 0f
         views.label.text = getString(R.string.download_action_open)
         views.label.setTextColor(Color.BLACK)
-        (views.fill as? ImageView)?.setImageResource(R.drawable.version_download_fill_clip)
         animateFillTo(views.fill, 0)
     }
 
@@ -627,7 +625,6 @@ class VersionSheet(
         views.label.animate().cancel()
         views.label.alpha = 1f
         views.label.translationY = 0f
-        (views.fill as? ImageView)?.setImageResource(R.drawable.version_download_fill_clip)
         views.label.setTextColor(Color.BLACK)
         val clamped = progress.coerceIn(0, 100)
         if (label.startsWith(getString(R.string.download_status_paused))) {
@@ -643,7 +640,6 @@ class VersionSheet(
     private fun applyDoneState(views: DownloadButtonViews) {
         applyVersionButtonPalette(views, views.container.context)
         views.container.isEnabled = false
-        (views.fill as? ImageView)?.setImageResource(versionFillDrawable(views.container.context))
         views.label.setTextColor(Color.BLACK)
         animateFillTo(views.fill, 100)
         val doneLabel = getString(R.string.download_status_done)
@@ -702,7 +698,7 @@ class VersionSheet(
     private fun applyErrorState(views: DownloadButtonViews) {
         applyVersionButtonPalette(views, views.container.context)
         views.container.isEnabled = true
-        (views.fill as? ImageView)?.setImageResource(R.drawable.version_download_fill_error_clip)
+        (views.fill as? ImageView)?.setImageResource(versionErrorFillDrawable(views.container.context))
         animateFillTo(views.fill, 100)
         views.track.animate().cancel()
         views.label.animate().cancel()
@@ -819,6 +815,14 @@ class VersionSheet(
             R.drawable.version_download_fill_clip
         } else {
             R.drawable.version_download_fill_brand_clip
+        }
+    }
+
+    private fun versionErrorFillDrawable(context: android.content.Context): Int {
+        return if (AppearancePreferences.isDynamicColorEnabled(context)) {
+            R.drawable.version_download_fill_error_clip
+        } else {
+            R.drawable.version_download_fill_error_clip
         }
     }
 
