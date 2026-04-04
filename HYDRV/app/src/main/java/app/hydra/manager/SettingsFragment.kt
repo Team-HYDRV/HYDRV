@@ -1064,11 +1064,23 @@ class SettingsFragment : Fragment() {
                 updateUpdatesSummary()
                 if (result.hasChanges) {
                     if (!result.latestReleaseName.isNullOrBlank()) {
-                        getString(
-                            R.string.updates_check_live_with_version,
-                            getString(R.string.app_name),
-                            result.latestReleaseName
-                        )
+                        AppSnackbar.show(
+                            activity.findViewById(R.id.rootLayout),
+                            getString(
+                                R.string.updates_check_live_with_version,
+                                getString(R.string.app_name),
+                                result.latestReleaseName
+                            ),
+                            anchorTarget = activity.findViewById(R.id.bottomNav),
+                            baseBottomMarginDp = 10,
+                            actionLabel = getString(R.string.updates_open_release)
+                        ) {
+                            val url = result.latestReleaseUrl?.trim().orEmpty()
+                            if (url.isNotBlank()) {
+                                openAboutLink(url)
+                            }
+                        }
+                        return@runCheck
                     } else {
                         getString(R.string.updates_check_live_generic)
                     }

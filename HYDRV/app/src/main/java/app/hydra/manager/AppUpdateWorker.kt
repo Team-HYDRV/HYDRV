@@ -26,7 +26,8 @@ class AppUpdateWorker(
             if (hasUpdate && latestTag != lastSeenTag && latestTag != lastNotifiedTag) {
                 AppNotificationHelper.showReleaseUpdateNotification(
                     applicationContext,
-                    latestRelease.displayLabel()
+                    latestRelease.displayLabel(),
+                    latestRelease.htmlUrl
                 )
                 ReleaseUpdateState.setLastNotifiedTag(applicationContext, latestTag)
             }

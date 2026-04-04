@@ -19,7 +19,9 @@ object AppSnackbar {
         duration: Int = Snackbar.LENGTH_SHORT,
         extraBottomMarginPx: Int = 0,
         anchorTarget: View? = null,
-        baseBottomMarginDp: Int = DEFAULT_BOTTOM_MARGIN_DP
+        baseBottomMarginDp: Int = DEFAULT_BOTTOM_MARGIN_DP,
+        actionLabel: String? = null,
+        action: (() -> Unit)? = null
     ): Snackbar {
         val context = anchorView.context
 
@@ -40,6 +42,9 @@ object AppSnackbar {
             maxLines = 2
         }
         snackbar.setActionTextColor(ContextCompat.getColor(context, R.color.accent))
+        if (!actionLabel.isNullOrBlank() && action != null) {
+            snackbar.setAction(actionLabel) { action() }
+        }
 
         snackbar.show()
         return snackbar

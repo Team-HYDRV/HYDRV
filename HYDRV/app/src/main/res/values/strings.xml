@@ -205,6 +205,7 @@
     <string name="notification_title_release_live">New release is live</string>
     <string name="notification_text_release_live">A new HYDRV release is available.</string>
     <string name="notification_text_release_live_with_version">A new HYDRV release is available: %1$s</string>
+    <string name="updates_open_release">Open release</string>
 
     <string name="install_failed">Install failed</string>
     <string name="install_failed_file_not_found">Install failed: file not found</string>
@@ -307,7 +308,7 @@
     <string name="updates_check_live_generic">New release is available in HYDRV.</string>
     <string name="updates_check_up_to_date">You\'re up to date.</string>
     <string name="about_version_code_format">Version %1$s (%2$d)</string>
-    <string name="about_tagline">Clean release browsing, short-lived downloads, and package tools, kept simple.</string>
+    <string name="about_tagline">Clean release browsing, signed downloads, and package tools, kept simple.</string>
     <string name="about_link_website">Website</string>
     <string name="about_link_discord">Discord</string>
     <string name="about_link_donate">Donate</string>
