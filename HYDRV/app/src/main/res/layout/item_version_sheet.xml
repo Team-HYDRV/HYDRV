@@ -37,7 +37,7 @@
             android:paddingHorizontal="10dp"
             android:paddingVertical="4dp"
             android:text="@string/latest"
-            android:textColor="@color/text_on_accent_chip"
+            android:textColor="?attr/colorOnPrimaryContainer"
             android:textSize="10sp"
             android:textStyle="bold"
             android:visibility="gone" />
@@ -66,7 +66,7 @@
             android:background="@drawable/version_badge_latest"
             android:paddingHorizontal="9dp"
             android:paddingVertical="4dp"
-            android:textColor="@color/text_on_accent_chip"
+            android:textColor="?attr/colorOnPrimaryContainer"
             android:textSize="10sp"
             android:textStyle="bold" />
 
@@ -98,7 +98,7 @@
         android:background="@drawable/version_hint_downloaded"
         android:paddingHorizontal="10dp"
         android:paddingVertical="5dp"
-        android:textColor="@color/text_on_dark_chip"
+        android:textColor="?attr/colorOnSurface"
         android:textSize="11sp"
         android:textStyle="bold"
         android:visibility="gone" />
@@ -139,7 +139,7 @@
                     android:layout_height="14dp"
                     android:layout_marginEnd="6dp"
                     android:src="@drawable/ic_check_small"
-                    android:tint="@color/text_on_light_chip"
+                    android:tint="?attr/colorOnPrimaryContainer"
                     android:visibility="gone" />
 
                 <TextView
@@ -147,7 +147,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/download_label"
-                    android:textColor="@color/text_on_light_chip"
+                    android:textColor="?attr/colorOnPrimaryContainer"
                     android:textSize="13sp"
                     android:textStyle="bold" />
             </LinearLayout>

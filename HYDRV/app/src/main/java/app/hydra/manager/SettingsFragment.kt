@@ -561,10 +561,18 @@ class SettingsFragment : Fragment() {
             )
             optionViews.iconView.imageTintList =
                 android.content.res.ColorStateList.valueOf(
-                    requireContext().getColor(if (isSelected) R.color.accent else R.color.subtext)
+                ThemeColors.color(
+                    requireContext(),
+                    if (isSelected) androidx.appcompat.R.attr.colorPrimary else com.google.android.material.R.attr.colorOnSurfaceVariant,
+                    if (isSelected) R.color.accent else R.color.subtext
                 )
+            )
             optionViews.labelView.setTextColor(
-                requireContext().getColor(if (isSelected) R.color.accent else R.color.text)
+                ThemeColors.color(
+                    requireContext(),
+                    if (isSelected) androidx.appcompat.R.attr.colorPrimary else com.google.android.material.R.attr.colorOnBackground,
+                    if (isSelected) R.color.accent else R.color.text
+                )
             )
             optionViews.labelView.alpha = if (isSelected) 1f else 0.85f
         }
@@ -1262,10 +1270,18 @@ class SettingsFragment : Fragment() {
             inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_URI
             hint = ""
             setTextColor(
-                context.getColor(R.color.text)
+                ThemeColors.color(
+                    context,
+                    com.google.android.material.R.attr.colorOnBackground,
+                    R.color.text
+                )
             )
             setHintTextColor(
-                context.getColor(R.color.subtext)
+                ThemeColors.color(
+                    context,
+                    com.google.android.material.R.attr.colorOnSurfaceVariant,
+                    R.color.subtext
+                )
             )
             setBackgroundResource(R.drawable.dialog_input_background)
             setPadding(28, 20, 28, 20)

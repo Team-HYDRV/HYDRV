@@ -272,7 +272,13 @@ class DownloadAdapter(
             "Done" -> {
                 smoothedSpeeds.remove(itemKey)
                 holder.status.text = context.getString(R.string.download_status_done)
-                holder.status.setTextColor(Color.parseColor("#22C55E"))
+                holder.status.setTextColor(
+                    ThemeColors.color(
+                        context,
+                        androidx.appcompat.R.attr.colorPrimary,
+                        R.color.accent
+                    )
+                )
                 val isSettledDone = item.completedAt > 0L &&
                     System.currentTimeMillis() - item.completedAt >= DONE_SETTLE_MS
 
@@ -286,7 +292,13 @@ class DownloadAdapter(
                     holder.percent.visibility = View.VISIBLE
                     holder.speed.visibility = View.VISIBLE
                     holder.eta.visibility = View.VISIBLE
-                    holder.percent.setTextColor(Color.parseColor("#E5E7EB"))
+                    holder.percent.setTextColor(
+                        ThemeColors.color(
+                            context,
+                            com.google.android.material.R.attr.colorOnSurfaceVariant,
+                            R.color.subtext
+                        )
+                    )
                     animateProgress(
                         holder.progress,
                         100,
@@ -368,7 +380,13 @@ class DownloadAdapter(
 
             "Paused" -> {
                 holder.status.text = context.getString(R.string.download_status_paused)
-                holder.status.setTextColor(Color.YELLOW)
+                holder.status.setTextColor(
+                    ThemeColors.color(
+                        context,
+                        com.google.android.material.R.attr.colorOnSurfaceVariant,
+                        R.color.accent
+                    )
+                )
 
                 holder.action.text = context.getString(R.string.download_action_resume)
                 holder.delete.visibility = View.VISIBLE
@@ -395,7 +413,13 @@ class DownloadAdapter(
             "Failed" -> {
                 smoothedSpeeds.remove(itemKey)
                 holder.status.text = context.getString(R.string.download_status_failed)
-                holder.status.setTextColor(Color.RED)
+                holder.status.setTextColor(
+                    ThemeColors.color(
+                        context,
+                        com.google.android.material.R.attr.colorOnError,
+                        R.color.red
+                    )
+                )
                 holder.downloadedTime.text = item.errorMessage.ifBlank {
                     context.getString(R.string.download_error_invalid_link)
                 }
@@ -428,8 +452,20 @@ class DownloadAdapter(
 
             else -> {
                 holder.status.text = context.getString(R.string.download_status_downloading)
-                holder.status.setTextColor(Color.parseColor("#22C55E"))
-                holder.percent.setTextColor(Color.parseColor("#D1D5DB"))
+                holder.status.setTextColor(
+                    ThemeColors.color(
+                        context,
+                        androidx.appcompat.R.attr.colorPrimary,
+                        R.color.accent
+                    )
+                )
+                holder.percent.setTextColor(
+                    ThemeColors.color(
+                        context,
+                        com.google.android.material.R.attr.colorOnSurfaceVariant,
+                        R.color.subtext
+                    )
+                )
 
                 holder.action.text = context.getString(R.string.download_action_pause)
                 holder.delete.visibility = View.GONE

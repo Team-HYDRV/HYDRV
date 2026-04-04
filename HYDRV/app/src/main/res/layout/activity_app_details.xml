@@ -75,7 +75,7 @@
                 android:id="@+id/install"
                 android:text="@string/app_details_download"
                 android:textStyle="bold"
-                android:textColor="@color/text_on_accent_chip"
+                android:textColor="?attr/colorOnPrimary"
                 android:background="@drawable/button_install"
                 android:backgroundTint="@null"
                 android:layout_width="match_parent"

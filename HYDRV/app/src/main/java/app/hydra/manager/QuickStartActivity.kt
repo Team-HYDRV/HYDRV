@@ -7,7 +7,6 @@ import android.net.NetworkCapabilities
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.content.res.ColorStateList
 import android.widget.Button
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
@@ -97,13 +96,25 @@ class QuickStartActivity : AppCompatActivity() {
         val isConnected = isInternetAvailable()
         internetStatus.text = if (isConnected) getString(R.string.permission_online) else getString(R.string.permission_offline)
         internetStatus.setBackgroundResource(R.drawable.permission_status_info)
-        internetStatus.setTextColor(getColor(if (isConnected) R.color.accent else R.color.text_on_dark_chip))
+        internetStatus.setTextColor(
+                ThemeColors.color(
+                    this,
+                    if (isConnected) androidx.appcompat.R.attr.colorPrimary else MaterialR.attr.colorOnSurfaceVariant,
+                    if (isConnected) R.color.accent else R.color.subtext
+                )
+            )
 
         val canInstall = canInstallUnknownApps()
         installStatus.text =
             if (canInstall) getString(R.string.permission_allowed) else getString(R.string.permission_not_allowed)
         installStatus.setBackgroundResource(R.drawable.permission_status_info)
-        installStatus.setTextColor(getColor(if (canInstall) R.color.accent else android.R.color.white))
+        installStatus.setTextColor(
+                ThemeColors.color(
+                    this,
+                    if (canInstall) androidx.appcompat.R.attr.colorPrimary else MaterialR.attr.colorOnSurfaceVariant,
+                    if (canInstall) R.color.accent else R.color.subtext
+                )
+            )
         installAction.text =
             if (canInstall) getString(R.string.permission_enabled) else getString(R.string.permission_open_settings)
         installAction.isEnabled = !canInstall
@@ -113,7 +124,13 @@ class QuickStartActivity : AppCompatActivity() {
         notificationsStatus.text =
             if (canNotify) getString(R.string.permission_allowed) else getString(R.string.permission_not_allowed)
         notificationsStatus.setBackgroundResource(R.drawable.permission_status_info)
-        notificationsStatus.setTextColor(getColor(if (canNotify) R.color.accent else android.R.color.white))
+        notificationsStatus.setTextColor(
+                ThemeColors.color(
+                    this,
+                    if (canNotify) androidx.appcompat.R.attr.colorPrimary else MaterialR.attr.colorOnSurfaceVariant,
+                    if (canNotify) R.color.accent else R.color.subtext
+                )
+            )
         notificationsAction.text =
             if (canNotify) getString(R.string.permission_enabled) else getString(R.string.permission_enable)
         notificationsAction.isEnabled = !canNotify
@@ -172,8 +189,11 @@ class QuickStartActivity : AppCompatActivity() {
     }
 
     private fun restoreButtonColors() {
-        val primaryGreen = getColor(R.color.permission_primary_button)
-        val textColor = getColor(R.color.text_on_accent_chip)
+        val textColor = ThemeColors.color(
+            this,
+            MaterialR.attr.colorOnPrimary,
+            R.color.text_on_accent_chip
+        )
 
         listOf(installAction, notificationsAction, continueButton).forEach { button ->
             button.backgroundTintList = null
@@ -183,7 +203,6 @@ class QuickStartActivity : AppCompatActivity() {
 
         continueButton.backgroundTintList = null
         continueButton.background = getDrawable(R.drawable.button_install)
-        continueButton.backgroundTintList = ColorStateList.valueOf(primaryGreen)
         continueButton.setTextColor(textColor)
     }
 

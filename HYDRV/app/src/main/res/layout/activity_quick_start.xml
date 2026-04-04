@@ -139,7 +139,7 @@
                         android:paddingVertical="10dp"
                         android:text="@string/permission_open_settings"
                         android:textAllCaps="false"
-                        android:textColor="@color/text_on_accent_chip" />
+                        android:textColor="?attr/colorOnPrimary" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -201,7 +201,7 @@
                         android:paddingVertical="10dp"
                         android:text="@string/permission_enable"
                         android:textAllCaps="false"
-                        android:textColor="@color/text_on_accent_chip" />
+                        android:textColor="?attr/colorOnPrimary" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -214,7 +214,7 @@
                 android:paddingVertical="14dp"
                 android:text="@string/continue_label"
                 android:textAllCaps="false"
-                android:textColor="@color/text_on_accent_chip"
+                android:textColor="?attr/colorOnPrimary"
                 android:textStyle="bold" />
         </LinearLayout>
     </ScrollView>

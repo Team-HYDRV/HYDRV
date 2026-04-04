@@ -51,18 +51,18 @@
                 android:textColor="?attr/colorOnSurfaceVariant"
                 android:textSize="13sp" />
 
-            <TextView
-                android:id="@+id/permissionInternetStatus"
+                <TextView
+                    android:id="@+id/permissionInternetStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:background="@drawable/permission_status_positive"
                 android:paddingHorizontal="12dp"
-                android:paddingVertical="6dp"
-                android:text="@string/permission_connected"
-                android:textColor="@color/text_on_accent_chip"
-                android:textSize="12sp"
-                android:textStyle="bold" />
+                    android:paddingVertical="6dp"
+                    android:text="@string/permission_connected"
+                    android:textColor="?attr/colorOnPrimary"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
@@ -123,7 +123,7 @@
                     android:paddingVertical="10dp"
                     android:text="@string/permission_open_settings"
                     android:textAllCaps="false"
-                    android:textColor="@color/text_on_accent_chip"
+                    android:textColor="?attr/colorOnPrimary"
                     android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
@@ -186,7 +186,7 @@
                     android:paddingVertical="10dp"
                     android:text="@string/permission_enable"
                     android:textAllCaps="false"
-                    android:textColor="@color/text_on_accent_chip"
+                    android:textColor="?attr/colorOnPrimary"
                     android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
@@ -200,7 +200,7 @@
             android:paddingVertical="14dp"
             android:text="@string/continue_label"
             android:textAllCaps="false"
-            android:textColor="@color/text_on_accent_chip"
+            android:textColor="?attr/colorOnPrimary"
             android:textStyle="bold" />
     </LinearLayout>
 </ScrollView>

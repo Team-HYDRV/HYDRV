@@ -1,7 +1,6 @@
 package app.hydra.manager
 
 import android.content.BroadcastReceiver
-import android.graphics.Color
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
@@ -35,8 +34,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var launchOverlay: View
     private var installSnackbar: Snackbar? = null
 
-    private var activeColor = Color.parseColor("#1ED760")
-    private var inactiveColor = Color.parseColor("#B3FFFFFF")
+    private var activeColor = 0
+    private var inactiveColor = 0
 
     private var activeFragment: Fragment? = null
     private var activeTag: String = TAG_HOME
@@ -97,8 +96,16 @@ class MainActivity : AppCompatActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContentView(R.layout.activity_main)
         AppearancePreferences.applyPureBlackBackgroundIfNeeded(findViewById(R.id.rootLayout))
-        activeColor = Color.parseColor("#1ED760")
-        inactiveColor = Color.parseColor("#B3FFFFFF")
+        activeColor = ThemeColors.color(
+            this,
+            androidx.appcompat.R.attr.colorPrimary,
+            R.color.accent
+        )
+        inactiveColor = ThemeColors.color(
+            this,
+            MaterialR.attr.colorOnSurfaceVariant,
+            R.color.subtext
+        )
 
         supportActionBar?.hide()
 

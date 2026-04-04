@@ -155,10 +155,22 @@ class AppAdapter :
     private fun bindFavoriteState(holder: VH, context: Context, appName: String) {
         if (isFavorite(context, appName)) {
             holder.fav.setImageResource(R.drawable.ic_star)
-            holder.fav.setColorFilter(Color.parseColor("#22C55E"))
+            holder.fav.setColorFilter(
+                ThemeColors.color(
+                    context,
+                    androidx.appcompat.R.attr.colorPrimary,
+                    R.color.accent
+                )
+            )
         } else {
             holder.fav.setImageResource(R.drawable.ic_star_outline)
-            holder.fav.setColorFilter(Color.parseColor("#888888"))
+            holder.fav.setColorFilter(
+                ThemeColors.color(
+                    context,
+                    com.google.android.material.R.attr.colorOnSurfaceVariant,
+                    R.color.subtext
+                )
+            )
         }
     }
 
@@ -172,7 +184,7 @@ class AppAdapter :
                 holder.badge.setTextColor(
                     ThemeColors.color(
                         holder.itemView.context,
-                        com.google.android.material.R.attr.colorOnPrimary,
+                        com.google.android.material.R.attr.colorOnSecondaryContainer,
                         R.color.text_on_accent_chip
                     )
                 )
@@ -184,7 +196,7 @@ class AppAdapter :
                 holder.badge.setTextColor(
                     ThemeColors.color(
                         holder.itemView.context,
-                        com.google.android.material.R.attr.colorOnPrimary,
+                        com.google.android.material.R.attr.colorOnPrimaryContainer,
                         R.color.text_on_accent_chip
                     )
                 )

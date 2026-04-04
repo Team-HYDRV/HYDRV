@@ -4,7 +4,7 @@
     android:insetRight="1dp"
     android:insetBottom="1dp">
     <shape android:shape="rectangle">
-        <solid android:color="#2C2C2E" />
+        <solid android:color="?attr/colorSurfaceVariant" />
         <corners android:radius="50dp" />
     </shape>
 </inset>
