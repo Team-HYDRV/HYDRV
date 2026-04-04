@@ -52,7 +52,7 @@ This example shows the catalogue shape for HYDRV’s signed download flow.
 1. The app opens the public catalogue.
 2. The public version URL points at `/token/<downloadId>`.
 3. The Worker checks `catalogue.private.json`.
-4. The Worker returns a short-lived signed `downloadUrl`.
+4. The Worker returns a signed `downloadUrl`.
 5. The app downloads from that signed URL.
 
 ## Cloudflare Settings

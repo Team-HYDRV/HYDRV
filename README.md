@@ -2,7 +2,7 @@
 
 [![Android CI](https://github.com/Team-HYDRV/HYDRV/actions/workflows/android-ci.yml/badge.svg)](https://github.com/Team-HYDRV/HYDRV/actions/workflows/android-ci.yml)
 
-HYDRV is a polished Android release browser for discovering app updates and downloading files through signed, short-lived links.
+HYDRV is a polished Android release browser for discovering app updates and downloading files through signed download links.
 
 ## What’s Inside
 
@@ -43,5 +43,5 @@ See [`RELEASES.md`](RELEASES.md) for the tag and publish checklist.
 
 - The app uses a public `catalogue.json` and a private `catalogue.private.json`.
 - Public catalogue entries point at token URLs.
-- The Worker resolves the private path and returns a short-lived signed download URL.
+- The Worker resolves the private path and returns a signed download URL.
 - The public website is hosted separately on Cloudflare, so it is not part of this repo.
