@@ -158,8 +158,8 @@ class AppAdapter :
             holder.fav.setColorFilter(
                 ThemeColors.color(
                     context,
-                    androidx.appcompat.R.attr.colorPrimary,
-                    R.color.accent
+                    com.google.android.material.R.attr.colorSecondary,
+                    R.color.subtext
                 )
             )
         } else {
