@@ -180,7 +180,13 @@ class AppAdapter :
             installed < latest -> {
                 holder.badge.visibility = View.VISIBLE
                 holder.badge.text = holder.itemView.context.getString(R.string.badge_update)
-                holder.badge.setBackgroundResource(R.drawable.badge_update)
+                holder.badge.setBackgroundResource(
+                    if (AppearancePreferences.isDynamicColorEnabled(holder.itemView.context)) {
+                        R.drawable.badge_update_material
+                    } else {
+                        R.drawable.badge_update
+                    }
+                )
                 holder.badge.setTextColor(
                     ThemeColors.color(
                         holder.itemView.context,
@@ -192,7 +198,13 @@ class AppAdapter :
             else -> {
                 holder.badge.visibility = View.VISIBLE
                 holder.badge.text = holder.itemView.context.getString(R.string.badge_installed)
-                holder.badge.setBackgroundResource(R.drawable.badge_installed)
+                holder.badge.setBackgroundResource(
+                    if (AppearancePreferences.isDynamicColorEnabled(holder.itemView.context)) {
+                        R.drawable.badge_installed_material
+                    } else {
+                        R.drawable.badge_installed
+                    }
+                )
                 holder.badge.setTextColor(
                     ThemeColors.color(
                         holder.itemView.context,
