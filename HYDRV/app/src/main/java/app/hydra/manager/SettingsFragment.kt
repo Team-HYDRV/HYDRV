@@ -106,6 +106,7 @@ class SettingsFragment : Fragment() {
     companion object {
         private const val PRESS_SCALE = 0.985f
         private const val UPDATES_DEBUG_REFRESH_MS = 2000L
+        private const val STATE_VISIBLE_SECTION = "settings_visible_section"
     }
 
     private enum class SettingsSection(val titleRes: Int) {
@@ -158,6 +159,7 @@ class SettingsFragment : Fragment() {
     private lateinit var downloadSortValue: TextView
     private lateinit var aboutVersionText: TextView
     private var currentVisiblePanel: View? = null
+    private var currentSection: SettingsSection? = null
     private val mainHandler = Handler(Looper.getMainLooper())
     private val updatesDebugRefreshRunnable = object : Runnable {
         override fun run() {
@@ -248,7 +250,14 @@ class SettingsFragment : Fragment() {
         updateUpdatesSummary()
         updateSortLabels()
         updateAboutVersion()
-        showOverview()
+        val restoredSection = savedInstanceState
+            ?.getString(STATE_VISIBLE_SECTION)
+            ?.let { sectionName -> runCatching { SettingsSection.valueOf(sectionName) }.getOrNull() }
+        if (restoredSection != null) {
+            showSection(restoredSection)
+        } else {
+            showOverview()
+        }
 
         backButton.setOnClickListener {
             showOverview()
@@ -443,6 +452,7 @@ class SettingsFragment : Fragment() {
     }
 
     private fun showOverview() {
+        currentSection = null
         animateHeaderTitle(getString(R.string.settings_title))
         backButton.animate()
             .alpha(0f)
@@ -455,6 +465,7 @@ class SettingsFragment : Fragment() {
     }
 
     private fun showSection(section: SettingsSection) {
+        currentSection = section
         val targetView = when (section) {
             SettingsSection.GENERAL -> generalSection
             SettingsSection.UPDATES -> updatesSection
@@ -512,6 +523,11 @@ class SettingsFragment : Fragment() {
             .setDuration(120)
             .start()
         currentVisiblePanel = target
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        currentSection?.name?.let { outState.putString(STATE_VISIBLE_SECTION, it) }
     }
 
     private fun animateHeaderTitle(title: String) {
