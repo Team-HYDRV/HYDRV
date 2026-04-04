@@ -31,6 +31,12 @@ See [`HYDRV/docs/backend-example.md`](HYDRV/docs/backend-example.md) for a simpl
 
 See [`RELEASES.md`](RELEASES.md) for the simple tag and release checklist.
 
+## GitHub Hygiene
+
+- Open issues with the templates in `.github/ISSUE_TEMPLATE/`
+- Open pull requests with the template in `.github/PULL_REQUEST_TEMPLATE.md`
+- Keep release notes in [`CHANGELOG.md`](CHANGELOG.md)
+
 ## Notes
 
 - The app uses a public `catalogue.json` and a private `catalogue.private.json`.
