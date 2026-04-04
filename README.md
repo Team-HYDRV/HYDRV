@@ -3,20 +3,6 @@
 </p>
 
 <p align="center">
-  <img src="assets/ic_rounded.png" alt="HYDRV logo" width="176">
-</p>
-
-<h1 align="center">HYDRV</h1>
-
-<p align="center">
-  <strong>Android release browsing, kept clean.</strong>
-</p>
-
-<p align="center">
-  <em>An Android release browser with a Cloudflare-backed catalogue, GitHub release awareness, and a polished update flow.</em>
-</p>
-
-<p align="center">
   <a href="https://github.com/Team-HYDRV/HYDRV/actions/workflows/android-ci.yml">
     <img src="https://github.com/Team-HYDRV/HYDRV/actions/workflows/android-ci.yml/badge.svg" alt="Android CI">
   </a>

@@ -6,46 +6,37 @@
       <stop stop-color="#0D0E12"/>
       <stop offset="1" stop-color="#15181F"/>
     </linearGradient>
-    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(480 180) rotate(20) scale(460 240)">
-      <stop stop-color="#22C55E" stop-opacity="0.28"/>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(420 180) rotate(20) scale(480 250)">
+      <stop stop-color="#22C55E" stop-opacity="0.24"/>
       <stop offset="1" stop-color="#22C55E" stop-opacity="0"/>
     </radialGradient>
-    <filter id="shadow" x="0" y="0" width="1600" height="420" filterUnits="userSpaceOnUse">
-      <feDropShadow dx="0" dy="24" stdDeviation="24" flood-color="#000000" flood-opacity="0.35"/>
-    </filter>
   </defs>
 
   <rect width="1600" height="420" rx="36" fill="url(#bg)"/>
   <rect width="1600" height="420" rx="36" fill="url(#glow)"/>
 
-  <g opacity="0.18" stroke="#FFFFFF" stroke-width="1">
+  <g opacity="0.14" stroke="#FFFFFF" stroke-width="1">
     <path d="M90 90H1510"/>
     <path d="M90 330H1510"/>
     <path d="M90 90V330"/>
     <path d="M1510 90V330"/>
   </g>
 
-  <g filter="url(#shadow)">
-    <rect x="86" y="84" width="160" height="160" rx="42" fill="#1A1D25"/>
-    <rect x="108" y="106" width="116" height="116" rx="32" fill="#111318"/>
-    <image href="ic_rounded.png" x="116" y="114" width="100" height="100" preserveAspectRatio="xMidYMid meet"/>
-  </g>
+  <text x="110" y="166" fill="#F7F8FA" font-family="Segoe UI, Arial, sans-serif" font-size="72" font-weight="800" letter-spacing="-1.5">HYDRV</text>
+  <text x="110" y="220" fill="#B9BEC8" font-family="Segoe UI, Arial, sans-serif" font-size="30" font-weight="500">Android release browsing, kept clean.</text>
+  <text x="110" y="270" fill="#9EA3AD" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="400">Signed downloads • GitHub release awareness • Cloudflare-backed catalogue</text>
 
-  <text x="292" y="168" fill="#F7F8FA" font-family="Segoe UI, Arial, sans-serif" font-size="74" font-weight="800" letter-spacing="-1.5">HYDRV</text>
-  <text x="292" y="222" fill="#B9BEC8" font-family="Segoe UI, Arial, sans-serif" font-size="30" font-weight="500">Android release browsing, kept clean.</text>
-  <text x="292" y="272" fill="#9EA3AD" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="400">Signed downloads • GitHub release awareness • Cloudflare-backed catalogue</text>
-
-  <g transform="translate(292 300)">
+  <g transform="translate(110 300)">
     <rect width="172" height="46" rx="23" fill="#22C55E" fill-opacity="0.16"/>
     <text x="22" y="31" fill="#28E06F" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="700">Release ready</text>
   </g>
 
-  <g transform="translate(478 300)">
+  <g transform="translate(296 300)">
     <rect width="170" height="46" rx="23" fill="#FFFFFF" fill-opacity="0.06"/>
     <text x="22" y="31" fill="#E7EAF0" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="700">Signed flow</text>
   </g>
 
-  <g transform="translate(662 300)">
+  <g transform="translate(480 300)">
     <rect width="236" height="46" rx="23" fill="#FFFFFF" fill-opacity="0.06"/>
     <text x="22" y="31" fill="#E7EAF0" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="700">GitHub release aware</text>
   </g>
