@@ -307,7 +307,7 @@
     <string name="updates_check_live_generic">New release is available in HYDRV.</string>
     <string name="updates_check_up_to_date">You\'re up to date.</string>
     <string name="about_version_code_format">Version %1$s (%2$d)</string>
-    <string name="about_tagline">Fast Android app updates and package tools, kept simple.</string>
+    <string name="about_tagline">Clean release browsing, short-lived downloads, and package tools, kept simple.</string>
     <string name="about_link_website">Website</string>
     <string name="about_link_discord">Discord</string>
     <string name="about_link_donate">Donate</string>
@@ -318,7 +318,7 @@
     <string name="about_link_github_caption">Source, commits, and issue history</string>
     <string name="about_quick_label">Quick links</string>
     <string name="about_description_title">About HYDRV</string>
-    <string name="about_description_body">HYDRV helps you browse app releases, manage downloads, and keep package installs moving from one place.</string>
+    <string name="about_description_body">HYDRV keeps app releases, signed downloads, and package installs in one calm place, so updates stay easy to browse and simple to manage.</string>
     <string name="about_focus_label">Built for clean package management</string>
     <string name="about_issue_title">Report a problem</string>
     <string name="about_issue_summary">Send bugs, rough edges, or ideas that could make HYDRV better.</string>

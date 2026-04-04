@@ -2,12 +2,13 @@
 
 [![Android CI](https://github.com/Team-HYDRV/HYDRV/actions/workflows/android-ci.yml/badge.svg)](https://github.com/Team-HYDRV/HYDRV/actions/workflows/android-ci.yml)
 
-HYDRV is an Android app for browsing releases and downloading files through short-lived links.
+HYDRV is a polished Android release browser for discovering app updates and downloading files through short-lived, tokenized links.
 
-## Repo Layout
+## What’s Inside
 
 - `HYDRV/` - Android app source
-- `HYDRV/docs/` - extra docs and backend examples
+- `HYDRV/docs/` - backend examples and release notes
+- `.github/` - CI, release, and contribution templates
 
 ## Quick Start
 
@@ -25,17 +26,18 @@ From `HYDRV/`:
 
 ## Backend Example
 
-See [`HYDRV/docs/backend-example.md`](HYDRV/docs/backend-example.md) for a simple Cloudflare Worker + R2 catalogue example that matches the app's token flow.
+See [`HYDRV/docs/backend-example.md`](HYDRV/docs/backend-example.md) for a Cloudflare Worker + R2 example that matches the app’s signed download flow.
 
 ## Releases
 
-See [`RELEASES.md`](RELEASES.md) for the simple tag and release checklist.
+See [`RELEASES.md`](RELEASES.md) for the tag and publish checklist.
 
-## GitHub Hygiene
+## GitHub Workflow
 
 - Open issues with the templates in `.github/ISSUE_TEMPLATE/`
 - Open pull requests with the template in `.github/PULL_REQUEST_TEMPLATE.md`
 - Keep release notes in [`CHANGELOG.md`](CHANGELOG.md)
+- GitHub Actions handles CI and APK release builds
 
 ## Notes
 

@@ -1,6 +1,6 @@
 # Backend Example
 
-This example shows the expected catalogue shape for the current token-based download flow.
+This example shows the catalogue shape for HYDRV’s signed download flow.
 
 ## Public Catalogue
 
@@ -47,7 +47,7 @@ This example shows the expected catalogue shape for the current token-based down
 ]
 ```
 
-## Worker Behavior
+## Flow
 
 1. The app opens the public catalogue.
 2. The public version URL points at `/token/<downloadId>`.
