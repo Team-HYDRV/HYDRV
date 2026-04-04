@@ -33,31 +33,22 @@ object CatalogValidation {
                 val versionNumbers = mutableSetOf<Int>()
                 val versions = app.versions.filter { version ->
                     val versionName = runCatching { version.version_name.trim() }.getOrDefault("")
-                    val versionUrl = runCatching { version.url.trim() }.getOrDefault("download link")
+                    val versionUrl = runCatching { version.url.trim() }.getOrDefault("")
                     version.version > 0 &&
                         versionName.isNotEmpty() &&
                         versionUrl.isNotEmpty() &&
                         versionNumbers.add(version.version)
                 }
 
-                val safeVersions = if (versions.isEmpty()) {
-                    listOf(
-                        Version(
-                            version = 1,
-                            version_name = "Unavailable",
-                            url = "download link",
-                            changelog = "Version data unavailable"
-                        )
-                    )
-                } else {
-                    versions
+                if (versions.isEmpty()) {
+                    return@forEach
                 }
 
                 sanitized.add(
                     app.copy(
                         packageName = packageName,
                         icon = icon,
-                        versions = safeVersions
+                        versions = versions
                     )
                 )
             }

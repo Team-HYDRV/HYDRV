@@ -19,11 +19,7 @@ object ReleaseVersionComparator {
             return false
         }
 
-        val currentNormalized = normalize(currentVersion)
-        val latestNormalized = normalize(latestVersion)
-        return latestNormalized.isNotBlank() &&
-            currentNormalized.isNotBlank() &&
-            latestNormalized != currentNormalized
+        return false
     }
 
     fun displayLabel(tag: String, name: String): String {
