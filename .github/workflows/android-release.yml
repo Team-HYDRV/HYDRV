@@ -40,7 +40,7 @@ jobs:
           echo "apk_path=$apk_path" >> "$GITHUB_OUTPUT"
 
       - name: Upload APK artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: HYDRV-release-apk
           path: ${{ steps.find_apk.outputs.apk_path }}
