@@ -62,17 +62,17 @@ object Downloader {
         val requestUrl = item.url.trim().toHttpUrlOrNull() ?: return false
         val isTokenEndpoint = requestUrl.encodedPath.contains("/token/", ignoreCase = true)
 
-        val existingFile = if (!forceFresh) {
+        var file = if (!forceFresh) {
             item.filePath.takeIf { it.isNotBlank() }?.let(::File)
         } else {
             null
         }
-        val file = if (existingFile?.exists() == true) {
-            existingFile
+        file = if (file?.exists() == true) {
+            file
         } else {
             File(
                 context.getExternalFilesDir(null),
-                "${item.name}_${item.versionName}_${System.currentTimeMillis()}.apk"
+                suggestDownloadFileName(requestUrl.encodedPath, item, "download.bin")
             ).also {
                 item.filePath = it.absolutePath
             }
@@ -221,6 +221,8 @@ object Downloader {
                     }
 
                     val body = response.body ?: return
+                    file = resolveDownloadFile(context, item, requestUrl, response, file, forceFresh)
+                    item.filePath = file.absolutePath
                     val isPartialResponse = response.code == 206 && resumeBytes > 0L
                     val startingBytes = if (isPartialResponse) resumeBytes else 0L
                     val total = body.contentLength().takeIf { it > 0L } ?: 0L
@@ -494,6 +496,107 @@ object Downloader {
         startFileRequest(requestUrl.toString())
 
         return true
+    }
+
+    private fun resolveDownloadFile(
+        context: Context,
+        item: DownloadItem,
+        requestUrl: okhttp3.HttpUrl,
+        response: Response,
+        currentFile: File?,
+        forceFresh: Boolean
+    ): File {
+        val suggestedName = suggestDownloadFileName(
+            requestUrl.encodedPath,
+            item,
+            response.header("Content-Disposition")
+                ?.let(::extractFilenameFromContentDisposition)
+                ?: response.header("Content-Type")
+                ?.let(::fileExtensionFromContentType)
+                ?.let { ext -> "download$ext" }
+                ?: "download.bin"
+        )
+
+        val current = currentFile?.takeIf { it.exists() && !forceFresh }
+        if (current != null) {
+            val currentNameMatches = current.name.equals(suggestedName, ignoreCase = true)
+            if (currentNameMatches) return current
+
+            val renamed = File(current.parentFile, suggestedName)
+            if (current.absolutePath != renamed.absolutePath) {
+                runCatching {
+                    current.parentFile?.mkdirs()
+                    if (current.renameTo(renamed)) {
+                        return renamed
+                    }
+                }
+            }
+            return current
+        }
+
+        return File(context.getExternalFilesDir(null), suggestedName)
+    }
+
+    private fun suggestDownloadFileName(encodedPath: String, item: DownloadItem, fallbackName: String): String {
+        val pathName = encodedPath
+            .substringAfterLast('/', "")
+            .takeIf { it.isNotBlank() && it != "token" && it != "download" }
+
+        val baseName = pathName
+            ?: item.name.trim().ifBlank { fallbackName }
+
+        val sanitized = sanitizeFileName(baseName)
+        return when {
+            sanitized.endsWith(".apk", ignoreCase = true) -> sanitized
+            sanitized.contains('.') -> sanitized
+            else -> sanitized
+        }
+    }
+
+    private fun sanitizeFileName(value: String): String {
+        val clean = value.trim()
+            .substringAfterLast('/')
+            .substringAfterLast('\\')
+            .replace(Regex("[\\\\/:*?\"<>|]"), "_")
+            .ifBlank { "download.bin" }
+
+        return clean
+    }
+
+    private fun extractFilenameFromContentDisposition(disposition: String): String? {
+        val direct = Regex("""filename\*=UTF-8''([^;]+)""", RegexOption.IGNORE_CASE)
+            .find(disposition)
+            ?.groupValues
+            ?.getOrNull(1)
+            ?.trim()
+            ?.takeIf { it.isNotBlank() }
+            ?.let { runCatching { java.net.URLDecoder.decode(it, Charsets.UTF_8.name()) }.getOrDefault(it) }
+
+        if (!direct.isNullOrBlank()) return sanitizeFileName(direct)
+
+        val simple = Regex("""filename="?([^";]+)"?""", RegexOption.IGNORE_CASE)
+            .find(disposition)
+            ?.groupValues
+            ?.getOrNull(1)
+            ?.trim()
+            ?.takeIf { it.isNotBlank() }
+
+        return simple?.let(::sanitizeFileName)
+    }
+
+    private fun fileExtensionFromContentType(contentType: String): String? {
+        val normalized = contentType.substringBefore(';').trim().lowercase()
+        return when (normalized) {
+            "application/vnd.android.package-archive" -> ".apk"
+            "application/zip", "application/x-zip-compressed" -> ".zip"
+            "application/json" -> ".json"
+            "text/plain" -> ".txt"
+            "text/csv" -> ".csv"
+            "application/xml", "text/xml" -> ".xml"
+            "text/html" -> ".html"
+            "application/pdf" -> ".pdf"
+            else -> null
+        }
     }
 
 }
