@@ -221,6 +221,13 @@ class VersionSheet(
                 containerLayout,
                 false
             )
+            card.setBackgroundResource(
+                if (AppearancePreferences.isDynamicColorEnabled(ctx)) {
+                    R.drawable.card
+                } else {
+                    R.drawable.version_sheet_card_brand
+                }
+            )
 
             val title = card.findViewById<TextView>(R.id.versionTitle)
             val changelog = card.findViewById<TextView>(R.id.versionChangelog)
