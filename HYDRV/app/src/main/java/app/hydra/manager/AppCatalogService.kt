@@ -179,14 +179,14 @@ object AppCatalogService {
     private fun parse(raw: String): Result<List<AppModel>> {
         return try {
             val apps = sanitizeParsedApps(parseRawApps(raw))
-            val validated = CatalogValidation.validate(apps).getOrNull()
-            Result.success(
-                when {
-                    !validated.isNullOrEmpty() -> validated
-                    apps.isNotEmpty() -> apps
-                    else -> emptyList()
-                }
-            )
+            val validation = CatalogValidation.validate(apps)
+            if (validation.isSuccess) {
+                Result.success(validation.getOrThrow())
+            } else {
+                Result.success(
+                    apps.filter { it.versions.isNotEmpty() }
+                )
+            }
         } catch (e: Exception) {
             Result.failure(e)
         }
@@ -226,7 +226,7 @@ object AppCatalogService {
                     val safeUrl = text(version.url)
                     val safeChangelog = text(version.changelog)
 
-                    if (safeVersionName.isEmpty()) return@mapNotNull null
+                    if (safeVersionName.isEmpty() || safeUrl.isEmpty()) return@mapNotNull null
 
                     version.copy(
                         version_name = safeVersionName,
