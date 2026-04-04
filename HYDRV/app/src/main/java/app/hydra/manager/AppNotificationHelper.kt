@@ -16,6 +16,7 @@ object AppNotificationHelper {
 
     const val CHANNEL_UPDATES = "updates"
     private const val NOTIFICATION_ID_UPDATES = 1001
+    private const val NOTIFICATION_ID_RELEASE_UPDATES = 1002
 
     fun ensureChannels(context: Context) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
@@ -68,5 +69,39 @@ object AppNotificationHelper {
             .build()
 
         NotificationManagerCompat.from(context).notify(NOTIFICATION_ID_UPDATES, notification)
+    }
+
+    fun showReleaseUpdateNotification(context: Context, releaseLabel: String? = null) {
+        ensureChannels(context)
+        if (!NotificationPreferences.areUpdateNotificationsEnabled(context)) return
+        if (!canPostNotifications(context)) return
+
+        val intent = Intent(context, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+        }
+
+        val pendingIntent = PendingIntent.getActivity(
+            context,
+            0,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
+        val contentText = if (releaseLabel.isNullOrBlank()) {
+            context.getString(R.string.notification_text_release_live)
+        } else {
+            context.getString(R.string.notification_text_release_live_with_version, releaseLabel)
+        }
+
+        val notification = NotificationCompat.Builder(context, CHANNEL_UPDATES)
+            .setSmallIcon(android.R.drawable.stat_notify_sync)
+            .setContentTitle(context.getString(R.string.notification_title_release_live))
+            .setContentText(contentText)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setAutoCancel(true)
+            .setContentIntent(pendingIntent)
+            .build()
+
+        NotificationManagerCompat.from(context).notify(NOTIFICATION_ID_RELEASE_UPDATES, notification)
     }
 }

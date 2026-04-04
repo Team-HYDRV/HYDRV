@@ -46,8 +46,6 @@
 
     <string name="updates_never_checked">Nunca revisado</string>
     <string name="updates_debug_last_checked_format">Última revisión: %1$s</string>
-    <string name="updates_debug_last_seen_hash_format">Último hash visto: %1$d</string>
-    <string name="updates_debug_last_notified_hash_format">Último hash notificado: %1$d</string>
     <string name="home_search_hint">Buscar apps</string>
     <string name="home_updated_just_now">Actualizado justo ahora</string>
     <string name="home_empty_no_items">Aún no hay elementos</string>

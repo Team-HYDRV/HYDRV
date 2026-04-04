@@ -10,25 +10,30 @@ class AppUpdateWorker(
 ) : Worker(appContext, workerParams) {
 
     override fun doWork(): Result {
-        val result = AppCatalogService.fetchAppsSync(
-            applicationContext,
-            allowCacheFallback = false,
-            bypassRemoteCache = true
-        )
-        val apps = result.getOrElse { return Result.retry() }.apps
-        val newHash = CatalogFingerprint.hash(apps)
-        val lastSeenHash = AppUpdateState.getLastSeenHash(applicationContext)
-        val lastNotifiedHash = AppUpdateState.getLastNotifiedHash(applicationContext)
+        val result = GitHubRepository.fetchLatestReleaseSync()
+        val latestRelease = result.getOrElse { return Result.retry() }
+        val currentVersion = try {
+            applicationContext.packageManager.getPackageInfo(applicationContext.packageName, 0).versionName ?: "1.0"
+        } catch (_: Exception) {
+            "1.0"
+        }
+        val latestTag = latestRelease.tagName.trim()
+        val hasUpdate = ReleaseVersionComparator.isNewer(currentVersion, latestTag)
+        val lastSeenTag = ReleaseUpdateState.getLastSeenTag(applicationContext)
+        val lastNotifiedTag = ReleaseUpdateState.getLastNotifiedTag(applicationContext)
 
-        if (lastSeenHash != 0 && newHash != lastSeenHash && newHash != lastNotifiedHash) {
-            AppNotificationHelper.showBackendUpdateNotification(applicationContext)
-            AppUpdateState.setLastNotifiedHash(applicationContext, newHash)
+        if (latestTag.isNotBlank()) {
+            if (hasUpdate && latestTag != lastSeenTag && latestTag != lastNotifiedTag) {
+                AppNotificationHelper.showReleaseUpdateNotification(
+                    applicationContext,
+                    latestRelease.displayLabel()
+                )
+                ReleaseUpdateState.setLastNotifiedTag(applicationContext, latestTag)
+            }
+            ReleaseUpdateState.setLastSeenTag(applicationContext, latestTag)
         }
 
-        if (newHash != 0) {
-            AppUpdateState.setLastSeenHash(applicationContext, newHash)
-        }
-        AppUpdateState.setLastCheckedAt(applicationContext, System.currentTimeMillis())
+        ReleaseUpdateState.setLastCheckedAt(applicationContext, System.currentTimeMillis())
 
         return Result.success()
     }

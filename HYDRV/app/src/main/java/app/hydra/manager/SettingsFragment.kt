@@ -865,10 +865,9 @@ class SettingsFragment : Fragment() {
 
     private fun updateUpdatesSummary() {
         val context = requireContext()
-        val checkedAt = AppUpdateState.getLastCheckedAt(context)
-        val lastSeenHash = AppUpdateState.getLastSeenHash(context)
-        val lastNotifiedHash = AppUpdateState.getLastNotifiedHash(context)
-        val hasCache = AppCatalogService.readCachedApps(context)?.isSuccess == true
+        val checkedAt = ReleaseUpdateState.getLastCheckedAt(context)
+        val lastSeenTag = ReleaseUpdateState.getLastSeenTag(context)
+        val lastNotifiedTag = ReleaseUpdateState.getLastNotifiedTag(context)
         val versionName = try {
             context.packageManager.getPackageInfo(context.packageName, 0).versionName ?: "1.0.0"
         } catch (_: Exception) {
@@ -883,11 +882,9 @@ class SettingsFragment : Fragment() {
         updatesDebugText.text = buildString {
             append(getString(R.string.updates_debug_last_checked_format, formattedCheck))
             append('\n')
-            append(getString(R.string.updates_debug_last_seen_hash_format, lastSeenHash))
+            append(getString(R.string.updates_debug_last_seen_release_format, lastSeenTag.ifBlank { getString(R.string.updates_release_unavailable) }))
             append('\n')
-            append(getString(R.string.updates_debug_last_notified_hash_format, lastNotifiedHash))
-            append('\n')
-            append(getString(R.string.updates_debug_cache_status_format, if (hasCache) getString(R.string.backend_health_cache_ready) else getString(R.string.backend_health_cache_missing)))
+            append(getString(R.string.updates_debug_last_notified_release_format, lastNotifiedTag.ifBlank { getString(R.string.updates_release_unavailable) }))
             append('\n')
             append(getString(R.string.updates_debug_notifications_format, if (NotificationPreferences.areUpdateNotificationsEnabled(context)) getString(R.string.debug_enabled) else getString(R.string.debug_disabled)))
         }
@@ -1014,11 +1011,39 @@ class SettingsFragment : Fragment() {
     }
 
     private fun showUpdatesChangelogDialog() {
-        MaterialAlertDialogBuilder(requireContext())
+        val context = requireContext()
+        val dialog = MaterialAlertDialogBuilder(context)
             .setTitle(R.string.updates_changelog_title)
-            .setMessage(R.string.updates_changelog_body)
+            .setMessage(R.string.updates_changelog_loading)
             .setPositiveButton(R.string.about_dialog_close, null)
             .show()
+
+        GitHubRepository.fetchLatestRelease { result ->
+            result.onSuccess { release ->
+                if (!isAdded) return@onSuccess
+                val body = release.body?.trim().orEmpty()
+                val message = buildString {
+                    appendLine(release.displayLabel())
+                    appendLine(release.htmlUrl)
+                    appendLine()
+                    append(
+                        if (body.isNotBlank()) {
+                            body
+                        } else {
+                            getString(R.string.release_details_unavailable)
+                        }
+                    )
+                }
+                if (dialog.isShowing) {
+                    dialog.setMessage(message)
+                }
+            }.onFailure {
+                if (!isAdded) return@onFailure
+                if (dialog.isShowing) {
+                    dialog.setMessage(getString(R.string.updates_changelog_body))
+                }
+            }
+        }
     }
 
     private fun runManualUpdateCheck() {
@@ -1035,14 +1060,14 @@ class SettingsFragment : Fragment() {
             val message = if (result == null) {
                 getString(R.string.updates_check_failed)
             } else {
-                AppUpdateState.setLastCheckedAt(requireContext(), result.checkedAt)
+                ReleaseUpdateState.setLastCheckedAt(requireContext(), result.checkedAt)
                 updateUpdatesSummary()
                 if (result.hasChanges) {
-                    if (!result.latestAppName.isNullOrBlank() && !result.latestVersionName.isNullOrBlank()) {
+                    if (!result.latestReleaseName.isNullOrBlank()) {
                         getString(
                             R.string.updates_check_live_with_version,
-                            result.latestAppName,
-                            result.latestVersionName
+                            getString(R.string.app_name),
+                            result.latestReleaseName
                         )
                     } else {
                         getString(R.string.updates_check_live_generic)

@@ -337,12 +337,11 @@ class MainActivity : AppCompatActivity() {
 
         UpdateCheckManager.runCheck(this) { result ->
             result ?: return@runCheck
-            AppUpdateState.setLastCheckedAt(this, result.checkedAt)
 
             if (result.hasChanges && UpdatePreferences.isLaunchMessageEnabled(this)) {
                 AppSnackbar.show(
                     findViewById(R.id.rootLayout),
-                    getString(R.string.new_changes_available),
+                    getString(R.string.updates_check_live_generic),
                     Snackbar.LENGTH_LONG
                 )
             }

@@ -46,8 +46,6 @@
 
     <string name="updates_never_checked">Hindi pa nasusuri</string>
     <string name="updates_debug_last_checked_format">Huling tsek: %1$s</string>
-    <string name="updates_debug_last_seen_hash_format">Huling nakitang hash: %1$d</string>
-    <string name="updates_debug_last_notified_hash_format">Huling naabisuhang hash: %1$d</string>
     <string name="home_search_hint">Maghanap ng app</string>
     <string name="home_updated_just_now">Kaka-update lang</string>
     <string name="home_empty_no_items">Wala pang laman</string>

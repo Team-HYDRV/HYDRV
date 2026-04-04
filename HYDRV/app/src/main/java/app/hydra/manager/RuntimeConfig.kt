@@ -1,6 +1,20 @@
 package app.hydra.manager
 
 object RuntimeConfig {
+    const val githubOwner = "Team-HYDRV"
+    const val githubRepo = "HYDRV"
+
+    val githubRepoUrl: String
+        get() = "https://github.com/$githubOwner/$githubRepo"
+
+    val githubApiBaseUrl: String
+        get() = "https://api.github.com/repos/$githubOwner/$githubRepo"
+
+    val githubLatestReleaseUrl: String
+        get() = "$githubApiBaseUrl/releases/latest"
+
+    val githubContributorsUrl: String
+        get() = "$githubApiBaseUrl/contributors?per_page=100"
 
     val rewardedAdUnitId: String
         get() = listOf(

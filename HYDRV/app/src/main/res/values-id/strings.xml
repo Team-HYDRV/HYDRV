@@ -46,8 +46,6 @@
 
     <string name="updates_never_checked">Belum pernah dicek</string>
     <string name="updates_debug_last_checked_format">Terakhir dicek: %1$s</string>
-    <string name="updates_debug_last_seen_hash_format">Hash terakhir terlihat: %1$d</string>
-    <string name="updates_debug_last_notified_hash_format">Hash terakhir diberi notifikasi: %1$d</string>
     <string name="home_search_hint">Cari aplikasi</string>
     <string name="home_updated_just_now">Baru saja diperbarui</string>
     <string name="home_empty_no_items">Belum ada item</string>

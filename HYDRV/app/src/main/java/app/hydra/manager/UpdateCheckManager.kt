@@ -6,42 +6,48 @@ object UpdateCheckManager {
 
     data class Result(
         val hasChanges: Boolean,
-        val latestHash: Int,
         val checkedAt: Long,
-        val latestAppName: String?,
-        val latestVersionName: String?
+        val latestReleaseTag: String?,
+        val latestReleaseName: String?,
+        val latestReleaseUrl: String?
     )
 
     fun runCheck(
         context: Context,
         onResult: (Result?) -> Unit
     ) {
-        AppCatalogService.fetchApps(
-            context,
-            allowCacheFallback = false,
-            bypassRemoteCache = true
-        ) { result ->
-            result.onSuccess { fetchResult ->
-                val apps = fetchResult.apps
-                val hash = CatalogFingerprint.hash(apps)
-                val previousHash = AppUpdateState.getLastSeenHash(context)
-                val latestApp = apps.maxByOrNull { it.latestVersionSortKey() }
-                val latestVersion = latestApp?.versions?.maxByOrNull { it.version }
+        GitHubRepository.fetchLatestRelease { result ->
+            result.onSuccess { latestRelease ->
                 val now = System.currentTimeMillis()
+                val currentVersion = getCurrentVersionName(context)
+                val latestTag = latestRelease.tagName.trim()
+                val latestName = latestRelease.displayLabel()
+                val hasChanges = ReleaseVersionComparator.isNewer(currentVersion, latestTag)
+                val latestVersionLabel = if (latestTag.isNotBlank()) latestTag else latestName
 
-                AppUpdateState.setLastSeenHash(context, hash)
+                ReleaseUpdateState.setLastSeenTag(context, latestTag)
+                ReleaseUpdateState.setLastCheckedAt(context, now)
+
                 onResult(
                     Result(
-                        hasChanges = previousHash != 0 && hash != previousHash,
-                        latestHash = hash,
+                        hasChanges = hasChanges,
                         checkedAt = now,
-                        latestAppName = latestApp?.name,
-                        latestVersionName = latestVersion?.version_name
+                        latestReleaseTag = latestTag,
+                        latestReleaseName = latestVersionLabel,
+                        latestReleaseUrl = latestRelease.htmlUrl
                     )
                 )
             }.onFailure {
                 onResult(null)
             }
+        }
+    }
+
+    private fun getCurrentVersionName(context: Context): String {
+        return try {
+            context.packageManager.getPackageInfo(context.packageName, 0).versionName ?: "1.0"
+        } catch (_: Exception) {
+            "1.0"
         }
     }
 }
