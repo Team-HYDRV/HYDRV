@@ -119,12 +119,12 @@
             android:background="@drawable/version_download_button_bg"
             android:clipToOutline="true">
 
-            <View
+            <ImageView
                 android:id="@+id/versionDownloadFill"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_gravity="start"
-                android:background="@drawable/version_download_fill" />
+                android:scaleType="fitXY"
+                android:src="@drawable/version_download_fill_clip" />
 
             <LinearLayout
                 android:id="@+id/versionDownloadContent"

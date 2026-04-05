@@ -766,46 +766,52 @@ class VersionSheet(
         onUpdate: ((Int) -> Unit)? = null,
         onEnd: (() -> Unit)? = null
     ) {
-        val trackView = fillView.parent as? View ?: return
-        val trackWidth = trackView.width
-        if (trackWidth <= 0) {
-            trackView.post { animateFillTo(fillView, percent, onUpdate, onEnd) }
-            return
-        }
+        val imageView = fillView as? ImageView ?: return
+        val currentLevel = (imageView.getTag(R.id.versionDownloadFill) as? Int) ?: 0
+        val targetLevel = percent.coerceIn(0, 100) * 100
 
-        val targetWidth = ((trackWidth * percent.coerceIn(0, 100)) / 100f).toInt()
-        val layoutParams = fillView.layoutParams as? FrameLayout.LayoutParams ?: return
-        val currentWidth = (fillView.getTag(R.id.versionDownloadFill) as? Int) ?: layoutParams.width.coerceAtLeast(0)
+        (imageView.getTag(R.id.versionDownloadTrack) as? ValueAnimator)?.cancel()
 
-        (fillView.getTag(R.id.versionDownloadTrack) as? ValueAnimator)?.cancel()
-
-        if (currentWidth == targetWidth) {
-            onUpdate?.invoke(percent.coerceIn(0, 100))
+        if (currentLevel == targetLevel) {
+            onUpdate?.invoke(targetLevel / 100)
             onEnd?.invoke()
             return
         }
 
-        ValueAnimator.ofInt(currentWidth, targetWidth).apply {
-            duration = (200L + (kotlin.math.abs(targetWidth - currentWidth) * 4L / 10L)).coerceAtMost(520L)
+        if (targetLevel != 10_000) {
+            imageView.setImageLevel(targetLevel)
+            imageView.setTag(R.id.versionDownloadFill, targetLevel)
+            imageView.setTag(R.id.versionDownloadTrack, null)
+            onUpdate?.invoke(targetLevel / 100)
+            onEnd?.invoke()
+            return
+        }
+
+        val delta = kotlin.math.abs(targetLevel - currentLevel) / 100
+        ValueAnimator.ofInt(currentLevel, targetLevel).apply {
+            duration = if (targetLevel == 10_000) {
+                (290L + (delta * 9L)).coerceAtMost(640L)
+            } else {
+                (200L + (delta * 7L)).coerceAtMost(460L)
+            }
             interpolator = DecelerateInterpolator()
             addUpdateListener { animator ->
                 val level = animator.animatedValue as Int
-                layoutParams.width = level
-                fillView.layoutParams = layoutParams
-                fillView.setTag(R.id.versionDownloadFill, level)
-                onUpdate?.invoke(((level * 100f) / trackWidth).toInt())
+                imageView.setImageLevel(level)
+                imageView.setTag(R.id.versionDownloadFill, level)
+                onUpdate?.invoke(level / 100)
             }
             addListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationEnd(animation: Animator) {
-                    fillView.setTag(R.id.versionDownloadTrack, null)
-                    if (targetWidth >= trackWidth) {
-                        fillView.postDelayed({ onEnd?.invoke() }, DONE_HOLD_MS)
+                    imageView.setTag(R.id.versionDownloadTrack, null)
+                    if (targetLevel == 10_000) {
+                        imageView.postDelayed({ onEnd?.invoke() }, DONE_HOLD_MS)
                     } else {
                         onEnd?.invoke()
                     }
                 }
             })
-            fillView.setTag(R.id.versionDownloadTrack, this)
+            imageView.setTag(R.id.versionDownloadTrack, this)
             start()
         }
     }
@@ -814,7 +820,7 @@ class VersionSheet(
         val trackRes = versionTrackDrawable(context)
         val fillRes = versionFillDrawable(context)
         views.track.setBackgroundResource(trackRes)
-        views.fill.setBackgroundResource(fillRes)
+        (views.fill as? ImageView)?.setImageResource(fillRes)
         views.label.setTextColor(
             ThemeColors.color(
                 context,
@@ -841,17 +847,17 @@ class VersionSheet(
 
     private fun versionFillDrawable(context: android.content.Context): Int {
         return if (AppearancePreferences.isDynamicColorEnabled(context)) {
-            R.drawable.version_download_fill
+            R.drawable.version_download_fill_clip
         } else {
-            R.drawable.version_download_fill_brand
+            R.drawable.version_download_fill_brand_clip
         }
     }
 
     private fun versionErrorFillDrawable(context: android.content.Context): Int {
         return if (AppearancePreferences.isDynamicColorEnabled(context)) {
-            R.drawable.version_download_fill_error
+            R.drawable.version_download_fill_error_clip
         } else {
-            R.drawable.version_download_fill_error
+            R.drawable.version_download_fill_error_clip
         }
     }
 
