@@ -1034,7 +1034,7 @@
                         android:paddingHorizontal="18dp"
                         android:text="@string/updates_view_changelog"
                         android:textAllCaps="false"
-                        android:textColor="?attr/colorOnPrimaryContainer" />
+                        android:textColor="?attr/colorOnBackground" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -1160,7 +1160,7 @@
                     android:paddingHorizontal="20dp"
                     android:text="@string/updates_check_now"
                     android:textAllCaps="false"
-                    android:textColor="?attr/colorOnPrimaryContainer" />
+                    android:textColor="?attr/colorOnBackground" />
             </LinearLayout>
 
             <LinearLayout
