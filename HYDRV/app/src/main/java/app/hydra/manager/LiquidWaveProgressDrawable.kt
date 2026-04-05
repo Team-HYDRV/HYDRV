@@ -41,6 +41,7 @@ class LiquidWaveProgressDrawable(
     }
 
     private val clipPath = Path()
+    private val fillPath = Path()
     private val wavePath = Path()
     private val boundsF = RectF()
     private val animator = ValueAnimator.ofFloat(0f, 1f).apply {
@@ -76,7 +77,23 @@ class LiquidWaveProgressDrawable(
         canvas.clipPath(clipPath)
 
         val fillRect = RectF(boundsF.left, boundsF.top, fillRight, boundsF.bottom)
-        canvas.drawRoundRect(fillRect, corner, corner, fillPaint)
+        fillPath.reset()
+        val fillCorner = min(corner, fillRect.width() / 2f)
+        if (progressFraction >= 0.999f) {
+            fillPath.addRoundRect(fillRect, corner, corner, Path.Direction.CW)
+        } else {
+            fillPath.addRoundRect(
+                fillRect,
+                floatArrayOf(
+                    fillCorner, fillCorner,
+                    0f, 0f,
+                    0f, 0f,
+                    fillCorner, fillCorner
+                ),
+                Path.Direction.CW
+            )
+        }
+        canvas.drawPath(fillPath, fillPaint)
 
         val width = max(1f, fillRect.width())
         val height = max(1f, fillRect.height())
