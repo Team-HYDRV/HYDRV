@@ -25,6 +25,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.gson.JsonParseException
 import com.google.gson.stream.MalformedJsonException
 import okhttp3.Call as OkHttpCall
+import java.util.Locale
 
 class HomeFragment : Fragment() {
 
@@ -61,6 +62,7 @@ class HomeFragment : Fragment() {
     private var shimmerShownAt = 0L
     private var selectedTag: String? = null
     private var recentOnly = false
+    private var lastFilterChipSignature: String? = null
     private val searchRunnable = Runnable { renderCurrentTab(animate = true) }
 
     override fun onCreateView(
@@ -477,7 +479,7 @@ class HomeFragment : Fragment() {
         val context = context ?: return
         if (!::adapter.isInitialized || !::search.isInitialized) return
 
-        val query = search.text?.toString().orEmpty()
+        val query = search.text?.toString().orEmpty().trim()
         val baseApps = cachedApps
         appList = ListSortPreferences.sortApps(
             ListSortPreferences.getHomeSort(context),
@@ -498,25 +500,22 @@ class HomeFragment : Fragment() {
             else -> appList
         }
 
-        val filteredList = if (query.isBlank()) {
-            baseList
-        } else {
-            baseList.filter { app ->
-                app.name.contains(query, ignoreCase = true) ||
+        val selectedTagValue = selectedTag?.trim()
+        val filteredSequence = baseList.asSequence()
+            .filter { app ->
+                (query.isBlank() || app.name.contains(query, ignoreCase = true) ||
                     app.packageName.contains(query, ignoreCase = true) ||
                     app.normalizedTags().any { it.contains(query, ignoreCase = true) } ||
                     app.versions.any {
                         it.version_name.contains(query, ignoreCase = true) ||
                             it.changelog.orEmpty().contains(query, ignoreCase = true)
-                    }
-            }
-        }
-            .filter { app ->
-                (!recentOnly || isRecentApp(app)) &&
-                    (selectedTag == null || app.normalizedTags().any {
-                        it.equals(selectedTag, ignoreCase = true)
+                    }) &&
+                    (!recentOnly || isRecentApp(app)) &&
+                    (selectedTagValue == null || app.normalizedTags().any {
+                        it.equals(selectedTagValue, ignoreCase = true)
                     })
             }
+        val filteredList = filteredSequence.toList()
 
         adapter.setPreferOpenInstalledAction(currentTab == 2)
 
@@ -564,6 +563,18 @@ class HomeFragment : Fragment() {
             .distinctBy { it.lowercase() }
             .sortedBy { it.lowercase() }
             .take(8)
+        val signature = buildString {
+            append(recentOnly)
+            append('|')
+            append(selectedTag.orEmpty().lowercase(Locale.getDefault()))
+            append('|')
+            tags.forEachIndexed { index, tag ->
+                if (index > 0) append(',')
+                append(tag.lowercase(Locale.getDefault()))
+            }
+        }
+        if (signature == lastFilterChipSignature) return
+        lastFilterChipSignature = signature
 
         filterChipContainer.removeAllViews()
         val hasAnyFilters = tags.isNotEmpty() || recentOnly || selectedTag != null
