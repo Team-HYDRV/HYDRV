@@ -140,6 +140,9 @@ class SettingsFragment : Fragment() {
     private lateinit var aboutSection: View
     private lateinit var aboutSectionTab: View
     private lateinit var aboutSectionIconBg: View
+    private lateinit var aboutIssueDivider: View
+    private lateinit var aboutContributorsDivider: View
+    private lateinit var aboutLicensesDivider: View
     private lateinit var updatesSummaryText: TextView
     private lateinit var updatesDebugText: TextView
     private lateinit var viewChangelogButton: Button
@@ -203,6 +206,9 @@ class SettingsFragment : Fragment() {
         aboutSection = view.findViewById(R.id.aboutSection)
         aboutSectionTab = view.findViewById(R.id.aboutSectionTab)
         aboutSectionIconBg = view.findViewById(R.id.aboutSectionIconBg)
+        aboutIssueDivider = view.findViewById(R.id.aboutIssueDivider)
+        aboutContributorsDivider = view.findViewById(R.id.aboutContributorsDivider)
+        aboutLicensesDivider = view.findViewById(R.id.aboutLicensesDivider)
         updatesSummaryText = view.findViewById(R.id.updatesSummaryText)
         updatesDebugText = view.findViewById(R.id.updatesDebugText)
         viewChangelogButton = view.findViewById(R.id.viewChangelogButton)
@@ -668,6 +674,19 @@ class SettingsFragment : Fragment() {
             R.id.aboutLicensesRow
         ).forEach { id ->
             root.findViewById<View>(id)?.setBackgroundResource(cardDrawable)
+        }
+
+        val dividerDrawable = if (AppearancePreferences.isDynamicColorEnabled(requireContext())) {
+            R.drawable.about_list_divider_material
+        } else {
+            R.drawable.about_list_divider
+        }
+        listOf(
+            aboutIssueDivider,
+            aboutContributorsDivider,
+            aboutLicensesDivider
+        ).forEach { divider ->
+            divider.setBackgroundResource(dividerDrawable)
         }
     }
 

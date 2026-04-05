@@ -1327,6 +1327,7 @@
                     </LinearLayout>
 
                     <View
+                        android:id="@+id/aboutIssueDivider"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="@drawable/about_list_divider" />
@@ -1809,6 +1810,7 @@
                     </LinearLayout>
 
                     <View
+                        android:id="@+id/aboutContributorsDivider"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="@drawable/about_list_divider" />
@@ -1842,6 +1844,7 @@
                     </LinearLayout>
 
                     <View
+                        android:id="@+id/aboutLicensesDivider"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="@drawable/about_list_divider" />
