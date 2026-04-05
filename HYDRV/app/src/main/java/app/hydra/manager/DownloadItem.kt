@@ -18,6 +18,7 @@ data class DownloadItem(
     var packageName: String = "",
     val versionName: String = "",
     var errorMessage: String = "",
+    var installed: Boolean = false,
 
     var isAnimatedDone: Boolean = false,
     var lastStatus: String = "",

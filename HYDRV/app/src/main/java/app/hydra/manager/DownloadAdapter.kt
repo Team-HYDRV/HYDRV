@@ -348,7 +348,20 @@ class DownloadAdapter(
 
                 val isApkDownload = isApkDownload(item)
 
-                if (isApkDownload) {
+                if (isApkDownload && item.installed) {
+                    holder.action.text = context.getString(R.string.download_action_open)
+                    holder.delete.visibility = View.VISIBLE
+                    holder.delete.text = context.getString(R.string.downloads_uninstall)
+
+                    holder.action.setOnClickListener {
+                        if (!tryBeginControlAction(holder, itemKey)) return@setOnClickListener
+                        openApp(context, item.packageName, item.name)
+                    }
+                    holder.delete.setOnClickListener {
+                        if (!tryBeginControlAction(holder, itemKey)) return@setOnClickListener
+                        onUninstallRequested?.invoke(item.packageName, item.name)
+                    }
+                } else if (isApkDownload) {
                     holder.action.text = context.getString(R.string.download_action_install)
                     holder.delete.visibility = View.VISIBLE
                     holder.delete.text = context.getString(R.string.downloads_delete)

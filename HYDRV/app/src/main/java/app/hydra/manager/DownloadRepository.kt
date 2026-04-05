@@ -88,6 +88,7 @@ object DownloadRepository {
                 createdAt = now,
                 completedAt = 0L,
                 errorMessage = "",
+                installed = false,
                 doneHandled = false,
                 isAnimatedDone = false,
                 lastStatus = "",
@@ -320,6 +321,7 @@ object DownloadRepository {
         downloads.forEach { item ->
             if (item.filePath == apkPath || (item.name == appName && item.status == "Done")) {
                 item.packageName = actualPackage
+                item.installed = true
             }
         }
 
@@ -378,6 +380,7 @@ object DownloadRepository {
             obj.put("packageName", it.packageName)
             obj.put("versionName", it.versionName)
             obj.put("errorMessage", it.errorMessage)
+            obj.put("installed", it.installed)
             obj.put("speed", it.speed)
             obj.put("eta", it.eta)
             obj.put("requestToken", it.requestToken)
@@ -412,6 +415,7 @@ object DownloadRepository {
                     packageName = obj.optString("packageName", ""),
                     versionName = obj.optString("versionName", ""),
                     errorMessage = obj.optString("errorMessage", ""),
+                    installed = obj.optBoolean("installed", false),
                     requestToken = obj.optLong("requestToken", 0L)
                 )
 
@@ -475,6 +479,7 @@ object DownloadRepository {
             eta = minOfPositive(existing.eta, loaded.eta),
             packageName = if (existing.packageName.isNotBlank()) existing.packageName else loaded.packageName,
             errorMessage = if (existing.errorMessage.isNotBlank()) existing.errorMessage else loaded.errorMessage,
+            installed = existing.installed || loaded.installed,
             isAnimatedDone = existing.isAnimatedDone || loaded.isAnimatedDone,
             lastStatus = if (existing.lastStatus.isNotBlank()) existing.lastStatus else loaded.lastStatus,
             doneHandled = existing.doneHandled || loaded.doneHandled,
