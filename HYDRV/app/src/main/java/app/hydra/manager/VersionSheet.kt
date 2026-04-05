@@ -158,9 +158,7 @@ class VersionSheet(
         appNameView = view.findViewById(R.id.appName)
         sheetSummaryView = view.findViewById(R.id.sheetSummary)
         containerLayout = view.findViewById(R.id.container)
-        val ctx = requireContext()
-        refreshInstalledInfo(ctx)
-        RewardedAdManager.preload(ctx)
+        RewardedAdManager.preload(requireContext())
 
         scrollChangedListener = ViewTreeObserver.OnScrollChangedListener {
             updateScrollFade()
