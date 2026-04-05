@@ -2,6 +2,7 @@ package app.hydra.manager
 
 import android.app.ActivityManager
 import android.content.ActivityNotFoundException
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.res.Configuration
@@ -1458,19 +1459,11 @@ class SettingsFragment : Fragment() {
             )
         }
 
-        MaterialAlertDialogBuilder(context)
+        val dialog = MaterialAlertDialogBuilder(context)
             .setTitle(getString(R.string.backend_dialog_title))
             .setMessage(getString(R.string.backend_dialog_message))
             .setView(inputContainer)
-            .setPositiveButton(getString(R.string.save_label)) { dialog, _ ->
-                BackendPreferences.setCatalogUrl(context, input.text?.toString().orEmpty())
-                updateBackendUrlLabel()
-                AppSnackbar.show(
-                    requireActivity().findViewById(R.id.rootLayout),
-                    getString(R.string.backend_saved_message)
-                )
-                dialog.dismiss()
-            }
+            .setPositiveButton(getString(R.string.save_label), null)
             .setNeutralButton(getString(R.string.reset_label)) { dialog, _ ->
                 BackendPreferences.setCatalogUrl(context, "")
                 updateBackendUrlLabel()
@@ -1482,6 +1475,56 @@ class SettingsFragment : Fragment() {
             }
             .setNegativeButton(getString(R.string.downloads_cancel), null)
             .show()
+
+        dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
+            val rawUrl = input.text?.toString().orEmpty().trim()
+            if (rawUrl.isBlank()) {
+                BackendPreferences.setCatalogUrl(context, "")
+                updateBackendUrlLabel()
+                AppSnackbar.show(
+                    requireActivity().findViewById(R.id.rootLayout),
+                    getString(R.string.backend_reset_message)
+                )
+                dialog.dismiss()
+                return@setOnClickListener
+            }
+
+            dialog.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = false
+            dialog.getButton(DialogInterface.BUTTON_NEUTRAL).isEnabled = false
+            dialog.getButton(DialogInterface.BUTTON_NEGATIVE).isEnabled = false
+            dialog.setMessage(getString(R.string.backend_validating_message))
+
+            val rootView = activity?.findViewById<View>(R.id.rootLayout)
+            Thread {
+                val validation = AppCatalogService.validateCatalogEndpointSync(rawUrl)
+                mainHandler.post {
+                    if (!isAdded || view == null || !dialog.isShowing) return@post
+                    dialog.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = true
+                    dialog.getButton(DialogInterface.BUTTON_NEUTRAL).isEnabled = true
+                    dialog.getButton(DialogInterface.BUTTON_NEGATIVE).isEnabled = true
+
+                    validation.onSuccess {
+                        BackendPreferences.setCatalogUrl(context, rawUrl)
+                        updateBackendUrlLabel()
+                        if (rootView != null) {
+                            AppSnackbar.show(
+                                rootView,
+                                getString(R.string.backend_saved_message)
+                            )
+                        }
+                        dialog.dismiss()
+                    }.onFailure {
+                        dialog.setMessage(getString(R.string.backend_dialog_message))
+                        if (rootView != null) {
+                            AppSnackbar.show(
+                                rootView,
+                                getString(R.string.backend_invalid_message)
+                            )
+                        }
+                    }
+                }
+            }.start()
+        }
     }
 
     private fun applyHeaderInsets(view: View) {

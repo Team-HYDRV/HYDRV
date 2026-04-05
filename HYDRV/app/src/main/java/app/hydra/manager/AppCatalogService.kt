@@ -170,6 +170,33 @@ object AppCatalogService {
         return fallback ?: Result.failure(lastError ?: IOException("Catalog request failed"))
     }
 
+    fun validateCatalogEndpointSync(url: String): Result<Unit> {
+        val requestUrl = url.trim().toHttpUrlOrNull()
+            ?: return Result.failure(IOException("Invalid backend URL"))
+
+        return runCatching {
+            client.newCall(
+                Request.Builder()
+                    .url(requestUrl)
+                    .header("Accept", "application/json")
+                    .header("Cache-Control", "no-cache")
+                    .header("Pragma", "no-cache")
+                    .build()
+            ).execute().use { response ->
+                if (!response.isSuccessful) {
+                    throw IOException("HTTP ${response.code}")
+                }
+
+                val body = response.body?.string().orEmpty()
+                if (body.isBlank()) {
+                    throw IOException("Empty response")
+                }
+
+                parse(body).getOrThrow()
+            }
+        }.map { Unit }
+    }
+
     fun readCachedApps(context: Context): Result<FetchResult>? {
         val appContext = context.applicationContext
         return BackendPreferences.getCatalogUrlCandidates(appContext)

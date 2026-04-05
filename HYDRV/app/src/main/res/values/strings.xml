@@ -279,8 +279,10 @@
     <string name="backend_default_label">Default</string>
     <string name="backend_custom_label">Custom</string>
     <string name="backend_dialog_title">Change backend</string>
-    <string name="backend_dialog_message">Paste a direct json endpoint. If you leave it empty, the current built-in backend will be used.</string>
+    <string name="backend_dialog_message">Paste a direct JSON endpoint, not a normal web page link. If you leave it empty, the built-in backend will be used.</string>
     <string name="backend_example_url">Example: https://example.com/catalogue.json</string>
+    <string name="backend_validating_message">Checking backend link...</string>
+    <string name="backend_invalid_message">That link does not look like a valid JSON endpoint.</string>
     <string name="backend_saved_message">Backend link updated.</string>
     <string name="backend_reset_message">Backend reset to default.</string>
     <string name="save_label">Save</string>
