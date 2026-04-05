@@ -16,6 +16,23 @@ All notable changes to HYDRV are recorded here.
 
 - Bug fixes will be listed here as they land.
 
+## [1.0.3] - 2026-04-05
+
+### Added
+
+- Additional language support for Italian, Turkish, Vietnamese, Thai, Polish, Dutch, Malay, Ukrainian, Czech, and Romanian.
+- Cleaner locale selection labels and translated app surfaces for the new languages.
+
+### Changed
+
+- Release packaging and version metadata were updated for the new tag.
+- The app now keeps the release and changelog notes aligned with the bundled repository copy.
+
+### Fixed
+
+- Locale plural coverage and drawable loading warnings were tightened up.
+- Download speed formatting now uses an explicit locale.
+
 ## [1.0.2] - 2026-04-05
 
 ### Changed
