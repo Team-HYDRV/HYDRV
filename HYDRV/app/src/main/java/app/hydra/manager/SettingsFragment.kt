@@ -635,7 +635,6 @@ class SettingsFragment : Fragment() {
         }
         listOf(
             R.id.themeOptionsCard,
-            R.id.generalSection,
             R.id.dynamicColorRow,
             R.id.pureBlackRow,
             R.id.languageRow,
@@ -647,7 +646,6 @@ class SettingsFragment : Fragment() {
             R.id.versionSortRow,
             R.id.downloadSortRow,
             R.id.updatesHeroCard,
-            R.id.updatesSection,
             R.id.checkUpdatesOnLaunchRow,
             R.id.showUpdateMessageRow,
             R.id.adsSupportRow,
@@ -661,7 +659,6 @@ class SettingsFragment : Fragment() {
             R.id.aboutHeroCard,
             R.id.aboutLinksCard,
             R.id.aboutIssuesCard,
-            R.id.aboutSection,
             R.id.aboutWebsiteButton,
             R.id.aboutDiscordButton,
             R.id.aboutDonateButton,
