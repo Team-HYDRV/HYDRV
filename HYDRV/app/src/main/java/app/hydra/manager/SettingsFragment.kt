@@ -1024,6 +1024,8 @@ class SettingsFragment : Fragment() {
     }
 
     private fun showBackendHealthDialog() {
+        val appContext = context?.applicationContext ?: return
+        val uiContext = context ?: return
         val dialog = MaterialAlertDialogBuilder(requireContext())
             .setTitle(getString(R.string.backend_health_title))
             .setMessage(getString(R.string.backend_health_loading))
@@ -1031,80 +1033,78 @@ class SettingsFragment : Fragment() {
             .show()
 
         Thread {
-            val context = requireContext().applicationContext
-            val checkedAt = AppUpdateState.getLastCheckedAt(context)
+            val checkedAt = AppUpdateState.getLastCheckedAt(appContext)
             val formattedCheck = if (checkedAt > 0L) {
                 SimpleDateFormat("MMM d, h:mm a", Locale.getDefault()).format(Date(checkedAt))
             } else {
-                getString(R.string.updates_never_checked)
+                uiContext.getString(R.string.updates_never_checked)
             }
-            val cacheResult = AppCatalogService.readCachedApps(context)
+            val cacheResult = AppCatalogService.readCachedApps(appContext)
             val cacheSummary = when {
                 cacheResult?.isSuccess == true -> {
                     val count = cacheResult.getOrNull()?.apps?.size ?: 0
-                    getString(R.string.backend_health_cache_ready_count, count)
+                    uiContext.getString(R.string.backend_health_cache_ready_count, count)
                 }
-                else -> getString(R.string.backend_health_cache_missing)
+                else -> uiContext.getString(R.string.backend_health_cache_missing)
             }
-            val isDefaultBackend = BackendPreferences.isUsingDefault(context)
+            val isDefaultBackend = BackendPreferences.isUsingDefault(appContext)
             val summary = buildString {
                 append(
-                    getString(
+                    uiContext.getString(
                         R.string.backend_health_backend_mode_format,
                         if (isDefaultBackend) {
-                            getString(R.string.backend_default_label)
+                            uiContext.getString(R.string.backend_default_label)
                         } else {
-                            getString(R.string.backend_custom_label)
+                            uiContext.getString(R.string.backend_custom_label)
                         }
                     )
                 )
                 append('\n')
                 append('\n')
-                append(getString(R.string.backend_health_last_checked_format, formattedCheck))
+                append(uiContext.getString(R.string.backend_health_last_checked_format, formattedCheck))
                 append('\n')
-                append(getString(R.string.backend_health_last_seen_hash_format, AppUpdateState.getLastSeenHash(context)))
+                append(uiContext.getString(R.string.backend_health_last_seen_hash_format, AppUpdateState.getLastSeenHash(appContext)))
                 append('\n')
-                append(getString(R.string.backend_health_last_notified_hash_format, AppUpdateState.getLastNotifiedHash(context)))
+                append(uiContext.getString(R.string.backend_health_last_notified_hash_format, AppUpdateState.getLastNotifiedHash(appContext)))
                 append('\n')
-                append(getString(R.string.backend_health_cache_format, cacheSummary))
+                append(uiContext.getString(R.string.backend_health_cache_format, cacheSummary))
                 append('\n')
                 append(
-                    getString(
+                    uiContext.getString(
                         R.string.backend_health_notifications_format,
-                        if (NotificationPreferences.areUpdateNotificationsEnabled(context)) {
-                            getString(R.string.debug_enabled)
+                        if (NotificationPreferences.areUpdateNotificationsEnabled(appContext)) {
+                            uiContext.getString(R.string.debug_enabled)
                         } else {
-                            getString(R.string.debug_disabled)
+                            uiContext.getString(R.string.debug_disabled)
                         }
                     )
                 )
                 append('\n')
                 append(
-                    getString(
+                    uiContext.getString(
                         R.string.backend_health_ads_enabled_format,
-                        if (AdsPreferences.areRewardedAdsEnabled(context)) {
-                            getString(R.string.debug_enabled)
+                        if (AdsPreferences.areRewardedAdsEnabled(appContext)) {
+                            uiContext.getString(R.string.debug_enabled)
                         } else {
-                            getString(R.string.debug_disabled)
+                            uiContext.getString(R.string.debug_disabled)
                         }
                     )
                 )
                 append('\n')
                 append(
-                    getString(
+                    uiContext.getString(
                         R.string.backend_health_ads_status_format,
                         RewardedAdManager.runtimeAvailabilityReason()
                     )
                 )
                 append("\n\n")
-                append(getString(R.string.backend_health_worker_status_title))
+                append(uiContext.getString(R.string.backend_health_worker_status_title))
                 append('\n')
-                append(UpdateWorkScheduler.workerSummary(context))
+                append(UpdateWorkScheduler.workerSummary(appContext))
             }
             mainHandler.post {
-                if (dialog.isShowing) {
+                if (!isAdded || view == null || !dialog.isShowing) return@post
                     dialog.setMessage(summary)
-                }
             }
         }.start()
     }
