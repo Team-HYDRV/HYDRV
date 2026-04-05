@@ -4,6 +4,7 @@ import android.app.ActivityManager
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.ApplicationInfo
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -832,7 +833,7 @@ class SettingsFragment : Fragment() {
             enabled
         )
 
-        if (enabled && AppCompatDelegate.getDefaultNightMode() != AppCompatDelegate.MODE_NIGHT_YES) {
+        if (enabled && !isDarkThemeEffective(context)) {
             updateThemeSelection(R.id.themeOptionDark)
             val prefs = context.getSharedPreferences(ThemePreferences.PREFS_NAME, 0)
             prefs.edit()
@@ -844,6 +845,17 @@ class SettingsFragment : Fragment() {
 
         updateAppearanceSwitches()
         activity?.recreate()
+    }
+
+    private fun isDarkThemeEffective(context: android.content.Context): Boolean {
+        return when (AppCompatDelegate.getDefaultNightMode()) {
+            AppCompatDelegate.MODE_NIGHT_YES -> true
+            AppCompatDelegate.MODE_NIGHT_NO -> false
+            else -> {
+                val nightMode = context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+                nightMode == Configuration.UI_MODE_NIGHT_YES
+            }
+        }
     }
 
     private fun openBatteryOptimizationSettings() {
