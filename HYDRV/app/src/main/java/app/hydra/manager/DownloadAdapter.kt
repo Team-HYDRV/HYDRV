@@ -10,6 +10,7 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.OvershootInterpolator
 import android.widget.*
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.core.content.FileProvider
@@ -58,6 +59,15 @@ class DownloadAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_download, parent, false)
+        val progress = view.findViewById<ProgressBar>(R.id.progress)
+        progress.progressDrawable = ContextCompat.getDrawable(
+            view.context,
+            if (AppearancePreferences.isDynamicColorEnabled(parent.context)) {
+                R.drawable.button_progress_material
+            } else {
+                R.drawable.button_progress
+            }
+        )
         if (AppearancePreferences.isDynamicColorEnabled(parent.context)) {
             view.setBackgroundResource(R.drawable.card_material)
         }
