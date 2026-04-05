@@ -266,10 +266,12 @@ class HomeFragment : Fragment() {
     }
 
     private fun applyHeaderInsets(view: View) {
-        val header = view.findViewById<View>(R.id.headerContainer)
+        val header = view.findViewById<View>(R.id.headerContainer) ?: return
 
         ViewCompat.setOnApplyWindowInsetsListener(view) { _, insets ->
             val statusBar = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
+
+            if (!header.isAttachedToWindow) return@setOnApplyWindowInsetsListener insets
 
             header.setPadding(
                 header.paddingLeft,

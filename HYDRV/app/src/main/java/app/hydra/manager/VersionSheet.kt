@@ -18,6 +18,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.view.ViewTreeObserver
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.OvershootInterpolator
 import android.widget.FrameLayout
@@ -63,6 +64,7 @@ class VersionSheet(
     private val mainHandler = Handler(Looper.getMainLooper())
     private var currentSnackbar: Snackbar? = null
     private var bottomSheetCallback: BottomSheetBehavior.BottomSheetCallback? = null
+    private var scrollChangedListener: ViewTreeObserver.OnScrollChangedListener? = null
     private var currentApp: AppModel = app
     private var installedLaunchPackage: String? = null
     private lateinit var rootView: View
@@ -159,9 +161,10 @@ class VersionSheet(
         refreshInstalledInfo(ctx)
         RewardedAdManager.preload(ctx)
 
-        scrollView.viewTreeObserver.addOnScrollChangedListener {
+        scrollChangedListener = ViewTreeObserver.OnScrollChangedListener {
             updateScrollFade()
         }
+        scrollView.viewTreeObserver.addOnScrollChangedListener(scrollChangedListener)
 
         renderVersions(inflater)
 
@@ -456,6 +459,10 @@ class VersionSheet(
         bottomSheetCallback = null
         currentSnackbar?.dismiss()
         currentSnackbar = null
+        scrollChangedListener?.let { listener ->
+            scrollView.viewTreeObserver.takeIf { it.isAlive }?.removeOnScrollChangedListener(listener)
+        }
+        scrollChangedListener = null
         buttonViewsByKey.values.forEach { releaseLiquidDrawable(it.fill) }
         resetRunnables.values.forEach(mainHandler::removeCallbacks)
         resetRunnables.clear()
