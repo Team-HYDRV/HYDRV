@@ -115,6 +115,7 @@ object AppNotificationHelper {
             .setSmallIcon(android.R.drawable.stat_notify_sync)
             .setContentTitle(contentTitle)
             .setContentText(contentText)
+            .setStyle(NotificationCompat.BigTextStyle().bigText(contentText))
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setAutoCancel(true)
             .setContentIntent(pendingIntent)
