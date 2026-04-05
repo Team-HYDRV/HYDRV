@@ -62,7 +62,7 @@ jobs:
             git log --pretty=format:'- %s' --no-merges -n 12
             echo
             echo "## Contributors"
-            git shortlog -sne --all --no-merges | awk '{ $1=""; sub(/^ /, ""); print "- " $0 }'
+            git shortlog -s --all --no-merges | awk '{ $1=""; sub(/^ /, ""); print "- " $0 }'
             echo
             echo "## Artifact"
             echo "- APK attached to this release"
