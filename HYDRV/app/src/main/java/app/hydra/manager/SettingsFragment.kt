@@ -775,7 +775,7 @@ class SettingsFragment : Fragment() {
     private fun updateDeviceInfo() {
         val context = requireContext()
         val packageInfo = context.packageManager.getPackageInfo(context.packageName, 0)
-        val versionName = packageInfo.versionName ?: "1.0.0"
+        val versionName = packageInfo.versionName ?: "1.0.1"
         val versionCode = packageInfo.versionCodeCompat()
         val activityManager = context.getSystemService(ActivityManager::class.java)
         val buildType = if ((context.applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE) != 0) {
@@ -917,7 +917,7 @@ class SettingsFragment : Fragment() {
     private fun exportDebugLogs() {
         val context = requireContext()
         val packageInfo = context.packageManager.getPackageInfo(context.packageName, 0)
-        val versionName = packageInfo.versionName ?: "1.0.0"
+        val versionName = packageInfo.versionName ?: "1.0.1"
         val versionCode = packageInfo.versionCodeCompat()
         val activityManager = context.getSystemService(ActivityManager::class.java)
         val buildType = if ((context.applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE) != 0) {
@@ -1007,9 +1007,9 @@ class SettingsFragment : Fragment() {
         val lastSeenTag = ReleaseUpdateState.getLastSeenTag(context)
         val lastNotifiedTag = ReleaseUpdateState.getLastNotifiedTag(context)
         val versionName = try {
-            context.packageManager.getPackageInfo(context.packageName, 0).versionName ?: "1.0.0"
+            context.packageManager.getPackageInfo(context.packageName, 0).versionName ?: "1.0.1"
         } catch (_: Exception) {
-            "1.0.0"
+            "1.0.1"
         }
         val formattedCheck = if (checkedAt > 0L) {
             SimpleDateFormat("MMM d, h:mm a", Locale.getDefault()).format(Date(checkedAt))
@@ -1136,7 +1136,7 @@ class SettingsFragment : Fragment() {
     private fun updateAboutVersion() {
         val context = requireContext()
         val packageInfo = context.packageManager.getPackageInfo(context.packageName, 0)
-        val versionName = packageInfo.versionName ?: "1.0.0"
+        val versionName = packageInfo.versionName ?: "1.0.1"
         val versionCode = packageInfo.versionCodeCompat()
         aboutVersionText.text = getString(
             R.string.about_version_code_format,

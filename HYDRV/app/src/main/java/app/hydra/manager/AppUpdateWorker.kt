@@ -13,9 +13,9 @@ class AppUpdateWorker(
         val result = GitHubRepository.fetchLatestReleaseSync()
         val latestRelease = result.getOrElse { return Result.retry() }
         val currentVersion = try {
-            applicationContext.packageManager.getPackageInfo(applicationContext.packageName, 0).versionName ?: "1.0.0"
+            applicationContext.packageManager.getPackageInfo(applicationContext.packageName, 0).versionName ?: "1.0.1"
         } catch (_: Exception) {
-            "1.0.0"
+            "1.0.1"
         }
         val latestTag = latestRelease.tagName.trim()
         val hasUpdate = ReleaseVersionComparator.isNewer(currentVersion, latestTag)
