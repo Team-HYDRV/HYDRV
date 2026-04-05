@@ -553,10 +553,18 @@ class SettingsFragment : Fragment() {
         themeOptions.forEach { (optionId, optionViews) ->
             val isSelected = optionId == selectedOptionId
             optionViews.iconBackground.setBackgroundResource(
-                if (isSelected) {
-                    R.drawable.theme_option_icon_bg_selected
+                if (AppearancePreferences.isDynamicColorEnabled(requireContext())) {
+                    if (isSelected) {
+                        R.drawable.theme_option_icon_bg_selected_material
+                    } else {
+                        R.drawable.theme_option_icon_bg_material
+                    }
                 } else {
-                    R.drawable.theme_option_icon_bg
+                    if (isSelected) {
+                        R.drawable.theme_option_icon_bg_selected
+                    } else {
+                        R.drawable.theme_option_icon_bg
+                    }
                 }
             )
             optionViews.iconView.imageTintList =
