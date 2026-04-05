@@ -16,6 +16,16 @@ object LanguagePreferences {
     const val FRENCH = "fr"
     const val GERMAN = "de"
     const val PORTUGUESE_BRAZIL = "pt-BR"
+    const val ITALIAN = "it"
+    const val TURKISH = "tr"
+    const val VIETNAMESE = "vi"
+    const val THAI = "th"
+    const val POLISH = "pl"
+    const val DUTCH = "nl"
+    const val MALAY = "ms"
+    const val UKRAINIAN = "uk"
+    const val CZECH = "cs"
+    const val ROMANIAN = "ro"
     const val CHINESE_SIMPLIFIED = "zh-CN"
     const val HINDI = "hi"
     const val ARABIC = "ar"
@@ -51,6 +61,16 @@ object LanguagePreferences {
             FRENCH -> context.getString(R.string.language_french)
             GERMAN -> context.getString(R.string.language_german)
             PORTUGUESE_BRAZIL -> context.getString(R.string.language_portuguese_brazil)
+            ITALIAN -> context.getString(R.string.language_italian)
+            TURKISH -> context.getString(R.string.language_turkish)
+            VIETNAMESE -> context.getString(R.string.language_vietnamese)
+            THAI -> context.getString(R.string.language_thai)
+            POLISH -> context.getString(R.string.language_polish)
+            DUTCH -> context.getString(R.string.language_dutch)
+            MALAY -> context.getString(R.string.language_malay)
+            UKRAINIAN -> context.getString(R.string.language_ukrainian)
+            CZECH -> context.getString(R.string.language_czech)
+            ROMANIAN -> context.getString(R.string.language_romanian)
             CHINESE_SIMPLIFIED -> context.getString(R.string.language_chinese_simplified)
             HINDI -> context.getString(R.string.language_hindi)
             ARABIC -> context.getString(R.string.language_arabic)

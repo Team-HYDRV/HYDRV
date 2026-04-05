@@ -66,6 +66,56 @@ class LanguageSelectionActivity : AppCompatActivity() {
             R.string.language_native_portuguese_brazil_region
         ),
         LanguageItem(
+            LanguagePreferences.ITALIAN,
+            R.string.language_italian_region,
+            R.string.language_native_italian_region
+        ),
+        LanguageItem(
+            LanguagePreferences.TURKISH,
+            R.string.language_turkish_region,
+            R.string.language_native_turkish_region
+        ),
+        LanguageItem(
+            LanguagePreferences.VIETNAMESE,
+            R.string.language_vietnamese_region,
+            R.string.language_native_vietnamese_region
+        ),
+        LanguageItem(
+            LanguagePreferences.THAI,
+            R.string.language_thai_region,
+            R.string.language_native_thai_region
+        ),
+        LanguageItem(
+            LanguagePreferences.POLISH,
+            R.string.language_polish_region,
+            R.string.language_native_polish_region
+        ),
+        LanguageItem(
+            LanguagePreferences.DUTCH,
+            R.string.language_dutch_region,
+            R.string.language_native_dutch_region
+        ),
+        LanguageItem(
+            LanguagePreferences.MALAY,
+            R.string.language_malay_region,
+            R.string.language_native_malay_region
+        ),
+        LanguageItem(
+            LanguagePreferences.UKRAINIAN,
+            R.string.language_ukrainian_region,
+            R.string.language_native_ukrainian_region
+        ),
+        LanguageItem(
+            LanguagePreferences.CZECH,
+            R.string.language_czech_region,
+            R.string.language_native_czech_region
+        ),
+        LanguageItem(
+            LanguagePreferences.ROMANIAN,
+            R.string.language_romanian_region,
+            R.string.language_native_romanian_region
+        ),
+        LanguageItem(
             LanguagePreferences.CHINESE_SIMPLIFIED,
             R.string.language_chinese_simplified_region,
             R.string.language_native_chinese_simplified_region
