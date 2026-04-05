@@ -364,6 +364,8 @@
   <string name="contributors_failed">GitHub contributors are temporarily unavailable.</string>
   <plurals name="contributor_role_contributions">
     <item quantity="one">%d contribution</item>
+    <item quantity="few">%d contributions</item>
+    <item quantity="many">%d contributions</item>
     <item quantity="other">%d contributions</item>
   </plurals>
   <string name="about_licenses_dialog_title">Open source libraries</string>
@@ -372,10 +374,14 @@
   <string name="back_label">Back</string>
   <plurals name="download_items_count">
     <item quantity="one">%d Item</item>
+    <item quantity="few">%d Items</item>
+    <item quantity="many">%d Items</item>
     <item quantity="other">%d Items</item>
   </plurals>
   <plurals name="download_selected_count">
     <item quantity="one">%d selected</item>
+    <item quantity="few">%d selected</item>
+    <item quantity="many">%d selected</item>
     <item quantity="other">%d selected</item>
   </plurals>
 </resources>

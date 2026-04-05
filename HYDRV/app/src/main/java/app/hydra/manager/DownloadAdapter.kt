@@ -741,7 +741,7 @@ class DownloadAdapter(
         return when {
             smooth <= 0 -> "0 KB/s"
             smooth < 1024 -> "${smooth.toInt()} KB/s"
-            else -> String.format("%.1f MB/s", smooth / 1024f)
+            else -> String.format(Locale.US, "%.1f MB/s", smooth / 1024f)
         }
     }
 
