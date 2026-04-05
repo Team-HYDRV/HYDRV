@@ -127,8 +127,9 @@
             
             <Button
                 android:id="@+id/action"
-                android:layout_width="88dp"
+                android:layout_width="wrap_content"
                 android:layout_height="36dp"
+                android:minWidth="96dp"
                 android:text="@string/download_action_install"
                 android:textAllCaps="false"
                 android:background="@drawable/button_install"
