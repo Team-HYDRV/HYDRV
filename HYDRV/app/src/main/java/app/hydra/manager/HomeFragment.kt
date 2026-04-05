@@ -73,6 +73,9 @@ class HomeFragment : Fragment() {
         recyclerView = view.findViewById(R.id.recyclerView)
         shimmer = view.findViewById(R.id.shimmer)
         search = view.findViewById(R.id.search)
+        if (AppearancePreferences.isDynamicColorEnabled(requireContext())) {
+            search.setBackgroundResource(R.drawable.card_material)
+        }
         val tabs = view.findViewById<TabLayout>(R.id.tabs)
         emptyView = view.findViewById(R.id.emptyView)
         swipeRefresh = view.findViewById(R.id.swipeRefresh)

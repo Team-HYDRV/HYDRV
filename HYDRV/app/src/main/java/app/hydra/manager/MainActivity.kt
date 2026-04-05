@@ -96,6 +96,14 @@ class MainActivity : AppCompatActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContentView(R.layout.activity_main)
         AppearancePreferences.applyPureBlackBackgroundIfNeeded(findViewById(R.id.rootLayout))
+        val bottomNavContainer = findViewById<View>(R.id.navContainer)
+        bottomNavContainer.setBackgroundResource(
+            if (AppearancePreferences.isDynamicColorEnabled(this)) {
+                R.drawable.nav_bg_material
+            } else {
+                R.drawable.nav_bg
+            }
+        )
         activeColor = ThemeColors.color(
             this,
             androidx.appcompat.R.attr.colorPrimary,
