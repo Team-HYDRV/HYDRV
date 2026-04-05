@@ -11,7 +11,6 @@ import android.graphics.RectF
 import android.graphics.drawable.Drawable
 import android.view.animation.LinearInterpolator
 import androidx.core.graphics.ColorUtils
-import kotlin.math.PI
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.sin
@@ -41,17 +40,8 @@ class LiquidWaveProgressDrawable(
         )
     }
 
-    private val waveHighlightPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        style = Paint.Style.FILL
-        color = ColorUtils.setAlphaComponent(
-            ColorUtils.blendARGB(fillColor, Color.WHITE, 0.55f),
-            78
-        )
-    }
-
     private val clipPath = Path()
     private val wavePath = Path()
-    private val wavePathHighlight = Path()
     private val boundsF = RectF()
     private val animator = ValueAnimator.ofFloat(0f, 1f).apply {
         duration = 1400L
@@ -110,22 +100,6 @@ class LiquidWaveProgressDrawable(
         wavePath.close()
         canvas.drawPath(wavePath, wavePaint)
 
-        wavePathHighlight.reset()
-        wavePathHighlight.moveTo(fillRect.left, fillRect.bottom)
-        wavePathHighlight.lineTo(fillRect.left, baseline - amplitude * 0.55f)
-
-        x = fillRect.left
-        while (x <= fillRect.right) {
-            val y = baseline - amplitude * 0.55f +
-                (amplitude * 0.56f) * sin(((x - fillRect.left) / wavelength) * TWO_PI + phase + PI.toFloat() / 2f)
-            wavePathHighlight.lineTo(x, y)
-            x += step
-        }
-
-        wavePathHighlight.lineTo(fillRect.right, fillRect.bottom)
-        wavePathHighlight.close()
-        canvas.drawPath(wavePathHighlight, waveHighlightPaint)
-
         canvas.restore()
     }
 
@@ -138,7 +112,6 @@ class LiquidWaveProgressDrawable(
         trackPaint.colorFilter = colorFilter
         fillPaint.colorFilter = colorFilter
         wavePaint.colorFilter = colorFilter
-        waveHighlightPaint.colorFilter = colorFilter
     }
 
     @Deprecated("Deprecated in Java")
