@@ -27,6 +27,7 @@
     </style>
 
     <style name="Theme.HYDRV.Material" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorOutline">@android:color/transparent</item>
         <item name="android:statusBarColor" tools:targetApi="21">@android:color/black</item>
         <item name="android:navigationBarColor">@android:color/black</item>
         <item name="android:colorControlHighlight">#00000000</item>
