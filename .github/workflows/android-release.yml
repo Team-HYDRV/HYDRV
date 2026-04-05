@@ -50,6 +50,7 @@ jobs:
       - name: Generate release notes
         run: |
           release_version="${GITHUB_REF_NAME#v}"
+          repo_root="$(git rev-parse --show-toplevel)"
           {
             echo "# HYDRV ${GITHUB_REF_NAME}"
             echo
@@ -58,13 +59,13 @@ jobs:
               $0 ~ "^## \\[" version "\\]" { printing = 1; next }
               printing && $0 ~ "^## \\[" { exit }
               printing { print }
-            ' CHANGELOG.md
+            ' "$repo_root/CHANGELOG.md"
             echo
             echo "## Recent work"
-            git log --pretty=format:'- %s' --no-merges -n 12
+            git -C "$repo_root" log --pretty=format:'- %s' --no-merges -n 12
             echo
             echo "## Contributors"
-            git shortlog -s --all --no-merges | awk '{ $1=""; sub(/^ /, ""); print "- " $0 }'
+            git -C "$repo_root" shortlog -s --all --no-merges | awk '{ $1=""; sub(/^ /, ""); print "- " $0 }'
             echo
             echo "## Artifact"
             echo "- APK attached to this release"
