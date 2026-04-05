@@ -250,7 +250,13 @@ class DownloadAdapter(
             }
         }
 
-        val isInstalled = isAppInstalled(context, item.packageName, item.name)
+        val installedNow = isAppInstalled(context, item.packageName, item.name)
+        if (item.installed != installedNow) {
+            item.installed = installedNow
+            repositoryItem(item)?.installed = installedNow
+            DownloadRepository.scheduleSave(context)
+        }
+        val isInstalled = installedNow
 
         fun animatePress(view: View) {
             view.setOnTouchListener { v, event ->
