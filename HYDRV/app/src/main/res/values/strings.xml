@@ -305,7 +305,7 @@
     <string name="updates_changelog_title">Release changelog</string>
     <string name="updates_changelog_body">HYDRV shows the latest GitHub release notes here so the in-app changelog stays aligned with the repo release.</string>
     <string name="updates_changelog_loading">Loading the latest GitHub release notes…</string>
-    <string name="updates_release_unavailable">Release is temporarily unavailable</string>
+    <string name="updates_release_unavailable">No release loaded yet</string>
     <string name="updates_check_failed">Couldn\'t check for updates right now.</string>
     <string name="updates_check_live_with_version">New release is live: %1$s %2$s.</string>
     <string name="updates_check_live_generic">New release is available in HYDRV.</string>
