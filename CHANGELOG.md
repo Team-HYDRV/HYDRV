@@ -20,21 +20,21 @@ All notable changes to HYDRV are recorded here.
 
 ### Added
 
-- Release APK publishing with GitHub Actions.
+- Release APK publishing through GitHub Actions.
 - Cleaner release notes with changelog, recent work, and contributors.
-- Android themed icon support with a proper monochrome launcher asset.
-- Liquid-style loading animation for download progress bars.
+- Android themed icon support with a dedicated monochrome launcher asset.
+- A liquid-style loading animation for download progress bars.
 
 ### Changed
 
-- Dynamic color now has a separate Material path from the locked brand theme.
+- Dynamic color now uses a separate Material path from the locked brand theme.
 - The version sheet, app list, settings, and download UI were refined for smoother surfaces and better contrast.
 - The website and README now share the same updated screenshots and branding assets.
 
 ### Fixed
 
 - Backend URLs are validated before saving so invalid page links are rejected early.
-- Snackbar contrast and backend validation feedback are more readable.
+- Snackbar contrast and backend validation feedback are now more readable.
 - Startup, lifecycle, and release packaging issues were hardened and cleaned up.
 
 ## [1.0.0] - 2026-04-04
