@@ -1,3 +1,4 @@
 <resources>
     <item name="liquidProgressDrawable" type="id" />
+    <item name="appIconUrl" type="id" />
 </resources>
