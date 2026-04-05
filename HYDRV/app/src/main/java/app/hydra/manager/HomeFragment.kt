@@ -43,6 +43,7 @@ class HomeFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var shimmer: ShimmerFrameLayout
     private lateinit var search: EditText
+    private lateinit var tabs: TabLayout
     private lateinit var swipeRefresh: SwipeRefreshLayout
     private lateinit var lastUpdated: TextView
     private lateinit var emptyView: TextView
@@ -50,6 +51,8 @@ class HomeFragment : Fragment() {
     private lateinit var filterChipContainer: LinearLayout
 
     private lateinit var adapter: AppAdapter
+    private var searchTextWatcher: TextWatcher? = null
+    private var tabsListener: TabLayout.OnTabSelectedListener? = null
     private var pendingLastUpdatedBanner = false
     private var startupRenderSignaled = false
     private var startupFullListSubmitted = false
@@ -76,7 +79,7 @@ class HomeFragment : Fragment() {
         if (AppearancePreferences.isDynamicColorEnabled(requireContext())) {
             search.setBackgroundResource(R.drawable.card_material)
         }
-        val tabs = view.findViewById<TabLayout>(R.id.tabs)
+        tabs = view.findViewById(R.id.tabs)
         emptyView = view.findViewById(R.id.emptyView)
         swipeRefresh = view.findViewById(R.id.swipeRefresh)
         lastUpdated = view.findViewById(R.id.lastUpdated)
@@ -146,7 +149,7 @@ class HomeFragment : Fragment() {
             }
         }
 
-        search.addTextChangedListener(object : TextWatcher {
+        searchTextWatcher = object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 handler.removeCallbacks(searchRunnable)
                 handler.postDelayed(searchRunnable, SEARCH_DEBOUNCE_MS)
@@ -154,9 +157,10 @@ class HomeFragment : Fragment() {
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = Unit
-        })
+        }
+        search.addTextChangedListener(searchTextWatcher)
 
-        tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+        tabsListener = object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 currentTab = tab?.position ?: 0
                 renderCurrentTab(animate = true)
@@ -164,7 +168,8 @@ class HomeFragment : Fragment() {
 
             override fun onTabUnselected(tab: TabLayout.Tab?) = Unit
             override fun onTabReselected(tab: TabLayout.Tab?) = Unit
-        })
+        }
+        tabs.addOnTabSelectedListener(tabsListener!!)
 
         return view
     }
@@ -245,6 +250,14 @@ class HomeFragment : Fragment() {
     override fun onDestroyView() {
         appsCall?.cancel()
         appsCall = null
+        searchTextWatcher?.let(search::removeTextChangedListener)
+        searchTextWatcher = null
+        tabsListener?.let { listener ->
+            if (::tabs.isInitialized) {
+                tabs.removeOnTabSelectedListener(listener)
+            }
+        }
+        tabsListener = null
         handler.removeCallbacksAndMessages(null)
         super.onDestroyView()
     }

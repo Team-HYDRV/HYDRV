@@ -126,6 +126,7 @@ class VersionSheet(
         }
 
         bottomSheet.post {
+            if (!isAdded || view == null) return@post
             val content = bottomSheet.findViewById<View>(R.id.sheetRoot) ?: return@post
             val targetHeight = minOf(content.height, maxSheetHeight)
             bottomSheet.layoutParams = bottomSheet.layoutParams.apply {
@@ -181,6 +182,7 @@ class VersionSheet(
         }
 
         scrollView.post {
+            if (!isAdded || view == null) return@post
             updateScrollFade()
         }
 
@@ -332,6 +334,7 @@ class VersionSheet(
                             baseBottomMarginDp = 6
                         )
                         rootView.post {
+                            if (!isAdded || view == null) return@post
                             val bottomSheetView = (dialog as? BottomSheetDialog)?.findViewById<View>(
                                 com.google.android.material.R.id.design_bottom_sheet
                             )
@@ -439,6 +442,7 @@ class VersionSheet(
             baseBottomMarginDp = 6
         )
         rootView.post {
+            if (!isAdded || view == null) return@post
             val bottomSheetView = (dialog as? BottomSheetDialog)?.findViewById<View>(
                 com.google.android.material.R.id.design_bottom_sheet
             )
@@ -814,7 +818,10 @@ class VersionSheet(
                 override fun onAnimationEnd(animation: Animator) {
                     imageView.setTag(R.id.versionDownloadTrack, null)
                     if (targetLevel == 10_000) {
-                        imageView.postDelayed({ onEnd?.invoke() }, DONE_HOLD_MS)
+                        imageView.postDelayed({
+                            if (!isAdded || !imageView.isAttachedToWindow) return@postDelayed
+                            onEnd?.invoke()
+                        }, DONE_HOLD_MS)
                     } else {
                         onEnd?.invoke()
                     }

@@ -78,16 +78,17 @@ class SettingsFragment : Fragment() {
             }.fold(
                 onSuccess = { raw ->
                     SettingsBackupManager.importBackup(requireContext(), raw)
-                        .onSuccess {
-                            refreshSettingsUi()
-                            AppSnackbar.show(
-                                requireActivity().findViewById(R.id.rootLayout),
-                                getString(R.string.settings_backup_import_done)
-                            )
-                            mainHandler.postDelayed({
-                                activity?.recreate()
-                            }, 250L)
-                        }
+                    .onSuccess {
+                        refreshSettingsUi()
+                        AppSnackbar.show(
+                            requireActivity().findViewById(R.id.rootLayout),
+                            getString(R.string.settings_backup_import_done)
+                        )
+                        mainHandler.postDelayed({
+                            if (!isAdded || view == null) return@postDelayed
+                            activity?.recreate()
+                        }, 250L)
+                    }
                         .onFailure {
                             AppSnackbar.show(
                                 requireActivity().findViewById(R.id.rootLayout),
