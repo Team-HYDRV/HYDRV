@@ -258,6 +258,7 @@ class SettingsFragment : Fragment() {
         updateDownloadNetworkLabel()
         updateAppearanceSwitches()
         updateSettingsSectionTabs()
+        updateSettingsCardSurfaces()
         batteryOptimizationValue = view.findViewById(R.id.batteryOptimizationValue)
         updateBackendUrlLabel()
         updateBatteryOptimizationLabel()
@@ -623,6 +624,47 @@ class SettingsFragment : Fragment() {
         ).forEach { (section, iconBg) ->
             section.setBackgroundResource(cardDrawable)
             iconBg.setBackgroundResource(iconDrawable)
+        }
+    }
+
+    private fun updateSettingsCardSurfaces() {
+        val cardDrawable = if (AppearancePreferences.isDynamicColorEnabled(requireContext())) {
+            R.drawable.card_material
+        } else {
+            R.drawable.card
+        }
+        listOf(
+            R.id.generalSection,
+            R.id.dynamicColorRow,
+            R.id.pureBlackRow,
+            R.id.languageRow,
+            R.id.downloadNetworkRow,
+            R.id.updateNotificationsRow,
+            R.id.homeSortRow,
+            R.id.favoritesSortRow,
+            R.id.installedSortRow,
+            R.id.versionSortRow,
+            R.id.downloadSortRow,
+            R.id.updatesSection,
+            R.id.checkUpdatesOnLaunchRow,
+            R.id.showUpdateMessageRow,
+            R.id.adsSupportRow,
+            R.id.batteryOptimizationRow,
+            R.id.backendUrlRow,
+            R.id.backendHealthRow,
+            R.id.exportDebugLogsRow,
+            R.id.exportSettingsBackupRow,
+            R.id.importSettingsBackupRow,
+            R.id.aboutSection,
+            R.id.aboutWebsiteButton,
+            R.id.aboutDiscordButton,
+            R.id.aboutDonateButton,
+            R.id.aboutGithubButton,
+            R.id.aboutIssueRow,
+            R.id.aboutContributorsRow,
+            R.id.aboutLicensesRow
+        ).forEach { id ->
+            view?.findViewById<View>(id)?.setBackgroundResource(cardDrawable)
         }
     }
 
