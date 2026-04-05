@@ -42,6 +42,9 @@ jobs:
           apk_path=$(find app/build/outputs/apk/release -name "*.apk" | head -n 1)
           echo "apk_path=$apk_path" >> "$GITHUB_OUTPUT"
 
+      - name: Rename APK
+        run: cp "${{ steps.find_apk.outputs.apk_path }}" HYDRV.apk
+
       - name: Generate release notes
         run: |
           release_version="${GITHUB_REF_NAME#v}"
@@ -69,7 +72,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: HYDRV-release-apk
-          path: ${{ steps.find_apk.outputs.apk_path }}
+          path: HYDRV.apk
 
       - name: Publish GitHub release
         if: startsWith(github.ref, 'refs/tags/v')
@@ -77,4 +80,4 @@ jobs:
         with:
           name: ${{ github.ref_name }}
           body_path: release-notes.md
-          files: ${{ steps.find_apk.outputs.apk_path }}
+          files: HYDRV.apk
