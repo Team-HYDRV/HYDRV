@@ -71,6 +71,14 @@ class DownloadAdapter(
         if (AppearancePreferences.isDynamicColorEnabled(parent.context)) {
             view.setBackgroundResource(R.drawable.card_material)
         }
+        val checkbox = view.findViewById<CheckBox>(R.id.selectCheck)
+        checkbox.setButtonDrawable(
+            if (AppearancePreferences.isDynamicColorEnabled(parent.context)) {
+                R.drawable.download_checkbox_selector_material
+            } else {
+                R.drawable.download_checkbox_selector
+            }
+        )
         return VH(view)
     }
 
