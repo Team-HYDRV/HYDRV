@@ -1,5 +1,21 @@
+import org.gradle.api.GradleException
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
+}
+
+val keystoreProperties = Properties().apply {
+    val propsFile = rootProject.file("keystore.properties")
+    if (propsFile.exists()) {
+        FileInputStream(propsFile).use { load(it) }
+    }
+}
+
+fun releaseSigningValue(propertyName: String, envName: String): String? {
+    return keystoreProperties.getProperty(propertyName)?.trim()?.takeIf { it.isNotEmpty() }
+        ?: System.getenv(envName)?.trim()?.takeIf { it.isNotEmpty() }
 }
 
 android {
@@ -23,6 +39,21 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
+            val releaseStoreFile = releaseSigningValue("storeFile", "HYDRV_RELEASE_STORE_FILE")
+                ?: throw GradleException("Missing release signing configuration: storeFile")
+            val releaseStorePassword = releaseSigningValue("storePassword", "HYDRV_RELEASE_STORE_PASSWORD")
+                ?: throw GradleException("Missing release signing configuration: storePassword")
+            val releaseKeyAlias = releaseSigningValue("keyAlias", "HYDRV_RELEASE_KEY_ALIAS")
+                ?: throw GradleException("Missing release signing configuration: keyAlias")
+            val releaseKeyPassword = releaseSigningValue("keyPassword", "HYDRV_RELEASE_KEY_PASSWORD")
+                ?: throw GradleException("Missing release signing configuration: keyPassword")
+
+            signingConfig = signingConfigs.create("release").apply {
+                storeFile = file(releaseStoreFile)
+                storePassword = releaseStorePassword
+                keyAlias = releaseKeyAlias
+                keyPassword = releaseKeyPassword
+            }
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"

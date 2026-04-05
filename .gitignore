@@ -3,6 +3,8 @@
 **/.kotlin/
 **/build/
 **/local.properties
+HYDRV/keystore.properties
+HYDRV/release-keystore.jks
 **/*.keystore
 **/*.jks
 

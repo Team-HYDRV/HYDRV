@@ -35,6 +35,28 @@ jobs:
       - name: Make Gradle executable
         run: chmod +x gradlew
 
+      - name: Prepare release signing
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          RELEASE_KEYSTORE_BASE64: ${{ secrets.RELEASE_KEYSTORE_BASE64 }}
+          RELEASE_STORE_PASSWORD: ${{ secrets.RELEASE_STORE_PASSWORD }}
+          RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
+          RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
+        run: |
+          for name in RELEASE_KEYSTORE_BASE64 RELEASE_STORE_PASSWORD RELEASE_KEY_ALIAS RELEASE_KEY_PASSWORD; do
+            if [ -z "${!name}" ]; then
+              echo "::error::$name is missing. Add release signing secrets before publishing."
+              exit 1
+            fi
+          done
+          printf '%s' "$RELEASE_KEYSTORE_BASE64" | base64 -d > release-keystore.jks
+          cat > keystore.properties <<EOF
+          storeFile=$GITHUB_WORKSPACE/HYDRV/release-keystore.jks
+          storePassword=$RELEASE_STORE_PASSWORD
+          keyAlias=$RELEASE_KEY_ALIAS
+          keyPassword=$RELEASE_KEY_PASSWORD
+          EOF
+
       - name: Build release APK
         run: ./gradlew assembleRelease
 
