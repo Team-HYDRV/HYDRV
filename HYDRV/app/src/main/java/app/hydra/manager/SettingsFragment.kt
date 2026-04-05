@@ -13,7 +13,9 @@ import android.os.Handler
 import android.os.Looper
 import android.os.PowerManager
 import android.provider.Settings
+import android.text.TextUtils
 import android.text.InputType
+import android.text.SpannableStringBuilder
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -27,6 +29,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.text.HtmlCompat
 import androidx.work.WorkManager
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -1186,13 +1189,13 @@ class SettingsFragment : Fragment() {
             result.onSuccess { release ->
                 if (!isAdded) return@onSuccess
                 val body = release.body?.trim().orEmpty()
-                val message = buildString {
+                val message = SpannableStringBuilder().apply {
                     appendLine(release.displayLabel())
                     appendLine(release.htmlUrl)
                     appendLine()
                     append(
                         if (body.isNotBlank()) {
-                            body
+                            formatReleaseNotesBody(body)
                         } else {
                             getString(R.string.release_details_unavailable)
                         }
@@ -1208,6 +1211,61 @@ class SettingsFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun formatReleaseNotesBody(markdown: String): CharSequence {
+        val html = StringBuilder()
+        var inList = false
+
+        fun closeList() {
+            if (inList) {
+                html.append("</ul>")
+                inList = false
+            }
+        }
+
+        markdown.lineSequence().forEach { rawLine ->
+            val line = rawLine.trimEnd()
+            when {
+                line.isBlank() -> {
+                    closeList()
+                    html.append("<br>")
+                }
+                line.startsWith("### ") -> {
+                    closeList()
+                    html.append("<b>")
+                        .append(TextUtils.htmlEncode(line.removePrefix("### ").trim()))
+                        .append("</b><br>")
+                }
+                line.startsWith("## ") -> {
+                    closeList()
+                    html.append("<b>")
+                        .append(TextUtils.htmlEncode(line.removePrefix("## ").trim()))
+                        .append("</b><br><br>")
+                }
+                line.startsWith("- ") || line.startsWith("* ") -> {
+                    if (!inList) {
+                        html.append("<ul>")
+                        inList = true
+                    }
+                    html.append("<li>")
+                        .append(TextUtils.htmlEncode(line.drop(2).trim()))
+                        .append("</li>")
+                }
+                else -> {
+                    closeList()
+                    html.append(TextUtils.htmlEncode(line))
+                        .append("<br>")
+                }
+            }
+        }
+
+        closeList()
+
+        return HtmlCompat.fromHtml(
+            html.toString(),
+            HtmlCompat.FROM_HTML_MODE_LEGACY
+        )
     }
 
     private fun runManualUpdateCheck() {
