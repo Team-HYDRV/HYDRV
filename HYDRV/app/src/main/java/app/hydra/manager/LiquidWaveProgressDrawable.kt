@@ -3,15 +3,12 @@ package app.hydra.manager
 import android.animation.ValueAnimator
 import android.graphics.Canvas
 import android.graphics.Color
-import android.graphics.LinearGradient
-import android.graphics.PointF
 import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.PixelFormat
 import android.graphics.Rect
 import android.graphics.RectF
 import android.graphics.drawable.Drawable
-import android.graphics.Shader
 import android.view.animation.LinearInterpolator
 import androidx.core.graphics.ColorUtils
 import kotlin.math.max
@@ -81,49 +78,44 @@ class LiquidWaveProgressDrawable(
 
         val fillRect = RectF(boundsF.left, boundsF.top, fillRight, boundsF.bottom)
         fillPath.reset()
+        val fillCorner = min(corner, fillRect.width() / 2f)
+        if (progressFraction >= 0.999f) {
+            fillPath.addRoundRect(fillRect, corner, corner, Path.Direction.CW)
+        } else {
+            fillPath.addRoundRect(
+                fillRect,
+                floatArrayOf(
+                    fillCorner, fillCorner,
+                    0f, 0f,
+                    0f, 0f,
+                    fillCorner, fillCorner
+                ),
+                Path.Direction.CW
+            )
+        }
+        canvas.drawPath(fillPath, fillPaint)
+
         val width = max(1f, fillRect.width())
         val height = max(1f, fillRect.height())
         val baseline = boundsF.top + height * 0.52f
-        val amplitude = max(2f, min(height * 0.11f, 7f))
-        val wavelength = max(28f, width / 1.6f)
-        buildLiquidBodyPath(
-            path = fillPath,
-            left = fillRect.left,
-            top = fillRect.top,
-            right = fillRect.right,
-            bottom = fillRect.bottom,
-            baseline = baseline,
-            amplitude = amplitude,
-            wavelength = wavelength
-        )
+        val amplitude = max(2f, min(height * 0.08f, 6f))
+        val wavelength = max(24f, height * 1.8f)
+        val step = max(6f, width / 28f)
 
-        fillPaint.shader = LinearGradient(
-            fillRect.left,
-            fillRect.top,
-            fillRect.left,
-            fillRect.bottom,
-            ColorUtils.blendARGB(fillColor, Color.WHITE, 0.18f),
-            ColorUtils.blendARGB(fillColor, Color.BLACK, 0.12f),
-            Shader.TileMode.CLAMP
-        )
-        canvas.drawPath(fillPath, fillPaint)
+        wavePath.reset()
+        wavePath.moveTo(fillRect.left, fillRect.bottom)
+        wavePath.lineTo(fillRect.left, baseline)
 
-        val sheenBottom = min(fillRect.bottom, fillRect.top + height * 0.26f)
-        if (sheenBottom > fillRect.top) {
-            wavePaint.shader = LinearGradient(
-                fillRect.left,
-                fillRect.top,
-                fillRect.left,
-                sheenBottom,
-                ColorUtils.setAlphaComponent(Color.WHITE, 64),
-                ColorUtils.setAlphaComponent(Color.WHITE, 0),
-                Shader.TileMode.CLAMP
-            )
-            canvas.save()
-            canvas.clipRect(fillRect.left, fillRect.top, fillRect.right, sheenBottom)
-            canvas.drawPath(fillPath, wavePaint)
-            canvas.restore()
+        var x = fillRect.left
+        while (x <= fillRect.right) {
+            val y = baseline + amplitude * sin(((x - fillRect.left) / wavelength) * TWO_PI + phase)
+            wavePath.lineTo(x, y)
+            x += step
         }
+
+        wavePath.lineTo(fillRect.right, fillRect.bottom)
+        wavePath.close()
+        canvas.drawPath(wavePath, wavePaint)
 
         canvas.restore()
     }
@@ -155,51 +147,6 @@ class LiquidWaveProgressDrawable(
     override fun onBoundsChange(bounds: Rect) {
         super.onBoundsChange(bounds)
         invalidateSelf()
-    }
-
-    private fun buildLiquidBodyPath(
-        path: Path,
-        left: Float,
-        top: Float,
-        right: Float,
-        bottom: Float,
-        baseline: Float,
-        amplitude: Float,
-        wavelength: Float
-    ) {
-        val width = max(1f, right - left)
-        val samples = max(10, (width / max(10f, wavelength / 4f)).toInt())
-        val step = width / samples
-        val points = ArrayList<PointF>(samples + 1)
-        var x = left
-        while (x <= right + 0.5f) {
-            val t = (x - left) / wavelength
-            val wave = sin(t * TWO_PI + phase) + 0.22f * sin(t * TWO_PI * 1.92f - phase * 1.28f)
-            val y = baseline + amplitude * wave
-            points.add(PointF(x, y.coerceIn(top + amplitude * 0.25f, bottom - amplitude * 0.2f)))
-            x += step
-        }
-
-        if (points.size < 2) {
-            path.addRoundRect(RectF(left, top, right, bottom), 0f, 0f, Path.Direction.CW)
-            return
-        }
-
-        path.moveTo(left, bottom)
-        path.lineTo(left, points.first().y)
-        for (index in 0 until points.lastIndex) {
-            val current = points[index]
-            val next = points[index + 1]
-            val midX = (current.x + next.x) / 2f
-            val midY = (current.y + next.y) / 2f
-            if (index == 0) {
-                path.quadTo(current.x, current.y, midX, midY)
-            } else {
-                path.quadTo(current.x, current.y, midX, midY)
-            }
-        }
-        path.lineTo(right, bottom)
-        path.close()
     }
 
     fun dispose() {
