@@ -129,9 +129,13 @@ class SettingsFragment : Fragment() {
     private lateinit var backButton: View
     private lateinit var sectionList: View
     private lateinit var generalSection: View
+    private lateinit var generalSectionIconBg: View
     private lateinit var updatesSection: View
+    private lateinit var updatesSectionIconBg: View
     private lateinit var advanceSection: View
+    private lateinit var advanceSectionIconBg: View
     private lateinit var aboutSection: View
+    private lateinit var aboutSectionIconBg: View
     private lateinit var updatesSummaryText: TextView
     private lateinit var updatesDebugText: TextView
     private lateinit var viewChangelogButton: Button
@@ -184,9 +188,13 @@ class SettingsFragment : Fragment() {
         backButton = view.findViewById(R.id.backButton)
         sectionList = view.findViewById(R.id.sectionList)
         generalSection = view.findViewById(R.id.generalSection)
+        generalSectionIconBg = view.findViewById(R.id.generalSectionIconBg)
         updatesSection = view.findViewById(R.id.updatesSection)
+        updatesSectionIconBg = view.findViewById(R.id.updatesSectionIconBg)
         advanceSection = view.findViewById(R.id.advanceSection)
+        advanceSectionIconBg = view.findViewById(R.id.advanceSectionIconBg)
         aboutSection = view.findViewById(R.id.aboutSection)
+        aboutSectionIconBg = view.findViewById(R.id.aboutSectionIconBg)
         updatesSummaryText = view.findViewById(R.id.updatesSummaryText)
         updatesDebugText = view.findViewById(R.id.updatesDebugText)
         viewChangelogButton = view.findViewById(R.id.viewChangelogButton)
@@ -241,6 +249,7 @@ class SettingsFragment : Fragment() {
         updateLanguageLabel()
         updateDownloadNetworkLabel()
         updateAppearanceSwitches()
+        updateSettingsSectionTabs()
         batteryOptimizationValue = view.findViewById(R.id.batteryOptimizationValue)
         updateBackendUrlLabel()
         updateBatteryOptimizationLabel()
@@ -583,6 +592,29 @@ class SettingsFragment : Fragment() {
                 )
             )
             optionViews.labelView.alpha = if (isSelected) 1f else 0.85f
+        }
+    }
+
+    private fun updateSettingsSectionTabs() {
+        val isDynamic = AppearancePreferences.isDynamicColorEnabled(requireContext())
+        val cardDrawable = if (isDynamic) {
+            R.drawable.settings_section_card_material
+        } else {
+            R.drawable.settings_section_card
+        }
+        val iconDrawable = if (isDynamic) {
+            R.drawable.settings_section_icon_bg_material
+        } else {
+            R.drawable.settings_section_icon_bg
+        }
+        listOf(
+            generalSection to generalSectionIconBg,
+            updatesSection to updatesSectionIconBg,
+            advanceSection to advanceSectionIconBg,
+            aboutSection to aboutSectionIconBg
+        ).forEach { (section, iconBg) ->
+            section.setBackgroundResource(cardDrawable)
+            iconBg.setBackgroundResource(iconDrawable)
         }
     }
 

@@ -75,6 +75,7 @@
                     android:paddingVertical="18dp">
 
                     <FrameLayout
+                        android:id="@+id/generalSectionIconBg"
                         android:layout_width="52dp"
                         android:layout_height="52dp"
                         android:background="@drawable/settings_section_icon_bg">
@@ -129,6 +130,7 @@
                     android:paddingVertical="18dp">
 
                     <FrameLayout
+                        android:id="@+id/updatesSectionIconBg"
                         android:layout_width="52dp"
                         android:layout_height="52dp"
                         android:background="@drawable/settings_section_icon_bg">
@@ -183,6 +185,7 @@
                     android:paddingVertical="18dp">
 
                     <FrameLayout
+                        android:id="@+id/advanceSectionIconBg"
                         android:layout_width="52dp"
                         android:layout_height="52dp"
                         android:background="@drawable/settings_section_icon_bg">
@@ -237,6 +240,7 @@
                     android:paddingVertical="18dp">
 
                     <FrameLayout
+                        android:id="@+id/aboutSectionIconBg"
                         android:layout_width="52dp"
                         android:layout_height="52dp"
                         android:background="@drawable/settings_section_icon_bg">
