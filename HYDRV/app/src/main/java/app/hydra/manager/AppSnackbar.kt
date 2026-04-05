@@ -4,6 +4,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import com.google.android.material.R as MaterialR
 import com.google.android.material.snackbar.Snackbar
 
@@ -35,16 +36,13 @@ object AppSnackbar {
         )
 
         snackbar.view.background = ContextCompat.getDrawable(context, R.drawable.card)
+        snackbar.view.background?.let { background ->
+            DrawableCompat.setTint(background.mutate(), ThemeColors.color(context, com.google.android.material.R.attr.colorSurface, R.color.card))
+        }
         snackbar.view.minimumHeight = 0
 
         snackbar.view.findViewById<TextView>(MaterialR.id.snackbar_text)?.apply {
-            setTextColor(
-                ThemeColors.color(
-                    context,
-                    MaterialR.attr.colorOnSurface,
-                    R.color.text
-                )
-            )
+            setTextColor(ContextCompat.getColor(context, R.color.text))
             maxLines = 2
         }
         snackbar.setActionTextColor(
