@@ -74,8 +74,6 @@ jobs:
           release_version="${GITHUB_REF_NAME#v}"
           repo_root="$(git rev-parse --show-toplevel)"
           {
-            echo "## Changelog"
-            echo
             awk -v version="$release_version" '
               $0 ~ "^## \\[" version "\\]" { printing = 1; next }
               printing && $0 ~ "^## \\[" { exit }
@@ -85,6 +83,10 @@ jobs:
             echo "## Recent work"
             echo
             git -C "$repo_root" log --pretty=format:'- %s' --no-merges -n 12
+            echo
+            echo "## Contributors"
+            echo
+            git -C "$repo_root" shortlog -s --all --no-merges | awk '{ $1=""; sub(/^ /, ""); print "- " $0 }'
           } > "$GITHUB_WORKSPACE/release-notes.md"
 
       - name: Upload APK artifact
