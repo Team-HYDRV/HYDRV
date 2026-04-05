@@ -1009,7 +1009,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
                                 android:text="@string/updates_never_checked"
-                                android:textColor="?attr/colorOnSurfaceVariant"
+                                android:textColor="?attr/colorOnSurface"
                                 android:textSize="13sp" />
 
                             <TextView
@@ -1017,9 +1017,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
-                                android:alpha="0.72"
                                 android:text="@string/updates_never_checked"
-                                android:textColor="?attr/colorOnSurfaceVariant"
+                                android:textColor="?attr/colorOnSurface"
                                 android:textSize="11sp" />
                         </LinearLayout>
                     </LinearLayout>
@@ -1035,7 +1034,7 @@
                         android:paddingHorizontal="18dp"
                         android:text="@string/updates_view_changelog"
                         android:textAllCaps="false"
-                        android:textColor="?attr/colorOnBackground" />
+                        android:textColor="?attr/colorOnPrimaryContainer" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -1161,7 +1160,7 @@
                     android:paddingHorizontal="20dp"
                     android:text="@string/updates_check_now"
                     android:textAllCaps="false"
-                    android:textColor="?attr/colorOnBackground" />
+                    android:textColor="?attr/colorOnPrimaryContainer" />
             </LinearLayout>
 
             <LinearLayout
