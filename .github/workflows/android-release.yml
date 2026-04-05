@@ -74,10 +74,6 @@ jobs:
           release_version="${GITHUB_REF_NAME#v}"
           repo_root="$(git rev-parse --show-toplevel)"
           {
-            echo "# HYDRV ${GITHUB_REF_NAME}"
-            echo
-            echo "> Android release browsing, kept clean."
-            echo
             echo "## Changelog"
             echo
             awk -v version="$release_version" '
