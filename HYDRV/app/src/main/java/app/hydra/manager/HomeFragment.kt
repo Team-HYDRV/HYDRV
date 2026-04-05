@@ -360,8 +360,6 @@ class HomeFragment : Fragment() {
                             renderCurrentTab()
                         }
                     })
-                    adapter.refreshRuntimeState()
-                    renderCurrentTab()
 
                     if (isManualRefresh || (hasChanged && !fetchResult.fromCache)) {
                         if (!isHidden) {
