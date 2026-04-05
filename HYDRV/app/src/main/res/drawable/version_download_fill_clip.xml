@@ -1,8 +1,8 @@
 <inset xmlns:android="http://schemas.android.com/apk/res/android"
-    android:insetLeft="2dp"
-    android:insetTop="2dp"
-    android:insetRight="2dp"
-    android:insetBottom="2dp">
+    android:insetLeft="3dp"
+    android:insetTop="3dp"
+    android:insetRight="3dp"
+    android:insetBottom="3dp">
 
     <clip
         android:clipOrientation="horizontal"
