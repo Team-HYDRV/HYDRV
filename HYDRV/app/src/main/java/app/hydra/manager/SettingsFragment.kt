@@ -34,9 +34,11 @@ import androidx.work.WorkManager
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.google.android.material.R as MaterialR
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.json.JSONObject
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -123,6 +125,20 @@ class SettingsFragment : Fragment() {
         ABOUT(R.string.settings_about_title)
     }
 
+    private enum class UpdateActionState {
+        CHECK,
+        DOWNLOAD,
+        INSTALL,
+        DOWNLOADING,
+        RESUME
+    }
+
+    private data class UpdateActionUi(
+        val state: UpdateActionState,
+        val labelRes: Int,
+        val enabled: Boolean
+    )
+
     private data class ThemeOptionViews(
         val optionView: View,
         val iconBackground: View,
@@ -184,6 +200,7 @@ class SettingsFragment : Fragment() {
         override fun run() {
             if (!isAdded || view == null) return
             updateUpdatesSummary()
+            refreshUpdateActionButton()
             mainHandler.postDelayed(this, UPDATES_DEBUG_REFRESH_MS)
         }
     }
@@ -385,9 +402,7 @@ class SettingsFragment : Fragment() {
         viewChangelogButton.setOnClickListener {
             showUpdatesChangelogDialog()
         }
-        checkForUpdatesButton.setOnClickListener {
-            runManualUpdateCheck()
-        }
+        refreshUpdateActionButton()
 
         view.findViewById<View>(R.id.favoritesSortRow).setOnClickListener {
             showAppSortDialog(
@@ -482,6 +497,14 @@ class SettingsFragment : Fragment() {
         }
 
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        DownloadRepository.downloadsLive.observe(viewLifecycleOwner, Observer {
+            refreshUpdateActionButton()
+        })
+        refreshUpdateActionButton()
     }
 
     private fun showOverview() {
@@ -1041,6 +1064,7 @@ class SettingsFragment : Fragment() {
         updateNotificationLabel()
         updateLaunchUpdateSwitches()
         updateUpdatesSummary()
+        refreshUpdateActionButton()
         updateSortLabels()
         updateAboutVersion()
     }
@@ -1309,6 +1333,7 @@ class SettingsFragment : Fragment() {
             } else {
                 ReleaseUpdateState.setLastCheckedAt(requireContext(), result.checkedAt)
                 updateUpdatesSummary()
+                refreshUpdateActionButton()
                 if (result.hasChanges) {
                     if (!result.latestReleaseName.isNullOrBlank()) {
                         AppSnackbar.show(
@@ -1336,6 +1361,7 @@ class SettingsFragment : Fragment() {
                 }
             }
 
+            refreshUpdateActionButton()
             AppSnackbar.show(
                 activity.findViewById(R.id.rootLayout),
                 message,
@@ -1343,6 +1369,172 @@ class SettingsFragment : Fragment() {
                 baseBottomMarginDp = 10
             )
         }
+    }
+
+    private fun getCurrentVersionName(context: android.content.Context): String {
+        return try {
+            context.packageManager.getPackageInfo(context.packageName, 0).versionName ?: "1.0.1"
+        } catch (_: Exception) {
+            "1.0.1"
+        }
+    }
+
+    private fun refreshUpdateActionButton() {
+        if (!this::checkForUpdatesButton.isInitialized || !isAdded) return
+        val context = context ?: return
+        val action = resolveUpdateActionState(context)
+
+        checkForUpdatesButton.isEnabled = action.enabled
+        checkForUpdatesButton.text = getString(action.labelRes)
+        checkForUpdatesButton.setOnClickListener {
+            when (action.state) {
+                UpdateActionState.CHECK -> runManualUpdateCheck()
+                UpdateActionState.DOWNLOAD -> startLatestReleaseDownload()
+                UpdateActionState.INSTALL -> installLatestReleaseApk()
+                UpdateActionState.DOWNLOADING -> Unit
+                UpdateActionState.RESUME -> resumeLatestReleaseDownload()
+            }
+        }
+    }
+
+    private fun resolveUpdateActionState(context: android.content.Context): UpdateActionUi {
+        val latestTag = ReleaseUpdateState.getLastSeenTag(context).trim()
+        val currentVersion = getCurrentVersionName(context)
+        val updateAvailable = latestTag.isNotBlank() &&
+            ReleaseVersionComparator.isNewer(currentVersion, latestTag)
+
+        if (!updateAvailable) {
+            return UpdateActionUi(UpdateActionState.CHECK, R.string.updates_check_now, true)
+        }
+
+        val downloadItem = latestReleaseDownloadItem(latestTag)
+        if (downloadItem == null) {
+            return UpdateActionUi(UpdateActionState.DOWNLOAD, R.string.updates_download_now, true)
+        }
+
+        val file = downloadItem.filePath.takeIf { it.isNotBlank() }?.let(::File)
+        val fileExists = file?.exists() == true && file.length() > 0L
+
+        return when {
+            downloadItem.status == "Downloading" -> {
+                UpdateActionUi(UpdateActionState.DOWNLOADING, R.string.updates_downloading, false)
+            }
+
+            downloadItem.status == "Paused" -> {
+                UpdateActionUi(UpdateActionState.RESUME, R.string.updates_resume_download, true)
+            }
+
+            downloadItem.status == "Done" && fileExists -> {
+                UpdateActionUi(UpdateActionState.INSTALL, R.string.updates_install_now, true)
+            }
+
+            fileExists -> {
+                UpdateActionUi(UpdateActionState.INSTALL, R.string.updates_install_now, true)
+            }
+
+            else -> {
+                UpdateActionUi(UpdateActionState.DOWNLOAD, R.string.updates_download_now, true)
+            }
+        }
+    }
+
+    private fun latestReleaseDownloadItem(latestTag: String): DownloadItem? {
+        return DownloadRepository.downloads.lastOrNull { item ->
+            item.url == RuntimeConfig.githubLatestReleaseApkUrl &&
+                item.versionName.trim() == latestTag
+        }
+    }
+
+    private fun startLatestReleaseDownload() {
+        val activity = activity ?: return
+        val context = context ?: return
+        val latestTag = ReleaseUpdateState.getLastSeenTag(context).trim()
+        if (latestTag.isBlank()) {
+            runManualUpdateCheck()
+            return
+        }
+
+        val existing = latestReleaseDownloadItem(latestTag)
+        if (existing != null) {
+            val file = existing.filePath.takeIf { it.isNotBlank() }?.let(::File)
+            val fileExists = file?.exists() == true && file.length() > 0L
+            when {
+                existing.status == "Downloading" -> {
+                    refreshUpdateActionButton()
+                    return
+                }
+
+                existing.status == "Paused" -> {
+                    resumeLatestReleaseDownload()
+                    return
+                }
+
+                existing.status == "Done" && fileExists -> {
+                    installLatestReleaseApk()
+                    return
+                }
+
+                !fileExists || existing.status == "Failed" || existing.status == "Done" -> {
+                    DownloadRepository.delete(context, existing)
+                }
+            }
+        }
+
+        val result = DownloadRepository.startDownload(
+            context,
+            DownloadItem(
+                name = getString(R.string.app_name),
+                url = RuntimeConfig.githubLatestReleaseApkUrl,
+                versionName = latestTag
+            )
+        )
+
+        refreshUpdateActionButton()
+        if (result != DownloadRepository.StartResult.STARTED) {
+            val message = DownloadRepository.startResultMessage(context, result)
+            if (!message.isNullOrBlank()) {
+                AppSnackbar.show(activity.findViewById(R.id.rootLayout), message)
+            }
+        }
+    }
+
+    private fun resumeLatestReleaseDownload() {
+        val activity = activity ?: return
+        val context = context ?: return
+        val latestTag = ReleaseUpdateState.getLastSeenTag(context).trim()
+        val item = latestReleaseDownloadItem(latestTag) ?: return
+        val result = DownloadRepository.resume(context, item)
+
+        refreshUpdateActionButton()
+        if (result != DownloadRepository.StartResult.STARTED) {
+            val message = DownloadRepository.startResultMessage(context, result)
+            if (!message.isNullOrBlank()) {
+                AppSnackbar.show(activity.findViewById(R.id.rootLayout), message)
+            }
+        }
+    }
+
+    private fun installLatestReleaseApk() {
+        val context = context ?: return
+        val latestTag = ReleaseUpdateState.getLastSeenTag(context).trim()
+        val item = latestReleaseDownloadItem(latestTag) ?: run {
+            refreshUpdateActionButton()
+            return
+        }
+
+        val file = item.filePath.takeIf { it.isNotBlank() }?.let(::File)
+        if (file?.exists() != true) {
+            refreshUpdateActionButton()
+            return
+        }
+
+        InstallSessionManager.installApk(
+            context,
+            file.absolutePath,
+            getString(R.string.app_name),
+            context.packageName
+        )
+        refreshUpdateActionButton()
     }
 
     private fun updateToggle(track: FrameLayout, thumb: View, enabled: Boolean) {

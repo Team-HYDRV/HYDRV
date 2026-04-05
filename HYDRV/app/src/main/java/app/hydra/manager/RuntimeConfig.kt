@@ -7,6 +7,9 @@ object RuntimeConfig {
     val githubRepoUrl: String
         get() = "https://github.com/$githubOwner/$githubRepo"
 
+    val githubLatestReleaseApkUrl: String
+        get() = "$githubRepoUrl/releases/latest/download/HYDRV.apk"
+
     val githubRawBaseUrl: String
         get() = "https://raw.githubusercontent.com/$githubOwner/$githubRepo/main"
 
