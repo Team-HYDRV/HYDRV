@@ -101,15 +101,19 @@ object AppNotificationHelper {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
-        val contentText = if (releaseLabel.isNullOrBlank()) {
-            context.getString(R.string.notification_text_release_live)
+        val contentText = context.getString(R.string.notification_text_release_live)
+        val contentTitle = if (releaseLabel.isNullOrBlank()) {
+            context.getString(R.string.notification_title_release_live)
         } else {
-            context.getString(R.string.notification_text_release_live_with_version, releaseLabel)
+            context.getString(
+                R.string.notification_title_release_live_with_version,
+                releaseLabel
+            )
         }
 
         val notification = NotificationCompat.Builder(context, CHANNEL_UPDATES)
             .setSmallIcon(android.R.drawable.stat_notify_sync)
-            .setContentTitle(context.getString(R.string.notification_title_release_live))
+            .setContentTitle(contentTitle)
             .setContentText(contentText)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setAutoCancel(true)

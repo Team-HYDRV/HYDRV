@@ -204,8 +204,8 @@
     <string name="notification_title_updates_live">New app changes are live</string>
     <string name="notification_text_updates_live">Fresh updates are available in HYDRV. Come check what\'s new.</string>
     <string name="notification_title_release_live">New release is live</string>
+    <string name="notification_title_release_live_with_version">HYDRV %1$s</string>
     <string name="notification_text_release_live">A new HYDRV release is available.</string>
-    <string name="notification_text_release_live_with_version">A new HYDRV release is available: %1$s</string>
     <string name="updates_open_release">Open release</string>
 
     <string name="install_failed">Install failed</string>
