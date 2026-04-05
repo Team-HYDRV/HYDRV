@@ -98,7 +98,7 @@
         android:background="@drawable/version_hint_downloaded"
         android:paddingHorizontal="10dp"
         android:paddingVertical="5dp"
-        android:textColor="?attr/colorOnSurface"
+        android:textColor="@color/text_on_dark_chip"
         android:textSize="11sp"
         android:textStyle="bold"
         android:visibility="gone" />
