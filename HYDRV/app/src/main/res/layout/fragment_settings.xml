@@ -311,6 +311,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/themeOptionsCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
@@ -832,6 +833,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/updatesHeroCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
@@ -958,6 +960,7 @@
                 android:visibility="gone">
 
                 <LinearLayout
+                    android:id="@+id/generalDeviceInfoCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
@@ -1356,6 +1359,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/aboutHeroCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
@@ -1492,6 +1496,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/aboutLinksCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
@@ -1527,6 +1532,7 @@
                 android:visibility="gone">
 
                 <LinearLayout
+                    android:id="@+id/aboutIssuesCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"

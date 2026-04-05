@@ -634,6 +634,7 @@ class SettingsFragment : Fragment() {
             R.drawable.card
         }
         listOf(
+            R.id.themeOptionsCard,
             R.id.generalSection,
             R.id.dynamicColorRow,
             R.id.pureBlackRow,
@@ -645,6 +646,7 @@ class SettingsFragment : Fragment() {
             R.id.installedSortRow,
             R.id.versionSortRow,
             R.id.downloadSortRow,
+            R.id.updatesHeroCard,
             R.id.updatesSection,
             R.id.checkUpdatesOnLaunchRow,
             R.id.showUpdateMessageRow,
@@ -655,6 +657,10 @@ class SettingsFragment : Fragment() {
             R.id.exportDebugLogsRow,
             R.id.exportSettingsBackupRow,
             R.id.importSettingsBackupRow,
+            R.id.generalDeviceInfoCard,
+            R.id.aboutHeroCard,
+            R.id.aboutLinksCard,
+            R.id.aboutIssuesCard,
             R.id.aboutSection,
             R.id.aboutWebsiteButton,
             R.id.aboutDiscordButton,
