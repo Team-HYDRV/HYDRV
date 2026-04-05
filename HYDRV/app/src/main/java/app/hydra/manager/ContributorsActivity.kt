@@ -32,7 +32,6 @@ class ContributorsActivity : AppCompatActivity() {
     )
 
     private data class ContributorGroup(
-        val title: String,
         val summary: String,
         val countLabel: String,
         val members: List<ContributorCredit>
@@ -122,7 +121,6 @@ class ContributorsActivity : AppCompatActivity() {
         val chunks = filtered.chunked(6)
         return chunks.mapIndexed { index, chunk ->
             ContributorGroup(
-                title = getString(R.string.about_contributors_title),
                 summary = getString(R.string.contributors_group_summary),
                 countLabel = chunk.size.toString(),
                 members = chunk
@@ -170,13 +168,11 @@ class ContributorsActivity : AppCompatActivity() {
             itemView: View,
             private val onClick: (String) -> Unit
         ) : RecyclerView.ViewHolder(itemView) {
-            private val groupTitle: TextView = itemView.findViewById(R.id.groupTitle)
             private val groupCount: TextView = itemView.findViewById(R.id.groupCount)
             private val groupSummary: TextView = itemView.findViewById(R.id.groupSummary)
             private val avatarsContainer: LinearLayout = itemView.findViewById(R.id.avatarsContainer)
 
             fun bind(item: ContributorGroup) {
-                groupTitle.text = item.title
                 groupCount.text = item.countLabel
                 groupSummary.text = item.summary
                 avatarsContainer.removeAllViews()
