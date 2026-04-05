@@ -4,10 +4,10 @@
     android:insetRight="1dp"
     android:insetBottom="1dp">
     <shape>
-        <solid android:color="#2A2A2D" />
+        <solid android:color="#2A2A2E" />
         <stroke
             android:width="1dp"
-            android:color="#36363A" />
+            android:color="#444449" />
         <corners android:radius="16dp" />
     </shape>
 </inset>
