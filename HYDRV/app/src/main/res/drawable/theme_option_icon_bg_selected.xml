@@ -4,10 +4,10 @@
     android:insetRight="2dp"
     android:insetBottom="2dp">
     <shape>
-        <solid android:color="?attr/colorPrimaryContainer" />
+        <solid android:color="@color/settings_section_icon_bg_selected" />
         <stroke
             android:width="2dp"
-            android:color="?attr/colorPrimary" />
+            android:color="@color/accent" />
         <corners android:radius="22dp" />
     </shape>
 </inset>

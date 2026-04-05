@@ -611,34 +611,20 @@ class SettingsFragment : Fragment() {
     }
 
     private fun updateSettingsSectionTabs() {
-        val isDynamic = AppearancePreferences.isDynamicColorEnabled(requireContext())
-        val cardDrawable = if (isDynamic) {
-            R.drawable.card_material
-        } else {
-            R.drawable.settings_section_card
-        }
-        val iconDrawable = if (isDynamic) {
-            R.drawable.settings_section_icon_bg_material
-        } else {
-            R.drawable.settings_section_icon_bg
-        }
+        if (!AppearancePreferences.isDynamicColorEnabled(requireContext())) return
         listOf(
             generalSectionTab to generalSectionIconBg,
             updatesSectionTab to updatesSectionIconBg,
             advanceSectionTab to advanceSectionIconBg,
             aboutSectionTab to aboutSectionIconBg
         ).forEach { (section, iconBg) ->
-            section.setBackgroundResource(cardDrawable)
-            iconBg.setBackgroundResource(iconDrawable)
+            section.setBackgroundResource(R.drawable.card_material)
+            iconBg.setBackgroundResource(R.drawable.settings_section_icon_bg_material)
         }
     }
 
     private fun updateSettingsCardSurfaces(root: View) {
-        val cardDrawable = if (AppearancePreferences.isDynamicColorEnabled(requireContext())) {
-            R.drawable.card_material
-        } else {
-            R.drawable.card
-        }
+        if (!AppearancePreferences.isDynamicColorEnabled(requireContext())) return
         listOf(
             R.id.themeOptionsCard,
             R.id.dynamicColorRow,
@@ -671,21 +657,16 @@ class SettingsFragment : Fragment() {
             R.id.aboutContributorsRow,
             R.id.aboutLicensesRow
         ).forEach { id ->
-            root.findViewById<View>(id)?.setBackgroundResource(cardDrawable)
+            root.findViewById<View>(id)?.setBackgroundResource(R.drawable.card_material)
         }
 
-        val dividerDrawable = if (AppearancePreferences.isDynamicColorEnabled(requireContext())) {
-            R.drawable.about_list_divider_material
-        } else {
-            R.drawable.about_list_divider
-        }
         listOf(
             aboutIssueDivider,
             aboutContributorsDivider,
             aboutLicensesDivider
         ).forEach { divider ->
             divider.visibility = View.VISIBLE
-            divider.setBackgroundResource(dividerDrawable)
+            divider.setBackgroundResource(R.drawable.about_list_divider_material)
         }
     }
 
