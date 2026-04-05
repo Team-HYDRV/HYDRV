@@ -7,11 +7,17 @@ object RuntimeConfig {
     val githubRepoUrl: String
         get() = "https://github.com/$githubOwner/$githubRepo"
 
+    val githubRawBaseUrl: String
+        get() = "https://raw.githubusercontent.com/$githubOwner/$githubRepo/main"
+
     val githubApiBaseUrl: String
         get() = "https://api.github.com/repos/$githubOwner/$githubRepo"
 
     val githubLatestReleaseUrl: String
         get() = "$githubApiBaseUrl/releases/latest"
+
+    val githubChangelogUrl: String
+        get() = "$githubRawBaseUrl/CHANGELOG.md"
 
     val githubContributorsUrl: String
         get() = "$githubApiBaseUrl/contributors?per_page=100"

@@ -1206,9 +1206,23 @@ class SettingsFragment : Fragment() {
                 }
             }.onFailure {
                 if (!isAdded) return@onFailure
-                if (dialog.isShowing) {
-                    dialog.setMessage(getString(R.string.updates_changelog_body))
-                }
+                GitHubRepository.fetchChangelogSync()
+                    .onSuccess { changelog ->
+                        if (!isAdded || !dialog.isShowing) return@onSuccess
+                        dialog.setMessage(
+                            SpannableStringBuilder().apply {
+                                appendLine("HYDRV ${RuntimeConfig.githubRepo}")
+                                appendLine(RuntimeConfig.githubRepoUrl)
+                                appendLine()
+                                append(formatReleaseNotesBody(changelog))
+                            }
+                        )
+                    }
+                    .onFailure {
+                        if (dialog.isShowing) {
+                            dialog.setMessage(getString(R.string.updates_changelog_body))
+                        }
+                    }
             }
         }
     }

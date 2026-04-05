@@ -118,6 +118,15 @@ object GitHubRepository {
         )
     }
 
+    fun fetchChangelogSync(): Result<String> {
+        return fetchTextSync(
+            request = Request.Builder()
+                .url(RuntimeConfig.githubChangelogUrl)
+                .header("User-Agent", "HYDRV")
+                .build()
+        )
+    }
+
     private fun <T> fetchJson(
         request: Request,
         parser: (String) -> T,
@@ -162,6 +171,17 @@ object GitHubRepository {
                 }
                 val body = response.body?.string().orEmpty()
                 parser(body)
+            }
+        }
+    }
+
+    private fun fetchTextSync(request: Request): Result<String> {
+        return runCatching {
+            client.newCall(request).execute().use { response ->
+                if (!response.isSuccessful) {
+                    throw IOException("HTTP ${response.code}")
+                }
+                response.body?.string().orEmpty()
             }
         }
     }
