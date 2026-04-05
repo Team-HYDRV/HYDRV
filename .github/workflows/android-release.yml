@@ -89,10 +89,6 @@ jobs:
             echo "## Contributors"
             echo
             git -C "$repo_root" shortlog -s --all --no-merges | awk '{ $1=""; sub(/^ /, ""); print "- " $0 }'
-            echo
-            echo "## Download"
-            echo
-            echo "- The signed APK is attached to this release as \`HYDRV.apk\`."
           } > "$GITHUB_WORKSPACE/release-notes.md"
 
       - name: Upload APK artifact
