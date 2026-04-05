@@ -548,6 +548,7 @@ object Downloader {
         val sanitized = sanitizeFileName(baseName)
         return when {
             sanitized.endsWith(".apk", ignoreCase = true) -> sanitized
+            item.packageName.isNotBlank() -> "$sanitized.apk"
             sanitized.contains('.') -> sanitized
             else -> sanitized
         }

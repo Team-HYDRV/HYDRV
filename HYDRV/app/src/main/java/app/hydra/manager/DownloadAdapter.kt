@@ -708,7 +708,8 @@ class DownloadAdapter(
     }
 
     private fun isApkDownload(item: DownloadItem): Boolean {
-        return item.filePath.endsWith(".apk", ignoreCase = true) ||
+        return item.packageName.isNotBlank() ||
+            item.filePath.endsWith(".apk", ignoreCase = true) ||
             item.url.isApkUrl()
     }
 
