@@ -329,7 +329,9 @@ class MainActivity : AppCompatActivity() {
             mainHandler.post {
                 if (isFinishing || isDestroyed) return@post
                 maybeCheckUpdatesOnLaunch()
-                refreshCatalogInForeground()
+                if (CatalogStateCenter.currentApps().isEmpty()) {
+                    refreshCatalogInForeground()
+                }
                 RewardedAdManager.initialize(appContext)
             }
         }.start()
