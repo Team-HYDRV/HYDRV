@@ -12,7 +12,10 @@ import android.view.View
 import android.view.animation.DecelerateInterpolator
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowCompat
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import com.google.android.material.R as MaterialR
 import com.google.android.material.color.DynamicColors
@@ -96,6 +99,8 @@ class MainActivity : AppCompatActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContentView(R.layout.activity_main)
         AppearancePreferences.applyPureBlackBackgroundIfNeeded(findViewById(R.id.rootLayout))
+        val bottomNav = findViewById<View>(R.id.bottomNav)
+        val bottomNavBasePadding = bottomNav.paddingBottom
         val bottomNavContainer = findViewById<View>(R.id.navContainer)
         bottomNavContainer.setBackgroundResource(
             if (AppearancePreferences.isDynamicColorEnabled(this)) {
@@ -104,6 +109,12 @@ class MainActivity : AppCompatActivity() {
                 R.drawable.nav_bg
             }
         )
+        ViewCompat.setOnApplyWindowInsetsListener(bottomNav) { view, insets ->
+            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.updatePadding(bottom = bottomNavBasePadding + bars.bottom)
+            insets
+        }
+        ViewCompat.requestApplyInsets(bottomNav)
         activeColor = ThemeColors.color(
             this,
             androidx.appcompat.R.attr.colorPrimary,
