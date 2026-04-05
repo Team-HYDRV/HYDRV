@@ -78,14 +78,6 @@ jobs:
             echo
             echo "> Android release browsing, kept clean."
             echo
-            echo "## Release at a glance"
-            echo
-            echo "| Item | Value |"
-            echo "| --- | --- |"
-            echo "| Version | \`${GITHUB_REF_NAME}\` |"
-            echo "| Commit | \`${GITHUB_SHA:0:7}\` |"
-            echo "| Signed APK | \`HYDRV.apk\` |"
-            echo
             echo "## Changelog"
             echo
             awk -v version="$release_version" '
@@ -117,6 +109,6 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
         with:
-          name: ${{ github.ref_name }}
+          name: HYDRV ${{ github.ref_name }}
           body_path: release-notes.md
           files: HYDRV/HYDRV.apk
