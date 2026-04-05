@@ -320,17 +320,19 @@ class MainActivity : AppCompatActivity() {
     private fun runDeferredStartupIfNeeded() {
         if (deferredStartupRan) return
         deferredStartupRan = true
-        mainHandler.post {
-            AppStateCacheManager.initialize(this)
-            DownloadRepository.load(this)
-            AppNotificationHelper.ensureChannels(this)
-            UpdateWorkScheduler.ensureScheduled(this, runImmediateCatchUp = true)
-            maybeCheckUpdatesOnLaunch()
-            refreshCatalogInForeground()
+        val appContext = applicationContext
+        Thread {
+            AppStateCacheManager.initialize(appContext)
+            DownloadRepository.load(appContext)
+            AppNotificationHelper.ensureChannels(appContext)
+            UpdateWorkScheduler.ensureScheduled(appContext, runImmediateCatchUp = true)
             mainHandler.post {
-                RewardedAdManager.initialize(this)
+                if (isFinishing || isDestroyed) return@post
+                maybeCheckUpdatesOnLaunch()
+                refreshCatalogInForeground()
+                RewardedAdManager.initialize(appContext)
             }
-        }
+        }.start()
     }
 
     private fun showInstallSnackbar(event: InstallStatusCenter.Event) {
