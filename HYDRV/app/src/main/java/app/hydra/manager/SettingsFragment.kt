@@ -606,7 +606,7 @@ class SettingsFragment : Fragment() {
     private fun updateSettingsSectionTabs() {
         val isDynamic = AppearancePreferences.isDynamicColorEnabled(requireContext())
         val cardDrawable = if (isDynamic) {
-            R.drawable.settings_section_card_material
+            R.drawable.card_material
         } else {
             R.drawable.settings_section_card
         }
