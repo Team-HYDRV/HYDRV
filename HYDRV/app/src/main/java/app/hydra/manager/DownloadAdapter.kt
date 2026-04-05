@@ -60,14 +60,9 @@ class DownloadAdapter(
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_download, parent, false)
         val progress = view.findViewById<ProgressBar>(R.id.progress)
-        progress.progressDrawable = ContextCompat.getDrawable(
-            view.context,
-            if (AppearancePreferences.isDynamicColorEnabled(parent.context)) {
-                R.drawable.button_progress_material
-            } else {
-                R.drawable.button_progress
-            }
-        )
+        val liquid = liquidProgressDrawable(view.context)
+        progress.progressDrawable = liquid
+        progress.setTag(R.id.liquidProgressDrawable, liquid)
         if (AppearancePreferences.isDynamicColorEnabled(parent.context)) {
             view.setBackgroundResource(R.drawable.card_material)
         }
@@ -214,6 +209,7 @@ class DownloadAdapter(
         if (previousKey != itemKey) {
             (holder.progress.getTag(R.id.progress) as? ValueAnimator)?.cancel()
             holder.progress.progress = item.progress
+            syncLiquidProgress(holder.progress, item.progress)
             holder.progress.setTag(R.id.progress, null)
         } else {
             animateProgress(holder.progress, item.progress)
@@ -507,6 +503,8 @@ class DownloadAdapter(
         super.onViewRecycled(holder)
         (holder.progress.getTag(R.id.progress) as? ValueAnimator)?.cancel()
         holder.progress.setTag(R.id.progress, null)
+        (holder.progress.getTag(R.id.liquidProgressDrawable) as? LiquidWaveProgressDrawable)?.dispose()
+        holder.progress.setTag(R.id.liquidProgressDrawable, null)
         holder.progress.animate().cancel()
         holder.percent.animate().cancel()
         holder.speed.animate().cancel()
@@ -588,6 +586,7 @@ class DownloadAdapter(
 
         if (to <= 0 || to < progressBar.progress || kotlin.math.abs(progressBar.progress - to) <= 1) {
             progressBar.progress = to
+            syncLiquidProgress(progressBar, to)
             progressBar.setTag(R.id.progress, null)
             onUpdate?.invoke(to)
             onEnd?.invoke()
@@ -602,6 +601,7 @@ class DownloadAdapter(
         animator.addUpdateListener {
             val value = it.animatedValue as Int
             progressBar.progress = value
+            syncLiquidProgress(progressBar, value)
             onUpdate?.invoke(value)
         }
         animator.addListener(object : android.animation.AnimatorListenerAdapter() {
@@ -614,6 +614,31 @@ class DownloadAdapter(
         })
         progressBar.setTag(R.id.progress, animator)
         animator.start()
+    }
+
+    private fun liquidProgressDrawable(context: Context): LiquidWaveProgressDrawable {
+        val trackColor = ThemeColors.color(
+            context,
+            com.google.android.material.R.attr.colorSurfaceVariant,
+            R.color.subtext
+        )
+        val fillColor = ThemeColors.color(
+            context,
+            androidx.appcompat.R.attr.colorPrimary,
+            R.color.accent
+        )
+        return LiquidWaveProgressDrawable(
+            trackColor = trackColor,
+            fillColor = fillColor,
+            drawTrack = true
+        )
+    }
+
+    private fun syncLiquidProgress(progressBar: ProgressBar, progress: Int) {
+        val drawable = (progressBar.progressDrawable as? LiquidWaveProgressDrawable)
+            ?: (progressBar.getTag(R.id.liquidProgressDrawable) as? LiquidWaveProgressDrawable)
+            ?: return
+        drawable.level = progress.coerceIn(0, 100) * 100
     }
 
     private fun installApk(context: Context, path: String, appName: String, backendPackage: String) {

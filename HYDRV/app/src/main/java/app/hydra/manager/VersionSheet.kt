@@ -47,7 +47,7 @@ class VersionSheet(
     private data class DownloadButtonViews(
         val container: FrameLayout,
         val track: FrameLayout,
-        val fill: View,
+        val fill: ImageView,
         val label: TextView,
         val icon: ImageView
     )
@@ -238,7 +238,7 @@ class VersionSheet(
             val downloadedHint = card.findViewById<TextView>(R.id.versionDownloadedHint)
             val button = card.findViewById<FrameLayout>(R.id.versionDownloadButton)
             val buttonTrack = card.findViewById<FrameLayout>(R.id.versionDownloadTrack)
-            val buttonFill = card.findViewById<View>(R.id.versionDownloadFill)
+            val buttonFill = card.findViewById<ImageView>(R.id.versionDownloadFill)
             val buttonLabel = card.findViewById<TextView>(R.id.versionDownloadLabel)
             val buttonIcon = card.findViewById<ImageView>(R.id.versionDownloadIcon)
             val key = versionKey(version)
@@ -456,6 +456,7 @@ class VersionSheet(
         bottomSheetCallback = null
         currentSnackbar?.dismiss()
         currentSnackbar = null
+        buttonViewsByKey.values.forEach { releaseLiquidDrawable(it.fill) }
         resetRunnables.values.forEach(mainHandler::removeCallbacks)
         resetRunnables.clear()
         buttonViewsByKey.clear()
@@ -733,7 +734,8 @@ class VersionSheet(
     private fun applyErrorState(views: DownloadButtonViews) {
         applyVersionButtonPalette(views, views.container.context)
         views.container.isEnabled = true
-        (views.fill as? ImageView)?.setImageResource(versionErrorFillDrawable(views.container.context))
+        releaseLiquidDrawable(views.fill)
+        views.fill.setImageResource(versionErrorFillDrawable(views.container.context))
         animateFillTo(views.fill, 100)
         views.track.animate().cancel()
         views.label.animate().cancel()
@@ -817,10 +819,9 @@ class VersionSheet(
     }
 
     private fun applyVersionButtonPalette(views: DownloadButtonViews, context: android.content.Context) {
-        val trackRes = versionTrackDrawable(context)
-        val fillRes = versionFillDrawable(context)
-        views.track.setBackgroundResource(trackRes)
-        (views.fill as? ImageView)?.setImageResource(fillRes)
+        val fillDrawable = liquidVersionDrawable(views.fill, context)
+        views.track.setBackgroundResource(versionTrackDrawable(context))
+        views.fill.setImageDrawable(fillDrawable)
         views.label.setTextColor(
             ThemeColors.color(
                 context,
@@ -837,6 +838,23 @@ class VersionSheet(
         )
     }
 
+    private fun liquidVersionDrawable(
+        fillView: ImageView,
+        context: android.content.Context
+    ): LiquidWaveProgressDrawable {
+        (fillView.getTag(R.id.liquidProgressDrawable) as? LiquidWaveProgressDrawable)?.let { return it }
+        val drawable = LiquidWaveProgressDrawable(
+            trackColor = Color.TRANSPARENT,
+            fillColor = ThemeColors.color(
+                context,
+                androidx.appcompat.R.attr.colorPrimary,
+                R.color.accent
+            )
+        )
+        fillView.setTag(R.id.liquidProgressDrawable, drawable)
+        return drawable
+    }
+
     private fun versionTrackDrawable(context: android.content.Context): Int {
         return if (AppearancePreferences.isDynamicColorEnabled(context)) {
             R.drawable.version_download_button_bg
@@ -851,6 +869,11 @@ class VersionSheet(
         } else {
             R.drawable.version_download_fill_brand_clip
         }
+    }
+
+    private fun releaseLiquidDrawable(fillView: ImageView) {
+        (fillView.getTag(R.id.liquidProgressDrawable) as? LiquidWaveProgressDrawable)?.dispose()
+        fillView.setTag(R.id.liquidProgressDrawable, null)
     }
 
     private fun versionErrorFillDrawable(context: android.content.Context): Int {
