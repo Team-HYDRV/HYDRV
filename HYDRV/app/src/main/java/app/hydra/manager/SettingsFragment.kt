@@ -258,7 +258,7 @@ class SettingsFragment : Fragment() {
         updateDownloadNetworkLabel()
         updateAppearanceSwitches()
         updateSettingsSectionTabs()
-        updateSettingsCardSurfaces()
+        updateSettingsCardSurfaces(view)
         batteryOptimizationValue = view.findViewById(R.id.batteryOptimizationValue)
         updateBackendUrlLabel()
         updateBatteryOptimizationLabel()
@@ -627,7 +627,7 @@ class SettingsFragment : Fragment() {
         }
     }
 
-    private fun updateSettingsCardSurfaces() {
+    private fun updateSettingsCardSurfaces(root: View) {
         val cardDrawable = if (AppearancePreferences.isDynamicColorEnabled(requireContext())) {
             R.drawable.card_material
         } else {
@@ -670,7 +670,7 @@ class SettingsFragment : Fragment() {
             R.id.aboutContributorsRow,
             R.id.aboutLicensesRow
         ).forEach { id ->
-            view?.findViewById<View>(id)?.setBackgroundResource(cardDrawable)
+            root.findViewById<View>(id)?.setBackgroundResource(cardDrawable)
         }
     }
 
