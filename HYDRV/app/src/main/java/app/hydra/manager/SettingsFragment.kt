@@ -1120,18 +1120,35 @@ class SettingsFragment : Fragment() {
     }
 
     private fun updateToggle(track: FrameLayout, thumb: View, enabled: Boolean) {
+        val useMaterial = AppearancePreferences.isDynamicColorEnabled(requireContext())
         track.setBackgroundResource(
-            if (enabled) {
-                R.drawable.settings_toggle_track_on
+            if (useMaterial) {
+                if (enabled) {
+                    R.drawable.settings_toggle_track_on_material
+                } else {
+                    R.drawable.settings_toggle_track_off_material
+                }
             } else {
-                R.drawable.settings_toggle_track_off
+                if (enabled) {
+                    R.drawable.settings_toggle_track_on
+                } else {
+                    R.drawable.settings_toggle_track_off
+                }
             }
         )
         thumb.setBackgroundResource(
-            if (enabled) {
-                R.drawable.settings_toggle_thumb_on
+            if (useMaterial) {
+                if (enabled) {
+                    R.drawable.settings_toggle_thumb_on_material
+                } else {
+                    R.drawable.settings_toggle_thumb_off_material
+                }
             } else {
-                R.drawable.settings_toggle_thumb_off
+                if (enabled) {
+                    R.drawable.settings_toggle_thumb_on
+                } else {
+                    R.drawable.settings_toggle_thumb_off
+                }
             }
         )
         thumb.animate()
