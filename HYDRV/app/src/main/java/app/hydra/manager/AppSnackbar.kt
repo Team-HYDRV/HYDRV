@@ -41,7 +41,7 @@ object AppSnackbar {
             setTextColor(
                 ThemeColors.color(
                     context,
-                    MaterialR.attr.colorOnBackground,
+                    MaterialR.attr.colorOnSurface,
                     R.color.text
                 )
             )

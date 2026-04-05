@@ -1504,6 +1504,7 @@ class SettingsFragment : Fragment() {
                     dialog.getButton(DialogInterface.BUTTON_NEGATIVE).isEnabled = true
 
                     validation.onSuccess {
+                        input.error = null
                         BackendPreferences.setCatalogUrl(context, rawUrl)
                         updateBackendUrlLabel()
                         if (rootView != null) {
@@ -1514,7 +1515,7 @@ class SettingsFragment : Fragment() {
                         }
                         dialog.dismiss()
                     }.onFailure {
-                        dialog.setMessage(getString(R.string.backend_dialog_message))
+                        input.error = getString(R.string.backend_invalid_message)
                         if (rootView != null) {
                             AppSnackbar.show(
                                 rootView,
