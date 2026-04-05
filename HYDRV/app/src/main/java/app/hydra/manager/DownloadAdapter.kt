@@ -36,9 +36,14 @@ class DownloadAdapter(
     private val controlCooldownUntil = mutableMapOf<String, Long>()
     private val pauseLockedProgress = mutableMapOf<String, Int>()
     private val pauseLockedUntil = mutableMapOf<String, Long>()
+    private val downloadTimeFormatter = SimpleDateFormat("MMM d, h:mm a", Locale.getDefault())
     private var selectionMode = false
     var onSelectionChanged: ((selectedCount: Int, totalCount: Int, allSelected: Boolean) -> Unit)? = null
     var onUninstallRequested: ((packageName: String, appName: String) -> Unit)? = null
+
+    init {
+        setHasStableIds(true)
+    }
 
     class VH(v: View) : RecyclerView.ViewHolder(v) {
         val cardRoot: View = v.findViewById(R.id.cardRoot)
@@ -78,6 +83,10 @@ class DownloadAdapter(
 
     override fun getItemCount() = list.size
 
+    override fun getItemId(position: Int): Long {
+        return progressKey(list[position]).hashCode().toLong()
+    }
+
     fun updateList(newList: MutableList<DownloadItem>) {
         val oldList = list.map { it.copy() }
         val snapshotList = newList.map { it.copy() }
@@ -106,6 +115,7 @@ class DownloadAdapter(
         })
         list.clear()
         list.addAll(snapshotList)
+        pruneRuntimeCaches()
         diff.dispatchUpdatesTo(this)
         syncSelectionWithList()
     }
@@ -824,10 +834,18 @@ class DownloadAdapter(
     private fun syncSelectionWithList() {
         val keysInList = list.map(::progressKey).toSet()
         selectedKeys.retainAll(keysInList)
+        pruneRuntimeCaches(keysInList)
         if (selectionMode && list.isEmpty()) {
             selectionMode = false
         }
         dispatchSelectionChanged()
+    }
+
+    private fun pruneRuntimeCaches(keysInList: Set<String> = list.map(::progressKey).toSet()) {
+        smoothedSpeeds.keys.retainAll(keysInList)
+        controlCooldownUntil.keys.retainAll(keysInList)
+        pauseLockedProgress.keys.retainAll(keysInList)
+        pauseLockedUntil.keys.retainAll(keysInList)
     }
 
     fun refreshRuntimeState() {
@@ -858,8 +876,7 @@ class DownloadAdapter(
         val timestamp = item.completedAt.takeIf { it > 0L } ?: item.createdAt
         if (timestamp <= 0L) return ""
 
-        val formatter = SimpleDateFormat("MMM d, h:mm a", Locale.getDefault())
-        val formattedDate = formatter.format(Date(timestamp))
+        val formattedDate = downloadTimeFormatter.format(Date(timestamp))
         return if (item.completedAt > 0L) {
             context.getString(R.string.downloaded_date_format, formattedDate)
         } else {
