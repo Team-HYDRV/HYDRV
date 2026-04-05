@@ -1,4 +1,3 @@
-import org.gradle.api.GradleException
 import java.io.FileInputStream
 import java.util.Properties
 
@@ -17,6 +16,17 @@ fun releaseSigningValue(propertyName: String, envName: String): String? {
     return keystoreProperties.getProperty(propertyName)?.trim()?.takeIf { it.isNotEmpty() }
         ?: System.getenv(envName)?.trim()?.takeIf { it.isNotEmpty() }
 }
+
+val releaseStoreFilePath = releaseSigningValue("storeFile", "HYDRV_RELEASE_STORE_FILE")
+val releaseStorePassword = releaseSigningValue("storePassword", "HYDRV_RELEASE_STORE_PASSWORD")
+val releaseKeyAlias = releaseSigningValue("keyAlias", "HYDRV_RELEASE_KEY_ALIAS")
+val releaseKeyPassword = releaseSigningValue("keyPassword", "HYDRV_RELEASE_KEY_PASSWORD")
+val hasReleaseSigning = listOf(
+    releaseStoreFilePath,
+    releaseStorePassword,
+    releaseKeyAlias,
+    releaseKeyPassword
+).all { it != null }
 
 android {
     namespace = "app.hydra.manager"
@@ -39,20 +49,17 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
-            val releaseStoreFile = releaseSigningValue("storeFile", "HYDRV_RELEASE_STORE_FILE")
-                ?: throw GradleException("Missing release signing configuration: storeFile")
-            val releaseStorePassword = releaseSigningValue("storePassword", "HYDRV_RELEASE_STORE_PASSWORD")
-                ?: throw GradleException("Missing release signing configuration: storePassword")
-            val releaseKeyAlias = releaseSigningValue("keyAlias", "HYDRV_RELEASE_KEY_ALIAS")
-                ?: throw GradleException("Missing release signing configuration: keyAlias")
-            val releaseKeyPassword = releaseSigningValue("keyPassword", "HYDRV_RELEASE_KEY_PASSWORD")
-                ?: throw GradleException("Missing release signing configuration: keyPassword")
-
-            signingConfig = signingConfigs.create("release").apply {
-                storeFile = file(releaseStoreFile)
-                storePassword = releaseStorePassword
-                keyAlias = releaseKeyAlias
-                keyPassword = releaseKeyPassword
+            if (hasReleaseSigning) {
+                val signingStoreFile = requireNotNull(releaseStoreFilePath)
+                val signingStorePassword = requireNotNull(releaseStorePassword)
+                val signingKeyAlias = requireNotNull(releaseKeyAlias)
+                val signingKeyPassword = requireNotNull(releaseKeyPassword)
+                signingConfig = signingConfigs.create("release").apply {
+                    storeFile = file(signingStoreFile)
+                    storePassword = signingStorePassword
+                    keyAlias = signingKeyAlias
+                    keyPassword = signingKeyPassword
+                }
             }
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
