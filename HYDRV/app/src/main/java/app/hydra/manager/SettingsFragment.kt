@@ -684,12 +684,8 @@ class SettingsFragment : Fragment() {
             aboutContributorsDivider,
             aboutLicensesDivider
         ).forEach { divider ->
-            if (AppearancePreferences.isDynamicColorEnabled(requireContext())) {
-                divider.visibility = View.GONE
-            } else {
-                divider.visibility = View.VISIBLE
-                divider.setBackgroundResource(dividerDrawable)
-            }
+            divider.visibility = View.VISIBLE
+            divider.setBackgroundResource(dividerDrawable)
         }
     }
 
