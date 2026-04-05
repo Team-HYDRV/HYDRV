@@ -123,6 +123,8 @@
                 android:id="@+id/versionDownloadFill"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_margin="1dp"
+                android:clipToOutline="true"
                 android:scaleType="fitXY"
                 android:src="@drawable/version_download_fill_clip" />
 
