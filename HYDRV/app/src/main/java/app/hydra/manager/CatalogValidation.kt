@@ -22,7 +22,7 @@ object CatalogValidation {
                     "missing.${appName.lowercase(Locale.US).replace(Regex("[^a-z0-9]+"), ".").trim('.')}"
                 }
                 val packageKey = basePackageName.lowercase(Locale.US)
-                val duplicateIndex = packageNameCounts.getOrDefault(packageKey, 0)
+                val duplicateIndex = packageNameCounts[packageKey] ?: 0
                 packageNameCounts[packageKey] = duplicateIndex + 1
                 val packageName = if (duplicateIndex == 0) {
                     basePackageName

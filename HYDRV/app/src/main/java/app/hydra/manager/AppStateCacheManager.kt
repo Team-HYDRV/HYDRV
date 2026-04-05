@@ -109,7 +109,7 @@ object AppStateCacheManager {
 
             appContext.packageManager.getInstalledPackages(0).forEach { pkg ->
                 packages.add(pkg.packageName)
-                versions[pkg.packageName] = pkg.longVersionCode.toInt()
+                versions[pkg.packageName] = pkg.versionCodeCompat()
             }
 
             synchronized(lock) {

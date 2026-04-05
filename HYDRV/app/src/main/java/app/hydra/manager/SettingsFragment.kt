@@ -762,7 +762,7 @@ class SettingsFragment : Fragment() {
         val context = requireContext()
         val packageInfo = context.packageManager.getPackageInfo(context.packageName, 0)
         val versionName = packageInfo.versionName ?: "1.0.0"
-        val versionCode = packageInfo.longVersionCode
+        val versionCode = packageInfo.versionCodeCompat()
         val activityManager = context.getSystemService(ActivityManager::class.java)
         val buildType = if ((context.applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE) != 0) {
             "debug"
@@ -893,7 +893,7 @@ class SettingsFragment : Fragment() {
         val context = requireContext()
         val packageInfo = context.packageManager.getPackageInfo(context.packageName, 0)
         val versionName = packageInfo.versionName ?: "1.0.0"
-        val versionCode = packageInfo.longVersionCode
+        val versionCode = packageInfo.versionCodeCompat()
         val activityManager = context.getSystemService(ActivityManager::class.java)
         val buildType = if ((context.applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE) != 0) {
             "debug"
@@ -1029,51 +1029,77 @@ class SettingsFragment : Fragment() {
             .setPositiveButton(R.string.about_dialog_close, null)
             .show()
 
-          Thread {
-              val context = requireContext().applicationContext
-              val checkedAt = AppUpdateState.getLastCheckedAt(context)
-              val formattedCheck = if (checkedAt > 0L) {
-                  SimpleDateFormat("MMM d, h:mm a", Locale.getDefault()).format(Date(checkedAt))
+        Thread {
+            val context = requireContext().applicationContext
+            val checkedAt = AppUpdateState.getLastCheckedAt(context)
+            val formattedCheck = if (checkedAt > 0L) {
+                SimpleDateFormat("MMM d, h:mm a", Locale.getDefault()).format(Date(checkedAt))
             } else {
                 getString(R.string.updates_never_checked)
             }
             val cacheResult = AppCatalogService.readCachedApps(context)
             val cacheSummary = when {
                 cacheResult?.isSuccess == true -> {
-                  val count = cacheResult.getOrNull()?.apps?.size ?: 0
-                  getString(R.string.backend_health_cache_ready_count, count)
-              }
-              else -> getString(R.string.backend_health_cache_missing)
-          }
-              val isDefaultBackend = BackendPreferences.isUsingDefault(context)
-              val summary = buildString {
-                  append(getString(R.string.backend_health_backend_mode_format,
-                      if (isDefaultBackend) getString(R.string.backend_default_label) else getString(R.string.backend_custom_label)
-                  ))
-                  append('\n')
-                  append('\n')
-                  append(getString(R.string.backend_health_last_checked_format, formattedCheck))
-                  append('\n')
-                  append(getString(R.string.backend_health_last_seen_hash_format, AppUpdateState.getLastSeenHash(context)))
+                    val count = cacheResult.getOrNull()?.apps?.size ?: 0
+                    getString(R.string.backend_health_cache_ready_count, count)
+                }
+                else -> getString(R.string.backend_health_cache_missing)
+            }
+            val isDefaultBackend = BackendPreferences.isUsingDefault(context)
+            val summary = buildString {
+                append(
+                    getString(
+                        R.string.backend_health_backend_mode_format,
+                        if (isDefaultBackend) {
+                            getString(R.string.backend_default_label)
+                        } else {
+                            getString(R.string.backend_custom_label)
+                        }
+                    )
+                )
+                append('\n')
+                append('\n')
+                append(getString(R.string.backend_health_last_checked_format, formattedCheck))
+                append('\n')
+                append(getString(R.string.backend_health_last_seen_hash_format, AppUpdateState.getLastSeenHash(context)))
                 append('\n')
                 append(getString(R.string.backend_health_last_notified_hash_format, AppUpdateState.getLastNotifiedHash(context)))
                 append('\n')
                 append(getString(R.string.backend_health_cache_format, cacheSummary))
                 append('\n')
-                  append(getString(R.string.backend_health_notifications_format,
-                      if (NotificationPreferences.areUpdateNotificationsEnabled(context)) getString(R.string.debug_enabled) else getString(R.string.debug_disabled)
-                  ))
-                  append('\n')
-                  append(getString(R.string.backend_health_ads_enabled_format,
-                      if (AdsPreferences.areRewardedAdsEnabled(context)) getString(R.string.debug_enabled) else getString(R.string.debug_disabled)
-                  ))
-                  append('\n')
-                  append(getString(R.string.backend_health_ads_status_format, RewardedAdManager.runtimeAvailabilityReason()))
-                  append("\n\n")
-                  append(getString(R.string.backend_health_worker_status_title))
-                  append('\n')
-                  append(UpdateWorkScheduler.workerSummary(context))
-              }
+                append(
+                    getString(
+                        R.string.backend_health_notifications_format,
+                        if (NotificationPreferences.areUpdateNotificationsEnabled(context)) {
+                            getString(R.string.debug_enabled)
+                        } else {
+                            getString(R.string.debug_disabled)
+                        }
+                    )
+                )
+                append('\n')
+                append(
+                    getString(
+                        R.string.backend_health_ads_enabled_format,
+                        if (AdsPreferences.areRewardedAdsEnabled(context)) {
+                            getString(R.string.debug_enabled)
+                        } else {
+                            getString(R.string.debug_disabled)
+                        }
+                    )
+                )
+                append('\n')
+                append(
+                    getString(
+                        R.string.backend_health_ads_status_format,
+                        RewardedAdManager.runtimeAvailabilityReason()
+                    )
+                )
+                append("\n\n")
+                append(getString(R.string.backend_health_worker_status_title))
+                append('\n')
+                append(UpdateWorkScheduler.workerSummary(context))
+            }
             mainHandler.post {
                 if (dialog.isShowing) {
                     dialog.setMessage(summary)
@@ -1086,7 +1112,7 @@ class SettingsFragment : Fragment() {
         val context = requireContext()
         val packageInfo = context.packageManager.getPackageInfo(context.packageName, 0)
         val versionName = packageInfo.versionName ?: "1.0"
-        val versionCode = packageInfo.longVersionCode
+        val versionCode = packageInfo.versionCodeCompat()
         aboutVersionText.text = getString(
             R.string.about_version_code_format,
             versionName,

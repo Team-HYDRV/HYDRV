@@ -1,5 +1,5 @@
-﻿<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/headerContainer"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?android:colorBackground"
@@ -23,7 +23,7 @@
             android:focusable="true"
             android:padding="8dp"
             android:src="@drawable/ic_arrow_back"
-            android:tint="?attr/colorOnBackground"
+            app:tint="?attr/colorOnBackground"
             android:visibility="gone" />
 
         <TextView
@@ -85,7 +85,7 @@
                             android:layout_height="24dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_settings"
-                            android:tint="?attr/colorPrimary" />
+                            app:tint="?attr/colorPrimary" />
                     </FrameLayout>
 
                     <LinearLayout
@@ -140,7 +140,7 @@
                             android:layout_height="24dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_updates"
-                            android:tint="?attr/colorPrimary" />
+                            app:tint="?attr/colorPrimary" />
                     </FrameLayout>
 
                     <LinearLayout
@@ -195,7 +195,7 @@
                             android:layout_height="24dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_advance"
-                            android:tint="?attr/colorPrimary" />
+                            app:tint="?attr/colorPrimary" />
                     </FrameLayout>
 
                     <LinearLayout
@@ -250,7 +250,7 @@
                             android:layout_height="24dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_support"
-                            android:tint="?attr/colorPrimary" />
+                            app:tint="?attr/colorPrimary" />
                     </FrameLayout>
 
                     <LinearLayout
@@ -298,7 +298,7 @@
                         android:layout_width="18dp"
                         android:layout_height="18dp"
                         android:src="@drawable/ic_settings"
-                        android:tint="?attr/colorOnSurfaceVariant" />
+                        app:tint="?attr/colorOnSurfaceVariant" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -345,7 +345,7 @@
                                 android:layout_height="28dp"
                                 android:layout_gravity="center"
                                 android:src="@drawable/ic_theme_system"
-                                android:tint="?attr/colorOnSurfaceVariant" />
+                                app:tint="?attr/colorOnSurfaceVariant" />
                         </FrameLayout>
 
                         <TextView
@@ -383,7 +383,7 @@
                                 android:layout_height="28dp"
                                 android:layout_gravity="center"
                                 android:src="@drawable/ic_theme_light"
-                                android:tint="?attr/colorOnSurfaceVariant" />
+                                app:tint="?attr/colorOnSurfaceVariant" />
                         </FrameLayout>
 
                         <TextView
@@ -421,7 +421,7 @@
                                 android:layout_height="28dp"
                                 android:layout_gravity="center"
                                 android:src="@drawable/ic_theme_dark"
-                                android:tint="?attr/colorOnSurfaceVariant" />
+                                app:tint="?attr/colorOnSurfaceVariant" />
                         </FrameLayout>
 
                         <TextView
@@ -845,7 +845,7 @@
                         android:layout_width="18dp"
                         android:layout_height="18dp"
                         android:src="@drawable/ic_download"
-                        android:tint="?attr/colorOnSurfaceVariant" />
+                        app:tint="?attr/colorOnSurfaceVariant" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -985,7 +985,7 @@
                                 android:layout_height="22dp"
                                 android:layout_gravity="center"
                                 android:src="@drawable/ic_updates"
-                                android:tint="?attr/colorOnBackground" />
+                                app:tint="?attr/colorOnBackground" />
                         </FrameLayout>
 
                         <LinearLayout
@@ -1371,7 +1371,7 @@
                         android:layout_width="18dp"
                         android:layout_height="18dp"
                         android:src="@drawable/ic_advance"
-                        android:tint="?attr/colorOnSurfaceVariant" />
+                        app:tint="?attr/colorOnSurfaceVariant" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -1881,6 +1881,8 @@
         </FrameLayout>
     </ScrollView>
 </LinearLayout>
+
+
 
 
 

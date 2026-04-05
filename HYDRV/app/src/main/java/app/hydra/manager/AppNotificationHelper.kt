@@ -1,5 +1,6 @@
 package app.hydra.manager
 
+import android.annotation.SuppressLint
 import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -44,6 +45,7 @@ object AppNotificationHelper {
         }
     }
 
+    @SuppressLint("MissingPermission")
     fun showBackendUpdateNotification(context: Context) {
         ensureChannels(context)
         if (!NotificationPreferences.areUpdateNotificationsEnabled(context)) return
@@ -72,6 +74,7 @@ object AppNotificationHelper {
         NotificationManagerCompat.from(context).notify(NOTIFICATION_ID_UPDATES, notification)
     }
 
+    @SuppressLint("MissingPermission")
     fun showReleaseUpdateNotification(
         context: Context,
         releaseLabel: String? = null,

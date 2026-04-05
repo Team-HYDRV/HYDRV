@@ -3,13 +3,9 @@ package app.hydra.manager
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 import java.net.URI
-import java.time.Instant
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.OffsetDateTime
-import java.time.ZoneOffset
-import java.time.format.DateTimeFormatter
+import java.text.SimpleDateFormat
 import java.util.Locale
+import java.util.TimeZone
 
 data class AppModel(
     val name: String,
@@ -137,59 +133,27 @@ data class Version(
     }
 
     private fun parseIsoTimestamp(value: String): Long? {
-        return try {
-            OffsetDateTime.parse(value, DateTimeFormatter.ISO_OFFSET_DATE_TIME)
-                .toInstant()
-                .toEpochMilli()
-        } catch (_: Exception) {
+        val patterns = listOf(
+            "yyyy-MM-dd'T'HH:mm:ss.SSSXXX",
+            "yyyy-MM-dd'T'HH:mm:ssXXX",
+            "yyyy-MM-dd HH:mm:ss",
+            "yyyy-MM-dd",
+            "yyyy/MM/dd HH:mm:ss",
+            "yyyy/MM/dd HH:mm",
+            "yyyy/MM/dd"
+        )
+        for (pattern in patterns) {
+            val formatter = SimpleDateFormat(pattern, Locale.US).apply {
+                timeZone = TimeZone.getTimeZone("UTC")
+                isLenient = true
+            }
             try {
-                Instant.parse(value).toEpochMilli()
+                return formatter.parse(value)?.time
             } catch (_: Exception) {
-                try {
-                    DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.US)
-                        .parse(value, LocalDateTime::from)
-                        .atOffset(java.time.ZoneOffset.UTC)
-                        .toInstant()
-                        .toEpochMilli()
-                } catch (_: Exception) {
-                    try {
-                        DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.US)
-                            .parse(value, LocalDate::from)
-                            .atStartOfDay()
-                            .atOffset(ZoneOffset.UTC)
-                            .toInstant()
-                            .toEpochMilli()
-                    } catch (_: Exception) {
-                        try {
-                            DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss", Locale.US)
-                                .parse(value, LocalDateTime::from)
-                                .atOffset(ZoneOffset.UTC)
-                                .toInstant()
-                                .toEpochMilli()
-                        } catch (_: Exception) {
-                            try {
-                                DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm", Locale.US)
-                                    .parse(value, LocalDateTime::from)
-                                    .atOffset(ZoneOffset.UTC)
-                                    .toInstant()
-                                    .toEpochMilli()
-                            } catch (_: Exception) {
-                                try {
-                                    DateTimeFormatter.ofPattern("yyyy/MM/dd", Locale.US)
-                                        .parse(value, LocalDate::from)
-                                        .atStartOfDay()
-                                        .atOffset(ZoneOffset.UTC)
-                                        .toInstant()
-                                        .toEpochMilli()
-                                } catch (_: Exception) {
-                                    null
-                                }
-                            }
-                        }
-                    }
-                }
+                continue
             }
         }
+        return null
     }
 }
 
