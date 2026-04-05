@@ -223,7 +223,7 @@ class VersionSheet(
             )
             card.setBackgroundResource(
                 if (AppearancePreferences.isDynamicColorEnabled(ctx)) {
-                    R.drawable.card
+                    R.drawable.version_sheet_card_material
                 } else {
                     R.drawable.version_sheet_card_brand
                 }
