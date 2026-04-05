@@ -20,6 +20,7 @@
     <string name="dynamic_color_summary">Usar los colores proporcionados por tu dispositivo</string>
     <string name="pure_black_title">Tema negro puro</string>
     <string name="pure_black_summary">Usar fondos negro puro en el tema oscuro</string>
+    <string name="pure_black_summary_active">El negro puro está activo ahora</string>
 
     <string name="language_title">Idioma</string>
     <string name="language_summary">Elige el idioma de la aplicaciÃ³n</string>

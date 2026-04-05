@@ -20,6 +20,7 @@
     <string name="dynamic_color_summary">Gamitin ang mga kulay na ibinibigay ng iyong device</string>
     <string name="pure_black_title">Pure black theme</string>
     <string name="pure_black_summary">Gumamit ng purong itim na background para sa dark theme</string>
+    <string name="pure_black_summary_active">Aktibo na ang purong itim</string>
 
     <string name="language_title">Wika</string>
     <string name="language_summary">Piliin ang wika ng app</string>

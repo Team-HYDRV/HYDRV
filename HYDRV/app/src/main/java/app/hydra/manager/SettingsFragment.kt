@@ -159,6 +159,7 @@ class SettingsFragment : Fragment() {
     private lateinit var dynamicColorSwitchThumb: View
     private lateinit var pureBlackSwitchTrack: FrameLayout
     private lateinit var pureBlackSwitchThumb: View
+    private lateinit var pureBlackSummary: TextView
     private lateinit var batteryOptimizationValue: TextView
     private lateinit var backendUrlValue: TextView
     private lateinit var deviceInfoValue: TextView
@@ -225,6 +226,7 @@ class SettingsFragment : Fragment() {
         dynamicColorSwitchThumb = view.findViewById(R.id.dynamicColorSwitchThumb)
         pureBlackSwitchTrack = view.findViewById(R.id.pureBlackSwitchTrack)
         pureBlackSwitchThumb = view.findViewById(R.id.pureBlackSwitchThumb)
+        pureBlackSummary = view.findViewById(R.id.pureBlackSummary)
         backendUrlValue = view.findViewById(R.id.backendUrlValue)
         deviceInfoValue = view.findViewById(R.id.deviceInfoValue)
         adsSupportSwitchTrack = view.findViewById(R.id.adsSupportSwitchTrack)
@@ -750,6 +752,15 @@ class SettingsFragment : Fragment() {
             pureBlackSwitchThumb,
             AppearancePreferences.isPureBlackEnabled(context)
         )
+        updatePureBlackSummary(context)
+    }
+
+    private fun updatePureBlackSummary(context: android.content.Context) {
+        pureBlackSummary.text = if (AppearancePreferences.isPureBlackActive(context)) {
+            getString(R.string.pure_black_summary_active)
+        } else {
+            getString(R.string.pure_black_summary)
+        }
     }
 
     private fun updateAdsSupportLabel() {

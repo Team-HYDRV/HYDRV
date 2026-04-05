@@ -20,6 +20,7 @@
     <string name="dynamic_color_summary">Use colors provided by your device</string>
     <string name="pure_black_title">Pure black theme</string>
     <string name="pure_black_summary">Use pure black backgrounds for dark theme</string>
+    <string name="pure_black_summary_active">Pure black is active now</string>
 
     <string name="language_title">Language</string>
     <string name="language_summary">Choose the app display language</string>

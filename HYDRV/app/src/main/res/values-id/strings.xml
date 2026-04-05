@@ -20,6 +20,7 @@
     <string name="dynamic_color_summary">Gunakan warna yang disediakan oleh perangkat Anda</string>
     <string name="pure_black_title">Tema hitam pekat</string>
     <string name="pure_black_summary">Gunakan latar belakang hitam pekat untuk tema gelap</string>
+    <string name="pure_black_summary_active">Hitam pekat sedang aktif</string>
 
     <string name="language_title">Bahasa</string>
     <string name="language_summary">Pilih bahasa tampilan aplikasi</string>
