@@ -1,12 +1,4 @@
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item>
-        <shape android:shape="oval">
-            <solid android:color="?attr/colorSecondary" />
-        </shape>
-    </item>
-    <item
-        android:width="14dp"
-        android:height="14dp"
-        android:gravity="center"
-        android:drawable="@drawable/ic_check_small" />
-</layer-list>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <solid android:color="?attr/colorPrimary" />
+</shape>
