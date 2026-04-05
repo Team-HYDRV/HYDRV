@@ -58,6 +58,9 @@ class AppAdapter :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_app, parent, false)
+        if (AppearancePreferences.isDynamicColorEnabled(parent.context)) {
+            view.setBackgroundResource(R.drawable.card_material)
+        }
         attachPressAnimation(view)
         return VH(view)
     }

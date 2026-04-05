@@ -58,6 +58,9 @@ class DownloadAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_download, parent, false)
+        if (AppearancePreferences.isDynamicColorEnabled(parent.context)) {
+            view.setBackgroundResource(R.drawable.card_material)
+        }
         return VH(view)
     }
 

@@ -154,6 +154,9 @@ class ContributorsActivity : AppCompatActivity() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContributorViewHolder {
             val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_contributor_credit, parent, false)
+            if (AppearancePreferences.isDynamicColorEnabled(parent.context)) {
+                view.setBackgroundResource(R.drawable.card_material)
+            }
             return ContributorViewHolder(view, onClick)
         }
 
