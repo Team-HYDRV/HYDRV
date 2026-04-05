@@ -1135,7 +1135,7 @@ class SettingsFragment : Fragment() {
     private fun updateAboutVersion() {
         val context = requireContext()
         val packageInfo = context.packageManager.getPackageInfo(context.packageName, 0)
-        val versionName = packageInfo.versionName ?: "1.0"
+        val versionName = packageInfo.versionName ?: "1.0.0"
         val versionCode = packageInfo.versionCodeCompat()
         aboutVersionText.text = getString(
             R.string.about_version_code_format,

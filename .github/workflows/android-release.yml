@@ -6,6 +6,9 @@ on:
       - "v*"
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build-release:
     runs-on: ubuntu-latest
@@ -39,6 +42,29 @@ jobs:
           apk_path=$(find app/build/outputs/apk/release -name "*.apk" | head -n 1)
           echo "apk_path=$apk_path" >> "$GITHUB_OUTPUT"
 
+      - name: Generate release notes
+        run: |
+          release_version="${GITHUB_REF_NAME#v}"
+          {
+            echo "# HYDRV ${GITHUB_REF_NAME}"
+            echo
+            echo "## Changelog"
+            awk -v version="$release_version" '
+              $0 ~ "^## \\[" version "\\]" { printing = 1; next }
+              printing && $0 ~ "^## \\[" { exit }
+              printing { print }
+            ' CHANGELOG.md
+            echo
+            echo "## Recent work"
+            git log --pretty=format:'- %s' --no-merges -n 12
+            echo
+            echo "## Contributors"
+            git shortlog -sne --all --no-merges | awk '{ $1=""; sub(/^ /, ""); print "- " $0 }'
+            echo
+            echo "## Artifact"
+            echo "- APK attached to this release"
+          } > release-notes.md
+
       - name: Upload APK artifact
         uses: actions/upload-artifact@v7
         with:
@@ -49,4 +75,6 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
         with:
+          name: ${{ github.ref_name }}
+          body_path: release-notes.md
           files: ${{ steps.find_apk.outputs.apk_path }}
