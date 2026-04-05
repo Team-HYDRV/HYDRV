@@ -11,6 +11,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.WindowCompat
 import com.google.android.material.R as MaterialR
 import com.google.android.material.color.DynamicColors
@@ -197,12 +198,12 @@ class QuickStartActivity : AppCompatActivity() {
 
         listOf(installAction, notificationsAction, continueButton).forEach { button ->
             button.backgroundTintList = null
-            button.background = getDrawable(R.drawable.button_install)
+            button.background = AppCompatResources.getDrawable(this, R.drawable.button_install)
             button.setTextColor(textColor)
         }
 
         continueButton.backgroundTintList = null
-        continueButton.background = getDrawable(R.drawable.button_install)
+        continueButton.background = AppCompatResources.getDrawable(this, R.drawable.button_install)
         continueButton.setTextColor(textColor)
     }
 

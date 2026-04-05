@@ -13,6 +13,7 @@ import android.widget.LinearLayout
 import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -212,7 +213,7 @@ class ContributorsActivity : AppCompatActivity() {
                     layoutParams = LinearLayout.LayoutParams(size, size).apply {
                         rightMargin = marginEnd
                     }
-                    background = context.getDrawable(R.drawable.about_logo_ring)
+                    background = AppCompatResources.getDrawable(context, R.drawable.about_logo_ring)
                     isClickable = true
                     isFocusable = true
                     setOnClickListener { onClick(item.profileUrl) }
