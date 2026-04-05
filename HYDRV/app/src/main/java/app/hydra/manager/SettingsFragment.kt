@@ -1206,25 +1206,36 @@ class SettingsFragment : Fragment() {
                 }
             }.onFailure {
                 if (!isAdded) return@onFailure
-                GitHubRepository.fetchChangelogSync()
-                    .onSuccess { changelog ->
-                        if (!isAdded || !dialog.isShowing) return@onSuccess
-                        dialog.setMessage(
-                            SpannableStringBuilder().apply {
-                                appendLine("HYDRV ${RuntimeConfig.githubRepo}")
-                                appendLine(RuntimeConfig.githubRepoUrl)
-                                appendLine()
-                                append(formatReleaseNotesBody(changelog))
-                            }
-                        )
+                val changelog = runCatching {
+                    context.resources.openRawResource(R.raw.changelog).bufferedReader().use { it.readText() }
+                }.getOrNull()
+
+                if (!changelog.isNullOrBlank()) {
+                    val latestSection = extractLatestChangelogSection(changelog)
+                    if (dialog.isShowing) {
+                        dialog.setMessage(formatReleaseNotesBody(latestSection))
                     }
-                    .onFailure {
-                        if (dialog.isShowing) {
-                            dialog.setMessage(getString(R.string.updates_changelog_body))
-                        }
-                    }
+                } else if (dialog.isShowing) {
+                    dialog.setMessage(getString(R.string.updates_changelog_body))
+                }
             }
         }
+    }
+
+    private fun extractLatestChangelogSection(changelog: String): String {
+        val lines = changelog.lineSequence().toList()
+        val startIndex = lines.indexOfFirst { line ->
+            val trimmed = line.trim()
+            trimmed.startsWith("## [") && !trimmed.contains("Unreleased", ignoreCase = true)
+        }
+
+        if (startIndex == -1) return changelog
+
+        val endIndex = ((startIndex + 1) until lines.size).firstOrNull { idx ->
+            lines[idx].trim().startsWith("## [")
+        } ?: lines.size
+
+        return lines.subList(startIndex, endIndex).joinToString("\n").trim()
     }
 
     private fun formatReleaseNotesBody(markdown: String): CharSequence {
