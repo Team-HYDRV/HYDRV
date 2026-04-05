@@ -129,12 +129,16 @@ class SettingsFragment : Fragment() {
     private lateinit var backButton: View
     private lateinit var sectionList: View
     private lateinit var generalSection: View
+    private lateinit var generalSectionTab: View
     private lateinit var generalSectionIconBg: View
     private lateinit var updatesSection: View
+    private lateinit var updatesSectionTab: View
     private lateinit var updatesSectionIconBg: View
     private lateinit var advanceSection: View
+    private lateinit var advanceSectionTab: View
     private lateinit var advanceSectionIconBg: View
     private lateinit var aboutSection: View
+    private lateinit var aboutSectionTab: View
     private lateinit var aboutSectionIconBg: View
     private lateinit var updatesSummaryText: TextView
     private lateinit var updatesDebugText: TextView
@@ -188,12 +192,16 @@ class SettingsFragment : Fragment() {
         backButton = view.findViewById(R.id.backButton)
         sectionList = view.findViewById(R.id.sectionList)
         generalSection = view.findViewById(R.id.generalSection)
+        generalSectionTab = view.findViewById(R.id.generalSectionTab)
         generalSectionIconBg = view.findViewById(R.id.generalSectionIconBg)
         updatesSection = view.findViewById(R.id.updatesSection)
+        updatesSectionTab = view.findViewById(R.id.updatesSectionTab)
         updatesSectionIconBg = view.findViewById(R.id.updatesSectionIconBg)
         advanceSection = view.findViewById(R.id.advanceSection)
+        advanceSectionTab = view.findViewById(R.id.advanceSectionTab)
         advanceSectionIconBg = view.findViewById(R.id.advanceSectionIconBg)
         aboutSection = view.findViewById(R.id.aboutSection)
+        aboutSectionTab = view.findViewById(R.id.aboutSectionTab)
         aboutSectionIconBg = view.findViewById(R.id.aboutSectionIconBg)
         updatesSummaryText = view.findViewById(R.id.updatesSummaryText)
         updatesDebugText = view.findViewById(R.id.updatesDebugText)
@@ -608,10 +616,10 @@ class SettingsFragment : Fragment() {
             R.drawable.settings_section_icon_bg
         }
         listOf(
-            generalSection to generalSectionIconBg,
-            updatesSection to updatesSectionIconBg,
-            advanceSection to advanceSectionIconBg,
-            aboutSection to aboutSectionIconBg
+            generalSectionTab to generalSectionIconBg,
+            updatesSectionTab to updatesSectionIconBg,
+            advanceSectionTab to advanceSectionIconBg,
+            aboutSectionTab to aboutSectionIconBg
         ).forEach { (section, iconBg) ->
             section.setBackgroundResource(cardDrawable)
             iconBg.setBackgroundResource(iconDrawable)
