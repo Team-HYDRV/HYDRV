@@ -483,6 +483,19 @@ object DownloadRepository {
                     item.backendPackageName = item.packageName
                 }
 
+                val looksCompleted =
+                    item.status == "Done" ||
+                        item.progress >= 100 ||
+                        item.completedAt > 0L
+                if (looksCompleted && !isApkValid(context, item)) {
+                    AppDiagnostics.log(
+                        context,
+                        "DOWNLOAD",
+                        "Dropped stale completed download for ${item.name} ${item.versionName}"
+                    )
+                    continue
+                }
+
                 if (item.progress in 1..99 && item.status == "Downloading") {
                     if (DownloadNetworkPolicy.canDownloadNow(context)) {
                         Downloader.start(context, item)

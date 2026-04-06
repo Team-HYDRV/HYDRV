@@ -761,6 +761,17 @@ class VersionSheet(
                     lastKnownStatuses[key] = item.status
                 }
                 item.status == "Done" -> {
+                    if (!downloadFileExists(item)) {
+                        cancelReset(key)
+                        completedKeys.remove(key)
+                        doneHandledKeys.remove(key)
+                        visualProgressByKey.remove(key)
+                        activeSessionKeys.remove(key)
+                        failedKeys.remove(key)
+                        lastKnownStatuses.remove(key)
+                        applyIdleState(views)
+                        return@forEach
+                    }
                     failedKeys.remove(key)
                     val shouldAnimateDone = hasActiveVisualState(key)
                     if (shouldAnimateDone) {
@@ -1149,6 +1160,12 @@ class VersionSheet(
 
     private fun downloadPackageKey(item: DownloadItem): String {
         return item.backendPackageName.takeIf { it.isNotBlank() } ?: item.packageName
+    }
+
+    private fun downloadFileExists(item: DownloadItem): Boolean {
+        val path = item.filePath.takeIf { it.isNotBlank() } ?: return false
+        val file = java.io.File(path)
+        return file.exists() && file.length() > 0L
     }
 
     private fun maxVisualProgress(key: String, progress: Int): Int {
