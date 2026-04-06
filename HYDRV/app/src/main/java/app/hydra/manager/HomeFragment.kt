@@ -35,10 +35,12 @@ class HomeFragment : Fragment() {
         private const val INITIAL_RENDER_ITEM_COUNT = 6
         private var cachedApps: List<AppModel> = emptyList()
         private var cachedHash: Int = 0
+        private var cachedHomeSortMode: String = ListSortPreferences.HOME_SORT_NAME_ASC
     }
 
     private var appList: List<AppModel> = cachedApps
     private var lastHash: Int = cachedHash
+    private var lastHomeSortMode: String = cachedHomeSortMode
     private var currentTab = 0
 
     private lateinit var recyclerView: RecyclerView
@@ -190,6 +192,8 @@ class HomeFragment : Fragment() {
         cachedApps = sortedCachedApps
         lastHash = cachedAppsHash
         cachedHash = cachedAppsHash
+        lastHomeSortMode = ListSortPreferences.getHomeSort(context)
+        cachedHomeSortMode = lastHomeSortMode
     }
 
     private fun renderStartupSnapshot() {
@@ -332,10 +336,9 @@ class HomeFragment : Fragment() {
                 if (hasChanged) {
                     CatalogStateCenter.update(newList)
                     lastHash = newHash
-                    appList = ListSortPreferences.sortApps(
-                        ListSortPreferences.getHomeSort(context),
-                        newList
-                    )
+                    lastHomeSortMode = ListSortPreferences.getHomeSort(context)
+                    cachedHomeSortMode = lastHomeSortMode
+                    appList = ListSortPreferences.sortApps(lastHomeSortMode, newList)
                     cachedApps = appList
                     cachedHash = newHash
 
@@ -480,11 +483,15 @@ class HomeFragment : Fragment() {
         if (!::adapter.isInitialized || !::search.isInitialized) return
 
         val query = search.text?.toString().orEmpty().trim()
+        val homeSort = ListSortPreferences.getHomeSort(context)
+        if (homeSort != lastHomeSortMode) {
+            cachedApps = ListSortPreferences.sortApps(homeSort, cachedApps)
+            lastHomeSortMode = homeSort
+            cachedHomeSortMode = homeSort
+        }
+
         val baseApps = cachedApps
-        appList = ListSortPreferences.sortApps(
-            ListSortPreferences.getHomeSort(context),
-            baseApps
-        )
+        appList = baseApps
 
         val baseList = when (currentTab) {
             1 -> ListSortPreferences.sortApps(
