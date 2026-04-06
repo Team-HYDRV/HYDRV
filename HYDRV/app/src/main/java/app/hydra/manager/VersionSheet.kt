@@ -73,6 +73,7 @@ class VersionSheet(
     private var currentSnackbar: Snackbar? = null
     private var bottomSheetCallback: BottomSheetBehavior.BottomSheetCallback? = null
     private var versionScrollListener: RecyclerView.OnScrollListener? = null
+    private var installSnapshotRunnable: Runnable? = null
     private var currentApp: AppModel = app
     private var installedLaunchPackage: String? = null
     private lateinit var rootView: View
@@ -539,8 +540,29 @@ class VersionSheet(
 
         DownloadRepository.downloadsLive.observe(viewLifecycleOwner) { downloads ->
             updateDownloadButtons(downloads)
+            scheduleInstallSnapshotRefresh()
             refreshVersionHints()
         }
+    }
+
+    private fun scheduleInstallSnapshotRefresh() {
+        if (!this::versionList.isInitialized) return
+        val ctx = context?.applicationContext ?: return
+        installSnapshotRunnable?.let(mainHandler::removeCallbacks)
+        val runnable = Runnable {
+            installSnapshotRunnable = null
+            Thread {
+                val snapshot = InstallIntelligence.snapshot(ctx, currentApp)
+                mainHandler.post {
+                    if (!isAdded || view == null) return@post
+                    currentInstallSnapshot = snapshot
+                    refreshVersionHints()
+                    versionAdapter.notifyDataSetChanged()
+                }
+            }.start()
+        }
+        installSnapshotRunnable = runnable
+        mainHandler.postDelayed(runnable, 220L)
     }
 
     private fun runVersionDownload(
@@ -617,6 +639,8 @@ class VersionSheet(
         bottomSheetCallback = null
         currentSnackbar?.dismiss()
         currentSnackbar = null
+        installSnapshotRunnable?.let(mainHandler::removeCallbacks)
+        installSnapshotRunnable = null
         versionScrollListener?.let { listener ->
             if (this::versionList.isInitialized) {
                 versionList.removeOnScrollListener(listener)
