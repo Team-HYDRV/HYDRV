@@ -1120,20 +1120,17 @@ class VersionSheet(
         val fillDrawable = liquidVersionDrawable(views.fill, context)
         views.track.setBackgroundResource(versionTrackDrawable(context))
         views.fill.setImageDrawable(fillDrawable)
-        views.label.setTextColor(
+        val textColor = if (AppearancePreferences.isDynamicColorEnabled(context)) {
             ThemeColors.color(
                 context,
                 com.google.android.material.R.attr.colorOnPrimaryContainer,
                 R.color.text_on_accent_chip
             )
-        )
-        views.icon.imageTintList = ColorStateList.valueOf(
-            ThemeColors.color(
-                context,
-                com.google.android.material.R.attr.colorOnPrimaryContainer,
-                R.color.text_on_accent_chip
-            )
-        )
+        } else {
+            Color.BLACK
+        }
+        views.label.setTextColor(textColor)
+        views.icon.imageTintList = ColorStateList.valueOf(textColor)
     }
 
     private fun liquidVersionDrawable(
