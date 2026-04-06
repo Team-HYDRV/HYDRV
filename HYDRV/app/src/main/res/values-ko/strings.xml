@@ -25,7 +25,7 @@
   <string name="badge_installed">설치됨</string>
   <string name="language_filipino_region">Filipino (Philippines)</string>
   <string name="home_empty_no_results">결과를 찾을 수 없습니다</string>
-  <string name="updates_resume_download">다시 시작</string>
+  <string name="updates_resume_download">다운로드 다시 시작</string>
   <string name="downloads_no_selected">0개 선택됨</string>
   <string name="favorites_sort_title">즐겨찾기 정렬</string>
   <string name="backend_health_loading">Loading backend health…</string>
@@ -46,7 +46,7 @@
   <string name="downloads_title">다운로드</string>
   <string name="language_native_filipino_region">Filipino (Pilipinas)</string>
   <string name="about_contributors_title">HYDRV 뒤의 사람들</string>
-  <string name="updates_download_now">Download</string>
+  <string name="updates_download_now">지금 다운로드</string>
   <string name="about_link_website_caption">공식 사이트 및 프로젝트 업데이트</string>
   <string name="version_signature_mismatch_hint">다운로드한 APK는 설치된 앱과 다른 서명을 가질 수 있습니다</string>
   <string name="update_notifications_summary">Get notified when new changes appear in the app</string>
@@ -239,7 +239,7 @@
   <string name="version_downgrade_hint">This version would downgrade your installed app</string>
   <string name="install_success_format">%1$s installed successfully</string>
   <string name="updates_changelog_title">Release changelog</string>
-  <string name="updates_view_changelog">변경 기록 보기</string>
+  <string name="updates_view_changelog">변경 로그 보기</string>
   <string name="version_notes_copied">Release notes copied.</string>
   <string name="updates_release_unavailable">최신 릴리스는 일시적으로 사용할 수 없습니다</string>
   <string name="version_format">Version %1$s</string>
@@ -282,7 +282,7 @@
   <string name="download_action_pause">PAUSE</string>
   <string name="about_focus_label">Built for clean package management</string>
   <string name="skip_label">Skip</string>
-  <string name="updates_checking">Checking…</string>
+  <string name="updates_checking">확인 중…</string>
   <string name="downloads_clear_all">Clear all</string>
   <string name="permission_internet_title">Internet access</string>
   <string name="sort_name_asc">Name A-Z</string>
@@ -297,7 +297,7 @@
   <string name="reset_label">Reset</string>
   <string name="versions_summary_format">%1$d versions - %2$s</string>
   <string name="app_details_done">Done</string>
-  <string name="updates_install_now">Install</string>
+  <string name="updates_install_now">지금 설치</string>
   <string name="settings_backup_import_done">Settings backup restored.</string>
   <string name="download_label">Download</string>
   <string name="favorites_sort_summary">Choose how favorite apps are ordered</string>

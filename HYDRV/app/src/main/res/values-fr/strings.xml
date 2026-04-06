@@ -49,9 +49,9 @@
   <string name="app_details_versions_title">Versions</string>
   <string name="app_details_download">Download</string>
   <string name="app_details_done">Termine</string>
-  <string name="updates_view_changelog">Voir le changelog</string>
-  <string name="updates_check_now">Check for updates</string>
-  <string name="updates_checking">Checking...</string>
+  <string name="updates_view_changelog">Voir le journal des modifications</string>
+  <string name="updates_check_now">Rechercher des mises à jour</string>
+  <string name="updates_checking">Vérification…</string>
   <string name="about_quick_label">Liens rapides</string>
   <string name="about_description_title">À propos de HYDRV</string>
   <string name="about_issue_title">Signaler un probleme</string>
@@ -63,7 +63,7 @@
   <string name="badge_installed">INSTALLE</string>
   <string name="language_filipino_region">Filipino (Philippines)</string>
   <string name="home_empty_no_results">No results found</string>
-  <string name="updates_resume_download">Reprendre</string>
+  <string name="updates_resume_download">Reprendre le téléchargement</string>
   <string name="downloads_no_selected">0 selected</string>
   <string name="favorites_sort_title">Tri des favoris</string>
   <string name="backend_health_loading">Loading backend health...</string>
@@ -79,7 +79,7 @@
   <string name="install_preparing_format">Preparing %1$s for install...</string>
   <string name="download_paused_percent_format">Paused %1$d%%</string>
   <string name="language_native_filipino_region">Filipino (Pilipinas)</string>
-  <string name="updates_download_now">Download</string>
+  <string name="updates_download_now">Télécharger maintenant</string>
   <string name="about_link_website_caption">Site officiel et mises a jour du projet</string>
   <string name="version_signature_mismatch_hint">Downloaded APK may have a different signature than the installed app</string>
   <string name="update_notifications_summary">Get notified when new changes appear in the app</string>
@@ -303,7 +303,7 @@
   <string name="about_issue_email_body">Share what happened, what you expected, and any steps that help reproduce it.</string>
   <string name="backend_dialog_message">Paste a direct JSON endpoint, not a normal web page link. If you leave it empty, the built-in backend will be used.</string>
   <string name="versions_summary_format">%1$d versions - %2$s</string>
-  <string name="updates_install_now">Installer</string>
+  <string name="updates_install_now">Installer maintenant</string>
   <string name="settings_backup_import_done">Settings backup restored.</string>
   <string name="download_label">Download</string>
   <string name="favorites_sort_summary">Choose how favorite apps are ordered</string>

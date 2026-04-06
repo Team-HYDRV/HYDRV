@@ -49,7 +49,7 @@
   <string name="app_details_versions_title">Versionen</string>
   <string name="app_details_download">Herunterladen</string>
   <string name="app_details_done">Fertig</string>
-  <string name="updates_view_changelog">Changelog ansehen</string>
+  <string name="updates_view_changelog">Changelog anzeigen</string>
   <string name="updates_check_now">Nach Updates suchen</string>
   <string name="updates_checking">Wird geprüft…</string>
   <string name="about_quick_label">Schnellzugriffe</string>
@@ -79,7 +79,7 @@
   <string name="install_preparing_format">%1$s wird für die Installation vorbereitet…</string>
   <string name="download_paused_percent_format">Pausiert %1$d%%</string>
   <string name="language_native_filipino_region">Filipino (Pilipinas)</string>
-  <string name="updates_download_now">Download</string>
+  <string name="updates_download_now">Jetzt herunterladen</string>
   <string name="about_link_website_caption">Offizielle Website und Projekt-Updates</string>
   <string name="version_signature_mismatch_hint">Die heruntergeladene APK kann eine andere Signatur als die installierte App haben</string>
   <string name="update_notifications_summary">Benachrichtigt werden, wenn es neue Änderungen in der App gibt</string>
@@ -303,7 +303,7 @@
   <string name="about_issue_email_body">Beschreibe, was passiert ist, was du erwartet hast und welche Schritte beim Reproduzieren helfen.</string>
   <string name="backend_dialog_message">Füge einen direkten JSON-Endpunkt ein, keinen normalen Webseitenlink. Wenn du das Feld leer lässt, wird das integrierte Backend verwendet.</string>
   <string name="versions_summary_format">%1$d Versionen - %2$s</string>
-  <string name="updates_install_now">Installieren</string>
+  <string name="updates_install_now">Jetzt installieren</string>
   <string name="settings_backup_import_done">Sicherung der Einstellungen wiederhergestellt.</string>
   <string name="download_label">Herunterladen</string>
   <string name="favorites_sort_summary">Wähle, wie Favoriten sortiert werden</string>

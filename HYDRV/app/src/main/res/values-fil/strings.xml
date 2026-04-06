@@ -207,7 +207,7 @@
   <string name="about_link_discord_caption">Komunidad, chat, at announcements</string>
   <string name="about_link_donate_caption">Suportahan ang tuloy-tuloy na upkeep ng app</string>
   <string name="about_link_github_caption">Source code, commits, at issue history</string>
-  <string name="about_quick_label">Quick links</string>
+  <string name="about_quick_label">Mga mabilis na link</string>
   <string name="about_description_title">Tungkol sa HYDRV</string>
   <string name="about_description_body">Tinutulungan ka ng HYDRV na mag-browse ng app releases, mamahala ng downloads, at panatilihing maayos ang package installs sa iisang lugar.</string>
   <string name="about_focus_label">Ginawa para sa malinis na package management</string>
@@ -215,7 +215,7 @@
   <string name="about_issue_summary">Magpadala ng bugs, magulong bahagi, o mga ideyang makakapagpaganda sa HYDRV.</string>
   <string name="about_contributors_title">Mga tao sa likod ng HYDRV</string>
   <string name="about_contributors_summary">Kilalanin ang mga builder, tester, at supporter sa likod ng proyekto.</string>
-  <string name="about_licenses_title">Libraries at credits</string>
+  <string name="about_licenses_title">Mga library at kredito</string>
   <string name="about_licenses_summary">Silipin ang mga open source tool at component na nagpapatakbo sa HYDRV.</string>
   <string name="about_contact_email">support@hydrv.app</string>
   <string name="about_link_placeholder">Hindi available ang link na ito sa ngayon.</string>
@@ -236,7 +236,7 @@
   </plurals>
   <string name="downloads_uninstall">Uninstall</string>
   <string name="language_filipino_region">Filipino (Philippines)</string>
-  <string name="updates_resume_download">Ipagpatuloy</string>
+  <string name="updates_resume_download">Ipagpatuloy ang download</string>
   <string name="backend_health_loading">Loading backend health…</string>
   <string name="backend_health_summary">View live backend, cache, notification, and worker status</string>
   <string name="settings_backup_import_summary">Restore a previous HYDRV backup file</string>
@@ -244,7 +244,7 @@
   <string name="language_indonesian_region">Indonesian (Indonesia)</string>
   <string name="settings_backup_import_failed">Couldn\'t import the settings backup.</string>
   <string name="language_native_filipino_region">Filipino (Pilipinas)</string>
-  <string name="updates_download_now">I-download</string>
+  <string name="updates_download_now">I-download ngayon</string>
   <string name="version_signature_mismatch_hint">I-downloaded APK may have a different signature than the installed app</string>
   <string name="backend_health_ads_enabled_format">Rewarded ads: %1$s</string>
   <string name="backend_health_cache_ready_count">Ready (%1$d apps)</string>
@@ -332,7 +332,7 @@
   <string name="skip_label">Skip</string>
   <string name="backend_health_notifications_format">Notifications: %1$s</string>
   <string name="settings_backup_export_done">Settings backup exported.</string>
-  <string name="updates_install_now">I-install</string>
+  <string name="updates_install_now">I-install ngayon</string>
   <string name="settings_backup_import_done">Settings backup restored.</string>
   <string name="updates_debug_last_seen_release_format">Last seen release: %1$s</string>
   <string name="download_error_network">Naputol ng error sa network ang pag-download</string>

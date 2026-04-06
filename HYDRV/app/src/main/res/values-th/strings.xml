@@ -314,10 +314,10 @@
   <string name="app_details_missing_versions">No versions available for this app yet.</string>
   <string name="updates_summary_format">v%1$s  -  %2$s</string>
   <string name="updates_view_changelog">ดูบันทึกการเปลี่ยนแปลง</string>
-  <string name="updates_download_now">Download</string>
-  <string name="updates_install_now">Install</string>
+  <string name="updates_download_now">ดาวน์โหลดตอนนี้</string>
+  <string name="updates_install_now">ติดตั้งตอนนี้</string>
   <string name="updates_downloading">Downloading…</string>
-  <string name="updates_resume_download">Resume</string>
+  <string name="updates_resume_download">ดาวน์โหลดต่อ</string>
   <string name="updates_launch_check_title">Check for updates on launch</string>
   <string name="updates_launch_check_summary">Automatically check the latest GitHub release whenever you open HYDRV.</string>
   <string name="updates_launch_message_title">Show update message on launch</string>

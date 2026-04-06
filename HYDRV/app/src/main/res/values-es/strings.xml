@@ -190,7 +190,7 @@
   <string name="updates_launch_message_title">Show update message on launch</string>
   <string name="updates_launch_message_summary">Display an in-app message when the latest repo release changes.</string>
   <string name="updates_check_now">Buscar actualizaciones</string>
-  <string name="updates_checking">Checking...</string>
+  <string name="updates_checking">Comprobando…</string>
   <string name="updates_changelog_title">Registro de la release</string>
   <string name="updates_changelog_body">HYDRV shows the latest GitHub release notes here so the in-app changelog stays aligned with the repo release.</string>
   <string name="updates_check_failed">No se pudieron comprobar las actualizaciones ahora mismo.</string>
@@ -236,7 +236,7 @@
   </plurals>
   <string name="downloads_uninstall">Uninstall</string>
   <string name="language_filipino_region">Filipino (Philippines)</string>
-  <string name="updates_resume_download">Reanudar</string>
+  <string name="updates_resume_download">Reanudar descarga</string>
   <string name="backend_health_loading">Loading backend health...</string>
   <string name="backend_health_summary">View live backend, cache, notification, and worker status</string>
   <string name="settings_backup_import_summary">Restore a previous HYDRV backup file</string>
@@ -244,7 +244,7 @@
   <string name="language_indonesian_region">Indonesian (Indonesia)</string>
   <string name="settings_backup_import_failed">Couldn\'t import the settings backup.</string>
   <string name="language_native_filipino_region">Filipino (Pilipinas)</string>
-  <string name="updates_download_now">Descargar</string>
+  <string name="updates_download_now">Descargar ahora</string>
   <string name="version_signature_mismatch_hint">Descargared APK may have a different signature than the installed app</string>
   <string name="backend_health_ads_enabled_format">Anuncios recompensados: %1$s</string>
   <string name="backend_health_cache_ready_count">Ready (%1$d apps)</string>
@@ -332,7 +332,7 @@
   <string name="skip_label">Skip</string>
   <string name="backend_health_notifications_format">Notificaciones: %1$s</string>
   <string name="settings_backup_export_done">Settings backup exported.</string>
-  <string name="updates_install_now">Instalar</string>
+  <string name="updates_install_now">Instalar ahora</string>
   <string name="settings_backup_import_done">Settings backup restored.</string>
   <string name="updates_debug_last_seen_release_format">Last seen release: %1$s</string>
   <string name="download_error_network">Network error interrupted the download</string>
