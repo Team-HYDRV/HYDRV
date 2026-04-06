@@ -29,5 +29,13 @@ data class DownloadItem(
 )
 
 fun DownloadItem.requestKey(): String {
-    return "${name.trim()}|${versionName.trim()}|${url.trim()}"
+    return buildString {
+        append(name.trim())
+        append('|')
+        append(versionName.trim())
+        append('|')
+        append(versionCode.takeIf { it > 0 } ?: 0)
+        append('|')
+        append(url.trim())
+    }
 }
