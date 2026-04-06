@@ -977,14 +977,8 @@ class VersionSheet(
         views.label.animate().cancel()
         if (animate && shouldAnimate) {
             views.label.text = doneLabel
-            views.label.alpha = 0f
-            views.label.translationY = 2f
-            views.label.animate()
-                .alpha(1f)
-                .translationY(0f)
-                .setDuration(180L)
-                .setInterpolator(DecelerateInterpolator())
-                .start()
+            views.label.alpha = 1f
+            views.label.translationY = 0f
 
             views.icon.visibility = View.VISIBLE
             views.icon.alpha = 0f
