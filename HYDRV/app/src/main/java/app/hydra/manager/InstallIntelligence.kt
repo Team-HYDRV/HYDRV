@@ -17,13 +17,14 @@ object InstallIntelligence {
 
     data class Snapshot(
         val installedVersionName: String?,
-        val installedVersionOrder: Int?,
-        val downloadedByVersionName: Map<String, DownloadedArchive>,
-        val packageMismatchVersions: Set<String>,
-        val signatureMismatchVersions: Set<String>
+        val installedVersionCode: Int?,
+        val downloadedByVersionCode: Map<Int, DownloadedArchive>,
+        val packageMismatchVersions: Set<Int>,
+        val signatureMismatchVersions: Set<Int>
     )
 
     data class DownloadedArchive(
+        val versionCode: Int,
         val versionName: String,
         val packageName: String,
         val signatures: Set<String>
@@ -33,14 +34,12 @@ object InstallIntelligence {
         val packageManager = context.packageManager
         val installedInfo = installedPackageInfo(packageManager, app.packageName)
         val installedVersionName = installedInfo?.versionName?.trim()?.takeIf { it.isNotEmpty() }
-        val installedVersionOrder = app.versions.firstOrNull {
-            it.version_name.equals(installedVersionName, ignoreCase = true)
-        }?.version
+        val installedVersionCode = installedInfo?.versionCodeCompat()?.takeIf { it > 0 }
         val installedSignatures = installedInfo?.let(::signaturesFor).orEmpty()
 
-        val downloadedByVersionName = linkedMapOf<String, DownloadedArchive>()
-        val packageMismatchVersions = linkedSetOf<String>()
-        val signatureMismatchVersions = linkedSetOf<String>()
+        val downloadedByVersionCode = linkedMapOf<Int, DownloadedArchive>()
+        val packageMismatchVersions = linkedSetOf<Int>()
+        val signatureMismatchVersions = linkedSetOf<Int>()
 
         DownloadRepository.downloads
             .asReversed()
@@ -51,32 +50,34 @@ object InstallIntelligence {
 
                 val archiveInfo = archivePackageInfo(packageManager, file) ?: return@forEach
                 val archiveVersionName = archiveInfo.versionName?.trim().orEmpty()
+                val archiveVersionCode = archiveInfo.versionCodeCompat().takeIf { it > 0 } ?: return@forEach
                 if (archiveVersionName.isBlank()) return@forEach
-                if (downloadedByVersionName.containsKey(archiveVersionName)) return@forEach
+                if (downloadedByVersionCode.containsKey(archiveVersionCode)) return@forEach
 
                 val archivePackageName = archiveInfo.packageName.orEmpty()
                 val archiveSignatures = signaturesFor(archiveInfo)
-                downloadedByVersionName[archiveVersionName] = DownloadedArchive(
+                downloadedByVersionCode[archiveVersionCode] = DownloadedArchive(
+                    versionCode = archiveVersionCode,
                     versionName = archiveVersionName,
                     packageName = archivePackageName,
                     signatures = archiveSignatures
                 )
 
                 if (archivePackageName.isNotBlank() && archivePackageName != app.packageName) {
-                    packageMismatchVersions.add(archiveVersionName)
+                    packageMismatchVersions.add(archiveVersionCode)
                 } else if (
                     installedSignatures.isNotEmpty() &&
                     archiveSignatures.isNotEmpty() &&
                     installedSignatures != archiveSignatures
                 ) {
-                    signatureMismatchVersions.add(archiveVersionName)
+                    signatureMismatchVersions.add(archiveVersionCode)
                 }
             }
 
         return Snapshot(
             installedVersionName = installedVersionName,
-            installedVersionOrder = installedVersionOrder,
-            downloadedByVersionName = downloadedByVersionName,
+            installedVersionCode = installedVersionCode,
+            downloadedByVersionCode = downloadedByVersionCode,
             packageMismatchVersions = packageMismatchVersions,
             signatureMismatchVersions = signatureMismatchVersions
         )
@@ -92,32 +93,29 @@ object InstallIntelligence {
         val latestVersionNumber = latestVersion?.version ?: app.latestVersion()?.version
 
         val installedHint = when {
-            snapshot.installedVersionName.isNullOrBlank() -> null
-            version.version_name.equals(snapshot.installedVersionName, ignoreCase = true) ->
+            snapshot.installedVersionCode == null -> null
+            version.version == snapshot.installedVersionCode ->
                 context.getString(R.string.version_installed_hint)
-            snapshot.installedVersionOrder != null && version.version > snapshot.installedVersionOrder ->
+            version.version > snapshot.installedVersionCode ->
                 context.getString(R.string.version_new_since_installed)
-            snapshot.installedVersionOrder == null && version.version == latestVersionNumber ->
-                context.getString(R.string.version_installed_unknown_catalog_hint)
-            snapshot.installedVersionOrder != null &&
-                version.version == latestVersionNumber &&
-                snapshot.installedVersionOrder > version.version ->
+            version.version == latestVersionNumber &&
+                snapshot.installedVersionCode > version.version ->
                 context.getString(R.string.version_installed_newer_than_catalog_hint)
             else -> null
         }
 
         val downloadHint = when {
-            snapshot.downloadedByVersionName.containsKey(version.version_name) ->
+            snapshot.downloadedByVersionCode.containsKey(version.version) ->
                 context.getString(R.string.version_downloaded_hint)
             else -> null
         }
 
         val warningHint = when {
-            snapshot.packageMismatchVersions.contains(version.version_name) ->
+            snapshot.packageMismatchVersions.contains(version.version) ->
                 context.getString(R.string.version_package_mismatch_hint)
-            snapshot.signatureMismatchVersions.contains(version.version_name) ->
+            snapshot.signatureMismatchVersions.contains(version.version) ->
                 context.getString(R.string.version_signature_mismatch_hint)
-            snapshot.installedVersionOrder != null && version.version < snapshot.installedVersionOrder ->
+            snapshot.installedVersionCode != null && version.version < snapshot.installedVersionCode ->
                 context.getString(R.string.version_downgrade_hint)
             else -> null
         }
