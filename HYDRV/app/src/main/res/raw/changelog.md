@@ -16,6 +16,25 @@ All notable changes to HYDRV are recorded here.
 
 - Bug fixes continue to roll in with each release.
 
+## [1.0.6] - 2026-04-06
+
+### Added
+
+- Cleaner settings wording so the advanced and app status screens feel less technical.
+- A clearer rewarded-download message when ads are unavailable.
+- More polished locale labels for the update, about, and language screens.
+
+### Changed
+
+- Home list rendering now reuses cached sorting to keep large catalogues a little lighter.
+- Rewarded-ad availability now uses friendlier wording in the backend health panel.
+- The app keeps the same download and update behavior while presenting those states more clearly.
+
+### Fixed
+
+- Remaining locale mojibake was cleaned up across the visible settings and language screens.
+- The app version, release notes, and notification labeling stay aligned with the latest release.
+
 ## [1.0.5] - 2026-04-06
 
 ### Added
