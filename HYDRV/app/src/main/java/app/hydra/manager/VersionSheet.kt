@@ -363,7 +363,6 @@ class VersionSheet(
             icon = buttonIcon
         )
         applyVersionButtonPalette(buttonViewsByKey.getValue(key), ctx)
-        applyIdleState(buttonViewsByKey.getValue(key))
         attachPressAnimation(button)
 
         button.setOnClickListener {
