@@ -1,0 +1,100 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="120" y1="60" x2="900" y2="980" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#221f28"/>
+      <stop offset="1" stop-color="#111016"/>
+    </linearGradient>
+    <radialGradient id="glowTop" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(512 118) rotate(90) scale(220 260)">
+      <stop offset="0" stop-color="#62ff78" stop-opacity="0.40"/>
+      <stop offset="0.65" stop-color="#62ff78" stop-opacity="0.10"/>
+      <stop offset="1" stop-color="#62ff78" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowCorner" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(162 170) rotate(45) scale(200 220)">
+      <stop offset="0" stop-color="#2ee65b" stop-opacity="0.20"/>
+      <stop offset="1" stop-color="#2ee65b" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="softBlur" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="48"/>
+    </filter>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="16" flood-color="#000000" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+
+  <rect x="20" y="20" width="984" height="984" rx="208" fill="url(#bg)"/>
+  <rect x="20" y="20" width="984" height="984" rx="208" fill="url(#glowTop)" filter="url(#softBlur)"/>
+  <rect x="20" y="20" width="984" height="984" rx="208" fill="url(#glowCorner)" filter="url(#softBlur)"/>
+
+  <g opacity="0.18" filter="url(#softBlur)">
+    <ellipse cx="320" cy="240" rx="120" ry="100" fill="#64ff6f"/>
+    <ellipse cx="700" cy="230" rx="110" ry="96" fill="#64ff6f"/>
+    <ellipse cx="520" cy="780" rx="180" ry="92" fill="#64ff6f"/>
+  </g>
+
+  <g filter="url(#shadow)">
+    <!-- Outer outline behind the hydra emblem -->
+    <g stroke="#dce6dd" stroke-width="18" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M 310 334 C 275 284 264 233 274 186 C 287 127 335 94 401 94 C 448 94 487 115 515 153"/>
+      <path d="M 714 334 C 749 284 760 233 750 186 C 737 127 689 94 623 94 C 576 94 537 115 509 153"/>
+      <path d="M 278 610 C 212 564 175 512 174 451 C 173 390 214 346 276 321 C 334 297 398 300 448 333"/>
+      <path d="M 746 610 C 812 564 849 512 850 451 C 851 390 810 346 748 321 C 690 297 626 300 576 333"/>
+      <path d="M 512 288 C 512 226 512 166 512 108"/>
+    </g>
+
+    <!-- Main hydra body -->
+    <g stroke="#1f221f" stroke-width="60" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M 310 334 C 275 284 264 233 274 186 C 287 127 335 94 401 94 C 448 94 487 115 515 153"/>
+      <path d="M 714 334 C 749 284 760 233 750 186 C 737 127 689 94 623 94 C 576 94 537 115 509 153"/>
+      <path d="M 278 610 C 212 564 175 512 174 451 C 173 390 214 346 276 321 C 334 297 398 300 448 333"/>
+      <path d="M 746 610 C 812 564 849 512 850 451 C 851 390 810 346 748 321 C 690 297 626 300 576 333"/>
+      <path d="M 512 288 C 512 226 512 166 512 108"/>
+    </g>
+
+    <g stroke="#30f04f" stroke-width="46" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M 310 334 C 275 284 264 233 274 186 C 287 127 335 94 401 94 C 448 94 487 115 515 153"/>
+      <path d="M 714 334 C 749 284 760 233 750 186 C 737 127 689 94 623 94 C 576 94 537 115 509 153"/>
+      <path d="M 278 610 C 212 564 175 512 174 451 C 173 390 214 346 276 321 C 334 297 398 300 448 333"/>
+      <path d="M 746 610 C 812 564 849 512 850 451 C 851 390 810 346 748 321 C 690 297 626 300 576 333"/>
+      <path d="M 512 288 C 512 226 512 166 512 108"/>
+    </g>
+
+    <!-- Head tips and jaw accents -->
+    <g fill="#30f04f">
+      <path d="M 396 91 L 454 96 L 434 132 L 378 123 Z"/>
+      <path d="M 628 91 L 570 96 L 590 132 L 646 123 Z"/>
+      <path d="M 466 333 L 518 330 L 500 372 L 448 360 Z"/>
+      <path d="M 558 333 L 506 330 L 524 372 L 576 360 Z"/>
+      <path d="M 506 108 L 528 150 L 496 170 L 474 150 Z"/>
+    </g>
+
+    <!-- Hydra faces -->
+    <g fill="#1f221f" stroke="#dce6dd" stroke-width="12" stroke-linejoin="round">
+      <path d="M 396 91 L 454 96 L 434 132 L 378 123 Z"/>
+      <path d="M 628 91 L 570 96 L 590 132 L 646 123 Z"/>
+      <path d="M 466 333 L 518 330 L 500 372 L 448 360 Z"/>
+      <path d="M 558 333 L 506 330 L 524 372 L 576 360 Z"/>
+      <path d="M 506 108 L 528 150 L 496 170 L 474 150 Z"/>
+    </g>
+
+    <!-- Eyes -->
+    <g fill="#ff3a52">
+      <ellipse cx="410" cy="132" rx="10" ry="6" transform="rotate(-18 410 132)"/>
+      <ellipse cx="614" cy="132" rx="10" ry="6" transform="rotate(18 614 132)"/>
+      <ellipse cx="508" cy="176" rx="9" ry="5" transform="rotate(0 508 176)"/>
+      <ellipse cx="492" cy="366" rx="9" ry="5" transform="rotate(-6 492 366)"/>
+      <ellipse cx="532" cy="366" rx="9" ry="5" transform="rotate(6 532 366)"/>
+    </g>
+
+    <!-- Central emblem -->
+    <g filter="url(#shadow)">
+      <path d="M 512 468 L 650 548 L 650 734 L 512 816 L 374 734 L 374 548 Z" fill="#091108" stroke="#dce6dd" stroke-width="16" stroke-linejoin="round"/>
+      <path d="M 512 482 L 630 550 L 630 719 L 512 786 L 394 719 L 394 550 Z" fill="#10a52b" opacity="0.95"/>
+      <path d="M 512 502 L 595 553 L 562 700 L 512 757 L 462 700 L 429 553 Z" fill="#58ff78" opacity="0.95"/>
+      <path d="M 512 522 L 558 560 L 512 698 L 466 560 Z" fill="#d9ffd9" opacity="0.80"/>
+      <path d="M 512 502 L 595 553 L 512 620 L 429 553 Z" fill="none" stroke="#1f221f" stroke-width="14" stroke-linejoin="round"/>
+      <path d="M 512 522 L 558 560 L 512 698 L 466 560 Z" fill="none" stroke="#1f221f" stroke-width="12" stroke-linejoin="round"/>
+      <path d="M 447 610 L 577 610" stroke="#1f221f" stroke-width="12" stroke-linecap="round"/>
+      <path d="M 447 652 L 577 652" stroke="#1f221f" stroke-width="12" stroke-linecap="round"/>
+    </g>
+  </g>
+</svg>
