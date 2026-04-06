@@ -5,7 +5,8 @@ import android.os.Looper
 import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.google.gson.JsonParser
+import com.google.gson.stream.JsonReader
+import com.google.gson.stream.JsonToken
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.OkHttpClient
@@ -14,13 +15,10 @@ import okhttp3.Request
 import okhttp3.Response
 import java.io.File
 import java.io.IOException
-import java.io.ByteArrayOutputStream
 import java.security.MessageDigest
 import java.util.concurrent.TimeUnit
 
 object AppCatalogService {
-
-    private const val MAX_CATALOG_BYTES = 2_000_000
 
     data class FetchResult(
         val apps: List<AppModel>,
@@ -113,20 +111,12 @@ object AppCatalogService {
                         return
                     }
 
-                    val body = readBodyWithLimit(response) ?: run {
-                        tryNextCandidateAsync(
-                            context = appContext,
-                            candidates = candidates.drop(1),
-                            allowCacheFallback = allowCacheFallback,
-                            bypassRemoteCache = bypassRemoteCache,
-                            originalError = IOException("Catalog is too large"),
-                            onResult = onResult
-                        )
-                        return
-                    }
-                    val parsed = parse(body)
+                    val parsed = parseResponseToCacheFile(
+                        context = appContext,
+                        cacheUrl = firstRequest.url,
+                        response = response
+                    )
                     if (parsed.isSuccess) {
-                        CatalogCacheStore.write(appContext, firstRequest.url, body)
                         postResult(onResult, Result.success(FetchResult(parsed.getOrThrow(), fromCache = false)))
                         return
                     }
@@ -162,9 +152,11 @@ object AppCatalogService {
                     if (!response.isSuccessful) {
                         throw IOException("HTTP ${response.code}")
                     }
-                    val body = readBodyWithLimit(response) ?: throw IOException("Catalog is too large")
-                    val parsed = parse(body).getOrThrow()
-                    CatalogCacheStore.write(appContext, candidate, body)
+                    val parsed = parseResponseToCacheFile(
+                        context = appContext,
+                        cacheUrl = candidate,
+                        response = response
+                    ).getOrThrow()
                     Result.success(FetchResult(parsed, fromCache = false))
                 }
             }.getOrElse {
@@ -200,12 +192,11 @@ object AppCatalogService {
                     throw IOException("HTTP ${response.code}")
                 }
 
-                val body = readBodyWithLimit(response) ?: throw IOException("Catalog is too large")
-                if (body.isBlank()) {
-                    throw IOException("Empty response")
-                }
-
-                parse(body).getOrThrow()
+                parseResponseToCacheFile(
+                    context = null,
+                    cacheUrl = null,
+                    response = response
+                ).getOrThrow()
             }
         }.map { Unit }
     }
@@ -217,8 +208,12 @@ object AppCatalogService {
     }
 
     private fun parse(raw: String): Result<List<AppModel>> {
+        return raw.reader().use { parse(it) }
+    }
+
+    private fun parse(reader: java.io.Reader): Result<List<AppModel>> {
         return try {
-            val apps = sanitizeParsedApps(parseRawApps(raw))
+            val apps = sanitizeParsedApps(parseRawApps(reader))
             val validation = CatalogValidation.validate(apps)
             if (validation.isSuccess) {
                 Result.success(validation.getOrThrow())
@@ -230,24 +225,39 @@ object AppCatalogService {
         }
     }
 
-    private fun parseRawApps(raw: String): List<AppModel> {
-        val directList = runCatching {
-            gson.fromJson<List<AppModel>>(raw, appListType)
-        }.getOrNull().orEmpty()
-        if (directList.isNotEmpty()) return directList
-
-        val root = JsonParser().parse(raw)
-        if (!root.isJsonObject) return emptyList()
-        val obj = root.asJsonObject
+    private fun parseRawApps(reader: java.io.Reader): List<AppModel> {
+        val jsonReader = JsonReader(reader).apply { isLenient = true }
         val candidates = listOf("apps", "catalog", "catalogue", "items", "data")
-        for (key in candidates) {
-            val array = obj.getAsJsonArray(key) ?: continue
-            val parsed = runCatching {
-                gson.fromJson<List<AppModel>>(array, appListType)
-            }.getOrNull().orEmpty()
-            if (parsed.isNotEmpty()) return parsed
+
+        return when (jsonReader.peek()) {
+            JsonToken.BEGIN_ARRAY -> runCatching {
+                gson.fromJson<List<AppModel>>(jsonReader, appListType)
+            }.getOrDefault(emptyList())
+
+            JsonToken.BEGIN_OBJECT -> {
+                jsonReader.beginObject()
+                while (jsonReader.hasNext()) {
+                    val name = jsonReader.nextName()
+                    if (name in candidates && jsonReader.peek() == JsonToken.BEGIN_ARRAY) {
+                        val parsed = runCatching {
+                            gson.fromJson<List<AppModel>>(jsonReader, appListType)
+                        }.getOrDefault(emptyList())
+                        if (parsed.isNotEmpty()) {
+                            if (jsonReader.peek() == JsonToken.END_OBJECT) {
+                                jsonReader.endObject()
+                            }
+                            return parsed
+                        }
+                    } else {
+                        jsonReader.skipValue()
+                    }
+                }
+                jsonReader.endObject()
+                emptyList()
+            }
+
+            else -> emptyList()
         }
-        return emptyList()
     }
 
     private fun sanitizeParsedApps(apps: List<AppModel>): List<AppModel> {
@@ -294,8 +304,13 @@ object AppCatalogService {
     }
 
     private fun readCachedResult(context: Context, url: String): Result<FetchResult>? {
-        val cached = CatalogCacheStore.read(context, url) ?: return null
-        val parsed = parse(cached)
+        val cached = CatalogCacheStore.file(context, url) ?: return null
+        val parsed = runCatching {
+            cached.inputStream().reader(Charsets.UTF_8).use { reader -> parse(reader).getOrThrow() }
+        }.fold(
+            onSuccess = { Result.success(it) },
+            onFailure = { Result.failure(it) }
+        )
         return if (parsed.isSuccess) {
             Result.success(FetchResult(parsed.getOrThrow(), fromCache = true))
         } else {
@@ -366,20 +381,12 @@ object AppCatalogService {
                         return
                     }
 
-                    val body = readBodyWithLimit(response) ?: run {
-                        tryNextCandidateAsync(
-                            context = context,
-                            candidates = candidates.drop(1),
-                            allowCacheFallback = allowCacheFallback,
-                            bypassRemoteCache = bypassRemoteCache,
-                            originalError = IOException("Catalog is too large"),
-                            onResult = onResult
-                        )
-                        return
-                    }
-                    val parsed = parse(body)
+                    val parsed = parseResponseToCacheFile(
+                        context = context,
+                        cacheUrl = next.url,
+                        response = response
+                    )
                     if (parsed.isSuccess) {
-                        CatalogCacheStore.write(context, next.url, body)
                         postResult(onResult, Result.success(FetchResult(parsed.getOrThrow(), fromCache = false)))
                     } else {
                         tryNextCandidateAsync(
@@ -400,27 +407,41 @@ object AppCatalogService {
         return this as? Exception ?: IOException(this?.message ?: "Catalog request failed")
     }
 
-    private fun readBodyWithLimit(response: Response): String? {
-        val body = response.body ?: return ""
-        val buffer = ByteArrayOutputStream()
-        val chunk = ByteArray(8 * 1024)
-        var total = 0
-
-        body.byteStream().use { input ->
-            while (true) {
-                val read = input.read(chunk)
-                if (read <= 0) break
-
-                total += read
-                if (total > MAX_CATALOG_BYTES) {
-                    return null
-                }
-
-                buffer.write(chunk, 0, read)
-            }
+    private fun parseResponseToCacheFile(
+        context: Context?,
+        cacheUrl: String?,
+        response: Response
+    ): Result<List<AppModel>> {
+        val body = response.body ?: return Result.failure(IOException("Empty response"))
+        val tempFile = if (context?.cacheDir != null) {
+            File.createTempFile("catalog_", ".json", context.cacheDir)
+        } else {
+            File.createTempFile("catalog_", ".json")
         }
 
-        return buffer.toString(Charsets.UTF_8.name())
+        return runCatching {
+            body.byteStream().use { input ->
+                tempFile.outputStream().use { output ->
+                    input.copyTo(output)
+                }
+            }
+
+            val parsed = tempFile.inputStream().reader(Charsets.UTF_8).use { reader ->
+                parse(reader)
+            }
+
+            if (parsed.isSuccess && context != null && cacheUrl != null) {
+                CatalogCacheStore.write(context, cacheUrl, tempFile)
+            }
+
+            parsed
+        }.getOrElse { error ->
+            Result.failure(error.asException())
+        }.also {
+            if (tempFile.exists()) {
+                tempFile.delete()
+            }
+        }
     }
 }
 
@@ -430,14 +451,18 @@ private object CatalogCacheStore {
         return File(context.cacheDir, "catalog_$key.json")
     }
 
-    fun write(context: Context, url: String, raw: String) {
+    fun write(context: Context, url: String, source: File) {
         runCatching {
-            fileFor(context, url).writeText(raw)
+            val target = fileFor(context, url)
+            if (target.exists()) {
+                target.delete()
+            }
+            source.copyTo(target, overwrite = true)
         }
     }
 
-    fun read(context: Context, url: String): String? {
-        return runCatching { fileFor(context, url).takeIf { it.exists() }?.readText() }.getOrNull()
+    fun file(context: Context, url: String): File? {
+        return fileFor(context, url).takeIf { it.exists() }
     }
 
     private fun sha256Hex(value: String): String {
