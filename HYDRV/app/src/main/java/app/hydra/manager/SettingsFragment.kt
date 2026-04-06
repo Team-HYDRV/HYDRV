@@ -1742,6 +1742,7 @@ class SettingsFragment : Fragment() {
             .setNeutralButton(getString(R.string.reset_label)) { dialog, _ ->
                 BackendPreferences.setCatalogUrl(context, "")
                 updateBackendUrlLabel()
+                refreshCatalogAfterBackendChange()
                 AppSnackbar.show(
                     requireActivity().findViewById(R.id.rootLayout),
                     getString(R.string.backend_reset_message)
@@ -1756,6 +1757,7 @@ class SettingsFragment : Fragment() {
             if (rawUrl.isBlank()) {
                 BackendPreferences.setCatalogUrl(context, "")
                 updateBackendUrlLabel()
+                refreshCatalogAfterBackendChange()
                 AppSnackbar.show(
                     requireActivity().findViewById(R.id.rootLayout),
                     getString(R.string.backend_reset_message)
@@ -1782,6 +1784,7 @@ class SettingsFragment : Fragment() {
                         input.error = null
                         BackendPreferences.setCatalogUrl(context, rawUrl)
                         updateBackendUrlLabel()
+                        refreshCatalogAfterBackendChange()
                         if (rootView != null) {
                             AppSnackbar.show(
                                 rootView,
@@ -1800,6 +1803,24 @@ class SettingsFragment : Fragment() {
                     }
                 }
             }.start()
+        }
+    }
+
+    private fun refreshCatalogAfterBackendChange() {
+        if (!isAdded) return
+        val appContext = context?.applicationContext ?: return
+
+        AppCatalogService.fetchApps(
+            appContext,
+            allowCacheFallback = true,
+            bypassRemoteCache = true
+        ) { result ->
+            result.onSuccess { fetchResult ->
+                if (!isAdded) return@onSuccess
+                CatalogStateCenter.update(fetchResult.apps)
+                AppUpdateState.setLastSeenHash(appContext, CatalogFingerprint.hash(fetchResult.apps))
+                AppStateCacheManager.refreshFavorites(appContext)
+            }
         }
     }
 
