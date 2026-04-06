@@ -18,20 +18,19 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
-import android.view.ViewTreeObserver
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.OvershootInterpolator
 import android.widget.FrameLayout
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import android.content.res.ColorStateList
-import androidx.core.widget.NestedScrollView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 class VersionSheet(
     private val app: AppModel,
     private val preferOpenInstalledAction: Boolean = false
@@ -43,8 +42,6 @@ class VersionSheet(
         private const val PRESS_SCALE = 0.975f
         private const val SHEET_SNACKBAR_GAP_DP = 6
         private const val NAV_SNACKBAR_GAP_DP = 10
-        private const val VERSION_RENDER_BATCH_SIZE = 12
-        private const val VERSION_RENDER_BATCH_DELAY_MS = 12L
     }
 
     private data class DownloadButtonViews(
@@ -72,20 +69,19 @@ class VersionSheet(
     private var hintViewsByKey = emptyMap<String, VersionHintViews>()
     private var currentLatestVersion: Version? = null
     private var currentInstallSnapshot: InstallIntelligence.Snapshot? = null
-    private var renderGeneration = 0
     private val mainHandler = Handler(Looper.getMainLooper())
     private var currentSnackbar: Snackbar? = null
     private var bottomSheetCallback: BottomSheetBehavior.BottomSheetCallback? = null
-    private var scrollChangedListener: ViewTreeObserver.OnScrollChangedListener? = null
+    private var versionScrollListener: RecyclerView.OnScrollListener? = null
     private var currentApp: AppModel = app
     private var installedLaunchPackage: String? = null
     private lateinit var rootView: View
     private lateinit var appNameView: TextView
     private lateinit var sheetSummaryView: TextView
-    private lateinit var containerLayout: LinearLayout
-    private lateinit var scrollView: NestedScrollView
+    private lateinit var versionList: RecyclerView
     private lateinit var fadeView: View
     private var installedVersionName: String? = null
+    private val versionAdapter = VersionAdapter()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return BottomSheetDialog(requireContext(), R.style.BottomSheetTheme).apply {
@@ -165,19 +161,23 @@ class VersionSheet(
             view.setBackgroundResource(R.drawable.bottom_sheet_bg_brand)
         }
 
-        scrollView = view.findViewById(R.id.scrollView)
+        versionList = view.findViewById(R.id.versionList)
         fadeView = view.findViewById(R.id.scrollFade)
         appNameView = view.findViewById(R.id.appName)
         sheetSummaryView = view.findViewById(R.id.sheetSummary)
-        containerLayout = view.findViewById(R.id.container)
         RewardedAdManager.preload(requireContext())
 
-        scrollChangedListener = ViewTreeObserver.OnScrollChangedListener {
-            updateScrollFade()
+        versionList.layoutManager = LinearLayoutManager(requireContext())
+        versionList.adapter = versionAdapter
+        versionList.itemAnimator = null
+        versionScrollListener = object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                updateScrollFade()
+            }
         }
-        scrollView.viewTreeObserver.addOnScrollChangedListener(scrollChangedListener)
+        versionScrollListener?.let(versionList::addOnScrollListener)
 
-        renderVersions(inflater)
+        renderVersions()
 
         CatalogStateCenter.apps.observe(viewLifecycleOwner) { apps ->
             val updatedApp = apps.firstOrNull {
@@ -188,10 +188,10 @@ class VersionSheet(
             if (updatedApp == currentApp) return@observe
 
             currentApp = updatedApp
-            renderVersions(inflater)
+            renderVersions()
         }
 
-        scrollView.post {
+        versionList.post {
             if (!isAdded || view == null) return@post
             updateScrollFade()
         }
@@ -199,19 +199,14 @@ class VersionSheet(
         return view
     }
 
-    private fun renderVersions(inflater: LayoutInflater) {
-        if (!this::containerLayout.isInitialized) return
-
+    private fun renderVersions() {
         val ctx = requireContext()
         refreshInstalledInfo(ctx)
-        val renderToken = ++renderGeneration
-        val previousScrollY = if (this::scrollView.isInitialized) scrollView.scrollY else 0
         val sortMode = ListSortPreferences.getVersionSort(ctx)
         val sortedVersions = ListSortPreferences.sortVersions(sortMode, currentApp.versions)
         versionsByKey = sortedVersions.associateBy(::versionKey)
         currentLatestVersion = sortedVersions.firstOrNull()
         val latestVersionNumber = currentLatestVersion?.version
-        currentInstallSnapshot = null
 
         appNameView.text = currentApp.name
         sheetSummaryView.text =
@@ -226,61 +221,34 @@ class VersionSheet(
         }
         buttonViewsByKey.clear()
         hintViewsByKey = emptyMap()
+        currentInstallSnapshot = null
         completedKeys.clear()
         doneHandledKeys.clear()
         lastKnownStatuses.clear()
         visualProgressByKey.clear()
         activeSessionKeys.clear()
         failedKeys.clear()
-        containerLayout.removeAllViews()
-
-        fun renderBatch(startIndex: Int) {
-            if (!isAdded || renderToken != renderGeneration) return
-
-            val endIndex = minOf(startIndex + VERSION_RENDER_BATCH_SIZE, sortedVersions.size)
-            for (index in startIndex until endIndex) {
-                renderVersionCard(
-                    inflater = inflater,
-                    ctx = ctx,
-                    version = sortedVersions[index],
-                    latestVersionNumber = latestVersionNumber
-                )
-            }
-
-            if (!isAdded || renderToken != renderGeneration) return
-
-            if (endIndex < sortedVersions.size) {
-                mainHandler.postDelayed({
-                    renderBatch(endIndex)
-                }, VERSION_RENDER_BATCH_DELAY_MS)
-            } else {
-                updateDownloadButtons(DownloadRepository.downloads)
-                refreshVersionHints()
-                if (this::scrollView.isInitialized) {
-                    scrollView.post {
-                        if (!isAdded || view == null || renderToken != renderGeneration) return@post
-                        val content = scrollView.getChildAt(0)
-                        val maxScroll = ((content?.height ?: 0) - scrollView.height).coerceAtLeast(0)
-                        scrollView.scrollTo(0, previousScrollY.coerceAtMost(maxScroll))
-                        updateScrollFade()
-                    }
-                }
-            }
-        }
 
         if (sortedVersions.isEmpty()) {
+            currentInstallSnapshot = null
+            versionAdapter.submitVersions(emptyList(), latestVersionNumber)
             updateDownloadButtons(DownloadRepository.downloads)
+            refreshVersionHints()
+            updateScrollFade()
             return
         }
 
-        renderBatch(0)
+        versionAdapter.submitVersions(sortedVersions, latestVersionNumber)
+        updateDownloadButtons(DownloadRepository.downloads)
+        updateScrollFade()
 
         Thread {
             val snapshot = InstallIntelligence.snapshot(ctx, currentApp)
             mainHandler.post {
-                if (!isAdded || view == null || renderToken != renderGeneration) return@post
+                if (!isAdded || view == null) return@post
                 currentInstallSnapshot = snapshot
                 refreshVersionHints()
+                versionAdapter.notifyDataSetChanged()
             }
         }.start()
     }
@@ -307,17 +275,13 @@ class VersionSheet(
         )
     }
 
-    private fun renderVersionCard(
-        inflater: LayoutInflater,
+    private fun bindVersionCard(
+        card: View,
         ctx: android.content.Context,
         version: Version,
-        latestVersionNumber: Int?
+        latestVersionNumber: Int?,
+        key: String
     ) {
-        val card = inflater.inflate(
-            R.layout.item_version_sheet,
-            containerLayout,
-            false
-        )
         card.setBackgroundResource(
             if (AppearancePreferences.isDynamicColorEnabled(ctx)) {
                 R.drawable.version_sheet_card_material
@@ -338,8 +302,6 @@ class VersionSheet(
         val buttonFill = card.findViewById<ImageView>(R.id.versionDownloadFill)
         val buttonLabel = card.findViewById<TextView>(R.id.versionDownloadLabel)
         val buttonIcon = card.findViewById<ImageView>(R.id.versionDownloadIcon)
-        val key = versionKey(version)
-
         title.text = ctx.getString(
             R.string.version_format,
             "${version.version_name} (${version.version})"
@@ -457,7 +419,7 @@ class VersionSheet(
             )
         }
 
-        containerLayout.addView(card)
+        updateDownloadButtons(DownloadRepository.downloads)
     }
 
     private fun applySourceBadgePalette(badge: TextView, isOfficialBackend: Boolean) {
@@ -499,6 +461,77 @@ class VersionSheet(
                 }
             }
         )
+    }
+
+    private fun clearVersionView(key: String) {
+        cancelReset(key)
+        buttonViewsByKey.remove(key)?.let { releaseLiquidDrawable(it.fill) }
+        hintViewsByKey = hintViewsByKey - key
+    }
+
+    private inner class VersionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var boundKey: String? = null
+        val title: TextView = itemView.findViewById(R.id.versionTitle)
+        val changelog: TextView = itemView.findViewById(R.id.versionChangelog)
+        val badge: TextView = itemView.findViewById(R.id.versionBadge)
+        val sourceBadge: TextView = itemView.findViewById(R.id.versionSourceBadge)
+        val sourceHost: TextView = itemView.findViewById(R.id.versionSourceHost)
+        val installedHint: TextView = itemView.findViewById(R.id.versionInstalledHint)
+        val downloadedHint: TextView = itemView.findViewById(R.id.versionDownloadedHint)
+        val button: FrameLayout = itemView.findViewById(R.id.versionDownloadButton)
+        val buttonTrack: FrameLayout = itemView.findViewById(R.id.versionDownloadTrack)
+        val buttonFill: ImageView = itemView.findViewById(R.id.versionDownloadFill)
+        val buttonLabel: TextView = itemView.findViewById(R.id.versionDownloadLabel)
+        val buttonIcon: ImageView = itemView.findViewById(R.id.versionDownloadIcon)
+    }
+
+    private inner class VersionAdapter : RecyclerView.Adapter<VersionViewHolder>() {
+        private var items: List<Version> = emptyList()
+        private var latestVersionNumber: Int? = null
+
+        init {
+            setHasStableIds(true)
+        }
+
+        fun submitVersions(versions: List<Version>, latest: Int?) {
+            items = versions
+            latestVersionNumber = latest
+            notifyDataSetChanged()
+        }
+
+        override fun getItemCount(): Int = items.size
+
+        override fun getItemId(position: Int): Long {
+            return versionKey(items[position]).hashCode().toLong()
+        }
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VersionViewHolder {
+            val view = LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_version_sheet, parent, false)
+            return VersionViewHolder(view)
+        }
+
+        override fun onBindViewHolder(holder: VersionViewHolder, position: Int) {
+            val version = items[position]
+            val key = versionKey(version)
+            if (holder.boundKey != null && holder.boundKey != key) {
+                clearVersionView(holder.boundKey!!)
+            }
+            holder.boundKey = key
+            bindVersionCard(
+                card = holder.itemView,
+                ctx = holder.itemView.context,
+                version = version,
+                latestVersionNumber = latestVersionNumber,
+                key = key
+            )
+        }
+
+        override fun onViewRecycled(holder: VersionViewHolder) {
+            holder.boundKey?.let { clearVersionView(it) }
+            holder.boundKey = null
+            super.onViewRecycled(holder)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -584,10 +617,12 @@ class VersionSheet(
         bottomSheetCallback = null
         currentSnackbar?.dismiss()
         currentSnackbar = null
-        scrollChangedListener?.let { listener ->
-            scrollView.viewTreeObserver.takeIf { it.isAlive }?.removeOnScrollChangedListener(listener)
+        versionScrollListener?.let { listener ->
+            if (this::versionList.isInitialized) {
+                versionList.removeOnScrollListener(listener)
+            }
         }
-        scrollChangedListener = null
+        versionScrollListener = null
         buttonViewsByKey.values.forEach { releaseLiquidDrawable(it.fill) }
         resetRunnables.values.forEach(mainHandler::removeCallbacks)
         resetRunnables.clear()
@@ -595,7 +630,6 @@ class VersionSheet(
         hintViewsByKey = emptyMap()
         currentLatestVersion = null
         currentInstallSnapshot = null
-        renderGeneration++
         buttonViewsByKey.clear()
         completedKeys.clear()
         doneHandledKeys.clear()
@@ -1025,7 +1059,7 @@ class VersionSheet(
     }
 
     private fun refreshVersionHints() {
-        if (!this::containerLayout.isInitialized) return
+        if (!this::versionList.isInitialized) return
         val ctx = context ?: return
         val snapshot = currentInstallSnapshot ?: return
         if (hintViewsByKey.isEmpty() || versionsByKey.isEmpty()) return
@@ -1194,14 +1228,8 @@ class VersionSheet(
     }
 
     private fun updateScrollFade() {
-        if (!this::scrollView.isInitialized || !this::fadeView.isInitialized) return
-        val viewChild = scrollView.getChildAt(0)
-        val diff = if (viewChild == null) {
-            0
-        } else {
-            viewChild.bottom - (scrollView.height + scrollView.scrollY)
-        }
-        fadeView.visibility = if (diff <= 0) View.GONE else View.VISIBLE
+        if (!this::versionList.isInitialized || !this::fadeView.isInitialized) return
+        fadeView.visibility = if (versionList.canScrollVertically(1)) View.VISIBLE else View.GONE
     }
 
     private fun refreshInstalledInfo(context: android.content.Context) {
