@@ -101,6 +101,36 @@ object DownloadRepository {
         }
     }
 
+    fun pruneStaleCompleted(context: Context) {
+        synchronized(startLock) {
+            val iterator = downloads.iterator()
+            var changed = false
+
+            while (iterator.hasNext()) {
+                val item = iterator.next()
+                val looksCompleted =
+                    item.status == "Done" ||
+                        item.progress >= 100 ||
+                        item.completedAt > 0L
+                if (!looksCompleted) continue
+                if (isApkValid(context, item)) continue
+
+                AppDiagnostics.log(
+                    context,
+                    "DOWNLOAD",
+                    "Pruned stale completed download for ${item.name} ${item.versionName}"
+                )
+                iterator.remove()
+                changed = true
+            }
+
+            if (!changed) return
+
+            scheduleSave(context)
+            notifyChange()
+        }
+    }
+
     private fun archivePackageInfo(context: Context, filePath: String): android.content.pm.PackageInfo? {
         return try {
             @Suppress("DEPRECATION")

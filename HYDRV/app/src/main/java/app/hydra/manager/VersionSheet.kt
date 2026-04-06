@@ -203,6 +203,7 @@ class VersionSheet(
 
     private fun renderVersions() {
         val ctx = requireContext()
+        DownloadRepository.pruneStaleCompleted(ctx)
         refreshInstalledInfo(ctx)
         val sortMode = ListSortPreferences.getVersionSort(ctx)
         val sortedVersions = ListSortPreferences.sortVersions(sortMode, currentApp.versions)
