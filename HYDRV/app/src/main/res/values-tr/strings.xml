@@ -1,4 +1,4 @@
-<resources>
+﻿<resources>
   <string name="app_name">HYDRV</string>
   <string name="settings_title">Ayarlar</string>
   <string name="settings_general_title">Genel</string>
@@ -71,11 +71,11 @@
   <string name="language_native_system_default">Use your device language</string>
   <string name="language_native_english_region">English (United States)</string>
   <string name="language_native_filipino_region">Filipino (Pilipinas)</string>
-  <string name="language_native_spanish_region">EspaÃ±ol (EspaÃ±a)</string>
+  <string name="language_native_spanish_region">Español (España)</string>
   <string name="language_native_indonesian_region">Bahasa Indonesia (Indonesia)</string>
-  <string name="language_native_french_region">FranÃ§ais (France)</string>
+  <string name="language_native_french_region">Français (France)</string>
   <string name="language_native_german_region">Deutsch (Deutschland)</string>
-  <string name="language_native_portuguese_brazil_region">PortuguÃªs (Brasil)</string>
+  <string name="language_native_portuguese_brazil_region">Português (Brasil)</string>
   <string name="language_native_italian_region">Italiano (Italia)</string>
   <string name="language_native_turkish_region">Turkce (Turkiye)</string>
   <string name="language_native_vietnamese_region">Tiáº¿ng Viá»‡t (Viá»‡t Nam)</string>
@@ -85,7 +85,7 @@
   <string name="language_native_malay_region">Bahasa Melayu (Malaysia)</string>
   <string name="language_native_ukrainian_region">Ð£ÐºÑ€Ð°Ñ—Ð½ÑÑŒÐºÐ° (Ð£ÐºÑ€Ð°Ñ—Ð½Ð°)</string>
   <string name="language_native_czech_region">ÄŒeÅ¡tina (ÄŒesko)</string>
-  <string name="language_native_romanian_region">RomÃ¢nÄƒ (RomÃ¢nia)</string>
+  <string name="language_native_romanian_region">Rom?na (Rom?nia)</string>
   <string name="language_native_chinese_simplified_region">ä¸­æ–‡ (ä¸­å›½)</string>
   <string name="language_native_hindi_region">à¤¹à¤¿à¤¨à¥à¤¦à¥€ (à¤­à¤¾à¤°à¤¤)</string>
   <string name="language_native_arabic_region">Ø§Ù„Ø¹Ø±Ø¨ÙŠØ©</string>
@@ -266,7 +266,7 @@
   <string name="settings_backup_import_failed">Couldn\'t import the settings backup.</string>
   <string name="backend_health_title">Backend health</string>
   <string name="backend_health_summary">View live backend, cache, notification, and worker status</string>
-  <string name="backend_health_loading">Loading backend healthâ€¦</string>
+  <string name="backend_health_loading">Loading backend health…</string>
   <string name="backend_health_backend_mode_format">Backend mode: %1$s</string>
   <string name="backend_health_last_checked_format">Last checked: %1$s</string>
   <string name="backend_health_last_seen_hash_format">Last seen hash: %1$d</string>
@@ -315,7 +315,7 @@
   <string name="updates_view_changelog">Degisiklik gunlugunu goster</string>
   <string name="updates_download_now">Download</string>
   <string name="updates_install_now">Install</string>
-  <string name="updates_downloading">Downloadingâ€¦</string>
+  <string name="updates_downloading">Downloading…</string>
   <string name="updates_resume_download">Resume</string>
   <string name="updates_launch_check_title">Check for updates on launch</string>
   <string name="updates_launch_check_summary">Automatically check the latest GitHub release whenever you open HYDRV.</string>
@@ -325,7 +325,7 @@
   <string name="updates_checking">Kontrol ediliyor…</string>
   <string name="updates_changelog_title">Release changelog</string>
   <string name="updates_changelog_body">HYDRV shows the latest GitHub release notes here so the in-app changelog stays aligned with the repo release.</string>
-  <string name="updates_changelog_loading">Loading the latest GitHub release notesâ€¦</string>
+  <string name="updates_changelog_loading">Loading the latest GitHub release notes…</string>
   <string name="updates_release_unavailable">En son surum gecici olarak kullanilamiyor</string>
   <string name="updates_check_failed">Guncellemeler su anda kontrol edilemiyor.</string>
   <string name="updates_check_live_with_version">New release is live: %1$s %2$s.</string>
@@ -359,7 +359,7 @@
   <string name="about_contributors_dialog_title">Contributors</string>
   <string name="about_contributors_dialog_body">This screen shows the live contributor list from the HYDRV GitHub repository.</string>
   <string name="contributors_group_summary">Thank you for helping keep HYDRV moving forward.</string>
-  <string name="contributors_loading">Loading GitHub contributorsâ€¦</string>
+  <string name="contributors_loading">Loading GitHub contributors…</string>
   <string name="contributors_loaded">%1$d contributors loaded from GitHub.</string>
   <string name="contributors_failed">GitHub contributors are temporarily unavailable.</string>
   <plurals name="contributor_role_contributions">

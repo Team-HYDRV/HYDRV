@@ -1,4 +1,4 @@
-<resources>
+﻿<resources>
     <string name="app_name">HYDRV</string>
     <string name="settings_title">Setări</string>
     <string name="settings_general_title">General</string>
@@ -22,13 +22,13 @@
     <string name="language_title">Limbă</string>
     <string name="language_summary">Alege limba de afișare a aplicației</string>
     <string name="language_system_default">Implicit de sistem</string>
-    <string name="language_romanian">Română</string>
-    <string name="language_romanian_region">Română</string>
-    <string name="language_native_romanian_region">Română (România)</string>
+    <string name="language_romanian">Rom?na</string>
+    <string name="language_romanian_region">Rom?na</string>
+    <string name="language_native_romanian_region">Rom?na (Rom?nia)</string>
     <string name="download_via_title">Descarcă prin</string>
     <string name="download_via_summary">Alege doar Wi-Fi sau permite datele mobile</string>
     <string name="update_notifications_title">Notificări de actualizare</string>
-    <string name="update_notifications_summary">Primește notificări când apar schimbări noi în aplicație</string>
+    <string name="update_notifications_summary">Prime?te notificari c?nd apar schimbari noi ?n aplica?ie</string>
     <string name="home_search_hint">Caută aplicații</string>
     <string name="home_updated_just_now">Actualizat chiar acum</string>
     <string name="home_error_invalid_catalog">Catalogul aplicației este invalid. Verifică JSON-ul backend și încearcă din nou.</string>
