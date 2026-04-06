@@ -1,14 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
   <string name="app_name">HYDRV</string>
   <string name="settings_title">การตั้งค่า</string>
   <string name="settings_general_title">ทั่วไป</string>
-  <string name="settings_general_subtitle">ธีมและค่ากำหนดรายการ</string>
+  <string name="settings_general_subtitle">การตั้งค่าธีมและรายการ</string>
   <string name="settings_updates_title">อัปเดต</string>
   <string name="settings_updates_subtitle">การตั้งค่าอัปเดตและบันทึกการเปลี่ยนแปลง</string>
   <string name="settings_advance_title">ขั้นสูง</string>
-  <string name="settings_advance_subtitle">การวิเคราะห์ การเชื่อมต่อ และตัวเลือกพลังงาน</string>
+  <string name="settings_advance_subtitle">การวินิจฉัย การเชื่อมต่อ และตัวเลือกพลังงาน</string>
   <string name="settings_about_title">เกี่ยวกับ</string>
-  <string name="settings_about_subtitle">ข้อมูลแอปและรายละเอียดการสนับสนุน</string>
+  <string name="settings_about_subtitle">ข้อมูลแอปและการสนับสนุน</string>
   <string name="settings_section_appearance">ลักษณะ</string>
   <string name="settings_section_lists">รายการ</string>
   <string name="theme_system">ระบบ</string>
@@ -20,7 +21,7 @@
   <string name="pure_black_summary">ใช้พื้นหลังดำล้วนสำหรับธีมมืด</string>
   <string name="pure_black_summary_active">ตอนนี้เปิดใช้ดำล้วนแล้ว</string>
   <string name="language_title">ภาษา</string>
-  <string name="language_summary">เลือกภาษาที่แสดงในแอป</string>
+  <string name="language_summary">เลือกภาษาที่ใช้แสดงในแอป</string>
   <string name="language_system_default">ค่าเริ่มต้นของระบบ</string>
   <string name="language_english">English</string>
   <string name="language_filipino">Filipino</string>

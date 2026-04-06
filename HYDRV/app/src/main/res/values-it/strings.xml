@@ -1,14 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
   <string name="app_name">HYDRV</string>
   <string name="settings_title">Impostazioni</string>
-  <string name="settings_general_title">Generale</string>
-  <string name="settings_general_subtitle">Tema e preferenze elenco</string>
+  <string name="settings_general_title">Generali</string>
+  <string name="settings_general_subtitle">Preferenze tema e elenco</string>
   <string name="settings_updates_title">Aggiornamenti</string>
-  <string name="settings_updates_subtitle">Impostazioni aggiornamenti e changelog</string>
+  <string name="settings_updates_subtitle">Impostazioni aggiornamento e registro modifiche</string>
   <string name="settings_advance_title">Avanzate</string>
-  <string name="settings_advance_subtitle">Diagnostica, connettivita e opzioni di alimentazione</string>
-  <string name="settings_about_title">Info</string>
-  <string name="settings_about_subtitle">Info app e dettagli supporto</string>
+  <string name="settings_advance_subtitle">Diagnostica, connettività e opzioni di alimentazione</string>
+  <string name="settings_about_title">Informazioni</string>
+  <string name="settings_about_subtitle">Informazioni sull’app e supporto</string>
   <string name="settings_section_appearance">Aspetto</string>
   <string name="settings_section_lists">Elenchi</string>
   <string name="theme_system">Sistema</string>
@@ -20,7 +21,7 @@
   <string name="pure_black_summary">Usa sfondi nero puro per il tema scuro</string>
   <string name="pure_black_summary_active">Il nero puro e attivo ora</string>
   <string name="language_title">Lingua</string>
-  <string name="language_summary">Scegli la lingua visualizzata dall app</string>
+  <string name="language_summary">Scegli la lingua di visualizzazione dell’app</string>
   <string name="language_system_default">Predefinito del sistema</string>
   <string name="language_english">English</string>
   <string name="language_filipino">Filipino</string>

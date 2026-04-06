@@ -1,14 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
   <string name="app_name">HYDRV</string>
   <string name="settings_title">Mga Setting</string>
   <string name="settings_general_title">Pangkalahatan</string>
-  <string name="settings_general_subtitle">Tema at ayos ng mga listahan</string>
+  <string name="settings_general_subtitle">Mga kagustuhan sa tema at listahan</string>
   <string name="settings_updates_title">Mga Update</string>
   <string name="settings_updates_subtitle">Mga setting ng update at changelog</string>
   <string name="settings_advance_title">Advanced</string>
-  <string name="settings_advance_subtitle">Diagnostics, connectivity, at power options</string>
+  <string name="settings_advance_subtitle">Diagnostics, konektibidad, at mga opsyon sa power</string>
   <string name="settings_about_title">Tungkol</string>
-  <string name="settings_about_subtitle">Impormasyon ng app at mga detalye ng suporta</string>
+  <string name="settings_about_subtitle">Impormasyon ng app at suporta</string>
   <string name="settings_section_appearance">Itsura</string>
   <string name="settings_section_lists">Mga Listahan</string>
   <string name="theme_system">System</string>
@@ -20,7 +21,7 @@
   <string name="pure_black_summary">Gumamit ng purong itim na background para sa dark theme</string>
   <string name="pure_black_summary_active">Aktibo na ang purong itim</string>
   <string name="language_title">Wika</string>
-  <string name="language_summary">Piliin ang wika ng app</string>
+  <string name="language_summary">Piliin ang wika ng pagpapakita ng app</string>
   <string name="language_system_default">Default ng system</string>
   <string name="language_english">Ingles</string>
   <string name="language_filipino">Filipino</string>

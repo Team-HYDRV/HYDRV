@@ -1,16 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
   <string name="app_name">HYDRV</string>
   <string name="settings_title">Einstellungen</string>
   <string name="settings_general_title">Allgemein</string>
-  <string name="settings_general_subtitle">Design und Listenoptionen</string>
+  <string name="settings_general_subtitle">Design- und Listen-Einstellungen</string>
   <string name="settings_updates_title">Updates</string>
   <string name="settings_updates_subtitle">Update-Einstellungen und Änderungsprotokoll</string>
   <string name="settings_advance_title">Erweitert</string>
-  <string name="settings_advance_subtitle">Diagnose, Konnektivität und Energieoptionen</string>
-  <string name="settings_about_title">Über</string>
-  <string name="settings_about_subtitle">App-Infos und Supportdetails</string>
+  <string name="settings_advance_subtitle">Diagnose, Verbindung und Energieoptionen</string>
+  <string name="settings_about_title">Info</string>
+  <string name="settings_about_subtitle">App-Infos und Support</string>
   <string name="language_title">Sprache</string>
-  <string name="language_summary">Wähle die App-Sprache</string>
+  <string name="language_summary">Wähle die Anzeigesprache der App</string>
   <string name="language_system_default">Systemstandard</string>
   <string name="language_english">Englisch</string>
   <string name="language_filipino">Filipino</string>

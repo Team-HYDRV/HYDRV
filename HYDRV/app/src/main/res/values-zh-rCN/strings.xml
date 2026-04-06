@@ -1,3 +1,4 @@
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
   <string name="app_name">HYDRV</string>
   <string name="settings_title">设置</string>
@@ -55,7 +56,7 @@
   <string name="backend_dialog_title">更改后端</string>
   <string name="downloads_delete">Delete</string>
   <string name="about_link_website">ç½‘ç«™</string>
-  <string name="settings_about_subtitle">应用信息和支持详情</string>
+  <string name="settings_about_subtitle">应用信息和支持</string>
   <string name="backend_health_cache_ready_count">Ready (%1$d apps)</string>
   <string name="download_action_resume">继续</string>
   <string name="ads_support_title">Ads support</string>
@@ -137,7 +138,7 @@
   <string name="language_native_german_region">Deutsch (Deutschland)</string>
   <string name="backend_health_last_checked_format">Last checked: %1$s</string>
   <string name="contributors_failed">GitHub 贡献者暂时不可用。</string>
-  <string name="settings_updates_subtitle">更新设置和变更日志</string>
+  <string name="settings_updates_subtitle">更新设置和更新日志</string>
   <string name="permission_not_allowed">Not allowed</string>
   <string name="debug_enabled">Enabled</string>
   <string name="settings_backup_export_summary">Save favorites, preferences, sorts, and backend choice to a file</string>
@@ -243,7 +244,7 @@
   <string name="updates_release_unavailable">最新版本暂时不可用</string>
   <string name="version_format">Version %1$s</string>
   <string name="downloads_wifi_only_blocked">Downloads are set to Wi-Fi only</string>
-  <string name="language_summary">Choose the app display language</string>
+  <string name="language_summary">选择应用显示语言</string>
   <string name="backend_default_label">Default</string>
   <string name="permission_notifications_summary">Used to alert you when new backend changes are available.</string>
   <string name="pure_black_title">Pure black theme</string>

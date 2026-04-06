@@ -1,14 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="app_name">HYDRV</string>
     <string name="settings_title">Tetapan</string>
     <string name="settings_general_title">Umum</string>
-    <string name="settings_general_subtitle">Tema dan keutamaan senarai</string>
-    <string name="settings_updates_title">Kemaskini</string>
-    <string name="settings_updates_subtitle">Tetapan kemaskini dan changelog</string>
+    <string name="settings_general_subtitle">Pilihan tema dan senarai</string>
+    <string name="settings_updates_title">Kemas Kini</string>
+    <string name="settings_updates_subtitle">Tetapan kemas kini dan log perubahan</string>
     <string name="settings_advance_title">Lanjutan</string>
-    <string name="settings_advance_subtitle">Diagnostik, ketersambungan dan pilihan kuasa</string>
+    <string name="settings_advance_subtitle">Diagnostik, sambungan dan pilihan kuasa</string>
     <string name="settings_about_title">Perihal</string>
-    <string name="settings_about_subtitle">Maklumat aplikasi dan butiran sokongan</string>
+    <string name="settings_about_subtitle">Maklumat apl dan sokongan</string>
     <string name="settings_section_appearance">Penampilan</string>
     <string name="settings_section_lists">Senarai</string>
     <string name="theme_system">Sistem</string>
@@ -20,7 +21,7 @@
     <string name="pure_black_summary">Gunakan latar belakang hitam tulen untuk tema gelap</string>
     <string name="pure_black_summary_active">Hitam tulen kini aktif</string>
     <string name="language_title">Bahasa</string>
-    <string name="language_summary">Pilih bahasa paparan aplikasi</string>
+    <string name="language_summary">Pilih bahasa paparan apl</string>
     <string name="language_system_default">Bahasa sistem</string>
     <string name="language_malay">Bahasa Melayu</string>
     <string name="language_malay_region">Bahasa Melayu (Malaysia)</string>

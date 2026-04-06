@@ -1,14 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
   <string name="app_name">HYDRV</string>
   <string name="settings_title">Ayarlar</string>
   <string name="settings_general_title">Genel</string>
   <string name="settings_general_subtitle">Tema ve liste tercihleri</string>
-  <string name="settings_updates_title">Guncellemeler</string>
-  <string name="settings_updates_subtitle">Guncelleme ayarlari ve degisiklik gunlugu</string>
-  <string name="settings_advance_title">Gelistirilmis</string>
-  <string name="settings_advance_subtitle">Tani, baglanti ve guc secenekleri</string>
-  <string name="settings_about_title">Hakkinda</string>
-  <string name="settings_about_subtitle">Uygulama bilgileri ve destek ayrintilari</string>
+  <string name="settings_updates_title">Güncellemeler</string>
+  <string name="settings_updates_subtitle">Güncelleme ayarları ve değişiklik günlüğü</string>
+  <string name="settings_advance_title">Gelişmiş</string>
+  <string name="settings_advance_subtitle">Tanılama, bağlantı ve güç seçenekleri</string>
+  <string name="settings_about_title">Hakkında</string>
+  <string name="settings_about_subtitle">Uygulama bilgileri ve destek</string>
   <string name="settings_section_appearance">Gorunum</string>
   <string name="settings_section_lists">Listeler</string>
   <string name="theme_system">Sistem</string>
@@ -20,7 +21,7 @@
   <string name="pure_black_summary">Koyu tema icin saf siyah arka planlar kullanin</string>
   <string name="pure_black_summary_active">Saf siyah simdi etkin</string>
   <string name="language_title">Dil</string>
-  <string name="language_summary">Uygulama goruntulenme dilini secin</string>
+  <string name="language_summary">Uygulama görüntüleme dilini seçin</string>
   <string name="language_system_default">Sistem varsayilan</string>
   <string name="language_english">English</string>
   <string name="language_filipino">Filipino</string>

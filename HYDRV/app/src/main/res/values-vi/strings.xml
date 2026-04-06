@@ -1,14 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
   <string name="app_name">HYDRV</string>
-  <string name="settings_title">Cai dat</string>
+  <string name="settings_title">Cài đặt</string>
   <string name="settings_general_title">Chung</string>
-  <string name="settings_general_subtitle">Chu de va tuy chon danh sach</string>
-  <string name="settings_updates_title">Cap nhat</string>
-  <string name="settings_updates_subtitle">Cai dat cap nhat va changelog</string>
-  <string name="settings_advance_title">Nang cao</string>
-  <string name="settings_advance_subtitle">Chan doan, ket noi va tuy chon nguon dien</string>
-  <string name="settings_about_title">Gioi thieu</string>
-  <string name="settings_about_subtitle">Thong tin ung dung va chi tiet ho tro</string>
+  <string name="settings_general_subtitle">Tùy chọn giao diện và danh sách</string>
+  <string name="settings_updates_title">Cập nhật</string>
+  <string name="settings_updates_subtitle">Cài đặt cập nhật và nhật ký thay đổi</string>
+  <string name="settings_advance_title">Nâng cao</string>
+  <string name="settings_advance_subtitle">Chẩn đoán, kết nối và tùy chọn nguồn</string>
+  <string name="settings_about_title">Giới thiệu</string>
+  <string name="settings_about_subtitle">Thông tin ứng dụng và hỗ trợ</string>
   <string name="settings_section_appearance">Giao dien</string>
   <string name="settings_section_lists">Danh sach</string>
   <string name="theme_system">He thong</string>
@@ -19,8 +20,8 @@
   <string name="pure_black_title">Den tuyet doi</string>
   <string name="pure_black_summary">Su dung nen den tuyet doi cho giao dien toi</string>
   <string name="pure_black_summary_active">Den tuyet doi dang bat</string>
-  <string name="language_title">Ngon ngu</string>
-  <string name="language_summary">Chon ngon ngu hien thi cua ung dung</string>
+  <string name="language_title">Ngôn ngữ</string>
+  <string name="language_summary">Chọn ngôn ngữ hiển thị của ứng dụng</string>
   <string name="language_system_default">Mac dinh cua he thong</string>
   <string name="language_english">English</string>
   <string name="language_filipino">Filipino</string>

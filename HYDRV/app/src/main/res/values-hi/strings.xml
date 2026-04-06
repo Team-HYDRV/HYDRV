@@ -1,9 +1,10 @@
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
   <string name="app_name">HYDRV</string>
   <string name="settings_title">सेटिंग्स</string>
   <string name="settings_general_title">सामान्य</string>
   <string name="settings_updates_title">अपडेट</string>
-  <string name="settings_about_title">जानकारी</string>
+  <string name="settings_about_title">ऐप के बारे में</string>
   <string name="language_title">भाषा</string>
   <string name="language_system_default">सिस्टम डिफ़ॉल्ट</string>
   <string name="language_english">अंग्रेज़ी</string>
@@ -55,7 +56,7 @@
   <string name="backend_dialog_title">बैकएंड बदलें</string>
   <string name="downloads_delete">Delete</string>
   <string name="about_link_website">वेबसाइट</string>
-  <string name="settings_about_subtitle">App info and support details</string>
+  <string name="settings_about_subtitle">ऐप जानकारी और सहायता</string>
   <string name="backend_health_cache_ready_count">Ready (%1$d apps)</string>
   <string name="download_action_resume">फिर शुरू करें</string>
   <string name="ads_support_title">Ads support</string>
@@ -114,7 +115,7 @@
   <string name="language_native_spanish_region">Español (España)</string>
   <string name="downloaded_date_format">Downloaded %1$s</string>
   <string name="backend_summary">Change the app catalog source link</string>
-  <string name="settings_advance_subtitle">Diagnostics, connectivity, and power options</string>
+  <string name="settings_advance_subtitle">डायग्नोस्टिक्स, कनेक्टिविटी और पावर विकल्प</string>
   <string name="sort_name_desc">Name Z-A</string>
   <string name="about_contact_email">support@hydrv.app</string>
   <string name="about_contributors_dialog_body">This screen shows the live contributor list from the HYDRV GitHub repository.</string>
@@ -125,19 +126,19 @@
   <string name="device_info_archs_format">Supported Archs: %1$s</string>
   <string name="added_date_format">Added %1$s</string>
   <string name="battery_optimization_title">Battery optimization</string>
-  <string name="settings_advance_title">Advanced</string>
+  <string name="settings_advance_title">उन्नत</string>
   <string name="updates_changelog_loading">Loading the latest GitHub release notes…</string>
   <string name="pure_black_summary">Use pure black backgrounds for dark theme</string>
   <string name="language_french_region">French (France)</string>
   <string name="permission_enable">Enable</string>
   <string name="home_empty_no_apps">कोई ऐप नहीं मिला</string>
   <string name="started_date_format">Started %1$s</string>
-  <string name="settings_general_subtitle">Theme and list preferences</string>
+  <string name="settings_general_subtitle">थीम और सूची प्राथमिकताएँ</string>
   <string name="debug_section_title">Debugging</string>
   <string name="language_native_german_region">Deutsch (Deutschland)</string>
   <string name="backend_health_last_checked_format">Last checked: %1$s</string>
   <string name="contributors_failed">GitHub योगदानकर्ता अस्थायी रूप से उपलब्ध नहीं हैं।</string>
-  <string name="settings_updates_subtitle">Update settings and changelog</string>
+  <string name="settings_updates_subtitle">अपडेट सेटिंग्स और बदलावों की सूची</string>
   <string name="permission_not_allowed">Not allowed</string>
   <string name="debug_enabled">Enabled</string>
   <string name="settings_backup_export_summary">Save favorites, preferences, sorts, and backend choice to a file</string>
@@ -243,7 +244,7 @@
   <string name="updates_release_unavailable">नवीनतम रिलीज़ अस्थायी रूप से उपलब्ध नहीं है</string>
   <string name="version_format">Version %1$s</string>
   <string name="downloads_wifi_only_blocked">Downloads are set to Wi-Fi only</string>
-  <string name="language_summary">Choose the app display language</string>
+  <string name="language_summary">ऐप प्रदर्शन की भाषा चुनें</string>
   <string name="backend_default_label">Default</string>
   <string name="permission_notifications_summary">Used to alert you when new backend changes are available.</string>
   <string name="pure_black_title">Pure black theme</string>

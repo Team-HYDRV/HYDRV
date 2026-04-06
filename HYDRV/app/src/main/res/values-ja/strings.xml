@@ -1,9 +1,10 @@
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
   <string name="app_name">HYDRV</string>
   <string name="settings_title">設定</string>
-  <string name="settings_general_title">一般</string>
+  <string name="settings_general_title">全般</string>
   <string name="settings_updates_title">アップデート</string>
-  <string name="settings_about_title">概要</string>
+  <string name="settings_about_title">アプリ情報</string>
   <string name="language_title">言語</string>
   <string name="language_system_default">システムの既定</string>
   <string name="language_english">英語</string>
@@ -55,7 +56,7 @@
   <string name="backend_dialog_title">バックエンドを変更</string>
   <string name="downloads_delete">Delete</string>
   <string name="about_link_website">ウェブサイト</string>
-  <string name="settings_about_subtitle">アプリ情報とサポート詳細</string>
+  <string name="settings_about_subtitle">アプリ情報とサポート</string>
   <string name="backend_health_cache_ready_count">Ready (%1$d apps)</string>
   <string name="download_action_resume">再開</string>
   <string name="ads_support_title">Ads support</string>
@@ -125,14 +126,14 @@
   <string name="device_info_archs_format">Supported Archs: %1$s</string>
   <string name="added_date_format">Added %1$s</string>
   <string name="battery_optimization_title">Battery optimization</string>
-  <string name="settings_advance_title">詳細</string>
+  <string name="settings_advance_title">詳細設定</string>
   <string name="updates_changelog_loading">Loading the latest GitHub release notes…</string>
   <string name="pure_black_summary">Use pure black backgrounds for dark theme</string>
   <string name="language_french_region">French (France)</string>
   <string name="permission_enable">Enable</string>
   <string name="home_empty_no_apps">アプリが見つかりません</string>
   <string name="started_date_format">Started %1$s</string>
-  <string name="settings_general_subtitle">テーマとリストの設定</string>
+  <string name="settings_general_subtitle">テーマと一覧の設定</string>
   <string name="debug_section_title">Debugging</string>
   <string name="language_native_german_region">Deutsch (Deutschland)</string>
   <string name="backend_health_last_checked_format">Last checked: %1$s</string>
@@ -243,7 +244,7 @@
   <string name="updates_release_unavailable">最新リリースは一時的に利用できません</string>
   <string name="version_format">Version %1$s</string>
   <string name="downloads_wifi_only_blocked">Downloads are set to Wi-Fi only</string>
-  <string name="language_summary">Choose the app display language</string>
+  <string name="language_summary">アプリの表示言語を選択</string>
   <string name="backend_default_label">Default</string>
   <string name="permission_notifications_summary">Used to alert you when new backend changes are available.</string>
   <string name="pure_black_title">Pure black theme</string>

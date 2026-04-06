@@ -1,14 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
   <string name="app_name">HYDRV</string>
   <string name="settings_title">Ustawienia</string>
-  <string name="settings_general_title">Ogolne</string>
-  <string name="settings_general_subtitle">Motyw i preferencje list</string>
+  <string name="settings_general_title">Ogólne</string>
+  <string name="settings_general_subtitle">Preferencje motywu i listy</string>
   <string name="settings_updates_title">Aktualizacje</string>
-  <string name="settings_updates_subtitle">Ustawienia aktualizacji i changelog</string>
+  <string name="settings_updates_subtitle">Ustawienia aktualizacji i dziennik zmian</string>
   <string name="settings_advance_title">Zaawansowane</string>
-  <string name="settings_advance_subtitle">Diagnostyka, lacznosc i opcje zasilania</string>
+  <string name="settings_advance_subtitle">Diagnostyka, łączność i opcje zasilania</string>
   <string name="settings_about_title">O aplikacji</string>
-  <string name="settings_about_subtitle">Informacje o aplikacji i szczegoly wsparcia</string>
+  <string name="settings_about_subtitle">Informacje o aplikacji i wsparciu</string>
   <string name="settings_section_appearance">Wyglad</string>
   <string name="settings_section_lists">Listy</string>
   <string name="theme_system">System</string>
@@ -19,8 +20,8 @@
   <string name="pure_black_title">Czysta czern</string>
   <string name="pure_black_summary">Uzywaj czarnych tla dla ciemnego motywu</string>
   <string name="pure_black_summary_active">Czysta czerń jest teraz aktywna</string>
-  <string name="language_title">Jezyk</string>
-  <string name="language_summary">Wybierz jezyk wyswietlania aplikacji</string>
+  <string name="language_title">Język</string>
+  <string name="language_summary">Wybierz język wyświetlania aplikacji</string>
   <string name="language_system_default">Domyslny systemu</string>
   <string name="language_english">English</string>
   <string name="language_filipino">Filipino</string>

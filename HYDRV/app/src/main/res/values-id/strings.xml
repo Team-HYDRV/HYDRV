@@ -1,14 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
   <string name="app_name">HYDRV</string>
   <string name="settings_title">Pengaturan</string>
   <string name="settings_general_title">Umum</string>
-  <string name="settings_general_subtitle">Tema dan preferensi daftar</string>
+  <string name="settings_general_subtitle">Preferensi tema dan daftar</string>
   <string name="settings_updates_title">Pembaruan</string>
-  <string name="settings_updates_subtitle">Pengaturan pembaruan dan catatan perubahan</string>
+  <string name="settings_updates_subtitle">Pengaturan pembaruan dan changelog</string>
   <string name="settings_advance_title">Lanjutan</string>
   <string name="settings_advance_subtitle">Diagnostik, konektivitas, dan opsi daya</string>
   <string name="settings_about_title">Tentang</string>
-  <string name="settings_about_subtitle">Info aplikasi dan detail dukungan</string>
+  <string name="settings_about_subtitle">Info aplikasi dan dukungan</string>
   <string name="settings_section_appearance">Tampilan</string>
   <string name="settings_section_lists">Daftar</string>
   <string name="theme_system">Sistem</string>

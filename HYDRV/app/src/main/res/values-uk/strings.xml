@@ -1,14 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
   <string name="app_name">HYDRV</string>
-  <string name="settings_title">Settings</string>
-  <string name="settings_general_title">General</string>
-  <string name="settings_general_subtitle">Theme and list preferences</string>
-  <string name="settings_updates_title">Updates</string>
-  <string name="settings_updates_subtitle">Update settings and changelog</string>
-  <string name="settings_advance_title">Advanced</string>
-  <string name="settings_advance_subtitle">Diagnostics, connectivity, and power options</string>
-  <string name="settings_about_title">About</string>
-  <string name="settings_about_subtitle">App info and support details</string>
+  <string name="settings_title">Налаштування</string>
+  <string name="settings_general_title">Загальні</string>
+  <string name="settings_general_subtitle">Параметри теми та списку</string>
+  <string name="settings_updates_title">Оновлення</string>
+  <string name="settings_updates_subtitle">Налаштування оновлень і журнал змін</string>
+  <string name="settings_advance_title">Додатково</string>
+  <string name="settings_advance_subtitle">Діагностика, підключення та параметри живлення</string>
+  <string name="settings_about_title">Про програму</string>
+  <string name="settings_about_subtitle">Інформація про програму та підтримку</string>
   <string name="settings_section_appearance">Appearance</string>
   <string name="settings_section_lists">Lists</string>
   <string name="theme_system">System</string>
@@ -19,8 +20,8 @@
   <string name="pure_black_title">Pure black theme</string>
   <string name="pure_black_summary">Use pure black backgrounds for dark theme</string>
   <string name="pure_black_summary_active">Pure black is active now</string>
-  <string name="language_title">Language</string>
-  <string name="language_summary">Choose the app display language</string>
+  <string name="language_title">Мова</string>
+  <string name="language_summary">Виберіть мову відображення програми</string>
   <string name="language_system_default">System default</string>
   <string name="language_ukrainian">Ukrainian</string>
   <string name="language_ukrainian_region">Ukrainian</string>

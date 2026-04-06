@@ -1,3 +1,4 @@
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
   <string name="app_name">HYDRV</string>
   <string name="settings_title">Instellingen</string>
@@ -6,9 +7,9 @@
   <string name="settings_updates_title">Updates</string>
   <string name="settings_updates_subtitle">Update-instellingen en changelog</string>
   <string name="settings_advance_title">Geavanceerd</string>
-  <string name="settings_advance_subtitle">Diagnostiek, connectiviteit en energieopties</string>
+  <string name="settings_advance_subtitle">Diagnostiek, connectiviteit en energie-opties</string>
   <string name="settings_about_title">Over</string>
-  <string name="settings_about_subtitle">App-info en supportdetails</string>
+  <string name="settings_about_subtitle">App-informatie en ondersteuning</string>
   <string name="settings_section_appearance">Weergave</string>
   <string name="settings_section_lists">Lijsten</string>
   <string name="theme_system">Systeem</string>
@@ -20,7 +21,7 @@
   <string name="pure_black_summary">Gebruik zuiver zwarte achtergronden voor donkere modus</string>
   <string name="pure_black_summary_active">Zuiver zwart is nu actief</string>
   <string name="language_title">Taal</string>
-  <string name="language_summary">Kies de weergegeven taal van de app</string>
+  <string name="language_summary">Kies de weergavetaal van de app</string>
   <string name="language_system_default">Systeemstandaard</string>
   <string name="language_english">English</string>
   <string name="language_filipino">Filipino</string>
