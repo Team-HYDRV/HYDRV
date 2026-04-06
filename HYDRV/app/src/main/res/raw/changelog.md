@@ -6,15 +6,35 @@ All notable changes to HYDRV are recorded here.
 
 ### Added
 
-- Planned updates and improvements will appear here before the next tag.
+- Nothing queued for the next tag yet.
 
 ### Changed
 
-- Ongoing polish and refinements will be summarized here.
+- Ongoing polish and refinements continue as usual.
 
 ### Fixed
 
-- Bug fixes will be listed here as they land.
+- Bug fixes continue to roll in with each release.
+
+## [1.0.4] - 2026-04-06
+
+### Added
+
+- The version sheet now uses a RecyclerView for smoother large-catalog browsing.
+- Custom backend badges now stand apart from the official HYDRV source badge.
+- The backend guide now includes public and private catalogue examples for custom setups.
+
+### Changed
+
+- Download and version identity handling now keeps same-name releases apart by version code.
+- The version sheet and download flow were tightened so progress, done states, and badges stay in sync during fast multi-downloads.
+- The app and shared brand assets were updated to use the rounded HYDRV icon.
+
+### Fixed
+
+- Stale `Done` rows no longer linger after deleting files from the downloads list.
+- Download badges no longer spread across unrelated rows that reuse the same numeric version.
+- The download button text and wave styling stay readable and consistent in brand mode.
 
 ## [1.0.3] - 2026-04-05
 
