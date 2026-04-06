@@ -101,6 +101,15 @@ object DownloadRepository {
         }
     }
 
+    private fun archivePackageInfo(context: Context, filePath: String): android.content.pm.PackageInfo? {
+        return try {
+            @Suppress("DEPRECATION")
+            context.packageManager.getPackageArchiveInfo(filePath, 0)
+        } catch (_: Exception) {
+            null
+        }
+    }
+
     fun startDownload(context: Context, item: DownloadItem): StartResult {
         synchronized(startLock) {
             if (!DownloadNetworkPolicy.canDownloadNow(context)) {
@@ -348,9 +357,16 @@ object DownloadRepository {
 
             val backendPackage = item.packageName
             if (item.filePath.endsWith(".apk", ignoreCase = true)) {
-                archivePackageName(context, item.filePath)?.let { actualPackage ->
-                    item.packageName = actualPackage
-                    InstallAliasStore.saveAlias(context, item.name, backendPackage, actualPackage)
+                archivePackageInfo(context, item.filePath)?.let { archiveInfo ->
+                    val actualPackage = archiveInfo.packageName?.trim().orEmpty()
+                    if (actualPackage.isNotBlank()) {
+                        item.packageName = actualPackage
+                        InstallAliasStore.saveAlias(context, item.name, backendPackage, actualPackage)
+                    }
+                    val archiveVersionCode = archiveInfo.versionCodeCompat()
+                    if (archiveVersionCode > 0) {
+                        item.versionCode = archiveVersionCode
+                    }
                 }
             }
 

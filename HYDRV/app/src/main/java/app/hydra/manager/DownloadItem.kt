@@ -18,7 +18,7 @@ data class DownloadItem(
     var backendPackageName: String = "",
     var packageName: String = "",
     val versionName: String = "",
-    val versionCode: Int = 0,
+    var versionCode: Int = 0,
     var errorMessage: String = "",
     var installed: Boolean = false,
 
