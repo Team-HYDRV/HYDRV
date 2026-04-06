@@ -741,6 +741,43 @@ class VersionSheet(
                     applyIdleState(views)
                 }
                 item.status == "Downloading" -> {
+                    if (item.progress >= 100 && downloadFileExists(item)) {
+                        failedKeys.remove(key)
+                        val shouldAnimateDone = hasActiveVisualState(key)
+                        if (shouldAnimateDone) {
+                            if (doneHandledKeys.contains(key)) {
+                                applyDoneState(views, animate = false)
+                                if (!resetRunnables.containsKey(key)) {
+                                    scheduleReset(key)
+                                }
+                            } else if (completedKeys.add(key)) {
+                                visualProgressByKey[key] = 100
+                                views.container.isEnabled = false
+                                views.icon.visibility = View.GONE
+                                views.label.text = "100%"
+                                animateFillTo(views.fill, 100, onUpdate = { value ->
+                                    views.label.text = "$value%"
+                                }, onEnd = {
+                                    doneHandledKeys.add(key)
+                                    applyDoneState(views)
+                                    scheduleReset(key)
+                                })
+                            } else {
+                                views.container.isEnabled = false
+                                views.icon.visibility = View.GONE
+                                views.label.text = "100%"
+                            }
+                        } else {
+                            completedKeys.remove(key)
+                            doneHandledKeys.remove(key)
+                            visualProgressByKey.remove(key)
+                            cancelReset(key)
+                            applyIdleState(views)
+                        }
+                        activeSessionKeys.remove(key)
+                        lastKnownStatuses[key] = "Done"
+                        return@forEach
+                    }
                     failedKeys.remove(key)
                     completedKeys.remove(key)
                     doneHandledKeys.remove(key)

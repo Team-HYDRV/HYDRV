@@ -297,6 +297,62 @@ class DownloadAdapter(
 
         when (item.status) {
 
+            "Downloading" -> {
+                if (item.progress >= 100 && isDownloadFilePresent(item)) {
+                    smoothedSpeeds.remove(itemKey)
+                    holder.status.text = context.getString(R.string.download_status_done)
+                    holder.status.setTextColor(
+                        ThemeColors.color(
+                            context,
+                            androidx.appcompat.R.attr.colorPrimary,
+                            R.color.accent
+                        )
+                    )
+                    holder.progress.visibility = View.VISIBLE
+                    holder.percent.visibility = View.VISIBLE
+                    holder.speed.visibility = View.VISIBLE
+                    holder.eta.visibility = View.VISIBLE
+                    holder.percent.setTextColor(
+                        ThemeColors.color(
+                            context,
+                            com.google.android.material.R.attr.colorOnSurfaceVariant,
+                            R.color.subtext
+                        )
+                    )
+                    animateProgress(
+                        holder.progress,
+                        100,
+                        onUpdate = { value -> holder.percent.text = "$value%" }
+                    ) {
+                        holder.percent.text = "100%"
+                        holder.progress.postDelayed({
+                            if (holder.bindingAdapterPosition != RecyclerView.NO_POSITION) {
+                                animateDone(holder)
+                                item.doneHandled = true
+                                repositoryItem(item)?.doneHandled = true
+                            }
+                        }, DONE_HOLD_MS)
+                    }
+
+                    val isApkDownload = isApkDownload(item)
+                    if (isApkDownload && item.installed) {
+                        holder.action.text = context.getString(R.string.download_action_open)
+                        holder.delete.visibility = View.VISIBLE
+                        holder.delete.text = context.getString(R.string.downloads_uninstall)
+                    } else if (isApkDownload) {
+                        holder.action.text = context.getString(R.string.download_action_install)
+                        holder.delete.visibility = View.VISIBLE
+                        holder.delete.text = context.getString(R.string.downloads_delete)
+                    } else {
+                        holder.action.text = context.getString(R.string.download_action_open)
+                        holder.delete.visibility = View.VISIBLE
+                        holder.delete.text = context.getString(R.string.downloads_delete)
+                    }
+                    return
+                }
+                // fall through to the normal downloading UI
+            }
+
             "Done" -> {
                 smoothedSpeeds.remove(itemKey)
                 holder.status.text = context.getString(R.string.download_status_done)
@@ -743,6 +799,12 @@ class DownloadAdapter(
 
     private fun progressKey(item: DownloadItem): String {
         return item.requestKey()
+    }
+
+    private fun isDownloadFilePresent(item: DownloadItem): Boolean {
+        val path = item.filePath.takeIf { it.isNotBlank() } ?: return false
+        val file = java.io.File(path)
+        return file.exists() && file.isFile && file.length() > 0L
     }
 
     private fun displayName(item: DownloadItem): String {
