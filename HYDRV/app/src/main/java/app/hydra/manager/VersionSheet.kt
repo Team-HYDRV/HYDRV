@@ -1115,6 +1115,8 @@ class VersionSheet(
     }
 
     private fun applyVersionButtonPalette(views: DownloadButtonViews, context: android.content.Context) {
+        val paletteState = if (AppearancePreferences.isDynamicColorEnabled(context)) 1 else 0
+        views.fill.setTag(R.id.liquidProgressPaletteState, paletteState)
         val fillDrawable = liquidVersionDrawable(views.fill, context)
         views.track.setBackgroundResource(versionTrackDrawable(context))
         views.fill.setImageDrawable(fillDrawable)
@@ -1138,7 +1140,13 @@ class VersionSheet(
         fillView: ImageView,
         context: android.content.Context
     ): LiquidWaveProgressDrawable {
-        (fillView.getTag(R.id.liquidProgressDrawable) as? LiquidWaveProgressDrawable)?.let { return it }
+        val paletteState = if (AppearancePreferences.isDynamicColorEnabled(context)) 1 else 0
+        val existingDrawable = fillView.getTag(R.id.liquidProgressDrawable) as? LiquidWaveProgressDrawable
+        val existingState = fillView.getTag(R.id.liquidProgressPaletteState) as? Int
+        if (existingDrawable != null && existingState == paletteState) {
+            return existingDrawable
+        }
+        existingDrawable?.dispose()
         val drawable = LiquidWaveProgressDrawable(
             trackColor = Color.TRANSPARENT,
             fillColor = ThemeColors.color(
@@ -1148,6 +1156,7 @@ class VersionSheet(
             )
         )
         fillView.setTag(R.id.liquidProgressDrawable, drawable)
+        fillView.setTag(R.id.liquidProgressPaletteState, paletteState)
         return drawable
     }
 
@@ -1193,6 +1202,7 @@ class VersionSheet(
     private fun releaseLiquidDrawable(fillView: ImageView) {
         (fillView.getTag(R.id.liquidProgressDrawable) as? LiquidWaveProgressDrawable)?.dispose()
         fillView.setTag(R.id.liquidProgressDrawable, null)
+        fillView.setTag(R.id.liquidProgressPaletteState, null)
     }
 
     private fun versionErrorFillDrawable(context: android.content.Context): Int {
