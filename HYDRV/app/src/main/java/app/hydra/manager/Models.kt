@@ -32,7 +32,11 @@ data class AppModel(
     }
 
     fun latestVersion(): Version? {
-        return sortedVersionsNewestFirst().firstOrNull()
+        return safeVersions().maxWithOrNull(
+            compareBy<Version> { it.version }
+                .thenBy { it.releaseTimestampMillis() ?: Long.MIN_VALUE }
+                .thenBy { versionSortTextKey(it.version_name) }
+        )
     }
 
     fun latestVersionSortKey(): Long {

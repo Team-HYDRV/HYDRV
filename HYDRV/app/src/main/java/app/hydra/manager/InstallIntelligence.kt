@@ -82,17 +82,25 @@ object InstallIntelligence {
         )
     }
 
-    fun insight(context: Context, app: AppModel, version: Version, snapshot: Snapshot): Insight {
+    fun insight(
+        context: Context,
+        app: AppModel,
+        version: Version,
+        snapshot: Snapshot,
+        latestVersion: Version? = null
+    ): Insight {
+        val latestVersionNumber = latestVersion?.version ?: app.latestVersion()?.version
+
         val installedHint = when {
             snapshot.installedVersionName.isNullOrBlank() -> null
             version.version_name.equals(snapshot.installedVersionName, ignoreCase = true) ->
                 context.getString(R.string.version_installed_hint)
             snapshot.installedVersionOrder != null && version.version > snapshot.installedVersionOrder ->
                 context.getString(R.string.version_new_since_installed)
-            snapshot.installedVersionOrder == null && version.version == app.latestVersion()?.version ->
+            snapshot.installedVersionOrder == null && version.version == latestVersionNumber ->
                 context.getString(R.string.version_installed_unknown_catalog_hint)
             snapshot.installedVersionOrder != null &&
-                version.version == app.latestVersion()?.version &&
+                version.version == latestVersionNumber &&
                 snapshot.installedVersionOrder > version.version ->
                 context.getString(R.string.version_installed_newer_than_catalog_hint)
             else -> null

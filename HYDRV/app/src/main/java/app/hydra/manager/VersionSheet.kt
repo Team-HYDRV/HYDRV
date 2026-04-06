@@ -195,7 +195,8 @@ class VersionSheet(
         val previousScrollY = if (this::scrollView.isInitialized) scrollView.scrollY else 0
         val sortMode = ListSortPreferences.getVersionSort(ctx)
         val sortedVersions = ListSortPreferences.sortVersions(sortMode, currentApp.versions)
-        val latestVersionNumber = currentApp.latestVersion()?.version
+        val latestVersion = sortedVersions.firstOrNull()
+        val latestVersionNumber = latestVersion?.version
         val installSnapshot = InstallIntelligence.snapshot(ctx, currentApp)
 
         appNameView.text = currentApp.name
@@ -273,7 +274,13 @@ class VersionSheet(
                 sourceHost.text = sourceHostText
                 sourceHost.visibility = View.VISIBLE
             }
-            val insight = InstallIntelligence.insight(ctx, currentApp, version, installSnapshot)
+            val insight = InstallIntelligence.insight(
+                ctx,
+                currentApp,
+                version,
+                installSnapshot,
+                latestVersion
+            )
             installedHint.text = insight.installedHint.orEmpty()
             installedHint.visibility = if (insight.installedHint.isNullOrBlank()) View.GONE else View.VISIBLE
             downloadedHint.text = insight.downloadHint.orEmpty()
