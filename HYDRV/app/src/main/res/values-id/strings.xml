@@ -272,7 +272,7 @@
   <string name="language_japanese">Japanese</string>
   <string name="backend_health_cache_missing">Missing</string>
   <string name="version_downloaded_hint">APK already downloaded on this device</string>
-  <string name="language_native_spanish_region">Espa?ol (Espa?a)</string>
+  <string name="language_native_spanish_region">Español (España)</string>
   <string name="notification_title_release_live_with_version">HYDRV %1$s</string>
   <string name="language_native_arabic_region">العربية</string>
   <string name="updates_changelog_loading">Loading the latest GitHub release notes…</string>

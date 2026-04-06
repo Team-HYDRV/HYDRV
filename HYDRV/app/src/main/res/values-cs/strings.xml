@@ -24,7 +24,7 @@
   <string name="language_system_default">System default</string>
   <string name="language_czech">Czech</string>
   <string name="language_czech_region">Czech</string>
-  <string name="language_native_czech_region">Ce?tina (Cesko)</string>
+  <string name="language_native_czech_region">Čeština (Česko)</string>
   <string name="download_via_title">Download via</string>
   <string name="download_via_summary">Choose Wi-Fi only or allow mobile data</string>
   <string name="update_notifications_title">Update notifications</string>

@@ -111,7 +111,7 @@
   <string name="backend_saved_message">Backend link updated.</string>
   <string name="backend_health_cache_missing">Missing</string>
   <string name="version_downloaded_hint">APK already downloaded on this device</string>
-  <string name="language_native_spanish_region">Espa?ol (Espa?a)</string>
+  <string name="language_native_spanish_region">Español (España)</string>
   <string name="downloaded_date_format">Downloaded %1$s</string>
   <string name="backend_summary">Change the app catalog source link</string>
   <string name="settings_advance_subtitle">診断、接続、電源オプション</string>

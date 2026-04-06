@@ -142,7 +142,7 @@
   <string name="backend_saved_message">Backend-Link aktualisiert.</string>
   <string name="backend_health_cache_missing">Fehlt</string>
   <string name="version_downloaded_hint">APK bereits auf diesem Gerät heruntergeladen</string>
-  <string name="language_native_spanish_region">Espa?ol (Espa?a)</string>
+  <string name="language_native_spanish_region">Español (España)</string>
   <string name="downloaded_date_format">Heruntergeladen am %1$s</string>
   <string name="sort_name_desc">Name Z-A</string>
   <string name="about_contact_email">support@hydrv.app</string>
