@@ -77,7 +77,8 @@ class AppDetailsActivity : AppCompatActivity() {
                 url = version.url,
                 name = app.name,
                 packageName = app.packageName,
-                versionName = version.version_name
+                versionName = version.version_name,
+                versionCode = version.version
             )
         }
 
@@ -151,7 +152,8 @@ class AppDetailsActivity : AppCompatActivity() {
                     url = v.url,
                     name = app.name,
                     packageName = app.packageName,
-                    versionName = v.version_name
+                    versionName = v.version_name,
+                    versionCode = v.version
                 )
             }
 
@@ -181,17 +183,18 @@ class AppDetailsActivity : AppCompatActivity() {
         url: String,
         name: String,
         packageName: String,
-        versionName: String
+        versionName: String,
+        versionCode: Int
     ) {
         if (!AdsPreferences.areRewardedAdsEnabled(this)) {
-            startDownload(btn, url, name, packageName, versionName)
+            startDownload(btn, url, name, packageName, versionName, versionCode)
             return
         }
 
         RewardedAdManager.showThen(
             activity = this,
             onRewardEarned = {
-                startDownload(btn, url, name, packageName, versionName)
+                startDownload(btn, url, name, packageName, versionName, versionCode)
             },
             onAdUnavailable = {
                 AppSnackbar.show(
@@ -207,7 +210,8 @@ class AppDetailsActivity : AppCompatActivity() {
         url: String,
         name: String,
         packageName: String,
-        versionName: String
+        versionName: String,
+        versionCode: Int
     ) {
         btn.isEnabled = false
         btn.text = "0%"
@@ -245,7 +249,8 @@ class AppDetailsActivity : AppCompatActivity() {
             name = name,
             url = url,
             packageName = packageName,
-            versionName = versionName
+            versionName = versionName,
+            versionCode = versionCode
         )
 
         val result = DownloadRepository.startDownload(this, item)

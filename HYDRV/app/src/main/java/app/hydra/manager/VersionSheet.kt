@@ -324,11 +324,11 @@ class VersionSheet(
                 RewardedAdManager.showThen(
                     activity = activity,
                     onRewardEarned = {
-                        runVersionDownload(
-                            version = version,
-                            key = key,
-                            context = ctx,
-                            rootView = rootView
+                    runVersionDownload(
+                        version = version,
+                        key = key,
+                        context = ctx,
+                        rootView = rootView
                         )
                     },
                     onAdUnavailable = {
@@ -412,7 +412,8 @@ class VersionSheet(
                 name = currentApp.name,
                 url = version.url,
                 packageName = currentApp.packageName,
-                versionName = version.version_name
+                versionName = version.version_name,
+                versionCode = version.version
             )
         )
 

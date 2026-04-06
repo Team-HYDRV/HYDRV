@@ -423,6 +423,7 @@ object DownloadRepository {
             obj.put("filePath", it.filePath)
             obj.put("packageName", it.packageName)
             obj.put("versionName", it.versionName)
+            obj.put("versionCode", it.versionCode)
             obj.put("errorMessage", it.errorMessage)
             obj.put("installed", it.installed)
             obj.put("speed", it.speed)
@@ -459,6 +460,7 @@ object DownloadRepository {
                     eta = obj.optLong("eta", 0L),
                     packageName = obj.optString("packageName", ""),
                     versionName = obj.optString("versionName", ""),
+                    versionCode = obj.optInt("versionCode", 0),
                     errorMessage = obj.optString("errorMessage", ""),
                     installed = obj.optBoolean("installed", false),
                     requestToken = obj.optLong("requestToken", 0L),

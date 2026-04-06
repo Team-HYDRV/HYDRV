@@ -195,11 +195,7 @@ class DownloadAdapter(
             scaleY = 1f
         }
 
-        holder.name.text = if (item.versionName.isNotEmpty()) {
-            "${item.name} - ${item.versionName}"
-        } else {
-            item.name
-        }
+        holder.name.text = displayName(item)
         holder.selectCheck.visibility = if (selectionMode) View.VISIBLE else View.GONE
         holder.selectCheck.isChecked = isSelected
         holder.actionGroup.visibility = if (selectionMode) View.GONE else View.VISIBLE
@@ -747,6 +743,16 @@ class DownloadAdapter(
 
     private fun progressKey(item: DownloadItem): String {
         return item.requestKey()
+    }
+
+    private fun displayName(item: DownloadItem): String {
+        if (item.versionName.isBlank()) return item.name
+        val versionLabel = if (item.versionCode > 0) {
+            "${item.versionName} (${item.versionCode})"
+        } else {
+            item.versionName
+        }
+        return "${item.name} - $versionLabel"
     }
 
     private fun isControlCoolingDown(itemKey: String): Boolean {
