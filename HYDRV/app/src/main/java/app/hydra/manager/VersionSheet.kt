@@ -235,7 +235,7 @@ class VersionSheet(
         containerLayout.removeAllViews()
 
         fun renderBatch(startIndex: Int) {
-            if (!isAdded || view == null || renderToken != renderGeneration) return
+            if (!isAdded || renderToken != renderGeneration) return
 
             val endIndex = minOf(startIndex + VERSION_RENDER_BATCH_SIZE, sortedVersions.size)
             for (index in startIndex until endIndex) {
@@ -247,7 +247,7 @@ class VersionSheet(
                 )
             }
 
-            if (!isAdded || view == null || renderToken != renderGeneration) return
+            if (!isAdded || renderToken != renderGeneration) return
 
             if (endIndex < sortedVersions.size) {
                 mainHandler.postDelayed({
