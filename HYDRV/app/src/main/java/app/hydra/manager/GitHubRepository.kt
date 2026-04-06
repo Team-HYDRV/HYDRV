@@ -12,6 +12,7 @@ import okhttp3.Request
 import okhttp3.Response
 import java.io.IOException
 import java.util.concurrent.TimeUnit
+import java.util.Locale
 
 object GitHubRepository {
 
@@ -28,11 +29,28 @@ object GitHubRepository {
         val publishedAt: String? = null
     ) {
         fun displayLabel(): String {
-            return listOf(name.trim(), tagName.trim())
-                .filter { it.isNotBlank() }
-                .distinct()
-                .joinToString(" ")
-                .ifBlank { tagName.trim().ifBlank { "Latest release" } }
+            val releaseName = name.trim()
+            val releaseTag = tagName.trim()
+            if (releaseName.isBlank()) {
+                return releaseTag.ifBlank { "Latest release" }
+            }
+            if (releaseTag.isBlank()) {
+                return releaseName
+            }
+
+            val normalizedName = releaseName.lowercase(Locale.US)
+            val normalizedTag = releaseTag.lowercase(Locale.US)
+            val tagWithoutPrefix = normalizedTag.removePrefix("v")
+
+            if (
+                normalizedName == normalizedTag ||
+                normalizedName.contains(" $normalizedTag") ||
+                (tagWithoutPrefix.isNotBlank() && normalizedName.contains(" $tagWithoutPrefix"))
+            ) {
+                return releaseName
+            }
+
+            return "$releaseName $releaseTag"
         }
     }
 

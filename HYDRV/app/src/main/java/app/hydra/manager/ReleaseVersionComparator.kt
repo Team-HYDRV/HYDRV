@@ -23,11 +23,28 @@ object ReleaseVersionComparator {
     }
 
     fun displayLabel(tag: String, name: String): String {
-        return listOf(name.trim(), tag.trim())
-            .filter { it.isNotBlank() }
-            .distinct()
-            .joinToString(" ")
-            .ifBlank { tag.trim().ifBlank { "Latest release" } }
+        val releaseName = name.trim()
+        val releaseTag = tag.trim()
+        if (releaseName.isBlank()) {
+            return releaseTag.ifBlank { "Latest release" }
+        }
+        if (releaseTag.isBlank()) {
+            return releaseName
+        }
+
+        val normalizedName = releaseName.lowercase(Locale.US)
+        val normalizedTag = releaseTag.lowercase(Locale.US)
+        val tagWithoutPrefix = normalizedTag.removePrefix("v")
+
+        if (
+            normalizedName == normalizedTag ||
+            normalizedName.contains(" $normalizedTag") ||
+            (tagWithoutPrefix.isNotBlank() && normalizedName.contains(" $tagWithoutPrefix"))
+        ) {
+            return releaseName
+        }
+
+        return "$releaseName $releaseTag"
     }
 
     private fun normalize(value: String): String {
