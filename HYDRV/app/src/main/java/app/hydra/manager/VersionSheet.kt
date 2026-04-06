@@ -491,7 +491,7 @@ class VersionSheet(
     private fun updateDownloadButtons(downloads: List<DownloadItem>) {
         val relevantDownloads = downloads
             .asSequence()
-            .filter { it.packageName == currentApp.packageName }
+            .filter { downloadPackageKey(it) == currentApp.packageName }
             .associateBy { versionKey(it.versionName, it.url) }
 
         val candidateKeys = linkedSetOf<String>().apply {
@@ -925,6 +925,10 @@ class VersionSheet(
 
     private fun versionKey(versionName: String, url: String): String {
         return "$versionName|$url"
+    }
+
+    private fun downloadPackageKey(item: DownloadItem): String {
+        return item.backendPackageName.takeIf { it.isNotBlank() } ?: item.packageName
     }
 
     private fun maxVisualProgress(key: String, progress: Int): Int {

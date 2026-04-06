@@ -15,6 +15,7 @@ data class DownloadItem(
     var speed: Float = 0f,
     var eta: Long = 0,
 
+    var backendPackageName: String = "",
     var packageName: String = "",
     val versionName: String = "",
     var errorMessage: String = "",

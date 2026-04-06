@@ -125,6 +125,9 @@ object DownloadRepository {
                 lastStatus = "",
                 requestToken = now
             )
+            if (newItem.backendPackageName.isBlank()) {
+                newItem.backendPackageName = newItem.packageName
+            }
 
             downloads.add(newItem)
             AppDiagnostics.log(
@@ -425,6 +428,7 @@ object DownloadRepository {
             obj.put("speed", it.speed)
             obj.put("eta", it.eta)
             obj.put("requestToken", it.requestToken)
+            obj.put("backendPackageName", it.backendPackageName)
             array.put(obj)
         }
 
@@ -457,8 +461,13 @@ object DownloadRepository {
                     versionName = obj.optString("versionName", ""),
                     errorMessage = obj.optString("errorMessage", ""),
                     installed = obj.optBoolean("installed", false),
-                    requestToken = obj.optLong("requestToken", 0L)
+                    requestToken = obj.optLong("requestToken", 0L),
+                    backendPackageName = obj.optString("backendPackageName", obj.optString("packageName", ""))
                 )
+
+                if (item.backendPackageName.isBlank()) {
+                    item.backendPackageName = item.packageName
+                }
 
                 if (item.progress in 1..99 && item.status == "Downloading") {
                     if (DownloadNetworkPolicy.canDownloadNow(context)) {
