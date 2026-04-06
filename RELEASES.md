@@ -4,13 +4,13 @@ Use this file as the release checklist for HYDRV GitHub releases.
 
 ## Tag Format
 
-- Use semantic-looking tags that start with `v`
+- Use tags that start with `v`
 - Example: `v1.0.0`, `v1.0.1`, `v1.1.0`
 
 ## Before Tagging
 
 1. Bump `versionCode` and `versionName` in `HYDRV/app/build.gradle.kts`.
-2. Run `assembleRelease` locally if you want a preflight check.
+2. Run `assembleRelease` locally if you want a quick check first.
 3. Make sure the release APK builds cleanly.
 4. Commit the version bump.
 
@@ -19,7 +19,7 @@ Use this file as the release checklist for HYDRV GitHub releases.
 1. Create the tag.
 2. Push the tag to GitHub.
 3. GitHub Actions runs the Android Release workflow.
-4. The workflow uploads the APK artifact and creates a GitHub Release for tagged builds.
+4. The workflow uploads the APK artifact and creates the GitHub Release for tagged builds.
 
 ## Notes
 

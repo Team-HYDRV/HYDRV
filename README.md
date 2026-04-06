@@ -47,7 +47,7 @@
     </td>
     <td width="33%" valign="top">
       <h3>Website</h3>
-      <p>Surface the latest release story, changelogs, and supporting pages in one public landing page.</p>
+      <p>Show the latest release info, changelogs, and supporting pages in one place.</p>
     </td>
   </tr>
 </table>
@@ -81,7 +81,7 @@
   <tr>
     <td width="66%" valign="top">
       <h3>Latest GitHub release</h3>
-      <p>The app and website both point to the repository's latest release so the public story stays in sync.</p>
+      <p>The app and website both point to the latest release, so everything stays lined up.</p>
       <p>
         <a href="https://github.com/Team-HYDRV/HYDRV/releases/latest"><strong>View latest release</strong></a>
         &middot;
@@ -90,7 +90,7 @@
     </td>
     <td width="34%" valign="top">
       <h3>Public release flow</h3>
-      <p>Tag a build, publish the GitHub release, and let the app surface the same notes to users.</p>
+      <p>Tag a build, publish the GitHub release, and let the app show the same notes to users.</p>
     </td>
   </tr>
 </table>
@@ -101,7 +101,7 @@
   <tr>
     <td width="50%" valign="top">
       <h3>Polished release browsing</h3>
-      <p>Open an app, scan its versions, and move through release details without clutter.</p>
+      <p>Open an app, scan its versions, and move through release details without extra clutter.</p>
     </td>
     <td width="50%" valign="top">
       <h3>Signed download flow</h3>
@@ -134,7 +134,7 @@ flowchart LR
     H --> I["Release notes and changelog"]
 ```
 
-In practice, HYDRV keeps the public release story simple: the app reads the visible catalogue, the Worker signs the real download path, and GitHub remains the source of truth for release notes.
+In practice, HYDRV keeps the public release flow simple: the app reads the visible catalogue, the Worker signs the real download path, and GitHub stays the source of truth for release notes.
 
 ## Quick Links
 
@@ -152,7 +152,7 @@ In practice, HYDRV keeps the public release story simple: the app reads the visi
   <tr>
     <td width="33%" align="center" valign="top">
       <img src="assets/screenshots/about.png" alt="HYDRV About screen" width="100%">
-      <p><strong>About</strong><br>Brand-led app identity, quick links, and project info.</p>
+      <p><strong>About</strong><br>Project info, quick links, and the current brand.</p>
     </td>
     <td width="33%" align="center" valign="top">
       <img src="assets/screenshots/permissions.png" alt="HYDRV permissions screen" width="100%">

@@ -52,8 +52,8 @@ async function loadGitHubReleases() {
 
             if (tags.length === 0) {
                 grid.innerHTML = createEmptyReleaseCard(
-                    "GitHub releases are unavailable for now.",
-                    "The latest release notes could not be fetched. Try again in a moment or use the direct APK download button at the top of the site."
+                    "Nothing new to show yet.",
+                    "GitHub hasn't returned the latest release notes yet. Check back later, or use the download button at the top of the page."
                 );
                 return;
             }
@@ -65,8 +65,8 @@ async function loadGitHubReleases() {
         grid.innerHTML = cards.map((release, index) => createReleaseCard(release, index)).join("");
     } catch (_error) {
         grid.innerHTML = createEmptyReleaseCard(
-            "GitHub releases are unavailable for now.",
-            "The latest release notes could not be fetched. Try again in a moment or use the direct APK download button at the top of the site."
+            "Nothing new to show yet.",
+            "GitHub hasn't returned the latest release notes yet. Check back later, or use the download button at the top of the page."
         );
     }
 }
@@ -121,7 +121,7 @@ function createTagCard(tag, index) {
             </div>
             <h3>${tagName}</h3>
             <p class="release-date">Published as a tag</p>
-            <p class="release-body">Release notes are not published yet. Download the latest APK directly from the button at the top of the site.</p>
+            <p class="release-body">Release notes aren't published yet. You can still grab the latest APK from the button at the top of the site.</p>
             <div class="release-actions">
                 <a class="button button-secondary" href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">View tag</a>
             </div>
