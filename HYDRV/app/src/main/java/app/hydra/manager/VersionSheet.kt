@@ -1240,7 +1240,7 @@ class VersionSheet(
     }
 
     private fun hasActiveVisualState(key: String): Boolean {
-        return activeSessionKeys.contains(key) || (visualProgressByKey[key] ?: 0) > 0
+        return activeSessionKeys.contains(key)
     }
 
     private fun updateSheetSnackbarPosition(bottomSheetView: View) {
