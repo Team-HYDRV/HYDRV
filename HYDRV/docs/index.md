@@ -7,9 +7,9 @@ This folder is the quickest path to the project references most people will need
 <table>
   <tr>
     <td width="50%" valign="top">
-      <h3>Backend example</h3>
-      <p>See how the public catalogue, private catalogue, and signed download flow work together.</p>
-      <p><a href="backend-example.md">Open backend example</a></p>
+      <h3>Custom backend guide</h3>
+      <p>See how to wire your own catalogue JSON into HYDRV and keep signed downloads working.</p>
+      <p><a href="backend-example.md">Open backend guide</a></p>
     </td>
     <td width="50%" valign="top">
       <h3>Release checklist</h3>
@@ -33,7 +33,7 @@ This folder is the quickest path to the project references most people will need
 
 ## What To Read Next
 
-- Read the backend example if you want to understand the catalogue and signed download flow.
+- Read the backend guide if you want to understand the catalogue and signed download flow.
 - Read the release checklist before you tag and publish a build.
 - Read the changelog template if you are preparing a release note.
 

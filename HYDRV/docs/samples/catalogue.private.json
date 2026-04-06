@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Moonlight Android",
+    "packageName": "com.example.moonlight",
+    "icon": "https://example.com/icon.png",
+    "versions": [
+      {
+        "version": 326,
+        "version_name": "12.1",
+        "downloadId": "moonlight-android-12-1-326",
+        "path": "moonlight/moonlight-android-12.1.326.apk",
+        "changelog": "Initial public release"
+      },
+      {
+        "version": 325,
+        "downloadId": "moonlight-android-12-1-325",
+        "path": "moonlight/moonlight-android-12.1.325.apk",
+        "changelog": "Older build with the same version name"
+      }
+    ]
+  }
+]

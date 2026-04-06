@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Moonlight Android",
+    "packageName": "com.example.moonlight",
+    "icon": "https://example.com/icon.png",
+    "versions": [
+      {
+        "version": 326,
+        "version_name": "12.1",
+        "url": "https://api.example.com/token/moonlight-android-12-1-326",
+        "changelog": "Initial public release"
+      },
+      {
+        "version": 325,
+        "url": "https://api.example.com/token/moonlight-android-12-1-325",
+        "changelog": "Older build with the same version name"
+      }
+    ]
+  }
+]

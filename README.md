@@ -22,7 +22,9 @@
   &middot;
   <a href="https://hydrv.app">Website</a>
   &middot;
-  <a href="HYDRV/docs/backend-example.md">Backend example</a>
+  <a href="HYDRV/docs/backend-example.md">Backend guide</a>
+  &middot;
+  <a href="HYDRV/docs/samples/catalogue.json">Sample catalogue</a>
   &middot;
   <a href="RELEASES.md">Release checklist</a>
   &middot;
@@ -140,7 +142,9 @@ In practice, HYDRV keeps the public release flow simple: the app reads the visib
 
 - [Latest GitHub release](https://github.com/Team-HYDRV/HYDRV/releases/latest)
 - [Public website](https://hydrv.app)
-- [Backend example](HYDRV/docs/backend-example.md)
+- [Backend guide](HYDRV/docs/backend-example.md)
+- [Sample public catalogue](HYDRV/docs/samples/catalogue.json)
+- [Sample private catalogue](HYDRV/docs/samples/catalogue.private.json)
 - [Docs landing page](HYDRV/docs/index.md)
 - [Release checklist](RELEASES.md)
 - [Changelog](CHANGELOG.md)
