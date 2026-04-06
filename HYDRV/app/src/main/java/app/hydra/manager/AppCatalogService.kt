@@ -268,13 +268,15 @@ object AppCatalogService {
             val safePackage = text(app.packageName)
             val safeIcon = text(app.icon)
             val safeTags = strings(app.tags)
-            val safeVersions = app.versions
+                val safeVersions = app.versions
                 .mapNotNull { version ->
-                    val safeVersionName = text(version.version_name)
+                    val safeVersionName = text(version.version_name).ifBlank {
+                        "v${version.version}"
+                    }
                     val safeUrl = text(version.url)
                     val safeChangelog = text(version.changelog)
 
-                    if (safeVersionName.isEmpty() || safeUrl.isEmpty()) return@mapNotNull null
+                    if (safeUrl.isEmpty() || version.version <= 0) return@mapNotNull null
 
                     version.copy(
                         version_name = safeVersionName,

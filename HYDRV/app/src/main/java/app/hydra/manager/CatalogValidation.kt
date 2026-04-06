@@ -32,10 +32,8 @@ object CatalogValidation {
 
                 val versionNumbers = mutableSetOf<Int>()
                 val versions = app.versions.filter { version ->
-                    val versionName = runCatching { version.version_name.trim() }.getOrDefault("")
                     val versionUrl = runCatching { version.url.trim() }.getOrDefault("")
                     version.version > 0 &&
-                        versionName.isNotEmpty() &&
                         versionUrl.isNotEmpty() &&
                         versionNumbers.add(version.version)
                 }
