@@ -1147,13 +1147,18 @@ class VersionSheet(
             return existingDrawable
         }
         existingDrawable?.dispose()
-        val drawable = LiquidWaveProgressDrawable(
-            trackColor = Color.TRANSPARENT,
-            fillColor = ThemeColors.color(
+        val fillColor = if (AppearancePreferences.isDynamicColorEnabled(context)) {
+            ThemeColors.color(
                 context,
                 androidx.appcompat.R.attr.colorPrimary,
                 R.color.accent
             )
+        } else {
+            ContextCompat.getColor(context, R.color.accent)
+        }
+        val drawable = LiquidWaveProgressDrawable(
+            trackColor = Color.TRANSPARENT,
+            fillColor = fillColor
         )
         fillView.setTag(R.id.liquidProgressDrawable, drawable)
         fillView.setTag(R.id.liquidProgressPaletteState, paletteState)
