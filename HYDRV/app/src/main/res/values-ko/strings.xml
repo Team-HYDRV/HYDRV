@@ -78,7 +78,7 @@
   <string name="updates_launch_message_title">시작할 때 업데이트 메시지 표시</string>
   <string name="about_version_code_format">Version %1$s (%2$d)</string>
   <string name="version_source_prefix">Source: %1$s</string>
-  <string name="language_native_hindi_region">à¤¹à¤¿à¤¨à¥à¤¦à¥€ (à¤­à¤¾à¤°à¤¤)</string>
+  <string name="language_native_hindi_region">हिन्दी (भारत)</string>
   <string name="version_installed_hint">Installed on this device</string>
   <string name="version_share_notes">Share notes</string>
   <string name="rewarded_ad_required_message">Watch the rewarded ad to start this download.</string>

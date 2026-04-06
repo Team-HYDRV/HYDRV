@@ -254,7 +254,7 @@
   <string name="language_arabic_region">Arabic</string>
   <string name="contributors_group_summary">Salamat sa pagtulong na itulak pasulong ang HYDRV.</string>
   <string name="version_source_prefix">Source: %1$s</string>
-  <string name="language_native_hindi_region">à¤¹à¤¿à¤¨à¥à¤¦à¥€ (à¤­à¤¾à¤°à¤¤)</string>
+  <string name="language_native_hindi_region">हिन्दी (भारत)</string>
   <string name="version_installed_hint">I-installed on this device</string>
   <string name="version_share_notes">Share notes</string>
   <string name="install_failed_conflict">I-install failed: package conflict</string>

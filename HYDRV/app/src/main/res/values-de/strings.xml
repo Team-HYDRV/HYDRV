@@ -107,7 +107,7 @@
   <string name="updates_launch_message_title">Update-Meldung beim Start anzeigen</string>
   <string name="about_version_code_format">Version %1$s (%2$d)</string>
   <string name="version_source_prefix">Source: %1$s</string>
-  <string name="language_native_hindi_region">à¤¹à¤¿à¤¨à¥à¤¦à¥€ (à¤­à¤¾à¤°à¤¤)</string>
+  <string name="language_native_hindi_region">हिन्दी (भारत)</string>
   <string name="version_installed_hint">Auf diesem Gerät installiert</string>
   <string name="version_share_notes">Notizen teilen</string>
   <string name="rewarded_ad_required_message">Sieh dir die Belohnungsanzeige an, um diesen Download zu starten.</string>
