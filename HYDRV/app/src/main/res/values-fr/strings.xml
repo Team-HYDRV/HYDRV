@@ -53,10 +53,10 @@
   <string name="updates_check_now">Check for updates</string>
   <string name="updates_checking">Checking...</string>
   <string name="about_quick_label">Liens rapides</string>
-  <string name="about_description_title">A propos de HYDRV</string>
+  <string name="about_description_title">À propos de HYDRV</string>
   <string name="about_issue_title">Signaler un probleme</string>
   <string name="about_contributors_title">People behind HYDRV</string>
-  <string name="about_licenses_title">Bibliotheques et credits</string>
+  <string name="about_licenses_title">Bibliothèques et crédits</string>
   <string name="about_dialog_close">Fermer</string>
   <string name="install_waiting_confirmation_format">Waiting for install confirmation for %1$s</string>
   <string name="downloads_uninstall">DESINSTALLER</string>
@@ -223,7 +223,7 @@
   <string name="about_link_discord">Discord</string>
   <string name="language_native_french_region">French (France)</string>
   <string name="updates_never_checked">Never checked</string>
-  <string name="update_notifications_title">Update notifications</string>
+  <string name="update_notifications_title">Notifications de mise à jour</string>
   <string name="home_empty_no_installed">No installed apps</string>
   <string name="backend_invalid_message">That link does not look like a valid JSON endpoint.</string>
   <string name="install_failed">Install failed</string>

@@ -95,7 +95,7 @@
   <string name="language_native_korean_region">한국어 (대한민국)</string>
   <string name="download_via_title">Download via</string>
   <string name="download_via_summary">Choose Wi-Fi only or allow mobile data</string>
-  <string name="update_notifications_title">Update notifications</string>
+  <string name="update_notifications_title">Notifiche di aggiornamento</string>
   <string name="update_notifications_summary">Get notified when new changes appear in the app</string>
   <string name="home_sort_title">Home sort</string>
   <string name="home_sort_summary">Choose how apps are ordered on Home</string>
@@ -343,7 +343,7 @@
   <string name="about_link_donate_caption">Sostieni la manutenzione continua dell app</string>
   <string name="about_link_github_caption">Codice sorgente, commit e cronologia issue</string>
   <string name="about_quick_label">Link rapidi</string>
-  <string name="about_description_title">Info HYDRV</string>
+  <string name="about_description_title">Informazioni su HYDRV</string>
   <string name="about_description_body">HYDRV keeps app releases, signed downloads, and package installs in one calm place, so updates stay easy to browse and simple to manage.</string>
   <string name="about_focus_label">Built for clean package management</string>
   <string name="about_issue_title">Segnala un problema</string>

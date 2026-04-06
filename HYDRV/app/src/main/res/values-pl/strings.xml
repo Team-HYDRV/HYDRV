@@ -95,7 +95,7 @@
   <string name="language_native_korean_region">한국어 (대한민국)</string>
   <string name="download_via_title">Download via</string>
   <string name="download_via_summary">Choose Wi-Fi only or allow mobile data</string>
-  <string name="update_notifications_title">Update notifications</string>
+  <string name="update_notifications_title">Powiadomienia o aktualizacjach</string>
   <string name="update_notifications_summary">Get notified when new changes appear in the app</string>
   <string name="home_sort_title">Home sort</string>
   <string name="home_sort_summary">Choose how apps are ordered on Home</string>
@@ -350,7 +350,7 @@
   <string name="about_issue_summary">Send bugs, rough edges, or ideas that could make HYDRV better.</string>
   <string name="about_contributors_title">Ludzie za HYDRV</string>
   <string name="about_contributors_summary">Meet the live GitHub contributors behind the project.</string>
-  <string name="about_licenses_title">Biblioteki i kredyty</string>
+  <string name="about_licenses_title">Biblioteki i podziękowania</string>
   <string name="about_licenses_summary">Browse the open source tools and components that power HYDRV.</string>
   <string name="about_contact_email">support@hydrv.app</string>
   <string name="about_link_placeholder">This link is unavailable right now.</string>

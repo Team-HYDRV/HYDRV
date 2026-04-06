@@ -95,7 +95,7 @@
   <string name="language_native_korean_region">한국어 (대한민국)</string>
   <string name="download_via_title">Download via</string>
   <string name="download_via_summary">Choose Wi-Fi only or allow mobile data</string>
-  <string name="update_notifications_title">Update notifications</string>
+  <string name="update_notifications_title">การแจ้งเตือนอัปเดต</string>
   <string name="update_notifications_summary">Get notified when new changes appear in the app</string>
   <string name="home_sort_title">Home sort</string>
   <string name="home_sort_summary">Choose how apps are ordered on Home</string>

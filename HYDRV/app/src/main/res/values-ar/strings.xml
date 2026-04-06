@@ -195,14 +195,14 @@
   <string name="language_native_japanese_region">日本語 (日本)</string>
   <string name="sample_app_name">App Name</string>
   <string name="notification_title_release_live">إصدار جديد متاح</string>
-  <string name="about_licenses_title">Libraries and credits</string>
+  <string name="about_licenses_title">المكتبات والاعتمادات</string>
   <string name="settings_backup_import_title">Import settings backup</string>
   <string name="about_link_discord">Discord</string>
   <string name="language_native_french_region">Français (France)</string>
   <string name="home_search_hint">Search apps</string>
   <string name="updates_never_checked">Never checked</string>
   <string name="app_details_versions_title">Versions</string>
-  <string name="update_notifications_title">Update notifications</string>
+  <string name="update_notifications_title">إشعارات التحديثات</string>
   <string name="home_empty_no_installed">No installed apps</string>
   <string name="downloads_select_mode">Select</string>
   <string name="backend_invalid_message">يبدو أن هذا الرابط ليس نقطة نهاية JSON صالحة.</string>
@@ -248,7 +248,7 @@
   <string name="backend_default_label">Default</string>
   <string name="permission_notifications_summary">Used to alert you when new backend changes are available.</string>
   <string name="pure_black_title">Pure black theme</string>
-  <string name="about_description_title">About HYDRV</string>
+  <string name="about_description_title">حول HYDRV</string>
   <string name="backend_health_last_seen_hash_format">Last seen hash: %1$d</string>
   <string name="sort_newest_first">Newest first</string>
   <string name="permission_setup_summary">Review the key permissions HYDRV uses before you start downloading.</string>
@@ -316,7 +316,7 @@
   <string name="permission_notifications_title">Notifications</string>
   <string name="updates_debug_notifications_format">Notifications: %1$s</string>
   <string name="language_russian_region">Russian (Russia)</string>
-  <string name="about_quick_label">Quick links</string>
+  <string name="about_quick_label">روابط سريعة</string>
   <string name="language_native_chinese_simplified_region">中文 (中国)</string>
   <string name="language_german_region">German (Germany)</string>
   <string name="sort_oldest_first">Oldest first</string>

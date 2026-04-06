@@ -29,7 +29,7 @@
   <string name="language_indonesian">Indonesio</string>
   <string name="download_via_title">Descargar mediante</string>
   <string name="download_via_summary">Choose Wi-Fi only or allow mobile data</string>
-  <string name="update_notifications_title">Update notifications</string>
+  <string name="update_notifications_title">Notificaciones de actualización</string>
   <string name="update_notifications_summary">Recibe avisos cuando haya cambios nuevos en la app</string>
   <string name="home_sort_title">Orden de Inicio</string>
   <string name="home_sort_summary">Choose how apps are ordered on Home</string>
@@ -207,15 +207,15 @@
   <string name="about_link_discord_caption">Comunidad, chat y anuncios</string>
   <string name="about_link_donate_caption">Apoya el mantenimiento continuo de la app</string>
   <string name="about_link_github_caption">Source, commits, and issue history</string>
-  <string name="about_quick_label">Quick links</string>
-  <string name="about_description_title">Sobre HYDRV</string>
+  <string name="about_quick_label">Enlaces rápidos</string>
+  <string name="about_description_title">Acerca de HYDRV</string>
   <string name="about_description_body">HYDRV keeps app releases, signed downloads, and package installs in one calm place, so updates stay easy to browse and simple to manage.</string>
   <string name="about_focus_label">Built for clean package management</string>
   <string name="about_issue_title">Informar de un problema</string>
   <string name="about_issue_summary">Send bugs, rough edges, or ideas that could make HYDRV better.</string>
   <string name="about_contributors_title">People behind HYDRV</string>
   <string name="about_contributors_summary">Conoce a quienes construyen, prueban y apoyan el proyecto.</string>
-  <string name="about_licenses_title">Libraries and credits</string>
+  <string name="about_licenses_title">Bibliotecas y créditos</string>
   <string name="about_licenses_summary">Browse the open source tools and components that power HYDRV.</string>
   <string name="about_contact_email">support@hydrv.app</string>
   <string name="about_link_placeholder">This link is unavailable right now.</string>

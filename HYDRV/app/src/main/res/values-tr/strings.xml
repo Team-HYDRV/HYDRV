@@ -95,7 +95,7 @@
   <string name="language_native_korean_region">한국어 (대한민국)</string>
   <string name="download_via_title">Download via</string>
   <string name="download_via_summary">Choose Wi-Fi only or allow mobile data</string>
-  <string name="update_notifications_title">Update notifications</string>
+  <string name="update_notifications_title">Güncelleme bildirimleri</string>
   <string name="update_notifications_summary">Get notified when new changes appear in the app</string>
   <string name="home_sort_title">Home sort</string>
   <string name="home_sort_summary">Choose how apps are ordered on Home</string>
@@ -342,15 +342,15 @@
   <string name="about_link_discord_caption">Topluluk sohbeti ve duyurular</string>
   <string name="about_link_donate_caption">Uygulamanin surekli bakimini destekle</string>
   <string name="about_link_github_caption">Kaynak kodu, commitler ve sorun gecmisi</string>
-  <string name="about_quick_label">Hizli baglantilar</string>
-  <string name="about_description_title">HYDRV hakkinda</string>
+  <string name="about_quick_label">Hızlı bağlantılar</string>
+  <string name="about_description_title">HYDRV hakkında</string>
   <string name="about_description_body">HYDRV keeps app releases, signed downloads, and package installs in one calm place, so updates stay easy to browse and simple to manage.</string>
   <string name="about_focus_label">Built for clean package management</string>
   <string name="about_issue_title">Sorun bildir</string>
   <string name="about_issue_summary">Send bugs, rough edges, or ideas that could make HYDRV better.</string>
   <string name="about_contributors_title">HYDRV arkasindaki insanlar</string>
   <string name="about_contributors_summary">Meet the live GitHub contributors behind the project.</string>
-  <string name="about_licenses_title">Kutuphaneler ve krediler</string>
+  <string name="about_licenses_title">Kütüphaneler ve krediler</string>
   <string name="about_licenses_summary">Browse the open source tools and components that power HYDRV.</string>
   <string name="about_contact_email">support@hydrv.app</string>
   <string name="about_link_placeholder">This link is unavailable right now.</string>

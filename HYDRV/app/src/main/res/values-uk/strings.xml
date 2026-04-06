@@ -28,7 +28,7 @@
   <string name="language_native_ukrainian_region">Українська (Україна)</string>
   <string name="download_via_title">Download via</string>
   <string name="download_via_summary">Choose Wi-Fi only or allow mobile data</string>
-  <string name="update_notifications_title">Update notifications</string>
+  <string name="update_notifications_title">Сповіщення про оновлення</string>
   <string name="update_notifications_summary">Get notified when new changes appear in the app</string>
   <string name="home_search_hint">Search apps</string>
   <string name="home_updated_just_now">Updated just now</string>

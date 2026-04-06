@@ -215,7 +215,7 @@
   <string name="about_issue_summary">Kirim bug, bagian yang terasa kasar, atau ide yang bisa membuat HYDRV lebih baik.</string>
   <string name="about_contributors_title">Orang-orang di balik HYDRV</string>
   <string name="about_contributors_summary">Kenali para pembuat, penguji, dan pendukung di balik proyek ini.</string>
-  <string name="about_licenses_title">Library dan kredit</string>
+  <string name="about_licenses_title">Pustaka dan kredit</string>
   <string name="about_licenses_summary">Lihat alat dan komponen open source yang mendukung HYDRV.</string>
   <string name="about_contact_email">support@hydrv.app</string>
   <string name="about_link_placeholder">Tautan ini belum tersedia saat ini.</string>
