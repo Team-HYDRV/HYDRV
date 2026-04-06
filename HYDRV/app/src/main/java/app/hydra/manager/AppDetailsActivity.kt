@@ -5,7 +5,10 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.lifecycle.Observer
 import com.google.android.material.color.DynamicColors
 import com.squareup.picasso.Picasso
@@ -29,7 +32,20 @@ class AppDetailsActivity : AppCompatActivity() {
         supportActionBar?.title = ""
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        WindowCompat.setDecorFitsSystemWindows(window, true)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        val contentRoot = findViewById<android.view.ViewGroup>(android.R.id.content).getChildAt(0)
+        val basePaddingTop = contentRoot.paddingTop
+        val basePaddingBottom = contentRoot.paddingBottom
+        ViewCompat.setOnApplyWindowInsetsListener(contentRoot) { view, insets ->
+            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.updatePadding(
+                top = basePaddingTop + bars.top,
+                bottom = basePaddingBottom + bars.bottom
+            )
+            insets
+        }
+        ViewCompat.requestApplyInsets(contentRoot)
 
         val app = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
             intent.getSerializableExtra("app", AppModel::class.java)

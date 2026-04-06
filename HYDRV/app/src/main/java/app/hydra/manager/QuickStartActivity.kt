@@ -12,7 +12,10 @@ import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import com.google.android.material.R as MaterialR
 import com.google.android.material.color.DynamicColors
 
@@ -49,9 +52,22 @@ class QuickStartActivity : AppCompatActivity() {
             return
         }
 
-        WindowCompat.setDecorFitsSystemWindows(window, true)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         setContentView(R.layout.activity_quick_start)
         AppearancePreferences.applyPureBlackBackgroundIfNeeded(findViewById(android.R.id.content))
+
+        val contentRoot = findViewById<android.view.ViewGroup>(android.R.id.content).getChildAt(0)
+        val basePaddingTop = contentRoot.paddingTop
+        val basePaddingBottom = contentRoot.paddingBottom
+        ViewCompat.setOnApplyWindowInsetsListener(contentRoot) { view, insets ->
+            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.updatePadding(
+                top = basePaddingTop + bars.top,
+                bottom = basePaddingBottom + bars.bottom
+            )
+            insets
+        }
+        ViewCompat.requestApplyInsets(contentRoot)
 
         internetStatus = findViewById(R.id.permissionInternetStatus)
         installStatus = findViewById(R.id.permissionInstallStatus)
