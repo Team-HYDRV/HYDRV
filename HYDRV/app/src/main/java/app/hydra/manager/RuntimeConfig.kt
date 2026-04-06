@@ -26,10 +26,7 @@ object RuntimeConfig {
         get() = "$githubApiBaseUrl/contributors?per_page=100"
 
     val rewardedAdUnitId: String
-        get() = listOf(
-            "ca-app-pub-3319548483346434",
-            "5639572396"
-        ).joinToString("/")
+        get() = "ca-app-pub-3319548483346434/8211608689"
 
     val rewardedTestAdUnitId: String
         get() = "ca-app-pub-3940256099942544/5224354917"
