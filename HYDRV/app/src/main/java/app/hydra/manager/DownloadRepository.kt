@@ -363,10 +363,6 @@ object DownloadRepository {
                         item.packageName = actualPackage
                         InstallAliasStore.saveAlias(context, item.name, backendPackage, actualPackage)
                     }
-                    val archiveVersionCode = archiveInfo.versionCodeCompat()
-                    if (archiveVersionCode > 0) {
-                        item.versionCode = archiveVersionCode
-                    }
                 }
             }
 
