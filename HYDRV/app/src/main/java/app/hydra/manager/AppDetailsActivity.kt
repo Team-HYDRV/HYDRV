@@ -187,7 +187,7 @@ class AppDetailsActivity : AppCompatActivity() {
         versionName: String,
         versionCode: Int
     ) {
-        if (!AdsPreferences.areRewardedAdsEnabled(this)) {
+        if (!AdsPreferences.areRewardedAdsEnabled(this) || RewardedAdManager.shouldBypassRewardGate()) {
             startDownload(btn, url, name, packageName, versionName, versionCode)
             return
         }
@@ -198,10 +198,14 @@ class AppDetailsActivity : AppCompatActivity() {
                 startDownload(btn, url, name, packageName, versionName, versionCode)
             },
             onAdUnavailable = {
-                AppSnackbar.show(
-                    findViewById(android.R.id.content),
-                    getString(R.string.rewarded_ad_required_message)
-                )
+                if (RewardedAdManager.shouldBypassRewardGate()) {
+                    startDownload(btn, url, name, packageName, versionName, versionCode)
+                } else {
+                    AppSnackbar.show(
+                        findViewById(android.R.id.content),
+                        getString(R.string.rewarded_ad_required_message)
+                    )
+                }
             }
         )
     }

@@ -104,6 +104,10 @@ object RewardedAdManager {
         }
     }
 
+    fun shouldBypassRewardGate(): Boolean {
+        return runtimeAvailabilityReason().contains("No fill yet", ignoreCase = true)
+    }
+
     private fun activeAdUnitId(): String {
         return if (shouldUseTestAdsForRuntime()) {
             RuntimeConfig.rewardedTestAdUnitId

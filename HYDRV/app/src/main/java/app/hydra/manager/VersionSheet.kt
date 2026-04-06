@@ -377,7 +377,7 @@ class VersionSheet(
                 return@setOnClickListener
             }
             val activity = activity ?: return@setOnClickListener
-            if (!AdsPreferences.areRewardedAdsEnabled(ctx)) {
+            if (!AdsPreferences.areRewardedAdsEnabled(ctx) || RewardedAdManager.shouldBypassRewardGate()) {
                 runVersionDownload(
                     version = version,
                     key = key,
@@ -397,24 +397,33 @@ class VersionSheet(
                     )
                 },
                 onAdUnavailable = {
-                    val sheetAnchor = (dialog as? BottomSheetDialog)?.findViewById<View>(
-                        com.google.android.material.R.id.design_bottom_sheet
-                    ) ?: rootView
-                    val snackbarHost = (sheetAnchor.parent as? View) ?: sheetAnchor
-                    currentSnackbar?.dismiss()
-                    currentSnackbar = AppSnackbar.show(
-                        snackbarHost,
-                        getString(R.string.rewarded_ad_required_message),
-                        anchorTarget = sheetAnchor,
-                        baseBottomMarginDp = 6
-                    )
-                    rootView.post {
-                        if (!isAdded || view == null) return@post
-                        val bottomSheetView = (dialog as? BottomSheetDialog)?.findViewById<View>(
-                            com.google.android.material.R.id.design_bottom_sheet
+                    if (RewardedAdManager.shouldBypassRewardGate()) {
+                        runVersionDownload(
+                            version = version,
+                            key = key,
+                            context = ctx,
+                            rootView = rootView
                         )
-                        if (bottomSheetView != null) {
-                            updateSheetSnackbarPosition(bottomSheetView)
+                    } else {
+                        val sheetAnchor = (dialog as? BottomSheetDialog)?.findViewById<View>(
+                            com.google.android.material.R.id.design_bottom_sheet
+                        ) ?: rootView
+                        val snackbarHost = (sheetAnchor.parent as? View) ?: sheetAnchor
+                        currentSnackbar?.dismiss()
+                        currentSnackbar = AppSnackbar.show(
+                            snackbarHost,
+                            getString(R.string.rewarded_ad_required_message),
+                            anchorTarget = sheetAnchor,
+                            baseBottomMarginDp = 6
+                        )
+                        rootView.post {
+                            if (!isAdded || view == null) return@post
+                            val bottomSheetView = (dialog as? BottomSheetDialog)?.findViewById<View>(
+                                com.google.android.material.R.id.design_bottom_sheet
+                            )
+                            if (bottomSheetView != null) {
+                                updateSheetSnackbarPosition(bottomSheetView)
+                            }
                         }
                     }
                 }
