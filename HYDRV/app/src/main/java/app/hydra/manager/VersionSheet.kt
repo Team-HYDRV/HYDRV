@@ -250,7 +250,6 @@ class VersionSheet(
                 if (!isAdded || view == null) return@post
                 currentInstallSnapshot = snapshot
                 refreshVersionHints()
-                versionAdapter.notifyDataSetChanged()
             }
         }.start()
     }
@@ -577,7 +576,6 @@ class VersionSheet(
                 if (!isAdded || view == null) return@post
                 currentInstallSnapshot = snapshot
                 refreshVersionHints()
-                versionAdapter.notifyDataSetChanged()
             }
         }.start()
     }
