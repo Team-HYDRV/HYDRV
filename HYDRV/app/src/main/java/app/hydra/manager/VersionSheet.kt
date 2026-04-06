@@ -274,7 +274,7 @@ class VersionSheet(
             val sourceHostText = version.downloadHost()
             val unknownSourceText = getString(R.string.version_source_unknown)
             applyVersionBadgePalette(badge)
-            applyVersionBadgePalette(sourceBadge)
+            applySourceBadgePalette(sourceBadge, BackendPreferences.isUsingDefault(ctx))
             sourceBadge.text = sourceLabel
             if (
                 sourceHostText.isNullOrBlank() ||
@@ -397,6 +397,47 @@ class VersionSheet(
                 )
             } else {
                 Color.BLACK
+            }
+        )
+    }
+
+    private fun applySourceBadgePalette(badge: TextView, isOfficialBackend: Boolean) {
+        val context = badge.context
+        val background = if (isOfficialBackend) {
+            if (AppearancePreferences.isDynamicColorEnabled(context)) {
+                R.drawable.version_badge_latest_material
+            } else {
+                R.drawable.version_badge_latest_brand
+            }
+        } else {
+            if (AppearancePreferences.isDynamicColorEnabled(context)) {
+                R.drawable.version_badge_custom_material
+            } else {
+                R.drawable.version_badge_custom
+            }
+        }
+        badge.setBackgroundResource(background)
+        badge.setTextColor(
+            if (AppearancePreferences.isDynamicColorEnabled(context)) {
+                if (isOfficialBackend) {
+                    ThemeColors.color(
+                        context,
+                        com.google.android.material.R.attr.colorOnPrimaryContainer,
+                        R.color.text_on_accent_chip
+                    )
+                } else {
+                    ThemeColors.color(
+                        context,
+                        com.google.android.material.R.attr.colorOnErrorContainer,
+                        R.color.text_on_accent_chip
+                    )
+                }
+            } else {
+                if (isOfficialBackend) {
+                    Color.BLACK
+                } else {
+                    Color.WHITE
+                }
             }
         )
     }
