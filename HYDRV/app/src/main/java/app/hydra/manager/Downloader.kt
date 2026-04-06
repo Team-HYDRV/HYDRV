@@ -546,11 +546,23 @@ object Downloader {
             ?: item.name.trim().ifBlank { fallbackName }
 
         val sanitized = sanitizeFileName(baseName)
+        val versionTagged = if (item.versionCode > 0) {
+            val suffix = "-${item.versionCode}"
+            if (sanitized.contains('.')) {
+                val extension = sanitized.substringAfterLast('.', "")
+                val stem = sanitized.substringBeforeLast('.')
+                if (stem.endsWith(suffix)) sanitized else "$stem$suffix.$extension"
+            } else {
+                if (sanitized.endsWith(suffix)) sanitized else "$sanitized$suffix"
+            }
+        } else {
+            sanitized
+        }
         return when {
-            sanitized.endsWith(".apk", ignoreCase = true) -> sanitized
-            item.packageName.isNotBlank() -> "$sanitized.apk"
-            sanitized.contains('.') -> sanitized
-            else -> sanitized
+            versionTagged.endsWith(".apk", ignoreCase = true) -> versionTagged
+            item.packageName.isNotBlank() -> "$versionTagged.apk"
+            versionTagged.contains('.') -> versionTagged
+            else -> versionTagged
         }
     }
 
