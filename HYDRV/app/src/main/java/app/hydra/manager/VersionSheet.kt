@@ -43,6 +43,8 @@ class VersionSheet(
         private const val PRESS_SCALE = 0.975f
         private const val SHEET_SNACKBAR_GAP_DP = 6
         private const val NAV_SNACKBAR_GAP_DP = 10
+        private const val VERSION_RENDER_BATCH_SIZE = 12
+        private const val VERSION_RENDER_BATCH_DELAY_MS = 12L
     }
 
     private data class DownloadButtonViews(
@@ -69,6 +71,8 @@ class VersionSheet(
     private var versionsByKey = emptyMap<String, Version>()
     private var hintViewsByKey = emptyMap<String, VersionHintViews>()
     private var currentLatestVersion: Version? = null
+    private var currentInstallSnapshot: InstallIntelligence.Snapshot? = null
+    private var renderGeneration = 0
     private val mainHandler = Handler(Looper.getMainLooper())
     private var currentSnackbar: Snackbar? = null
     private var bottomSheetCallback: BottomSheetBehavior.BottomSheetCallback? = null
@@ -200,13 +204,14 @@ class VersionSheet(
 
         val ctx = requireContext()
         refreshInstalledInfo(ctx)
+        val renderToken = ++renderGeneration
         val previousScrollY = if (this::scrollView.isInitialized) scrollView.scrollY else 0
         val sortMode = ListSortPreferences.getVersionSort(ctx)
         val sortedVersions = ListSortPreferences.sortVersions(sortMode, currentApp.versions)
         versionsByKey = sortedVersions.associateBy(::versionKey)
         currentLatestVersion = sortedVersions.firstOrNull()
         val latestVersionNumber = currentLatestVersion?.version
-        val installSnapshot = InstallIntelligence.snapshot(ctx, currentApp)
+        currentInstallSnapshot = null
 
         appNameView.text = currentApp.name
         sheetSummaryView.text =
@@ -229,154 +234,55 @@ class VersionSheet(
         failedKeys.clear()
         containerLayout.removeAllViews()
 
-        sortedVersions.forEach { version ->
-            val card = inflater.inflate(
-                R.layout.item_version_sheet,
-                containerLayout,
-                false
-            )
-            card.setBackgroundResource(
-                if (AppearancePreferences.isDynamicColorEnabled(ctx)) {
-                    R.drawable.version_sheet_card_material
-                } else {
-                    R.drawable.version_sheet_card_brand
-                }
-            )
+        fun renderBatch(startIndex: Int) {
+            if (!isAdded || view == null || renderToken != renderGeneration) return
 
-            val title = card.findViewById<TextView>(R.id.versionTitle)
-            val changelog = card.findViewById<TextView>(R.id.versionChangelog)
-            val badge = card.findViewById<TextView>(R.id.versionBadge)
-            val sourceBadge = card.findViewById<TextView>(R.id.versionSourceBadge)
-            val sourceHost = card.findViewById<TextView>(R.id.versionSourceHost)
-            val installedHint = card.findViewById<TextView>(R.id.versionInstalledHint)
-            val downloadedHint = card.findViewById<TextView>(R.id.versionDownloadedHint)
-            val button = card.findViewById<FrameLayout>(R.id.versionDownloadButton)
-            val buttonTrack = card.findViewById<FrameLayout>(R.id.versionDownloadTrack)
-            val buttonFill = card.findViewById<ImageView>(R.id.versionDownloadFill)
-            val buttonLabel = card.findViewById<TextView>(R.id.versionDownloadLabel)
-            val buttonIcon = card.findViewById<ImageView>(R.id.versionDownloadIcon)
-            val key = versionKey(version)
-
-            title.text = ctx.getString(
-                R.string.version_format,
-                "${version.version_name} (${version.version})"
-            )
-            badge.visibility = if (version.version == latestVersionNumber) View.VISIBLE else View.GONE
-
-            val changelogText = sanitizeChangelog(version.changelog)
-            if (changelogText.isNullOrBlank()) {
-                changelog.visibility = View.GONE
-            } else {
-                changelog.visibility = View.VISIBLE
-                changelog.text = formatChangelogText(changelogText)
-            }
-            val sourceLabel = version.downloadSourceLabel(BackendPreferences.isUsingDefault(ctx))
-            val sourceHostText = version.downloadHost()
-            val unknownSourceText = getString(R.string.version_source_unknown)
-            applyVersionBadgePalette(badge)
-            applySourceBadgePalette(sourceBadge, BackendPreferences.isUsingDefault(ctx))
-            sourceBadge.text = sourceLabel
-            if (
-                sourceHostText.isNullOrBlank() ||
-                sourceLabel == unknownSourceText ||
-                sourceHostText.equals(unknownSourceText, ignoreCase = true)
-            ) {
-                sourceHost.text = ""
-                sourceHost.visibility = View.GONE
-            } else {
-                sourceHost.text = sourceHostText
-                sourceHost.visibility = View.VISIBLE
-            }
-            val insight = InstallIntelligence.insight(
-                ctx,
-                currentApp,
-                version,
-                installSnapshot,
-                currentLatestVersion
-            )
-            installedHint.text = insight.installedHint.orEmpty()
-            installedHint.visibility = if (insight.installedHint.isNullOrBlank()) View.GONE else View.VISIBLE
-            downloadedHint.text = insight.downloadHint.orEmpty()
-            downloadedHint.visibility = if (insight.downloadHint.isNullOrBlank()) View.GONE else View.VISIBLE
-            hintViewsByKey = hintViewsByKey + (key to VersionHintViews(installedHint, downloadedHint))
-
-            buttonViewsByKey[key] = DownloadButtonViews(
-                container = button,
-                track = buttonTrack,
-                fill = buttonFill,
-                label = buttonLabel,
-                icon = buttonIcon
-            )
-            applyVersionButtonPalette(buttonViewsByKey.getValue(key), ctx)
-            applyIdleState(buttonViewsByKey.getValue(key))
-            attachPressAnimation(button)
-
-            button.setOnClickListener {
-                if (
-                    preferOpenInstalledAction &&
-                    installedLaunchPackage != null &&
-                    installedVersionName == version.version_name
-                ) {
-                    openInstalledApp()
-                    return@setOnClickListener
-                }
-                val activity = activity ?: return@setOnClickListener
-                if (!AdsPreferences.areRewardedAdsEnabled(ctx)) {
-                    runVersionDownload(
-                        version = version,
-                        key = key,
-                        context = ctx,
-                        rootView = rootView
-                    )
-                    return@setOnClickListener
-                }
-                RewardedAdManager.showThen(
-                    activity = activity,
-                    onRewardEarned = {
-                    runVersionDownload(
-                        version = version,
-                        key = key,
-                        context = ctx,
-                        rootView = rootView
-                        )
-                    },
-                    onAdUnavailable = {
-                        val sheetAnchor = (dialog as? BottomSheetDialog)?.findViewById<View>(
-                            com.google.android.material.R.id.design_bottom_sheet
-                        ) ?: rootView
-                        val snackbarHost = (sheetAnchor.parent as? View) ?: sheetAnchor
-                        currentSnackbar?.dismiss()
-                        currentSnackbar = AppSnackbar.show(
-                            snackbarHost,
-                            getString(R.string.rewarded_ad_required_message),
-                            anchorTarget = sheetAnchor,
-                            baseBottomMarginDp = 6
-                        )
-                        rootView.post {
-                            if (!isAdded || view == null) return@post
-                            val bottomSheetView = (dialog as? BottomSheetDialog)?.findViewById<View>(
-                                com.google.android.material.R.id.design_bottom_sheet
-                            )
-                            if (bottomSheetView != null) {
-                                updateSheetSnackbarPosition(bottomSheetView)
-                            }
-                        }
-                    }
+            val endIndex = minOf(startIndex + VERSION_RENDER_BATCH_SIZE, sortedVersions.size)
+            for (index in startIndex until endIndex) {
+                renderVersionCard(
+                    inflater = inflater,
+                    ctx = ctx,
+                    version = sortedVersions[index],
+                    latestVersionNumber = latestVersionNumber
                 )
             }
 
-            containerLayout.addView(card)
-        }
+            if (!isAdded || view == null || renderToken != renderGeneration) return
 
-        updateDownloadButtons(DownloadRepository.downloads)
-        if (this::scrollView.isInitialized) {
-            scrollView.post {
-                val content = scrollView.getChildAt(0)
-                val maxScroll = ((content?.height ?: 0) - scrollView.height).coerceAtLeast(0)
-                scrollView.scrollTo(0, previousScrollY.coerceAtMost(maxScroll))
-                updateScrollFade()
+            if (endIndex < sortedVersions.size) {
+                mainHandler.postDelayed({
+                    renderBatch(endIndex)
+                }, VERSION_RENDER_BATCH_DELAY_MS)
+            } else {
+                updateDownloadButtons(DownloadRepository.downloads)
+                refreshVersionHints()
+                if (this::scrollView.isInitialized) {
+                    scrollView.post {
+                        if (!isAdded || view == null || renderToken != renderGeneration) return@post
+                        val content = scrollView.getChildAt(0)
+                        val maxScroll = ((content?.height ?: 0) - scrollView.height).coerceAtLeast(0)
+                        scrollView.scrollTo(0, previousScrollY.coerceAtMost(maxScroll))
+                        updateScrollFade()
+                    }
+                }
             }
         }
+
+        if (sortedVersions.isEmpty()) {
+            updateDownloadButtons(DownloadRepository.downloads)
+            return
+        }
+
+        renderBatch(0)
+
+        Thread {
+            val snapshot = InstallIntelligence.snapshot(ctx, currentApp)
+            mainHandler.post {
+                if (!isAdded || view == null || renderToken != renderGeneration) return@post
+                currentInstallSnapshot = snapshot
+                refreshVersionHints()
+            }
+        }.start()
     }
 
     private fun applyVersionBadgePalette(badge: TextView) {
@@ -399,6 +305,159 @@ class VersionSheet(
                 Color.BLACK
             }
         )
+    }
+
+    private fun renderVersionCard(
+        inflater: LayoutInflater,
+        ctx: android.content.Context,
+        version: Version,
+        latestVersionNumber: Int?
+    ) {
+        val card = inflater.inflate(
+            R.layout.item_version_sheet,
+            containerLayout,
+            false
+        )
+        card.setBackgroundResource(
+            if (AppearancePreferences.isDynamicColorEnabled(ctx)) {
+                R.drawable.version_sheet_card_material
+            } else {
+                R.drawable.version_sheet_card_brand
+            }
+        )
+
+        val title = card.findViewById<TextView>(R.id.versionTitle)
+        val changelog = card.findViewById<TextView>(R.id.versionChangelog)
+        val badge = card.findViewById<TextView>(R.id.versionBadge)
+        val sourceBadge = card.findViewById<TextView>(R.id.versionSourceBadge)
+        val sourceHost = card.findViewById<TextView>(R.id.versionSourceHost)
+        val installedHint = card.findViewById<TextView>(R.id.versionInstalledHint)
+        val downloadedHint = card.findViewById<TextView>(R.id.versionDownloadedHint)
+        val button = card.findViewById<FrameLayout>(R.id.versionDownloadButton)
+        val buttonTrack = card.findViewById<FrameLayout>(R.id.versionDownloadTrack)
+        val buttonFill = card.findViewById<ImageView>(R.id.versionDownloadFill)
+        val buttonLabel = card.findViewById<TextView>(R.id.versionDownloadLabel)
+        val buttonIcon = card.findViewById<ImageView>(R.id.versionDownloadIcon)
+        val key = versionKey(version)
+
+        title.text = ctx.getString(
+            R.string.version_format,
+            "${version.version_name} (${version.version})"
+        )
+        badge.visibility = if (version.version == latestVersionNumber) View.VISIBLE else View.GONE
+
+        val changelogText = sanitizeChangelog(version.changelog)
+        if (changelogText.isNullOrBlank()) {
+            changelog.visibility = View.GONE
+        } else {
+            changelog.visibility = View.VISIBLE
+            changelog.text = formatChangelogText(changelogText)
+        }
+        val sourceLabel = version.downloadSourceLabel(BackendPreferences.isUsingDefault(ctx))
+        val sourceHostText = version.downloadHost()
+        val unknownSourceText = getString(R.string.version_source_unknown)
+        applyVersionBadgePalette(badge)
+        applySourceBadgePalette(sourceBadge, BackendPreferences.isUsingDefault(ctx))
+        sourceBadge.text = sourceLabel
+        if (
+            sourceHostText.isNullOrBlank() ||
+            sourceLabel == unknownSourceText ||
+            sourceHostText.equals(unknownSourceText, ignoreCase = true)
+        ) {
+            sourceHost.text = ""
+            sourceHost.visibility = View.GONE
+        } else {
+            sourceHost.text = sourceHostText
+            sourceHost.visibility = View.VISIBLE
+        }
+
+        val snapshot = currentInstallSnapshot
+        if (snapshot != null) {
+            val insight = InstallIntelligence.insight(
+                ctx,
+                currentApp,
+                version,
+                snapshot,
+                currentLatestVersion
+            )
+            installedHint.text = insight.installedHint.orEmpty()
+            installedHint.visibility = if (insight.installedHint.isNullOrBlank()) View.GONE else View.VISIBLE
+            downloadedHint.text = insight.downloadHint.orEmpty()
+            downloadedHint.visibility = if (insight.downloadHint.isNullOrBlank()) View.GONE else View.VISIBLE
+        } else {
+            installedHint.text = ""
+            installedHint.visibility = View.GONE
+            downloadedHint.text = ""
+            downloadedHint.visibility = View.GONE
+        }
+        hintViewsByKey = hintViewsByKey + (key to VersionHintViews(installedHint, downloadedHint))
+
+        buttonViewsByKey[key] = DownloadButtonViews(
+            container = button,
+            track = buttonTrack,
+            fill = buttonFill,
+            label = buttonLabel,
+            icon = buttonIcon
+        )
+        applyVersionButtonPalette(buttonViewsByKey.getValue(key), ctx)
+        applyIdleState(buttonViewsByKey.getValue(key))
+        attachPressAnimation(button)
+
+        button.setOnClickListener {
+            if (
+                preferOpenInstalledAction &&
+                installedLaunchPackage != null &&
+                installedVersionName == version.version_name
+            ) {
+                openInstalledApp()
+                return@setOnClickListener
+            }
+            val activity = activity ?: return@setOnClickListener
+            if (!AdsPreferences.areRewardedAdsEnabled(ctx)) {
+                runVersionDownload(
+                    version = version,
+                    key = key,
+                    context = ctx,
+                    rootView = rootView
+                )
+                return@setOnClickListener
+            }
+            RewardedAdManager.showThen(
+                activity = activity,
+                onRewardEarned = {
+                    runVersionDownload(
+                        version = version,
+                        key = key,
+                        context = ctx,
+                        rootView = rootView
+                    )
+                },
+                onAdUnavailable = {
+                    val sheetAnchor = (dialog as? BottomSheetDialog)?.findViewById<View>(
+                        com.google.android.material.R.id.design_bottom_sheet
+                    ) ?: rootView
+                    val snackbarHost = (sheetAnchor.parent as? View) ?: sheetAnchor
+                    currentSnackbar?.dismiss()
+                    currentSnackbar = AppSnackbar.show(
+                        snackbarHost,
+                        getString(R.string.rewarded_ad_required_message),
+                        anchorTarget = sheetAnchor,
+                        baseBottomMarginDp = 6
+                    )
+                    rootView.post {
+                        if (!isAdded || view == null) return@post
+                        val bottomSheetView = (dialog as? BottomSheetDialog)?.findViewById<View>(
+                            com.google.android.material.R.id.design_bottom_sheet
+                        )
+                        if (bottomSheetView != null) {
+                            updateSheetSnackbarPosition(bottomSheetView)
+                        }
+                    }
+                }
+            )
+        }
+
+        containerLayout.addView(card)
     }
 
     private fun applySourceBadgePalette(badge: TextView, isOfficialBackend: Boolean) {
@@ -535,6 +594,8 @@ class VersionSheet(
         versionsByKey = emptyMap()
         hintViewsByKey = emptyMap()
         currentLatestVersion = null
+        currentInstallSnapshot = null
+        renderGeneration++
         buttonViewsByKey.clear()
         completedKeys.clear()
         doneHandledKeys.clear()
@@ -966,9 +1027,9 @@ class VersionSheet(
     private fun refreshVersionHints() {
         if (!this::containerLayout.isInitialized) return
         val ctx = context ?: return
+        val snapshot = currentInstallSnapshot ?: return
         if (hintViewsByKey.isEmpty() || versionsByKey.isEmpty()) return
 
-        val snapshot = InstallIntelligence.snapshot(ctx, currentApp)
         hintViewsByKey.forEach { (key, views) ->
             val version = versionsByKey[key] ?: return@forEach
             val insight = InstallIntelligence.insight(
