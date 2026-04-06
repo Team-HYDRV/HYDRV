@@ -1,0 +1,36 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="180" y1="120" x2="860" y2="920" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1F1D23"/>
+      <stop offset="1" stop-color="#151319"/>
+    </linearGradient>
+    <linearGradient id="green" x1="248" y1="160" x2="776" y2="864" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7CFF4A"/>
+      <stop offset="1" stop-color="#32D43A"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1024" height="1024" rx="160" fill="url(#bg)"/>
+
+  <g filter="url(#shadow)">
+    <path d="M512 170C484 198 445 228 400 250C357 271 311 285 260 292C279 341 306 383 337 415C369 447 405 469 445 482L512 432L579 482C619 469 655 447 687 415C718 383 745 341 764 292C713 285 667 271 624 250C579 228 540 198 512 170Z" fill="url(#green)"/>
+    <path d="M345 365C305 333 279 294 263 250C304 256 340 267 372 284C404 301 429 323 447 351C419 357 392 362 365 366L345 365Z" fill="#7CFF4A"/>
+    <path d="M679 365C719 333 745 294 761 250C720 256 684 267 652 284C620 301 595 323 577 351C605 357 632 362 659 366L679 365Z" fill="#7CFF4A"/>
+
+    <path d="M418 470L350 530V760L512 854L674 760V530L606 470V742L512 798L418 742V470Z" fill="#7CFF4A"/>
+    <path d="M470 510L438 538V694L512 734L586 694V538L554 510V673L512 697L470 673V510Z" fill="#151319"/>
+    <path d="M512 472L472 508H552L512 472Z" fill="#151319"/>
+
+    <path d="M386 503C349 472 313 449 279 438C310 416 340 401 369 392C398 383 425 380 450 383C435 406 425 428 418 450C411 473 404 488 386 503Z" fill="#7CFF4A"/>
+    <path d="M638 503C675 472 711 449 745 438C714 416 684 401 655 392C626 383 599 380 574 383C589 406 599 428 606 450C613 473 620 488 638 503Z" fill="#7CFF4A"/>
+
+    <path d="M352 523C322 510 296 498 274 487C292 464 314 445 340 431C365 418 389 409 412 404C402 424 395 441 391 457C387 473 377 497 352 523Z" fill="#151319"/>
+    <path d="M672 523C702 510 728 498 750 487C732 464 710 445 684 431C659 418 635 409 612 404C622 424 629 441 633 457C637 473 647 497 672 523Z" fill="#151319"/>
+  </g>
+
+  <defs>
+    <filter id="shadow" x="140" y="110" width="744" height="800" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="18" stdDeviation="24" flood-color="#000000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+</svg>
