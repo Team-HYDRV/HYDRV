@@ -12,7 +12,7 @@ import java.io.File
 object DownloadRepository {
 
     private const val SAVE_DEBOUNCE_MS = 350L
-    private const val PROGRESS_NOTIFY_DEBOUNCE_MS = 120L
+    private const val PROGRESS_NOTIFY_INTERVAL_MS = 120L
 
     enum class StartResult {
         STARTED,
@@ -28,6 +28,7 @@ object DownloadRepository {
     private val mainHandler = Handler(Looper.getMainLooper())
     private var saveRunnable: Runnable? = null
     private var progressNotifyRunnable: Runnable? = null
+    private var lastProgressNotifyAt = 0L
     private val startLock = Any()
 
     private fun notifyChange() {
@@ -42,16 +43,30 @@ object DownloadRepository {
     }
 
     private fun notifyChangeDebounced() {
-        if (Looper.myLooper() == Looper.getMainLooper()) {
+        if (Looper.myLooper() != Looper.getMainLooper()) {
+            mainHandler.post { notifyChangeDebounced() }
+            return
+        }
+
+        val now = System.currentTimeMillis()
+        val elapsed = now - lastProgressNotifyAt
+        if (elapsed >= PROGRESS_NOTIFY_INTERVAL_MS) {
             progressNotifyRunnable?.let(mainHandler::removeCallbacks)
+            progressNotifyRunnable = null
+            lastProgressNotifyAt = now
+            notifyChange()
+            return
+        }
+
+        val remaining = (PROGRESS_NOTIFY_INTERVAL_MS - elapsed).coerceAtLeast(0L)
+        if (progressNotifyRunnable == null) {
             val runnable = Runnable {
-                notifyChange()
                 progressNotifyRunnable = null
+                lastProgressNotifyAt = System.currentTimeMillis()
+                notifyChange()
             }
             progressNotifyRunnable = runnable
-            mainHandler.postDelayed(runnable, PROGRESS_NOTIFY_DEBOUNCE_MS)
-        } else {
-            mainHandler.post { notifyChangeDebounced() }
+            mainHandler.postDelayed(runnable, remaining)
         }
     }
 
