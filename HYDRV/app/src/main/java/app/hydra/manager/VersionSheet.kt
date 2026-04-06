@@ -74,6 +74,7 @@ class VersionSheet(
     private var bottomSheetCallback: BottomSheetBehavior.BottomSheetCallback? = null
     private var versionScrollListener: RecyclerView.OnScrollListener? = null
     private var installSnapshotRunnable: Runnable? = null
+    private var lastInstallSnapshotRefreshAt = 0L
     private var currentApp: AppModel = app
     private var installedLaunchPackage: String? = null
     private lateinit var rootView: View
@@ -547,21 +548,38 @@ class VersionSheet(
     private fun scheduleInstallSnapshotRefresh() {
         if (!this::versionList.isInitialized) return
         val ctx = context?.applicationContext ?: return
-        installSnapshotRunnable?.let(mainHandler::removeCallbacks)
+        val now = System.currentTimeMillis()
+        val elapsed = now - lastInstallSnapshotRefreshAt
+        val delayMs = (220L - elapsed).coerceAtLeast(0L)
+
+        if (delayMs == 0L) {
+            installSnapshotRunnable?.let(mainHandler::removeCallbacks)
+            installSnapshotRunnable = null
+            runInstallSnapshotRefresh(ctx)
+            return
+        }
+
+        if (installSnapshotRunnable != null) return
+
         val runnable = Runnable {
             installSnapshotRunnable = null
-            Thread {
-                val snapshot = InstallIntelligence.snapshot(ctx, currentApp)
-                mainHandler.post {
-                    if (!isAdded || view == null) return@post
-                    currentInstallSnapshot = snapshot
-                    refreshVersionHints()
-                    versionAdapter.notifyDataSetChanged()
-                }
-            }.start()
+            runInstallSnapshotRefresh(ctx)
         }
         installSnapshotRunnable = runnable
-        mainHandler.postDelayed(runnable, 220L)
+        mainHandler.postDelayed(runnable, delayMs)
+    }
+
+    private fun runInstallSnapshotRefresh(ctx: android.content.Context) {
+        lastInstallSnapshotRefreshAt = System.currentTimeMillis()
+        Thread {
+            val snapshot = InstallIntelligence.snapshot(ctx, currentApp)
+            mainHandler.post {
+                if (!isAdded || view == null) return@post
+                currentInstallSnapshot = snapshot
+                refreshVersionHints()
+                versionAdapter.notifyDataSetChanged()
+            }
+        }.start()
     }
 
     private fun runVersionDownload(
@@ -640,6 +658,7 @@ class VersionSheet(
         currentSnackbar = null
         installSnapshotRunnable?.let(mainHandler::removeCallbacks)
         installSnapshotRunnable = null
+        lastInstallSnapshotRefreshAt = 0L
         versionScrollListener?.let { listener ->
             if (this::versionList.isInitialized) {
                 versionList.removeOnScrollListener(listener)
