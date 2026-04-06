@@ -105,7 +105,7 @@ object ListSortPreferences {
     }
 
     fun sortVersions(sortMode: String, list: List<Version>): List<Version> {
-        val uniqueVersions = list.distinctBy { versionIdentityKey(it) }
+        val uniqueVersions = list.distinctBy { versionDisplayKey(it) }
 
         return when (sortMode) {
             VERSION_SORT_OLDEST -> uniqueVersions.sortedWith(

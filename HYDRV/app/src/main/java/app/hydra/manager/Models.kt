@@ -20,7 +20,7 @@ data class AppModel(
     }
 
     private fun uniqueVersions(): List<Version> {
-        return safeVersions().distinctBy { versionIdentityKey(it) }
+        return safeVersions().distinctBy { versionDisplayKey(it) }
     }
 
     private fun safeTags(): List<String> {
@@ -176,6 +176,14 @@ internal fun versionIdentityKey(version: Version): String {
         append(version.version_name.trim().lowercase(Locale.US))
         append('|')
         append(version.url.trim().lowercase(Locale.US))
+    }
+}
+
+internal fun versionDisplayKey(version: Version): String {
+    return buildString {
+        append(version.version)
+        append('|')
+        append(version.version_name.trim().lowercase(Locale.US))
     }
 }
 
