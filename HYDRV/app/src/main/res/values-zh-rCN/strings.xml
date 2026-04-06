@@ -1,10 +1,10 @@
 <resources>
   <string name="app_name">HYDRV</string>
-  <string name="settings_title">è®¾ç½®</string>
+  <string name="settings_title">设置</string>
   <string name="settings_general_title">常规</string>
   <string name="settings_updates_title">更新</string>
   <string name="settings_about_title">关于</string>
-  <string name="language_title">è¯­è¨€</string>
+  <string name="language_title">语言</string>
   <string name="language_system_default">跟随系统</string>
   <string name="language_english">è‹±è¯­</string>
   <string name="language_filipino">菲律宾语</string>
@@ -55,7 +55,7 @@
   <string name="backend_dialog_title">更改后端</string>
   <string name="downloads_delete">Delete</string>
   <string name="about_link_website">ç½‘ç«™</string>
-  <string name="settings_about_subtitle">App info and support details</string>
+  <string name="settings_about_subtitle">应用信息和支持详情</string>
   <string name="backend_health_cache_ready_count">Ready (%1$d apps)</string>
   <string name="download_action_resume">继续</string>
   <string name="ads_support_title">Ads support</string>
@@ -114,7 +114,7 @@
   <string name="language_native_spanish_region">Espa?ol (Espa?a)</string>
   <string name="downloaded_date_format">Downloaded %1$s</string>
   <string name="backend_summary">Change the app catalog source link</string>
-  <string name="settings_advance_subtitle">Diagnostics, connectivity, and power options</string>
+  <string name="settings_advance_subtitle">诊断、连接和电源选项</string>
   <string name="sort_name_desc">Name Z-A</string>
   <string name="about_contact_email">support@hydrv.app</string>
   <string name="about_contributors_dialog_body">This screen shows the live contributor list from the HYDRV GitHub repository.</string>
@@ -125,19 +125,19 @@
   <string name="device_info_archs_format">Supported Archs: %1$s</string>
   <string name="added_date_format">Added %1$s</string>
   <string name="battery_optimization_title">Battery optimization</string>
-  <string name="settings_advance_title">Advanced</string>
+  <string name="settings_advance_title">高级</string>
   <string name="updates_changelog_loading">Loading the latest GitHub release notes…</string>
   <string name="pure_black_summary">Use pure black backgrounds for dark theme</string>
   <string name="language_french_region">French (France)</string>
   <string name="permission_enable">Enable</string>
   <string name="home_empty_no_apps">未找到应用</string>
   <string name="started_date_format">Started %1$s</string>
-  <string name="settings_general_subtitle">Theme and list preferences</string>
+  <string name="settings_general_subtitle">主题和列表偏好</string>
   <string name="debug_section_title">Debugging</string>
   <string name="language_native_german_region">Deutsch (Deutschland)</string>
   <string name="backend_health_last_checked_format">Last checked: %1$s</string>
   <string name="contributors_failed">GitHub 贡献者暂时不可用。</string>
-  <string name="settings_updates_subtitle">Update settings and changelog</string>
+  <string name="settings_updates_subtitle">更新设置和变更日志</string>
   <string name="permission_not_allowed">Not allowed</string>
   <string name="debug_enabled">Enabled</string>
   <string name="settings_backup_export_summary">Save favorites, preferences, sorts, and backend choice to a file</string>
