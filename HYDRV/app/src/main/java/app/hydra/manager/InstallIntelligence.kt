@@ -43,7 +43,13 @@ object InstallIntelligence {
 
         DownloadRepository.downloads
             .asReversed()
-            .filter { it.status == "Done" && it.versionName.isNotBlank() && it.filePath.isNotBlank() }
+            .filter {
+                val looksCompleted =
+                    it.status == "Done" ||
+                        it.progress >= 100 ||
+                        it.completedAt > 0L
+                looksCompleted && it.versionName.isNotBlank() && it.filePath.isNotBlank()
+            }
             .forEach { item ->
                 val file = File(item.filePath)
                 if (!file.exists() || file.length() <= 0L) return@forEach
