@@ -464,7 +464,6 @@ class VersionSheet(
     }
 
     private fun clearVersionView(key: String) {
-        cancelReset(key)
         buttonViewsByKey.remove(key)?.let { releaseLiquidDrawable(it.fill) }
         hintViewsByKey = hintViewsByKey - key
     }
@@ -767,6 +766,9 @@ class VersionSheet(
                     if (shouldAnimateDone) {
                         if (doneHandledKeys.contains(key)) {
                             applyDoneState(views)
+                            if (!resetRunnables.containsKey(key)) {
+                                scheduleReset(key)
+                            }
                         } else if (completedKeys.add(key)) {
                             visualProgressByKey[key] = 100
                             views.container.isEnabled = false
@@ -777,7 +779,7 @@ class VersionSheet(
                             }, onEnd = {
                                 doneHandledKeys.add(key)
                                 applyDoneState(views)
-                                scheduleReset(key, views)
+                                scheduleReset(key)
                             })
                         } else {
                             views.container.isEnabled = false
@@ -827,13 +829,14 @@ class VersionSheet(
         }
     }
 
-    private fun scheduleReset(key: String, views: DownloadButtonViews) {
+    private fun scheduleReset(key: String) {
         cancelReset(key)
         val runnable = Runnable {
+            resetRunnables.remove(key)
             completedKeys.remove(key)
             doneHandledKeys.remove(key)
             visualProgressByKey.remove(key)
-            applyIdleState(views)
+            buttonViewsByKey[key]?.let(::applyIdleState)
         }
         resetRunnables[key] = runnable
         mainHandler.postDelayed(runnable, RESET_DELAY_MS)
