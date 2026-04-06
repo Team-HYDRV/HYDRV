@@ -3,6 +3,7 @@ package app.hydra.manager
 import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
+import androidx.core.content.edit
 
 object LanguagePreferences {
     private const val PREFS_NAME = "language_prefs"
@@ -45,9 +46,7 @@ object LanguagePreferences {
 
     fun setLanguage(context: Context, language: String) {
         context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-            .edit()
-            .putString(KEY_LANGUAGE, language)
-            .apply()
+            .edit { putString(KEY_LANGUAGE, language) }
 
         AppCompatDelegate.setApplicationLocales(localeListFor(language))
     }

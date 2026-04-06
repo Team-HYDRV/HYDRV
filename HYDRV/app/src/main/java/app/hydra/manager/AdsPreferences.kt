@@ -1,6 +1,7 @@
 package app.hydra.manager
 
 import android.content.Context
+import androidx.core.content.edit
 
 object AdsPreferences {
 
@@ -14,8 +15,6 @@ object AdsPreferences {
 
     fun setRewardedAdsEnabled(context: Context, enabled: Boolean) {
         context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-            .edit()
-            .putBoolean(KEY_REWARDED_ADS_ENABLED, enabled)
-            .apply()
+            .edit { putBoolean(KEY_REWARDED_ADS_ENABLED, enabled) }
     }
 }

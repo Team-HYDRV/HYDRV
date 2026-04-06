@@ -1,6 +1,7 @@
 package app.hydra.manager
 
 import android.content.Context
+import androidx.core.content.edit
 
 object BackendPreferences {
     private const val PREFS_NAME = "backend_prefs"
@@ -29,9 +30,7 @@ object BackendPreferences {
 
     fun setCatalogUrl(context: Context, url: String) {
         context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-            .edit()
-            .putString(KEY_CATALOG_URL, sanitize(url))
-            .apply()
+            .edit { putString(KEY_CATALOG_URL, sanitize(url)) }
     }
 
     fun isUsingDefault(context: Context): Boolean {

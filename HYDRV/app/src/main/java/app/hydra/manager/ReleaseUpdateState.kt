@@ -1,6 +1,7 @@
 package app.hydra.manager
 
 import android.content.Context
+import androidx.core.content.edit
 
 object ReleaseUpdateState {
 
@@ -17,9 +18,7 @@ object ReleaseUpdateState {
 
     fun setLastSeenTag(context: Context, tag: String) {
         context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-            .edit()
-            .putString(KEY_LAST_SEEN_TAG, tag.trim())
-            .apply()
+            .edit { putString(KEY_LAST_SEEN_TAG, tag.trim()) }
     }
 
     fun getLastNotifiedTag(context: Context): String {
@@ -30,9 +29,7 @@ object ReleaseUpdateState {
 
     fun setLastNotifiedTag(context: Context, tag: String) {
         context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-            .edit()
-            .putString(KEY_LAST_NOTIFIED_TAG, tag.trim())
-            .apply()
+            .edit { putString(KEY_LAST_NOTIFIED_TAG, tag.trim()) }
     }
 
     fun getLastCheckedAt(context: Context): Long {
@@ -42,8 +39,6 @@ object ReleaseUpdateState {
 
     fun setLastCheckedAt(context: Context, timestamp: Long) {
         context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-            .edit()
-            .putLong(KEY_LAST_CHECKED_AT, timestamp)
-            .apply()
+            .edit { putLong(KEY_LAST_CHECKED_AT, timestamp) }
     }
 }

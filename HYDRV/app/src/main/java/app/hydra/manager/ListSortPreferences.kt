@@ -1,6 +1,7 @@
 package app.hydra.manager
 
 import android.content.Context
+import androidx.core.content.edit
 
 object ListSortPreferences {
     const val KEY_HOME_SORT = "home_sort"
@@ -29,9 +30,7 @@ object ListSortPreferences {
 
     fun setHomeSort(context: Context, value: String) {
         context.getSharedPreferences(ThemePreferences.PREFS_NAME, 0)
-            .edit()
-            .putString(KEY_HOME_SORT, value)
-            .apply()
+            .edit { putString(KEY_HOME_SORT, value) }
     }
 
     fun getFavoritesSort(context: Context): String {
@@ -41,9 +40,7 @@ object ListSortPreferences {
 
     fun setFavoritesSort(context: Context, value: String) {
         context.getSharedPreferences(ThemePreferences.PREFS_NAME, 0)
-            .edit()
-            .putString(KEY_FAVORITES_SORT, value)
-            .apply()
+            .edit { putString(KEY_FAVORITES_SORT, value) }
     }
 
     fun getInstalledSort(context: Context): String {
@@ -53,9 +50,7 @@ object ListSortPreferences {
 
     fun setInstalledSort(context: Context, value: String) {
         context.getSharedPreferences(ThemePreferences.PREFS_NAME, 0)
-            .edit()
-            .putString(KEY_INSTALLED_SORT, value)
-            .apply()
+            .edit { putString(KEY_INSTALLED_SORT, value) }
     }
 
     fun getDownloadSort(context: Context): String {
@@ -65,9 +60,7 @@ object ListSortPreferences {
 
     fun setDownloadSort(context: Context, value: String) {
         context.getSharedPreferences(ThemePreferences.PREFS_NAME, 0)
-            .edit()
-            .putString(KEY_DOWNLOAD_SORT, value)
-            .apply()
+            .edit { putString(KEY_DOWNLOAD_SORT, value) }
     }
 
     fun getVersionSort(context: Context): String {
@@ -77,9 +70,7 @@ object ListSortPreferences {
 
     fun setVersionSort(context: Context, value: String) {
         context.getSharedPreferences(ThemePreferences.PREFS_NAME, 0)
-            .edit()
-            .putString(KEY_VERSION_SORT, value)
-            .apply()
+            .edit { putString(KEY_VERSION_SORT, value) }
     }
 
     fun sortApps(sortMode: String, list: List<AppModel>): List<AppModel> {

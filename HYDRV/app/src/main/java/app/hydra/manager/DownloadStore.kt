@@ -1,6 +1,7 @@
 package app.hydra.manager
 
 import android.content.Context
+import androidx.core.content.edit
 import org.json.JSONArray
 import java.io.File
 
@@ -45,9 +46,7 @@ object DownloadStore {
             JSONArray(legacy)
             write(appContext, legacy)
             appContext.getSharedPreferences(LEGACY_PREFS_NAME, Context.MODE_PRIVATE)
-                .edit()
-                .remove(LEGACY_KEY_DATA)
-                .apply()
+                .edit { remove(LEGACY_KEY_DATA) }
             legacy
         } catch (_: Exception) {
             null
@@ -57,8 +56,6 @@ object DownloadStore {
     fun clear(context: Context) {
         File(context.applicationContext.filesDir, FILE_NAME).delete()
         context.applicationContext.getSharedPreferences(LEGACY_PREFS_NAME, Context.MODE_PRIVATE)
-            .edit()
-            .remove(LEGACY_KEY_DATA)
-            .apply()
+            .edit { remove(LEGACY_KEY_DATA) }
     }
 }

@@ -3,6 +3,7 @@ package app.hydra.manager
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
+import androidx.core.content.edit
 import java.util.concurrent.Executors
 
 object AppStateCacheManager {
@@ -67,13 +68,14 @@ object AppStateCacheManager {
 
     fun replaceFavorites(context: Context, names: Collection<String>) {
         val prefs = context.getSharedPreferences(PREFS_FAVORITES, Context.MODE_PRIVATE)
-        val editor = prefs.edit().clear()
-        names
-            .map { it.trim() }
-            .filter { it.isNotEmpty() }
-            .distinct()
-            .forEach { editor.putBoolean(it, true) }
-        editor.apply()
+        prefs.edit {
+            clear()
+            names
+                .map { it.trim() }
+                .filter { it.isNotEmpty() }
+                .distinct()
+                .forEach { putBoolean(it, true) }
+        }
         refreshFavorites(context)
     }
 
@@ -140,9 +142,7 @@ object AppStateCacheManager {
     fun setFavorite(context: Context, name: String, isFavorite: Boolean) {
         initialize(context)
         context.getSharedPreferences(PREFS_FAVORITES, Context.MODE_PRIVATE)
-            .edit()
-            .putBoolean(name, isFavorite)
-            .apply()
+            .edit { putBoolean(name, isFavorite) }
 
         synchronized(lock) {
             if (isFavorite) {

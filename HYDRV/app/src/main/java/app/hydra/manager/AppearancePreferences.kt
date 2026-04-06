@@ -5,6 +5,7 @@ import android.content.res.Configuration
 import android.graphics.Color
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.edit
 
 object AppearancePreferences {
 
@@ -29,9 +30,7 @@ object AppearancePreferences {
 
     fun setDynamicColorEnabled(context: Context, enabled: Boolean) {
         context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-            .edit()
-            .putBoolean(KEY_DYNAMIC_COLOR, enabled)
-            .apply()
+            .edit { putBoolean(KEY_DYNAMIC_COLOR, enabled) }
     }
 
     fun isPureBlackEnabled(context: Context): Boolean {
@@ -41,9 +40,7 @@ object AppearancePreferences {
 
     fun setPureBlackEnabled(context: Context, enabled: Boolean) {
         context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-            .edit()
-            .putBoolean(KEY_PURE_BLACK, enabled)
-            .apply()
+            .edit { putBoolean(KEY_PURE_BLACK, enabled) }
     }
 
     fun isPureBlackActive(context: Context): Boolean {

@@ -2,6 +2,7 @@ package app.hydra.manager
 
 import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.edit
 
 object ThemePreferences {
     const val PREFS_NAME = "settings"
@@ -45,9 +46,7 @@ object ThemePreferences {
     fun saveAndApplyTheme(context: Context, mode: Int) {
         val sanitizedMode = sanitizeMode(mode)
         context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-            .edit()
-            .putInt(KEY_THEME, sanitizedMode)
-            .apply()
+            .edit { putInt(KEY_THEME, sanitizedMode) }
         applyThemeMode(context, sanitizedMode)
     }
 

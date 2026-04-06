@@ -1,6 +1,7 @@
 package app.hydra.manager
 
 import android.content.Context
+import androidx.core.content.edit
 import org.json.JSONObject
 
 object InstallAliasStore {
@@ -16,10 +17,10 @@ object InstallAliasStore {
         actualPackage: String
     ) {
         val prefs = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
-        prefs.edit()
-            .putString(KEY_APP_NAME, putAlias(prefs.getString(KEY_APP_NAME, "{}"), appName, actualPackage))
-            .putString(KEY_PACKAGE, putAlias(prefs.getString(KEY_PACKAGE, "{}"), backendPackage, actualPackage))
-            .apply()
+        prefs.edit {
+            putString(KEY_APP_NAME, putAlias(prefs.getString(KEY_APP_NAME, "{}"), appName, actualPackage))
+            putString(KEY_PACKAGE, putAlias(prefs.getString(KEY_PACKAGE, "{}"), backendPackage, actualPackage))
+        }
     }
 
     fun resolveForAppName(context: Context, appName: String): String? {

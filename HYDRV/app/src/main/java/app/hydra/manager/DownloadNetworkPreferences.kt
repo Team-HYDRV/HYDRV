@@ -1,6 +1,7 @@
 package app.hydra.manager
 
 import android.content.Context
+import androidx.core.content.edit
 
 object DownloadNetworkPreferences {
 
@@ -17,9 +18,7 @@ object DownloadNetworkPreferences {
 
     fun setMode(context: Context, mode: String) {
         context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-            .edit()
-            .putString(KEY_NETWORK_MODE, sanitizeMode(mode))
-            .apply()
+            .edit { putString(KEY_NETWORK_MODE, sanitizeMode(mode)) }
     }
 
     fun label(context: Context, mode: String): String {
