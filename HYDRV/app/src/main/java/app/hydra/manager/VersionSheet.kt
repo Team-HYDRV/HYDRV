@@ -249,7 +249,10 @@ class VersionSheet(
             val buttonIcon = card.findViewById<ImageView>(R.id.versionDownloadIcon)
             val key = versionKey(version)
 
-            title.text = ctx.getString(R.string.version_format, version.version_name)
+            title.text = ctx.getString(
+                R.string.version_format,
+                "${version.version_name} (${version.version})"
+            )
             badge.visibility = if (version.version == latestVersionNumber) View.VISIBLE else View.GONE
 
             val changelogText = sanitizeChangelog(version.changelog)

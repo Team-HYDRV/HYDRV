@@ -59,7 +59,10 @@ class AppDetailsActivity : AppCompatActivity() {
         name.text = app.name
         val latestVersion = app.latestVersion()
         latest.text = if (latestVersion != null) {
-            getString(R.string.app_details_latest_version, latestVersion.version_name)
+            getString(
+                R.string.app_details_latest_version,
+                "${latestVersion.version_name} (${latestVersion.version})"
+            )
         } else {
             getString(R.string.app_details_latest_unavailable)
         }
@@ -101,7 +104,10 @@ class AppDetailsActivity : AppCompatActivity() {
             item.setPadding(0, 20, 0, 20)
 
             val title = TextView(this)
-            title.text = getString(R.string.app_details_version_title, v.version_name)
+            title.text = getString(
+                R.string.app_details_version_title,
+                "${v.version_name} (${v.version})"
+            )
             title.setTextColor(
                 ThemeColors.color(
                     this,
