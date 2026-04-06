@@ -80,7 +80,7 @@ class DownloadFragment : Fragment() {
         DownloadRepository.downloadsLive.observe(viewLifecycleOwner) { list ->
             val sortedList = ListSortPreferences.sortDownloads(
                 ListSortPreferences.getDownloadSort(requireContext()),
-                list.filterNot { it.isSelfUpdate }
+                list.filterNot { DownloadRepository.isSelfUpdateDownload(it) }
             )
 
             adapter.updateList(sortedList.toMutableList())
@@ -128,7 +128,7 @@ class DownloadFragment : Fragment() {
         recycler.stopScroll()
         val sortedList = ListSortPreferences.sortDownloads(
             ListSortPreferences.getDownloadSort(requireContext()),
-            DownloadRepository.downloads.filterNot { it.isSelfUpdate }
+            DownloadRepository.downloads.filterNot { DownloadRepository.isSelfUpdateDownload(it) }
         )
         adapter.updateList(sortedList.toMutableList())
         emptyText.visibility = if (sortedList.isEmpty()) View.VISIBLE else View.GONE

@@ -31,6 +31,12 @@ object DownloadRepository {
     private var lastProgressNotifyAt = 0L
     private val startLock = Any()
 
+    fun isSelfUpdateDownload(item: DownloadItem): Boolean {
+        val normalizedUrl = item.url.trim()
+        return item.isSelfUpdate ||
+            normalizedUrl.equals(RuntimeConfig.githubLatestReleaseApkUrl, ignoreCase = true)
+    }
+
     private fun notifyChange() {
         val snapshot = downloads.toList()
         if (Looper.myLooper() == Looper.getMainLooper()) {
@@ -514,6 +520,9 @@ object DownloadRepository {
 
                 if (item.backendPackageName.isBlank()) {
                     item.backendPackageName = item.packageName
+                }
+                if (item.url.trim().equals(RuntimeConfig.githubLatestReleaseApkUrl, ignoreCase = true)) {
+                    item.isSelfUpdate = true
                 }
 
                 val looksCompleted =
