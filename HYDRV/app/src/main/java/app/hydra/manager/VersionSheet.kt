@@ -688,20 +688,9 @@ class VersionSheet(
             .filter { downloadPackageKey(it) == currentApp.packageName }
             .associateBy { versionKey(it.versionName, it.url, it.versionCode) }
 
-        val candidateKeys = linkedSetOf<String>().apply {
-            addAll(relevantDownloads.keys)
-            addAll(activeSessionKeys)
-            addAll(visualProgressByKey.keys)
-            addAll(completedKeys)
-            addAll(doneHandledKeys)
-            addAll(failedKeys)
-            addAll(lastKnownStatuses.keys)
-        }
+        if (buttonViewsByKey.isEmpty()) return
 
-        if (candidateKeys.isEmpty()) return
-
-        candidateKeys.forEach { key ->
-            val views = buttonViewsByKey[key] ?: return@forEach
+        buttonViewsByKey.forEach { (key, views) ->
             val context = views.container.context
             val version = versionsByKey[key]
             if (
@@ -710,7 +699,7 @@ class VersionSheet(
                 installedLaunchPackage != null &&
                 installedVersionName == version.version_name
             ) {
-                applyOpenState(views)
+                    applyOpenState(views)
                 return@forEach
             }
             val item = relevantDownloads[key]
