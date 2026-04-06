@@ -33,6 +33,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="center"
+                android:contentDescription="@string/app_name"
                 android:src="@drawable/ic_home"
                 android:scaleType="centerInside" />
         </FrameLayout>
@@ -51,6 +52,7 @@
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_gravity="center"
+        android:contentDescription="@string/downloads_title"
         android:src="@drawable/ic_download"
         android:scaleType="centerInside"/>
 
@@ -82,6 +84,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="center"
+                android:contentDescription="@string/settings_title"
                 android:src="@drawable/ic_settings"
                 android:scaleType="centerInside" />
         </FrameLayout>

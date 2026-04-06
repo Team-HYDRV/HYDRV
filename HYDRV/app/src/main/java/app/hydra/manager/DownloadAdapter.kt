@@ -1,5 +1,6 @@
 package app.hydra.manager
 
+import android.annotation.SuppressLint
 import android.animation.ValueAnimator
 import android.content.Context
 import android.content.Intent
@@ -120,6 +121,7 @@ class DownloadAdapter(
         syncSelectionWithList()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setSelectionMode(enabled: Boolean) {
         if (selectionMode == enabled && (!enabled || selectedKeys.isEmpty())) {
             dispatchSelectionChanged()
@@ -220,7 +222,7 @@ class DownloadAdapter(
             animateProgress(holder.progress, item.progress)
         }
         holder.progress.setTag(R.id.name, itemKey)
-        holder.percent.text = "${item.progress}%"
+        holder.percent.text = context.getString(R.string.download_progress_format, item.progress)
 
         val speedText = formatSpeed(item)
         val etaText = formatETA(item.eta)
@@ -254,6 +256,7 @@ class DownloadAdapter(
         }
         val isInstalled = installedNow
 
+        @SuppressLint("ClickableViewAccessibility")
         fun animatePress(view: View) {
             view.setOnTouchListener { v, event ->
                 when (event.action) {
@@ -322,9 +325,9 @@ class DownloadAdapter(
                     animateProgress(
                         holder.progress,
                         100,
-                        onUpdate = { value -> holder.percent.text = "$value%" }
+                        onUpdate = { value -> holder.percent.text = context.getString(R.string.download_progress_format, value) }
                     ) {
-                        holder.percent.text = "100%"
+                        holder.percent.text = context.getString(R.string.download_progress_format, 100)
                         holder.progress.postDelayed({
                             if (holder.bindingAdapterPosition != RecyclerView.NO_POSITION) {
                                 animateDone(holder)
@@ -386,9 +389,9 @@ class DownloadAdapter(
                     animateProgress(
                         holder.progress,
                         100,
-                        onUpdate = { value -> holder.percent.text = "$value%" }
+                        onUpdate = { value -> holder.percent.text = context.getString(R.string.download_progress_format, value) }
                     ) {
-                        holder.percent.text = "100%"
+                        holder.percent.text = context.getString(R.string.download_progress_format, 100)
                         holder.progress.postDelayed({
                             if (holder.bindingAdapterPosition != RecyclerView.NO_POSITION) {
                                 animateDone(holder)
@@ -884,6 +887,7 @@ class DownloadAdapter(
         dispatchSelectionChanged()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun notifySelectionChanges(
         previousSelection: Set<String>,
         newSelection: Set<String>

@@ -29,7 +29,8 @@
                     android:id="@+id/icon"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:layout_marginTop="40dp"/>
+                    android:layout_marginTop="40dp"
+                    android:contentDescription="@null"/>
 
                 <TextView
                     android:id="@+id/name"

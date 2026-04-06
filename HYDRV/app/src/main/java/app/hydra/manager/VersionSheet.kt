@@ -2,6 +2,7 @@ package app.hydra.manager
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.annotation.SuppressLint
 import android.animation.ValueAnimator
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -493,6 +494,7 @@ class VersionSheet(
             setHasStableIds(true)
         }
 
+        @SuppressLint("NotifyDataSetChanged")
         fun submitVersions(versions: List<Version>, latest: Int?) {
             items = versions
             latestVersionNumber = latest
@@ -700,6 +702,7 @@ class VersionSheet(
 
         candidateKeys.forEach { key ->
             val views = buttonViewsByKey[key] ?: return@forEach
+            val context = views.container.context
             val version = versionsByKey[key]
             if (
                 preferOpenInstalledAction &&
@@ -754,9 +757,9 @@ class VersionSheet(
                                 visualProgressByKey[key] = 100
                                 views.container.isEnabled = false
                                 views.icon.visibility = View.GONE
-                                views.label.text = "100%"
+                                views.label.text = context.getString(R.string.download_progress_format, 100)
                                 animateFillTo(views.fill, 100, onUpdate = { value ->
-                                    views.label.text = "$value%"
+                                    views.label.text = context.getString(R.string.download_progress_format, value)
                                 }, onEnd = {
                                     doneHandledKeys.add(key)
                                     applyDoneState(views)
@@ -766,7 +769,7 @@ class VersionSheet(
                             } else {
                                 views.container.isEnabled = false
                                 views.icon.visibility = View.GONE
-                                views.label.text = "100%"
+                                views.label.text = context.getString(R.string.download_progress_format, 100)
                             }
                         } else {
                             completedKeys.remove(key)
@@ -827,9 +830,9 @@ class VersionSheet(
                             visualProgressByKey[key] = 100
                             views.container.isEnabled = false
                             views.icon.visibility = View.GONE
-                            views.label.text = "100%"
+                            views.label.text = context.getString(R.string.download_progress_format, 100)
                             animateFillTo(views.fill, 100, onUpdate = { value ->
-                                views.label.text = "$value%"
+                                views.label.text = context.getString(R.string.download_progress_format, value)
                             }, onEnd = {
                                 doneHandledKeys.add(key)
                                 applyDoneState(views)
@@ -839,7 +842,7 @@ class VersionSheet(
                         } else {
                             views.container.isEnabled = false
                             views.icon.visibility = View.GONE
-                            views.label.text = "100%"
+                            views.label.text = context.getString(R.string.download_progress_format, 100)
                         }
                     } else {
                         completedKeys.remove(key)
@@ -947,7 +950,8 @@ class VersionSheet(
     }
 
     private fun applyProgressState(views: DownloadButtonViews, progress: Int, label: String) {
-        applyVersionButtonPalette(views, views.container.context)
+        val context = views.container.context
+        applyVersionButtonPalette(views, context)
         views.container.isEnabled = false
         views.track.animate().cancel()
         views.icon.visibility = View.GONE
@@ -961,7 +965,7 @@ class VersionSheet(
             animateFillTo(views.fill, clamped)
         } else {
             animateFillTo(views.fill, clamped, onUpdate = { value ->
-                views.label.text = "$value%"
+                views.label.text = context.getString(R.string.download_progress_format, value)
             })
         }
     }
@@ -1257,6 +1261,7 @@ class VersionSheet(
         snackbarView.translationY += (desiredTop - currentTop).toFloat()
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun attachPressAnimation(view: View) {
         view.setOnTouchListener { v, event ->
             when (event.action) {

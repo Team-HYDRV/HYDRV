@@ -1,19 +1,18 @@
 package app.hydra.manager
 
+import android.annotation.SuppressLint
 import android.app.ActivityManager
 import android.content.ActivityNotFoundException
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.res.Configuration
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.os.PowerManager
 import android.provider.Settings
-import android.text.TextUtils
 import android.text.InputType
 import android.text.SpannableStringBuilder
 import android.view.LayoutInflater
@@ -29,6 +28,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.edit
+import androidx.core.net.toUri
+import androidx.core.text.htmlEncode
 import androidx.core.text.HtmlCompat
 import androidx.work.WorkManager
 import androidx.core.view.ViewCompat
@@ -338,7 +340,7 @@ class SettingsFragment : Fragment() {
                 }
 
                 updateThemeSelection(optionId)
-                prefs.edit().putInt(ThemePreferences.KEY_THEME, mode).apply()
+                prefs.edit { putInt(ThemePreferences.KEY_THEME, mode) }
                 AppCompatDelegate.setDefaultNightMode(mode)
             }
         }
@@ -754,10 +756,6 @@ class SettingsFragment : Fragment() {
     private fun updateBatteryOptimizationLabel() {
         val context = requireContext()
         batteryOptimizationValue.text = when {
-            Build.VERSION.SDK_INT < Build.VERSION_CODES.M -> {
-                getString(R.string.battery_optimization_not_needed)
-            }
-
             context.getSystemService(PowerManager::class.java)
                 ?.isIgnoringBatteryOptimizations(context.packageName) == true -> {
                 getString(R.string.battery_optimization_unrestricted)
@@ -874,9 +872,7 @@ class SettingsFragment : Fragment() {
         if (enabled && !isDarkThemeEffective(context)) {
             updateThemeSelection(R.id.themeOptionDark)
             val prefs = context.getSharedPreferences(ThemePreferences.PREFS_NAME, 0)
-            prefs.edit()
-                .putInt(ThemePreferences.KEY_THEME, AppCompatDelegate.MODE_NIGHT_YES)
-                .apply()
+            prefs.edit { putInt(ThemePreferences.KEY_THEME, AppCompatDelegate.MODE_NIGHT_YES) }
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             return
         }
@@ -896,19 +892,11 @@ class SettingsFragment : Fragment() {
         }
     }
 
+    @SuppressLint("BatteryLife")
     private fun openBatteryOptimizationSettings() {
         val activity = activity ?: return
         val context = requireContext()
-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            AppSnackbar.show(
-                activity.findViewById(R.id.rootLayout),
-                getString(R.string.battery_optimization_not_needed_message)
-            )
-            return
-        }
-
-        val packageUri = Uri.parse("package:${context.packageName}")
+        val packageUri = "package:${context.packageName}".toUri()
         val powerManager = context.getSystemService(PowerManager::class.java)
         val intent = if (powerManager?.isIgnoringBatteryOptimizations(context.packageName) == true) {
             Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS)
@@ -1175,7 +1163,7 @@ class SettingsFragment : Fragment() {
     private fun openAboutLink(url: String) {
         val activity = activity ?: return
         try {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+            startActivity(Intent(Intent.ACTION_VIEW, url.toUri()))
         } catch (_: ActivityNotFoundException) {
             AppSnackbar.show(activity.findViewById(R.id.rootLayout), getString(R.string.about_link_placeholder))
         }
@@ -1189,7 +1177,7 @@ class SettingsFragment : Fragment() {
     private fun contactSupport(subject: String? = null, body: String? = null) {
         val activity = activity ?: return
         val emailIntent = Intent(Intent.ACTION_SENDTO).apply {
-            data = Uri.parse("mailto:${getString(R.string.about_contact_email)}")
+            data = "mailto:${getString(R.string.about_contact_email)}".toUri()
             subject?.let { putExtra(Intent.EXTRA_SUBJECT, it) }
             body?.let { putExtra(Intent.EXTRA_TEXT, it) }
         }
@@ -1283,13 +1271,13 @@ class SettingsFragment : Fragment() {
                 line.startsWith("### ") -> {
                     closeList()
                     html.append("<b>")
-                        .append(TextUtils.htmlEncode(line.removePrefix("### ").trim()))
+                        .append(line.removePrefix("### ").trim().htmlEncode())
                         .append("</b><br>")
                 }
                 line.startsWith("## ") -> {
                     closeList()
                     html.append("<b>")
-                        .append(TextUtils.htmlEncode(line.removePrefix("## ").trim()))
+                        .append(line.removePrefix("## ").trim().htmlEncode())
                         .append("</b><br><br>")
                 }
                 line.startsWith("- ") || line.startsWith("* ") -> {
@@ -1298,12 +1286,12 @@ class SettingsFragment : Fragment() {
                         inList = true
                     }
                     html.append("<li>")
-                        .append(TextUtils.htmlEncode(line.drop(2).trim()))
+                        .append(line.drop(2).trim().htmlEncode())
                         .append("</li>")
                 }
                 else -> {
                     closeList()
-                    html.append(TextUtils.htmlEncode(line))
+                    html.append(line.htmlEncode())
                         .append("<br>")
                 }
             }
@@ -1579,6 +1567,7 @@ class SettingsFragment : Fragment() {
         return this * resources.displayMetrics.density
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun attachPressAnimation(target: View) {
         target.setOnTouchListener { view, event ->
             when (event.actionMasked) {

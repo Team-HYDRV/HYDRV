@@ -22,6 +22,7 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
             android:focusable="true"
+            android:contentDescription="@string/back_label"
             android:padding="8dp"
             android:src="@drawable/ic_arrow_back"
             app:tint="?attr/colorOnBackground"
@@ -85,6 +86,7 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:layout_gravity="center"
+                            android:contentDescription="@null"
                             android:src="@drawable/ic_settings"
                             app:tint="?attr/colorPrimary" />
                     </FrameLayout>
@@ -140,6 +142,7 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:layout_gravity="center"
+                            android:contentDescription="@null"
                             android:src="@drawable/ic_updates"
                             app:tint="?attr/colorPrimary" />
                     </FrameLayout>
@@ -195,6 +198,7 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:layout_gravity="center"
+                            android:contentDescription="@null"
                             android:src="@drawable/ic_advance"
                             app:tint="?attr/colorPrimary" />
                     </FrameLayout>
@@ -250,6 +254,7 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:layout_gravity="center"
+                            android:contentDescription="@null"
                             android:src="@drawable/ic_support"
                             app:tint="?attr/colorPrimary" />
                     </FrameLayout>
@@ -345,6 +350,7 @@
                                 android:layout_width="28dp"
                                 android:layout_height="28dp"
                                 android:layout_gravity="center"
+                                android:contentDescription="@null"
                                 android:src="@drawable/ic_theme_system"
                                 app:tint="?attr/colorOnSurfaceVariant" />
                         </FrameLayout>
@@ -383,6 +389,7 @@
                                 android:layout_width="28dp"
                                 android:layout_height="28dp"
                                 android:layout_gravity="center"
+                                android:contentDescription="@null"
                                 android:src="@drawable/ic_theme_light"
                                 app:tint="?attr/colorOnSurfaceVariant" />
                         </FrameLayout>
@@ -421,6 +428,7 @@
                                 android:layout_width="28dp"
                                 android:layout_height="28dp"
                                 android:layout_gravity="center"
+                                android:contentDescription="@null"
                                 android:src="@drawable/ic_theme_dark"
                                 app:tint="?attr/colorOnSurfaceVariant" />
                         </FrameLayout>
@@ -846,6 +854,7 @@
                     <ImageView
                         android:layout_width="18dp"
                         android:layout_height="18dp"
+                        android:contentDescription="@null"
                         android:src="@drawable/ic_download"
                         app:tint="?attr/colorOnSurfaceVariant" />
 
@@ -986,6 +995,7 @@
                                 android:layout_width="22dp"
                                 android:layout_height="22dp"
                                 android:layout_gravity="center"
+                                android:contentDescription="@null"
                                 android:src="@drawable/ic_updates"
                                 app:tint="?attr/colorOnBackground" />
                         </FrameLayout>
@@ -1372,6 +1382,7 @@
                     <ImageView
                         android:layout_width="18dp"
                         android:layout_height="18dp"
+                        android:contentDescription="@null"
                         android:src="@drawable/ic_advance"
                         app:tint="?attr/colorOnSurfaceVariant" />
 
@@ -1560,6 +1571,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_gravity="center"
+                                android:contentDescription="@null"
                                 android:src="@mipmap/ic_launcher_round" />
                         </FrameLayout>
 

@@ -55,6 +55,7 @@ class AppDetailsActivity : AppCompatActivity() {
             .centerInside()
             .noFade()
             .into(icon)
+        icon.contentDescription = app.name
 
         name.text = app.name
         val latestVersion = app.latestVersion()

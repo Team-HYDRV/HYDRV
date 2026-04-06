@@ -18,6 +18,7 @@
         android:layout_height="38dp"
         android:layout_gravity="center_vertical"
         android:adjustViewBounds="true"
+        android:contentDescription="@null"
         android:scaleType="centerInside" />
 
     <LinearLayout
@@ -89,6 +90,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginTop="1dp"
             android:layout_marginEnd="10dp"
+            android:contentDescription="@string/favorite_toggle_add"
             android:src="@drawable/ic_star_outline"
             app:tint="?attr/colorOnSurfaceVariant" />
     </LinearLayout>

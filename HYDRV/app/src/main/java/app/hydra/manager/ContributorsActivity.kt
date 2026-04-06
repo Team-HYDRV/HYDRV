@@ -1,5 +1,6 @@
 package app.hydra.manager
 
+import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
@@ -142,6 +143,7 @@ class ContributorsActivity : AppCompatActivity() {
 
         private val items = mutableListOf<ContributorGroup>()
 
+        @SuppressLint("NotifyDataSetChanged")
         fun submitList(newItems: List<ContributorGroup>) {
             items.clear()
             items.addAll(newItems)

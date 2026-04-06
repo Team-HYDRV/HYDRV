@@ -85,6 +85,7 @@ class AppAdapter :
         bindIcon(holder.icon, app.icon, iconSize)
 
         val installedVersion = getInstalledVersion(context, app)
+        holder.icon.contentDescription = app.name
         bindFavoriteState(holder, context, app.name)
         updateBadge(holder, installedVersion, latest.version)
 
@@ -151,6 +152,7 @@ class AppAdapter :
     private fun bindFavoriteState(holder: VH, context: Context, appName: String) {
         if (isFavorite(context, appName)) {
             holder.fav.setImageResource(R.drawable.ic_star)
+            holder.fav.contentDescription = context.getString(R.string.favorite_toggle_remove)
             holder.fav.setColorFilter(
                 ThemeColors.color(
                     context,
@@ -160,6 +162,7 @@ class AppAdapter :
             )
         } else {
             holder.fav.setImageResource(R.drawable.ic_star_outline)
+            holder.fav.contentDescription = context.getString(R.string.favorite_toggle_add)
             holder.fav.setColorFilter(
                 ThemeColors.color(
                     context,
