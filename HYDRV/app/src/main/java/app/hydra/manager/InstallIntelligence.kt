@@ -50,7 +50,9 @@ object InstallIntelligence {
 
                 val archiveInfo = archivePackageInfo(packageManager, file) ?: return@forEach
                 val archiveVersionName = archiveInfo.versionName?.trim().orEmpty()
-                val archiveVersionCode = archiveInfo.versionCodeCompat().takeIf { it > 0 } ?: return@forEach
+                val archiveVersionCode = item.versionCode.takeIf { it > 0 }
+                    ?: archiveInfo.versionCodeCompat().takeIf { it > 0 }
+                    ?: return@forEach
                 if (archiveVersionName.isBlank()) return@forEach
                 if (downloadedByVersionCode.containsKey(archiveVersionCode)) return@forEach
 
