@@ -53,6 +53,11 @@ class VersionSheet(
         val icon: ImageView
     )
 
+    private data class VersionHintViews(
+        val installedHint: TextView,
+        val downloadedHint: TextView
+    )
+
     private val buttonViewsByKey = mutableMapOf<String, DownloadButtonViews>()
     private val completedKeys = mutableSetOf<String>()
     private val doneHandledKeys = mutableSetOf<String>()
@@ -62,6 +67,8 @@ class VersionSheet(
     private val failedKeys = mutableSetOf<String>()
     private val resetRunnables = mutableMapOf<String, Runnable>()
     private var versionsByKey = emptyMap<String, Version>()
+    private var hintViewsByKey = emptyMap<String, VersionHintViews>()
+    private var currentLatestVersion: Version? = null
     private val mainHandler = Handler(Looper.getMainLooper())
     private var currentSnackbar: Snackbar? = null
     private var bottomSheetCallback: BottomSheetBehavior.BottomSheetCallback? = null
@@ -197,8 +204,8 @@ class VersionSheet(
         val sortMode = ListSortPreferences.getVersionSort(ctx)
         val sortedVersions = ListSortPreferences.sortVersions(sortMode, currentApp.versions)
         versionsByKey = sortedVersions.associateBy(::versionKey)
-        val latestVersion = sortedVersions.firstOrNull()
-        val latestVersionNumber = latestVersion?.version
+        currentLatestVersion = sortedVersions.firstOrNull()
+        val latestVersionNumber = currentLatestVersion?.version
         val installSnapshot = InstallIntelligence.snapshot(ctx, currentApp)
 
         appNameView.text = currentApp.name
@@ -213,6 +220,7 @@ class VersionSheet(
             cancelReset(key)
         }
         buttonViewsByKey.clear()
+        hintViewsByKey = emptyMap()
         completedKeys.clear()
         doneHandledKeys.clear()
         lastKnownStatuses.clear()
@@ -284,12 +292,13 @@ class VersionSheet(
                 currentApp,
                 version,
                 installSnapshot,
-                latestVersion
+                currentLatestVersion
             )
             installedHint.text = insight.installedHint.orEmpty()
             installedHint.visibility = if (insight.installedHint.isNullOrBlank()) View.GONE else View.VISIBLE
             downloadedHint.text = insight.downloadHint.orEmpty()
             downloadedHint.visibility = if (insight.downloadHint.isNullOrBlank()) View.GONE else View.VISIBLE
+            hintViewsByKey = hintViewsByKey + (key to VersionHintViews(installedHint, downloadedHint))
 
             buttonViewsByKey[key] = DownloadButtonViews(
                 container = button,
@@ -397,6 +406,7 @@ class VersionSheet(
 
         DownloadRepository.downloadsLive.observe(viewLifecycleOwner) { downloads ->
             updateDownloadButtons(downloads)
+            refreshVersionHints()
         }
     }
 
@@ -482,6 +492,8 @@ class VersionSheet(
         resetRunnables.values.forEach(mainHandler::removeCallbacks)
         resetRunnables.clear()
         versionsByKey = emptyMap()
+        hintViewsByKey = emptyMap()
+        currentLatestVersion = null
         buttonViewsByKey.clear()
         completedKeys.clear()
         doneHandledKeys.clear()
@@ -907,6 +919,29 @@ class VersionSheet(
             R.drawable.version_download_fill_clip
         } else {
             R.drawable.version_download_fill_brand_clip
+        }
+    }
+
+    private fun refreshVersionHints() {
+        if (!this::containerLayout.isInitialized) return
+        val ctx = context ?: return
+        if (hintViewsByKey.isEmpty() || versionsByKey.isEmpty()) return
+
+        val snapshot = InstallIntelligence.snapshot(ctx, currentApp)
+        hintViewsByKey.forEach { (key, views) ->
+            val version = versionsByKey[key] ?: return@forEach
+            val insight = InstallIntelligence.insight(
+                ctx,
+                currentApp,
+                version,
+                snapshot,
+                currentLatestVersion
+            )
+
+            views.installedHint.text = insight.installedHint.orEmpty()
+            views.installedHint.visibility = if (insight.installedHint.isNullOrBlank()) View.GONE else View.VISIBLE
+            views.downloadedHint.text = insight.downloadHint.orEmpty()
+            views.downloadedHint.visibility = if (insight.downloadHint.isNullOrBlank()) View.GONE else View.VISIBLE
         }
     }
 
