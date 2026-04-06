@@ -102,3 +102,52 @@ jobs:
           name: HYDRV ${{ github.ref_name }}
           body_path: release-notes.md
           files: HYDRV/HYDRV.apk
+
+      - name: Notify Discord
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          DISCORD_RELEASE_WEBHOOK_URL: ${{ secrets.DISCORD_RELEASE_WEBHOOK_URL }}
+          RELEASE_VERSION: ${{ github.ref_name }}
+          RELEASE_URL: https://github.com/Team-HYDRV/HYDRV/releases/tag/${{ github.ref_name }}
+          APK_URL: https://github.com/Team-HYDRV/HYDRV/releases/latest/download/HYDRV.apk
+        run: |
+          if [ -z "$DISCORD_RELEASE_WEBHOOK_URL" ]; then
+            echo "DISCORD_RELEASE_WEBHOOK_URL is not set; skipping Discord notification."
+            exit 0
+          fi
+
+          payload=$(cat <<EOF
+          {
+            "username": "HYDRV Releases",
+            "avatar_url": "https://github.com/Team-HYDRV/HYDRV/raw/main/assets/ic_rounded.png",
+            "embeds": [
+              {
+                "title": "HYDRV ${RELEASE_VERSION} is live",
+                "url": "${RELEASE_URL}",
+                "description": "The latest HYDRV release is out now. Download the APK below or open the release notes for the full changelog.",
+                "color": 2263390,
+                "fields": [
+                  {
+                    "name": "Download",
+                    "value": "[HYDRV.apk](${APK_URL})",
+                    "inline": true
+                  },
+                  {
+                    "name": "Release notes",
+                    "value": "[View on GitHub](${RELEASE_URL})",
+                    "inline": true
+                  }
+                ],
+                "footer": {
+                  "text": "HYDRV release automation"
+                }
+              }
+            ]
+          }
+          EOF
+          )
+
+          curl -H "Content-Type: application/json" \
+            -X POST \
+            -d "$payload" \
+            "$DISCORD_RELEASE_WEBHOOK_URL"

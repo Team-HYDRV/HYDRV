@@ -228,7 +228,7 @@ From `HYDRV/`:
 
 ## Release Flow
 
-See [`RELEASES.md`](RELEASES.md) for the tag and publish checklist.
+See [`RELEASES.md`](RELEASES.md) for the tag and publish checklist. If you want release announcements to post to Discord automatically, add the `DISCORD_RELEASE_WEBHOOK_URL` secret in GitHub Actions.
 
 ## Backend Example
 
