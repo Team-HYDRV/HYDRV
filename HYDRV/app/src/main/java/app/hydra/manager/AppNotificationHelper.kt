@@ -102,13 +102,8 @@ object AppNotificationHelper {
         )
 
         val contentText = context.getString(R.string.notification_text_release_live)
-        val contentTitle = if (releaseLabel.isNullOrBlank()) {
+        val contentTitle = releaseLabel?.trim().orEmpty().ifBlank {
             context.getString(R.string.notification_title_release_live)
-        } else {
-            context.getString(
-                R.string.notification_title_release_live_with_version,
-                releaseLabel
-            )
         }
 
         val notification = NotificationCompat.Builder(context, CHANNEL_UPDATES)
