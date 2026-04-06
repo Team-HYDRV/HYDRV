@@ -18,9 +18,9 @@ object InstallIntelligence {
     data class Snapshot(
         val installedVersionName: String?,
         val installedVersionCode: Int?,
-        val downloadedByVersionCode: Map<Int, DownloadedArchive>,
-        val packageMismatchVersions: Set<Int>,
-        val signatureMismatchVersions: Set<Int>
+        val downloadedByVersionKey: Map<String, DownloadedArchive>,
+        val packageMismatchVersionKeys: Set<String>,
+        val signatureMismatchVersionKeys: Set<String>
     )
 
     data class DownloadedArchive(
@@ -37,9 +37,9 @@ object InstallIntelligence {
         val installedVersionCode = installedInfo?.versionCodeCompat()?.takeIf { it > 0 }
         val installedSignatures = installedInfo?.let(::signaturesFor).orEmpty()
 
-        val downloadedByVersionCode = linkedMapOf<Int, DownloadedArchive>()
-        val packageMismatchVersions = linkedSetOf<Int>()
-        val signatureMismatchVersions = linkedSetOf<Int>()
+        val downloadedByVersionKey = linkedMapOf<String, DownloadedArchive>()
+        val packageMismatchVersionKeys = linkedSetOf<String>()
+        val signatureMismatchVersionKeys = linkedSetOf<String>()
 
         DownloadRepository.downloads
             .asReversed()
@@ -60,11 +60,12 @@ object InstallIntelligence {
                     ?: archiveInfo.versionCodeCompat().takeIf { it > 0 }
                     ?: return@forEach
                 if (archiveVersionName.isBlank()) return@forEach
-                if (downloadedByVersionCode.containsKey(archiveVersionCode)) return@forEach
+                val archiveKey = versionKey(archiveVersionName, archiveVersionCode)
+                if (downloadedByVersionKey.containsKey(archiveKey)) return@forEach
 
                 val archivePackageName = archiveInfo.packageName.orEmpty()
                 val archiveSignatures = signaturesFor(archiveInfo)
-                downloadedByVersionCode[archiveVersionCode] = DownloadedArchive(
+                downloadedByVersionKey[archiveKey] = DownloadedArchive(
                     versionCode = archiveVersionCode,
                     versionName = archiveVersionName,
                     packageName = archivePackageName,
@@ -72,22 +73,22 @@ object InstallIntelligence {
                 )
 
                 if (archivePackageName.isNotBlank() && archivePackageName != app.packageName) {
-                    packageMismatchVersions.add(archiveVersionCode)
+                    packageMismatchVersionKeys.add(archiveKey)
                 } else if (
                     installedSignatures.isNotEmpty() &&
                     archiveSignatures.isNotEmpty() &&
                     installedSignatures != archiveSignatures
                 ) {
-                    signatureMismatchVersions.add(archiveVersionCode)
+                    signatureMismatchVersionKeys.add(archiveKey)
                 }
             }
 
         return Snapshot(
             installedVersionName = installedVersionName,
             installedVersionCode = installedVersionCode,
-            downloadedByVersionCode = downloadedByVersionCode,
-            packageMismatchVersions = packageMismatchVersions,
-            signatureMismatchVersions = signatureMismatchVersions
+            downloadedByVersionKey = downloadedByVersionKey,
+            packageMismatchVersionKeys = packageMismatchVersionKeys,
+            signatureMismatchVersionKeys = signatureMismatchVersionKeys
         )
     }
 
@@ -99,6 +100,7 @@ object InstallIntelligence {
         latestVersion: Version? = null
     ): Insight {
         val latestVersionNumber = latestVersion?.version ?: app.latestVersion()?.version
+        val versionKey = versionKey(version.version_name, version.version)
 
         val installedHint = when {
             snapshot.installedVersionCode == null -> null
@@ -113,15 +115,15 @@ object InstallIntelligence {
         }
 
         val downloadHint = when {
-            snapshot.downloadedByVersionCode.containsKey(version.version) ->
+            snapshot.downloadedByVersionKey.containsKey(versionKey) ->
                 context.getString(R.string.version_downloaded_hint)
             else -> null
         }
 
         val warningHint = when {
-            snapshot.packageMismatchVersions.contains(version.version) ->
+            snapshot.packageMismatchVersionKeys.contains(versionKey) ->
                 context.getString(R.string.version_package_mismatch_hint)
-            snapshot.signatureMismatchVersions.contains(version.version) ->
+            snapshot.signatureMismatchVersionKeys.contains(versionKey) ->
                 context.getString(R.string.version_signature_mismatch_hint)
             snapshot.installedVersionCode != null && version.version < snapshot.installedVersionCode ->
                 context.getString(R.string.version_downgrade_hint)
@@ -177,5 +179,9 @@ object InstallIntelligence {
         return MessageDigest.getInstance("SHA-256")
             .digest(bytes)
             .joinToString("") { "%02x".format(it) }
+    }
+
+    private fun versionKey(versionName: String, versionCode: Int): String {
+        return "${versionName.trim()}|${versionCode.takeIf { it > 0 } ?: 0}"
     }
 }
