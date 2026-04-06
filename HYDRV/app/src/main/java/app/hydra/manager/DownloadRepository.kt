@@ -12,6 +12,7 @@ import java.io.File
 object DownloadRepository {
 
     private const val SAVE_DEBOUNCE_MS = 350L
+    private const val PROGRESS_NOTIFY_DEBOUNCE_MS = 120L
 
     enum class StartResult {
         STARTED,
@@ -26,6 +27,7 @@ object DownloadRepository {
     val downloadsLive: LiveData<List<DownloadItem>> = _downloadsLive
     private val mainHandler = Handler(Looper.getMainLooper())
     private var saveRunnable: Runnable? = null
+    private var progressNotifyRunnable: Runnable? = null
     private val startLock = Any()
 
     private fun notifyChange() {
@@ -36,6 +38,20 @@ object DownloadRepository {
             mainHandler.post {
                 _downloadsLive.value = snapshot
             }
+        }
+    }
+
+    private fun notifyChangeDebounced() {
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            progressNotifyRunnable?.let(mainHandler::removeCallbacks)
+            val runnable = Runnable {
+                notifyChange()
+                progressNotifyRunnable = null
+            }
+            progressNotifyRunnable = runnable
+            mainHandler.postDelayed(runnable, PROGRESS_NOTIFY_DEBOUNCE_MS)
+        } else {
+            mainHandler.post { notifyChangeDebounced() }
         }
     }
 
@@ -277,7 +293,7 @@ object DownloadRepository {
             item.eta = etaSeconds
 
             scheduleSave(context)
-            notifyChange()
+            notifyChangeDebounced()
         }
     }
 

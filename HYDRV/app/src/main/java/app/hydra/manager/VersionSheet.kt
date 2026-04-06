@@ -61,6 +61,7 @@ class VersionSheet(
     private val activeSessionKeys = mutableSetOf<String>()
     private val failedKeys = mutableSetOf<String>()
     private val resetRunnables = mutableMapOf<String, Runnable>()
+    private var versionsByKey = emptyMap<String, Version>()
     private val mainHandler = Handler(Looper.getMainLooper())
     private var currentSnackbar: Snackbar? = null
     private var bottomSheetCallback: BottomSheetBehavior.BottomSheetCallback? = null
@@ -195,6 +196,7 @@ class VersionSheet(
         val previousScrollY = if (this::scrollView.isInitialized) scrollView.scrollY else 0
         val sortMode = ListSortPreferences.getVersionSort(ctx)
         val sortedVersions = ListSortPreferences.sortVersions(sortMode, currentApp.versions)
+        versionsByKey = sortedVersions.associateBy(::versionKey)
         val latestVersion = sortedVersions.firstOrNull()
         val latestVersionNumber = latestVersion?.version
         val installSnapshot = InstallIntelligence.snapshot(ctx, currentApp)
@@ -475,6 +477,7 @@ class VersionSheet(
         buttonViewsByKey.values.forEach { releaseLiquidDrawable(it.fill) }
         resetRunnables.values.forEach(mainHandler::removeCallbacks)
         resetRunnables.clear()
+        versionsByKey = emptyMap()
         buttonViewsByKey.clear()
         completedKeys.clear()
         doneHandledKeys.clear()
@@ -492,7 +495,7 @@ class VersionSheet(
             .associateBy { versionKey(it.versionName, it.url) }
 
             buttonViewsByKey.forEach { (key, views) ->
-            val version = currentApp.versions.firstOrNull { versionKey(it) == key }
+            val version = versionsByKey[key]
             if (
                 preferOpenInstalledAction &&
                 version != null &&
