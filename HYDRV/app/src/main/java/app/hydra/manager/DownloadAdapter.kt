@@ -248,13 +248,7 @@ class DownloadAdapter(
             }
         }
 
-        val installedNow = isAppInstalled(context, item.packageName, item.name)
-        if (item.installed != installedNow) {
-            item.installed = installedNow
-            repositoryItem(item)?.installed = installedNow
-            DownloadRepository.scheduleSave(context)
-        }
-        val isInstalled = installedNow
+        val isInstalled = item.installed
 
         @SuppressLint("ClickableViewAccessibility")
         fun animatePress(view: View) {
@@ -724,10 +718,6 @@ class DownloadAdapter(
         } catch (e: Exception) {
             Toast.makeText(context, context.getString(R.string.install_failed), Toast.LENGTH_SHORT).show()
         }
-    }
-
-    private fun isAppInstalled(context: Context, packageName: String, appName: String): Boolean {
-        return AppStateCacheManager.isInstalled(context, packageName, appName)
     }
 
     private fun openApp(context: Context, packageName: String, appName: String) {
