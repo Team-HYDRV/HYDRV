@@ -765,7 +765,7 @@ class VersionSheet(
                     val shouldAnimateDone = hasActiveVisualState(key)
                     if (shouldAnimateDone) {
                         if (doneHandledKeys.contains(key)) {
-                            applyDoneState(views)
+                            applyDoneState(views, animate = false)
                             if (!resetRunnables.containsKey(key)) {
                                 scheduleReset(key)
                             }
@@ -900,7 +900,7 @@ class VersionSheet(
         }
     }
 
-    private fun applyDoneState(views: DownloadButtonViews) {
+    private fun applyDoneState(views: DownloadButtonViews, animate: Boolean = true) {
         applyVersionButtonPalette(views, views.container.context)
         views.container.isEnabled = false
         views.label.setTextColor(Color.BLACK)
@@ -909,7 +909,7 @@ class VersionSheet(
         val shouldAnimate = views.icon.visibility != View.VISIBLE || views.label.text != doneLabel
         views.track.animate().cancel()
         views.label.animate().cancel()
-        if (shouldAnimate) {
+        if (animate && shouldAnimate) {
             views.label.text = doneLabel
             views.label.alpha = 0f
             views.label.translationY = 2f
@@ -949,6 +949,8 @@ class VersionSheet(
             return
         }
 
+        views.track.scaleX = 1f
+        views.track.scaleY = 1f
         views.icon.visibility = View.VISIBLE
         views.icon.alpha = 1f
         views.icon.scaleX = 1f
