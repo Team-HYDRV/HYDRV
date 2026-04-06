@@ -16,6 +16,26 @@ All notable changes to HYDRV are recorded here.
 
 - Bug fixes continue to roll in with each release.
 
+## [1.0.5] - 2026-04-06
+
+### Added
+
+- HYDRV's own self-update now stays out of the normal Downloads list so user APKs are easier to track.
+- Rewarded-download flows now allow immediate downloads when the ad status is `No fill yet`.
+- The release notification label now stays clean when the release name already includes its tag.
+
+### Changed
+
+- Download and install tracking now key off the full release identity so same-version-name entries stay separate.
+- The version sheet keeps its rows smoother under heavy download activity while still showing the correct badges.
+- Edge-to-edge handling was extended to the remaining legacy screens without changing their layout behavior.
+
+### Fixed
+
+- Download badges no longer bleed across unrelated rows that reuse the same JSON version number.
+- Downloads that finish under fast multi-download stress now settle correctly into `Done`.
+- The brand-mode download button text and wave styling stay readable and consistent.
+
 ## [1.0.4] - 2026-04-06
 
 ### Added
