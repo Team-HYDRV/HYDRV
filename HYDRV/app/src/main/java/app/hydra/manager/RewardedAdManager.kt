@@ -12,6 +12,7 @@ import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 
 object RewardedAdManager {
+    private const val NO_ADS_AVAILABLE_REASON = "No ads available yet"
     private var rewardedAd: RewardedAd? = null
     private var isLoading = false
     private var initialized = false
@@ -91,7 +92,7 @@ object RewardedAdManager {
                 isLoading -> "Using test ads (loading)"
                 rewardedAd != null -> "Using test ads (loaded)"
                 !initialized -> "Using test ads (not initialized)"
-                else -> "Using test ads (no fill yet)"
+                else -> "Using test ads ($NO_ADS_AVAILABLE_REASON)"
             }
         } else if (isLoading) {
             "Loading"
@@ -100,12 +101,12 @@ object RewardedAdManager {
         } else if (!initialized) {
             "Not initialized"
         } else {
-            "No fill yet"
+            NO_ADS_AVAILABLE_REASON
         }
     }
 
     fun shouldBypassRewardGate(): Boolean {
-        return runtimeAvailabilityReason().contains("No fill yet", ignoreCase = true)
+        return runtimeAvailabilityReason().contains(NO_ADS_AVAILABLE_REASON, ignoreCase = true)
     }
 
     private fun activeAdUnitId(): String {
