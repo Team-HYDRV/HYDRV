@@ -762,6 +762,7 @@ class VersionSheet(
                                     applyDoneState(views)
                                     scheduleReset(key)
                                 })
+                                scheduleDoneFallback(key, views)
                             } else {
                                 views.container.isEnabled = false
                                 views.icon.visibility = View.GONE
@@ -834,6 +835,7 @@ class VersionSheet(
                                 applyDoneState(views)
                                 scheduleReset(key)
                             })
+                            scheduleDoneFallback(key, views)
                         } else {
                             views.container.isEnabled = false
                             views.icon.visibility = View.GONE
@@ -893,6 +895,17 @@ class VersionSheet(
         }
         resetRunnables[key] = runnable
         mainHandler.postDelayed(runnable, RESET_DELAY_MS)
+    }
+
+    private fun scheduleDoneFallback(key: String, views: DownloadButtonViews) {
+        mainHandler.postDelayed({
+            if (!isAdded || view == null) return@postDelayed
+            if (doneHandledKeys.contains(key)) return@postDelayed
+            if (buttonViewsByKey[key] !== views) return@postDelayed
+            doneHandledKeys.add(key)
+            applyDoneState(views, animate = false)
+            scheduleReset(key)
+        }, DONE_HOLD_MS + 720L)
     }
 
     private fun cancelReset(key: String) {
