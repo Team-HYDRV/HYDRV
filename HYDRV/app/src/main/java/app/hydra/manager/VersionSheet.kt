@@ -494,7 +494,20 @@ class VersionSheet(
             .filter { it.packageName == currentApp.packageName }
             .associateBy { versionKey(it.versionName, it.url) }
 
-            buttonViewsByKey.forEach { (key, views) ->
+        val candidateKeys = linkedSetOf<String>().apply {
+            addAll(relevantDownloads.keys)
+            addAll(activeSessionKeys)
+            addAll(visualProgressByKey.keys)
+            addAll(completedKeys)
+            addAll(doneHandledKeys)
+            addAll(failedKeys)
+            addAll(lastKnownStatuses.keys)
+        }
+
+        if (candidateKeys.isEmpty()) return
+
+        candidateKeys.forEach { key ->
+            val views = buttonViewsByKey[key] ?: return@forEach
             val version = versionsByKey[key]
             if (
                 preferOpenInstalledAction &&
@@ -511,8 +524,8 @@ class VersionSheet(
             when {
                 item == null -> {
                     if (failedKeys.contains(key)) {
-                        applyErrorState(views)
-                        return@forEach
+                    applyErrorState(views)
+                    return@forEach
                     }
                     if (hasActiveVisualState(key)) {
                         applyProgressState(
