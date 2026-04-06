@@ -25,7 +25,7 @@ class AppAdapter :
     ListAdapter<AppModel, AppAdapter.VH>(DIFF) {
 
     companion object {
-        private const val CARD_PRESS_SCALE = 0.985f
+        private const val CARD_PRESS_SCALE = 0.992f
 
         val DIFF = object : DiffUtil.ItemCallback<AppModel>() {
             override fun areItemsTheSame(oldItem: AppModel, newItem: AppModel) =
@@ -227,22 +227,22 @@ class AppAdapter :
         view.setOnTouchListener { target, event ->
             when (event.actionMasked) {
                 MotionEvent.ACTION_DOWN -> {
+                    target.animate().cancel()
                     target.animate()
                         .scaleX(CARD_PRESS_SCALE)
                         .scaleY(CARD_PRESS_SCALE)
-                        .alpha(0.95f)
-                        .setDuration(85)
+                        .setDuration(45)
                         .setInterpolator(DecelerateInterpolator())
                         .start()
                 }
 
                 MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                    target.animate().cancel()
                     target.animate()
                         .scaleX(1f)
                         .scaleY(1f)
-                        .alpha(1f)
-                        .setDuration(125)
-                        .setInterpolator(OvershootInterpolator(0.72f))
+                        .setDuration(70)
+                        .setInterpolator(DecelerateInterpolator())
                         .start()
                 }
             }
