@@ -109,6 +109,7 @@ class DownloadFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        DownloadRepository.pruneStaleCompleted(requireContext())
         refreshInstalledStateAndUi()
     }
 
@@ -123,6 +124,7 @@ class DownloadFragment : Fragment() {
     private fun refreshDownloads() {
         if (!::adapter.isInitialized) return
 
+        DownloadRepository.pruneStaleCompleted(requireContext())
         recycler.stopScroll()
         val sortedList = ListSortPreferences.sortDownloads(
             ListSortPreferences.getDownloadSort(requireContext()),
