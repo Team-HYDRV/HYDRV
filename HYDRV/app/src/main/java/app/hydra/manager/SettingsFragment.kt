@@ -796,6 +796,7 @@ class SettingsFragment : Fragment() {
         )
     }
 
+    @SuppressLint("SetTextI18n")
     private fun updateDeviceInfo() {
         val context = requireContext()
         val packageInfo = context.packageManager.getPackageInfo(context.packageName, 0)
@@ -928,6 +929,7 @@ class SettingsFragment : Fragment() {
         super.onPause()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun exportDebugLogs() {
         val context = requireContext()
         val packageInfo = context.packageManager.getPackageInfo(context.packageName, 0)
