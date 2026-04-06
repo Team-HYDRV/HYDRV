@@ -719,7 +719,11 @@ class VersionSheet(
                     applyErrorState(views)
                     return@forEach
                     }
-                    if (hasActiveVisualState(key)) {
+                    val lastStatus = lastKnownStatuses[key].orEmpty()
+                    val shouldPreserveVisualState =
+                        hasActiveVisualState(key) &&
+                            (lastStatus == "Downloading" || lastStatus == "Paused")
+                    if (shouldPreserveVisualState) {
                         applyProgressState(
                             views,
                             visualProgress,
