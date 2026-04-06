@@ -667,7 +667,7 @@ class VersionSheet(
         val relevantDownloads = downloads
             .asSequence()
             .filter { downloadPackageKey(it) == currentApp.packageName }
-            .associateBy { versionKey(it.versionName, it.url) }
+            .associateBy { versionKey(it.versionName, it.url, it.versionCode) }
 
         val candidateKeys = linkedSetOf<String>().apply {
             addAll(relevantDownloads.keys)
@@ -1118,11 +1118,11 @@ class VersionSheet(
     }
 
     private fun versionKey(version: Version): String {
-        return versionKey(version.version_name, version.url)
+        return versionKey(version.version_name, version.url, version.version)
     }
 
-    private fun versionKey(versionName: String, url: String): String {
-        return "$versionName|$url"
+    private fun versionKey(versionName: String, url: String, versionCode: Int = 0): String {
+        return "$versionName|$versionCode|$url"
     }
 
     private fun downloadPackageKey(item: DownloadItem): String {
