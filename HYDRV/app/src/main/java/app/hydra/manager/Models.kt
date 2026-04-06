@@ -19,12 +19,16 @@ data class AppModel(
         return runCatching { versions }.getOrDefault(emptyList())
     }
 
+    private fun uniqueVersions(): List<Version> {
+        return safeVersions().distinctBy { versionIdentityKey(it) }
+    }
+
     private fun safeTags(): List<String> {
         return runCatching { tags }.getOrDefault(emptyList())
     }
 
     fun sortedVersionsNewestFirst(): List<Version> {
-        return safeVersions().sortedWith(
+        return uniqueVersions().sortedWith(
             compareByDescending<Version> { it.version }
                 .thenByDescending { it.releaseTimestampMillis() ?: Long.MIN_VALUE }
                 .thenByDescending { versionSortTextKey(it.version_name) }
@@ -32,7 +36,7 @@ data class AppModel(
     }
 
     fun latestVersion(): Version? {
-        return safeVersions().maxWithOrNull(
+        return uniqueVersions().maxWithOrNull(
             compareBy<Version> { it.version }
                 .thenBy { it.releaseTimestampMillis() ?: Long.MIN_VALUE }
                 .thenBy { versionSortTextKey(it.version_name) }
@@ -163,6 +167,16 @@ data class Version(
 
 private fun versionSortTextKey(value: String): String {
     return value.trim().lowercase(Locale.US)
+}
+
+internal fun versionIdentityKey(version: Version): String {
+    return buildString {
+        append(version.version)
+        append('|')
+        append(version.version_name.trim().lowercase(Locale.US))
+        append('|')
+        append(version.url.trim().lowercase(Locale.US))
+    }
 }
 
 internal fun String.isApkUrl(): Boolean {

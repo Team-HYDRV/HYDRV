@@ -105,12 +105,14 @@ object ListSortPreferences {
     }
 
     fun sortVersions(sortMode: String, list: List<Version>): List<Version> {
+        val uniqueVersions = list.distinctBy { versionIdentityKey(it) }
+
         return when (sortMode) {
-            VERSION_SORT_OLDEST -> list.sortedWith(
+            VERSION_SORT_OLDEST -> uniqueVersions.sortedWith(
                 compareBy<Version> { it.version }
                     .thenBy { it.releaseTimestampMillis() ?: Long.MIN_VALUE }
             )
-            else -> list.sortedWith(
+            else -> uniqueVersions.sortedWith(
                 compareByDescending<Version> { it.version }
                     .thenByDescending { it.releaseTimestampMillis() ?: Long.MIN_VALUE }
             )
