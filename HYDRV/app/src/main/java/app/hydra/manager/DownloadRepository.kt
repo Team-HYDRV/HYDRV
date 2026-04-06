@@ -301,6 +301,10 @@ object DownloadRepository {
         synchronized(startLock) {
             if (item.status == "Paused") return
 
+            val previousProgress = item.progress
+            val previousSpeed = item.speed
+            val previousEta = item.eta
+
             item.progress = progress
             item.downloadedBytes = downloadedBytes
             item.totalBytes = totalBytes
@@ -308,7 +312,13 @@ object DownloadRepository {
             item.eta = etaSeconds
 
             scheduleSave(context)
-            notifyChangeDebounced()
+            if (
+                previousProgress != progress ||
+                previousSpeed != speedKb ||
+                previousEta != etaSeconds
+            ) {
+                notifyChangeDebounced()
+            }
         }
     }
 
