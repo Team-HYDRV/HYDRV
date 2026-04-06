@@ -100,7 +100,10 @@ data class Version(
         }
     }
 
-    fun downloadSourceLabel(): String {
+    fun downloadSourceLabel(isOfficialBackend: Boolean = true): String {
+        if (!isOfficialBackend) {
+            return "Custom backend"
+        }
         val host = downloadHost()?.lowercase(Locale.US).orEmpty()
         val normalizedUrl = url.trim().lowercase(Locale.US)
         return when {

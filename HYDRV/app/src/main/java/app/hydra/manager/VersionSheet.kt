@@ -270,7 +270,7 @@ class VersionSheet(
                 changelog.visibility = View.VISIBLE
                 changelog.text = formatChangelogText(changelogText)
             }
-            val sourceLabel = version.downloadSourceLabel()
+            val sourceLabel = version.downloadSourceLabel(BackendPreferences.isUsingDefault(ctx))
             val sourceHostText = version.downloadHost()
             val unknownSourceText = getString(R.string.version_source_unknown)
             applyVersionBadgePalette(badge)
