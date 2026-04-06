@@ -546,6 +546,12 @@ object DownloadRepository {
             speed = maxOf(existing.speed, loaded.speed),
             eta = minOfPositive(existing.eta, loaded.eta),
             packageName = if (existing.packageName.isNotBlank()) existing.packageName else loaded.packageName,
+            backendPackageName = if (existing.backendPackageName.isNotBlank()) {
+                existing.backendPackageName
+            } else {
+                loaded.backendPackageName
+            },
+            versionCode = if (existing.versionCode > 0) existing.versionCode else loaded.versionCode,
             errorMessage = if (existing.errorMessage.isNotBlank()) existing.errorMessage else loaded.errorMessage,
             installed = existing.installed || loaded.installed,
             isAnimatedDone = existing.isAnimatedDone || loaded.isAnimatedDone,
