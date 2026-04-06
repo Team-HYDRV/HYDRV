@@ -14,10 +14,13 @@ import okhttp3.Request
 import okhttp3.Response
 import java.io.File
 import java.io.IOException
+import java.io.ByteArrayOutputStream
 import java.security.MessageDigest
 import java.util.concurrent.TimeUnit
 
 object AppCatalogService {
+
+    private const val MAX_CATALOG_BYTES = 2_000_000
 
     data class FetchResult(
         val apps: List<AppModel>,
@@ -110,7 +113,17 @@ object AppCatalogService {
                         return
                     }
 
-                    val body = response.body?.string().orEmpty()
+                    val body = readBodyWithLimit(response) ?: run {
+                        tryNextCandidateAsync(
+                            context = appContext,
+                            candidates = candidates.drop(1),
+                            allowCacheFallback = allowCacheFallback,
+                            bypassRemoteCache = bypassRemoteCache,
+                            originalError = IOException("Catalog is too large"),
+                            onResult = onResult
+                        )
+                        return
+                    }
                     val parsed = parse(body)
                     if (parsed.isSuccess) {
                         CatalogCacheStore.write(appContext, firstRequest.url, body)
@@ -149,7 +162,7 @@ object AppCatalogService {
                     if (!response.isSuccessful) {
                         throw IOException("HTTP ${response.code}")
                     }
-                    val body = response.body?.string().orEmpty()
+                    val body = readBodyWithLimit(response) ?: throw IOException("Catalog is too large")
                     val parsed = parse(body).getOrThrow()
                     CatalogCacheStore.write(appContext, candidate, body)
                     Result.success(FetchResult(parsed, fromCache = false))
@@ -187,7 +200,7 @@ object AppCatalogService {
                     throw IOException("HTTP ${response.code}")
                 }
 
-                val body = response.body?.string().orEmpty()
+                val body = readBodyWithLimit(response) ?: throw IOException("Catalog is too large")
                 if (body.isBlank()) {
                     throw IOException("Empty response")
                 }
@@ -353,7 +366,17 @@ object AppCatalogService {
                         return
                     }
 
-                    val body = response.body?.string().orEmpty()
+                    val body = readBodyWithLimit(response) ?: run {
+                        tryNextCandidateAsync(
+                            context = context,
+                            candidates = candidates.drop(1),
+                            allowCacheFallback = allowCacheFallback,
+                            bypassRemoteCache = bypassRemoteCache,
+                            originalError = IOException("Catalog is too large"),
+                            onResult = onResult
+                        )
+                        return
+                    }
                     val parsed = parse(body)
                     if (parsed.isSuccess) {
                         CatalogCacheStore.write(context, next.url, body)
@@ -375,6 +398,29 @@ object AppCatalogService {
 
     private fun Throwable?.asException(): Exception {
         return this as? Exception ?: IOException(this?.message ?: "Catalog request failed")
+    }
+
+    private fun readBodyWithLimit(response: Response): String? {
+        val body = response.body ?: return ""
+        val buffer = ByteArrayOutputStream()
+        val chunk = ByteArray(8 * 1024)
+        var total = 0
+
+        body.byteStream().use { input ->
+            while (true) {
+                val read = input.read(chunk)
+                if (read <= 0) break
+
+                total += read
+                if (total > MAX_CATALOG_BYTES) {
+                    return null
+                }
+
+                buffer.write(chunk, 0, read)
+            }
+        }
+
+        return buffer.toString(Charsets.UTF_8.name())
     }
 }
 
