@@ -159,6 +159,7 @@ object DownloadRepository {
                 completedAt = 0L,
                 errorMessage = "",
                 installed = false,
+                isSelfUpdate = item.isSelfUpdate,
                 doneHandled = false,
                 isAnimatedDone = false,
                 lastStatus = "",
@@ -468,6 +469,7 @@ object DownloadRepository {
             obj.put("versionCode", it.versionCode)
             obj.put("errorMessage", it.errorMessage)
             obj.put("installed", it.installed)
+            obj.put("isSelfUpdate", it.isSelfUpdate)
             obj.put("speed", it.speed)
             obj.put("eta", it.eta)
             obj.put("requestToken", it.requestToken)
@@ -505,6 +507,7 @@ object DownloadRepository {
                     versionCode = obj.optInt("versionCode", 0),
                     errorMessage = obj.optString("errorMessage", ""),
                     installed = obj.optBoolean("installed", false),
+                    isSelfUpdate = obj.optBoolean("isSelfUpdate", false),
                     requestToken = obj.optLong("requestToken", 0L),
                     backendPackageName = obj.optString("backendPackageName", obj.optString("packageName", ""))
                 )
@@ -593,6 +596,7 @@ object DownloadRepository {
             versionCode = if (existing.versionCode > 0) existing.versionCode else loaded.versionCode,
             errorMessage = if (existing.errorMessage.isNotBlank()) existing.errorMessage else loaded.errorMessage,
             installed = existing.installed || loaded.installed,
+            isSelfUpdate = existing.isSelfUpdate || loaded.isSelfUpdate,
             isAnimatedDone = existing.isAnimatedDone || loaded.isAnimatedDone,
             lastStatus = if (existing.lastStatus.isNotBlank()) existing.lastStatus else loaded.lastStatus,
             doneHandled = existing.doneHandled || loaded.doneHandled,

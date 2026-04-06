@@ -1431,7 +1431,8 @@ class SettingsFragment : Fragment() {
     private fun latestReleaseDownloadItem(latestTag: String): DownloadItem? {
         return DownloadRepository.downloads.lastOrNull { item ->
             item.url == RuntimeConfig.githubLatestReleaseApkUrl &&
-                item.versionName.trim() == latestTag
+                item.versionName.trim() == latestTag &&
+                item.isSelfUpdate
         }
     }
 
@@ -1475,7 +1476,8 @@ class SettingsFragment : Fragment() {
             DownloadItem(
                 name = getString(R.string.app_name),
                 url = RuntimeConfig.githubLatestReleaseApkUrl,
-                versionName = latestTag
+                versionName = latestTag,
+                isSelfUpdate = true
             )
         )
 

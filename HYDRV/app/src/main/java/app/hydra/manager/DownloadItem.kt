@@ -21,6 +21,7 @@ data class DownloadItem(
     var versionCode: Int = 0,
     var errorMessage: String = "",
     var installed: Boolean = false,
+    var isSelfUpdate: Boolean = false,
 
     var isAnimatedDone: Boolean = false,
     var lastStatus: String = "",
