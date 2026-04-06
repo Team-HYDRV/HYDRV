@@ -82,18 +82,7 @@ class AppAdapter :
 
         val iconSize = holder.icon.layoutParams.width.takeIf { it > 0 }
             ?: (38 * context.resources.displayMetrics.density).toInt()
-        val previousIconUrl = holder.icon.getTag(R.id.appIconUrl) as? String
-        if (previousIconUrl != app.icon) {
-            holder.icon.setTag(R.id.appIconUrl, app.icon)
-            Picasso.get()
-                .load(app.icon)
-                .placeholder(R.drawable.ic_app_placeholder)
-                .error(R.drawable.ic_app_placeholder)
-                .resize(iconSize, iconSize)
-                .centerInside()
-                .noFade()
-                .into(holder.icon)
-        }
+        bindIcon(holder.icon, app.icon, iconSize)
 
         val installedVersion = getInstalledVersion(context, app)
         bindFavoriteState(holder, context, app.name)
@@ -305,5 +294,31 @@ class AppAdapter :
         return addedLabelCache.getOrPut(timestamp) {
             context.getString(R.string.added_date_format, dateFormatter.format(Date(timestamp)))
         }
+    }
+
+    private fun bindIcon(iconView: ImageView, rawUrl: String, iconSize: Int) {
+        val iconUrl = rawUrl.trim()
+        val previousIconUrl = iconView.getTag(R.id.appIconUrl) as? String
+
+        if (iconUrl.isBlank()) {
+            if (previousIconUrl != iconUrl) {
+                iconView.setTag(R.id.appIconUrl, iconUrl)
+                Picasso.get().cancelRequest(iconView)
+                iconView.setImageResource(R.drawable.ic_app_placeholder)
+            }
+            return
+        }
+
+        if (previousIconUrl == iconUrl) return
+
+        iconView.setTag(R.id.appIconUrl, iconUrl)
+        Picasso.get()
+            .load(iconUrl)
+            .placeholder(R.drawable.ic_app_placeholder)
+            .error(R.drawable.ic_app_placeholder)
+            .resize(iconSize, iconSize)
+            .centerInside()
+            .noFade()
+            .into(iconView)
     }
 }
