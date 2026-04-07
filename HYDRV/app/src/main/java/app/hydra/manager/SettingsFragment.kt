@@ -391,9 +391,7 @@ class SettingsFragment : Fragment() {
         view.findViewById<View>(R.id.pureBlackRow).setOnClickListener {
             togglePureBlackTheme()
         }
-        view.findViewById<View>(R.id.backendUrlRow).setOnClickListener {
-            toggleBackendManagerInline()
-        }
+        view.findViewById<View>(R.id.backendUrlRow).setOnClickListener(null)
         view.findViewById<View>(R.id.backendHealthRow).setOnClickListener {
             showBackendHealthDialog()
         }
@@ -1738,7 +1736,7 @@ class SettingsFragment : Fragment() {
         }
         val editor = buildBackendManagerInlineView(context, existingSources)
         backendManagerContainer.addView(editor.root)
-        backendManagerContainer.visibility = View.GONE
+        backendManagerContainer.visibility = View.VISIBLE
     }
 
     private fun buildBackendManagerInlineView(
