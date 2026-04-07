@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+﻿<?xml version='1.0' encoding='utf-8'?>
 <resources>
   <string name="app_name">HYDRV</string>
   <string name="settings_title">Pengaturan</string>
@@ -346,3 +346,6 @@
   <string name="language_english_region">English (United States)</string>
   <string name="backend_health_cache_ready">Ready</string>
 </resources>
+
+
+

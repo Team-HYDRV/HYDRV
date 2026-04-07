@@ -1,14 +1,14 @@
-<?xml version='1.0' encoding='utf-8'?>
+﻿<?xml version='1.0' encoding='utf-8'?>
 <resources>
   <string name="app_name">HYDRV</string>
   <string name="settings_title">Cài đặt</string>
   <string name="settings_general_title">Chung</string>
   <string name="settings_general_subtitle">Tùy chọn giao diện và danh sách</string>
-  <string name="settings_updates_title">Cập nhật</string>
+  <string name="settings_updates_title">Cáº­p nháº­t</string>
   <string name="settings_updates_subtitle">Cài đặt cập nhật và nhật ký thay đổi</string>
   <string name="settings_advance_title">Nâng cao</string>
   <string name="settings_advance_subtitle">Chẩn đoán, kết nối và tùy chọn nguồn</string>
-  <string name="settings_about_title">Giới thiệu</string>
+  <string name="settings_about_title">Giá»›i thiá»‡u</string>
   <string name="settings_about_subtitle">Thông tin ứng dụng và hỗ trợ</string>
   <string name="settings_section_appearance">Giao dien</string>
   <string name="settings_section_lists">Danh sach</string>
@@ -80,7 +80,7 @@
   <string name="language_native_italian_region">Italiano (Italia)</string>
   <string name="language_native_turkish_region">Türkçe (Türkiye)</string>
   <string name="language_native_vietnamese_region">Tieng Viet (Viet Nam)</string>
-  <string name="language_native_thai_region">à¹„à¸—à¸¢ (à¹„à¸—à¸¢)</string>
+  <string name="language_native_thai_region">ไทย (ไทย)</string>
   <string name="language_native_polish_region">Polski (Polska)</string>
   <string name="language_native_dutch_region">Nederlands (Nederland)</string>
   <string name="language_native_malay_region">Bahasa Melayu (Malaysia)</string>
@@ -314,15 +314,15 @@
   <string name="app_details_missing_versions">No versions available for this app yet.</string>
   <string name="updates_summary_format">v%1$s  -  %2$s</string>
   <string name="updates_view_changelog">Xem nhật ký thay đổi</string>
-  <string name="updates_download_now">Tải xuống ngay</string>
+  <string name="updates_download_now">Táº£i xuá»‘ng ngay</string>
   <string name="updates_install_now">Cài đặt ngay</string>
   <string name="updates_downloading">Downloading…</string>
-  <string name="updates_resume_download">Tiếp tục tải xuống</string>
+  <string name="updates_resume_download">Tiáº¿p tá»¥c táº£i xuá»‘ng</string>
   <string name="updates_launch_check_title">Check for updates on launch</string>
   <string name="updates_launch_check_summary">Automatically check the latest GitHub release whenever you open HYDRV.</string>
   <string name="updates_launch_message_title">Show update message on launch</string>
   <string name="updates_launch_message_summary">Display an in-app message when the latest repo release changes.</string>
-  <string name="updates_check_now">Kiểm tra cập nhật</string>
+  <string name="updates_check_now">Kiá»ƒm tra cáº­p nháº­t</string>
   <string name="updates_checking">Đang kiểm tra…</string>
   <string name="updates_changelog_title">Release changelog</string>
   <string name="updates_changelog_body">HYDRV shows the latest GitHub release notes here so the in-app changelog stays aligned with the repo release.</string>
@@ -343,7 +343,7 @@
   <string name="about_link_donate_caption">Ho tro bao tri ung dung lien tuc</string>
   <string name="about_link_github_caption">Ma nguon, commit va lich su issue</string>
   <string name="about_quick_label">Liên kết nhanh</string>
-  <string name="about_description_title">Giới thiệu HYDRV</string>
+  <string name="about_description_title">Giá»›i thiá»‡u HYDRV</string>
   <string name="about_description_body">HYDRV keeps app releases, signed downloads, and package installs in one calm place, so updates stay easy to browse and simple to manage.</string>
   <string name="about_focus_label">Built for clean package management</string>
   <string name="about_issue_title">Bao loi</string>
@@ -380,3 +380,6 @@
     <item quantity="other">%d selected</item>
   </plurals>
 </resources>
+
+
+

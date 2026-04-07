@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+﻿<?xml version='1.0' encoding='utf-8'?>
 <resources>
   <string name="app_name">HYDRV</string>
   <string name="settings_title">Настройки</string>
@@ -338,3 +338,6 @@
   <string name="backend_health_cache_ready">Ready</string>
   <string name="about_link_placeholder">This link is unavailable right now.</string>
 </resources>
+
+
+

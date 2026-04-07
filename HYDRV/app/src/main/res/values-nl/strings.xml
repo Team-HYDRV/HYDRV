@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+﻿<?xml version='1.0' encoding='utf-8'?>
 <resources>
   <string name="app_name">HYDRV</string>
   <string name="settings_title">Instellingen</string>
@@ -80,7 +80,7 @@
   <string name="language_native_italian_region">Italiano (Italia)</string>
   <string name="language_native_turkish_region">Türkçe (Türkiye)</string>
   <string name="language_native_vietnamese_region">Tiáº¿ng Viá»‡t (Viá»‡t Nam)</string>
-  <string name="language_native_thai_region">à¹„à¸—à¸¢ (à¹„à¸—à¸¢)</string>
+  <string name="language_native_thai_region">ไทย (ไทย)</string>
   <string name="language_native_polish_region">Polski (Polska)</string>
   <string name="language_native_dutch_region">Nederlands (Nederland)</string>
   <string name="language_native_malay_region">Bahasa Melayu (Malaysia)</string>
@@ -380,3 +380,6 @@
     <item quantity="other">%d selected</item>
   </plurals>
 </resources>
+
+
+

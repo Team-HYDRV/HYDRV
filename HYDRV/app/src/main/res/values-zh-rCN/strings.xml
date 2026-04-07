@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+﻿<?xml version='1.0' encoding='utf-8'?>
 <resources>
   <string name="app_name">HYDRV</string>
   <string name="settings_title">设置</string>
@@ -7,9 +7,9 @@
   <string name="settings_about_title">关于</string>
   <string name="language_title">语言</string>
   <string name="language_system_default">跟随系统</string>
-  <string name="language_english">è‹±è¯­</string>
+  <string name="language_english">英语</string>
   <string name="language_filipino">菲律宾语</string>
-  <string name="language_spanish">è¥¿ç­ç‰™è¯­</string>
+  <string name="language_spanish">西班牙语</string>
   <string name="language_indonesian">印度尼西亚语</string>
   <string name="language_french">法语</string>
   <string name="language_german">德语</string>
@@ -17,9 +17,9 @@
   <string name="language_chinese_simplified">简体中文</string>
   <string name="language_hindi">印地语</string>
   <string name="language_arabic">阿拉伯语</string>
-  <string name="language_russian">ä¿„è¯­</string>
+  <string name="language_russian">俄语</string>
   <string name="language_japanese">日语</string>
-  <string name="language_korean">éŸ©è¯­</string>
+  <string name="language_korean">韩语</string>
   <string name="install_waiting_confirmation_format">等待 %1$s 的安装确认</string>
   <string name="downloads_uninstall">卸载</string>
   <string name="badge_installed">已安装</string>
@@ -43,7 +43,7 @@
   <string name="permission_enabled">已启用</string>
   <string name="downloads_cancel">取消</string>
   <string name="download_paused_percent_format">Paused %1$d%%</string>
-  <string name="downloads_title">ä¸‹è½½</string>
+  <string name="downloads_title">下载</string>
   <string name="language_native_filipino_region">Filipino (Pilipinas)</string>
   <string name="about_contributors_title">HYDRV 背后的人们</string>
   <string name="updates_download_now">立即下载</string>
@@ -55,7 +55,7 @@
   <string name="backend_health_ads_enabled_format">Rewarded ads: %1$s</string>
   <string name="backend_dialog_title">更改后端</string>
   <string name="downloads_delete">Delete</string>
-  <string name="about_link_website">ç½‘ç«™</string>
+  <string name="about_link_website">网站</string>
   <string name="settings_about_subtitle">应用信息和支持</string>
   <string name="backend_health_cache_ready_count">Ready (%1$d apps)</string>
   <string name="download_action_resume">继续</string>
@@ -231,7 +231,7 @@
   <string name="sort_date_oldest">Date oldest first</string>
   <string name="sample_download_speed">Speed 0 KB/s</string>
   <string name="device_info_model_format">Model: %1$s</string>
-  <string name="theme_system">ç³»ç»Ÿ</string>
+  <string name="theme_system">系统</string>
   <string name="updates_debug_last_notified_release_format">Last notified release: %1$s</string>
   <string name="backend_health_worker_status_title">Worker status</string>
   <string name="about_link_donate_caption">支持应用的持续维护</string>
@@ -310,7 +310,7 @@
   <string name="device_info_memory_format">Memory limit: %1$dMB (Normal) - %2$dMB (Large)</string>
   <string name="updates_debug_last_seen_release_format">Last seen release: %1$s</string>
   <string name="download_error_network">Network error interrupted the download</string>
-  <string name="app_details_download">ä¸‹è½½</string>
+  <string name="app_details_download">下载</string>
   <string name="back_label">Back</string>
   <string name="option_wifi_or_mobile">Wi-Fi or mobile</string>
   <string name="permission_notifications_title">Notifications</string>
@@ -338,3 +338,6 @@
   <string name="backend_health_cache_ready">Ready</string>
   <string name="about_link_placeholder">This link is unavailable right now.</string>
 </resources>
+
+
+
