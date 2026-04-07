@@ -1793,14 +1793,14 @@ class SettingsFragment : Fragment() {
         val defaultCard = LinearLayout(context).apply {
             orientation = LinearLayout.VERTICAL
             setBackgroundResource(R.drawable.card)
-            val inner = (14 * resources.displayMetrics.density).toInt()
-            val top = (10 * resources.displayMetrics.density).toInt()
-            setPadding(inner, inner, inner, inner)
+            val horizontal = (14 * resources.displayMetrics.density).toInt()
+            val vertical = (10 * resources.displayMetrics.density).toInt()
+            setPadding(horizontal, vertical, horizontal, vertical)
             layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
             ).apply {
-                topMargin = top
+                topMargin = (8 * resources.displayMetrics.density).toInt()
             }
         }
         val defaultRow = LinearLayout(context).apply {
@@ -1831,6 +1831,7 @@ class SettingsFragment : Fragment() {
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
             )
+            text = getString(R.string.backend_active_source)
             setOnClickListener {
                 editor.activeUrl = RuntimeConfig.defaultCatalogUrl
                 BackendPreferences.setActiveBackendUrl(context, editor.activeUrl)
@@ -1850,8 +1851,8 @@ class SettingsFragment : Fragment() {
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 1
             ).apply {
-                topMargin = (12 * resources.displayMetrics.density).toInt()
-                bottomMargin = (12 * resources.displayMetrics.density).toInt()
+                topMargin = (10 * resources.displayMetrics.density).toInt()
+                bottomMargin = (10 * resources.displayMetrics.density).toInt()
             }
             setBackgroundResource(R.drawable.about_list_divider)
         })
@@ -1868,7 +1869,7 @@ class SettingsFragment : Fragment() {
         root.addView(
             Button(context).apply {
                 text = getString(R.string.backend_add_source)
-                val top = (12 * resources.displayMetrics.density).toInt()
+                val top = (10 * resources.displayMetrics.density).toInt()
                 layoutParams = LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT
@@ -1909,14 +1910,14 @@ class SettingsFragment : Fragment() {
     ): BackendEditorRowViews {
         val card = LinearLayout(context).apply {
             orientation = LinearLayout.VERTICAL
-            val inner = (14 * resources.displayMetrics.density).toInt()
-            val top = (10 * resources.displayMetrics.density).toInt()
-            setPadding(inner, inner, inner, inner)
+            val horizontal = (14 * resources.displayMetrics.density).toInt()
+            val vertical = (8 * resources.displayMetrics.density).toInt()
+            setPadding(horizontal, vertical, horizontal, vertical)
             layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
             ).apply {
-                topMargin = top
+                topMargin = (6 * resources.displayMetrics.density).toInt()
             }
         }
 
@@ -1934,28 +1935,27 @@ class SettingsFragment : Fragment() {
 
         val activeButton = Button(context).apply {
             layoutParams = LinearLayout.LayoutParams(
-                0,
                 LinearLayout.LayoutParams.WRAP_CONTENT,
-                1f
+                LinearLayout.LayoutParams.WRAP_CONTENT
             )
         }
 
         val editButton = Button(context).apply {
             layoutParams = LinearLayout.LayoutParams(
-                0,
                 LinearLayout.LayoutParams.WRAP_CONTENT,
-                1f
+                LinearLayout.LayoutParams.WRAP_CONTENT
             ).apply {
                 leftMargin = (8 * resources.displayMetrics.density).toInt()
-                rightMargin = (8 * resources.displayMetrics.density).toInt()
             }
         }
 
         val removeButton = Button(context).apply {
             layoutParams = LinearLayout.LayoutParams(
-                0,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
-            ).apply { weight = 1f }
+            ).apply {
+                leftMargin = (8 * resources.displayMetrics.density).toInt()
+            }
         }
 
         val buttonRow = LinearLayout(context).apply {
