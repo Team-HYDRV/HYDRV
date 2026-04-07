@@ -207,3 +207,9 @@ internal fun String.cleanDuplicateSuffix(): String {
 internal fun Version.displayVersionName(): String {
     return version_name.cleanDuplicateSuffix()
 }
+
+data class BackendSource(
+    val name: String,
+    val url: String,
+    val enabled: Boolean = true
+) : Serializable
