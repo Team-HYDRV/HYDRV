@@ -42,13 +42,17 @@ class BackendManagerActivity : AppCompatActivity() {
         AppearancePreferences.applyPureBlackBackgroundIfNeeded(findViewById(R.id.rootLayout))
 
         val header = findViewById<View>(R.id.headerContainer)
+        val headerBasePaddingLeft = header.paddingLeft
+        val headerBasePaddingTop = header.paddingTop
+        val headerBasePaddingRight = header.paddingRight
+        val headerBasePaddingBottom = header.paddingBottom
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.rootLayout)) { _, insets ->
             val statusBar = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
             header.setPadding(
-                header.paddingLeft,
-                statusBar + header.paddingTop,
-                header.paddingRight,
-                header.paddingBottom
+                headerBasePaddingLeft,
+                headerBasePaddingTop + statusBar,
+                headerBasePaddingRight,
+                headerBasePaddingBottom
             )
             insets
         }
