@@ -13,9 +13,7 @@ data class AppModel(
     val icon: String,
     @SerializedName(value = "tags", alternate = ["categories", "categoryTags", "labels"])
     val tags: List<String> = emptyList(),
-    val versions: List<Version>,
-    val catalogSourceName: String = "",
-    val catalogSourceUrl: String = ""
+    val versions: List<Version>
 ) : Serializable {
     private fun safeVersions(): List<Version> {
         return runCatching { versions }.getOrDefault(emptyList())
@@ -197,49 +195,5 @@ internal fun String.isApkUrl(): Boolean {
         URI(trim()).path?.endsWith(".apk", ignoreCase = true) == true
     } catch (_: Exception) {
         trim().substringBefore('?', trim()).substringBefore('#', trim()).endsWith(".apk", ignoreCase = true)
-    }
-}
-
-internal fun String.cleanDuplicateSuffix(): String {
-    val trimmed = trim()
-    val cleaned = trimmed.replace(Regex("""\s*\((\d+)\)$"""), "")
-    return cleaned.ifBlank { trimmed }
-}
-
-internal fun Version.displayVersionName(): String {
-    return version_name.cleanDuplicateSuffix()
-}
-
-data class BackendSource(
-    val name: String,
-    val url: String,
-    val enabled: Boolean = true
-) : Serializable
-
-sealed class HomeFeedItem : Serializable {
-    data class SourceHeader(
-        val sourceName: String,
-        val sourceUrl: String
-    ) : HomeFeedItem()
-
-    data class AppEntry(
-        val app: AppModel
-    ) : HomeFeedItem()
-}
-
-internal fun AppModel.withCatalogSource(sourceName: String, sourceUrl: String): AppModel {
-    return copy(
-        catalogSourceName = sourceName.trim(),
-        catalogSourceUrl = sourceUrl.trim()
-    )
-}
-
-internal fun AppModel.catalogSourceDisplayName(): String {
-    return catalogSourceName.cleanDuplicateSuffix().ifBlank {
-        if (catalogSourceUrl.isNotBlank()) {
-            catalogSourceUrl
-        } else {
-            "HYDRV Backend"
-        }
     }
 }

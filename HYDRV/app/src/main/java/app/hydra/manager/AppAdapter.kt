@@ -75,7 +75,7 @@ class AppAdapter :
         val latest = app.latestVersion() ?: return
 
         holder.name.text = app.name
-        holder.version.text = context.getString(R.string.version_format, latest.displayVersionName())
+        holder.version.text = context.getString(R.string.version_format, latest.version_name)
         val timestampLabel = formatAddedTimestamp(context, latest.releaseTimestampMillis())
         holder.addedAt.text = timestampLabel
         holder.addedAt.visibility = if (timestampLabel.isEmpty()) View.GONE else View.VISIBLE
@@ -123,10 +123,7 @@ class AppAdapter :
                     .setDuration(100)
                     .withEndAction {
                         holder.version.text =
-                            holder.itemView.context.getString(
-                                R.string.version_format,
-                                versionName.cleanDuplicateSuffix()
-                            )
+                            holder.itemView.context.getString(R.string.version_format, versionName)
                         holder.version.animate().alpha(1f).setDuration(150).start()
                     }
                     .start()
