@@ -1933,42 +1933,42 @@ class SettingsFragment : Fragment() {
 
         val activeButton = Button(context).apply {
             layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
+                0,
                 LinearLayout.LayoutParams.WRAP_CONTENT
-            )
+            , 1f)
             minWidth = 0
             minEms = 0
             minimumWidth = 0
-            setPaddingRelative(8, 3, 8, 3)
-            textSize = 11.5f
+            setPaddingRelative(6, 3, 6, 3)
+            textSize = 11f
         }
 
         val editButton = Button(context).apply {
             layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
+                0,
                 LinearLayout.LayoutParams.WRAP_CONTENT
-            ).apply {
+            , 1f).apply {
                 leftMargin = (3 * resources.displayMetrics.density).toInt()
             }
             minWidth = 0
             minEms = 0
             minimumWidth = 0
-            setPaddingRelative(8, 3, 8, 3)
-            textSize = 11.5f
+            setPaddingRelative(6, 3, 6, 3)
+            textSize = 11f
         }
 
         val removeButton = Button(context).apply {
             layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
+                0,
                 LinearLayout.LayoutParams.WRAP_CONTENT
-            ).apply {
+            , 1f).apply {
                 leftMargin = (3 * resources.displayMetrics.density).toInt()
             }
             minWidth = 0
             minEms = 0
             minimumWidth = 0
-            setPaddingRelative(8, 3, 8, 3)
-            textSize = 11.5f
+            setPaddingRelative(6, 3, 6, 3)
+            textSize = 11f
         }
 
         val buttonRow = LinearLayout(context).apply {
