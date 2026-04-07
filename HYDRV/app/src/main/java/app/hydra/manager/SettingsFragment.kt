@@ -1909,7 +1909,6 @@ class SettingsFragment : Fragment() {
     ): BackendEditorRowViews {
         val card = LinearLayout(context).apply {
             orientation = LinearLayout.VERTICAL
-            setBackgroundResource(R.drawable.card)
             val inner = (14 * resources.displayMetrics.density).toInt()
             val top = (10 * resources.displayMetrics.density).toInt()
             setPadding(inner, inner, inner, inner)
@@ -1973,6 +1972,16 @@ class SettingsFragment : Fragment() {
         card.addView(nameView)
         card.addView(buttonRow)
         parent.addView(card)
+        parent.addView(View(context).apply {
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                1
+            ).apply {
+                topMargin = (10 * resources.displayMetrics.density).toInt()
+                bottomMargin = (10 * resources.displayMetrics.density).toInt()
+            }
+            setBackgroundResource(R.drawable.about_list_divider)
+        })
 
         val row = BackendEditorRowViews(
             card = card,
