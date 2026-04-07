@@ -255,6 +255,17 @@ class BackendManagerActivity : AppCompatActivity() {
                 } else {
                     getString(R.string.backend_set_active_source)
                 }
+                activeButton.setBackgroundResource(
+                    if (isActive) R.drawable.button_install else R.drawable.backend_button_neutral
+                )
+                activeButton.setTextColor(
+                    ThemeColors.color(
+                        this@BackendManagerActivity,
+                        if (isActive) com.google.android.material.R.attr.colorOnPrimary
+                        else com.google.android.material.R.attr.colorOnSurface,
+                        if (isActive) R.color.black else R.color.text
+                    )
+                )
 
                 activeButton.setOnClickListener {
                     val nextActive = if (item.isDefault) {
