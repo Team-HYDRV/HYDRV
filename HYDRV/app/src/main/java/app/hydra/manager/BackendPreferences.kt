@@ -113,7 +113,8 @@ object BackendPreferences {
     }
 
     fun isUsingDefault(context: Context): Boolean {
-        return getCustomBackendSources(context).isEmpty()
+        val active = getActiveBackendUrl(context).trim()
+        return active.isBlank() || active.equals(RuntimeConfig.defaultCatalogUrl, ignoreCase = true)
     }
 
     fun setActiveBackendUrl(context: Context, url: String) {

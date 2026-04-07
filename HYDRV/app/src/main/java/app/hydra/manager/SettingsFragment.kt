@@ -1887,7 +1887,11 @@ class SettingsFragment : Fragment() {
         root.addView(defaultCard, 2)
         editor.defaultButton.setOnClickListener {
             editor.activeUrl = RuntimeConfig.defaultCatalogUrl
+            BackendPreferences.setActiveBackendUrl(context, editor.activeUrl)
+            BackendPreferences.setCustomBackendSources(context, readBackendEditorSources(editor))
             refreshBackendEditorRows(editor)
+            updateBackendUrlLabel()
+            refreshCatalogAfterBackendChange()
         }
 
         root.addView(
@@ -2057,7 +2061,11 @@ class SettingsFragment : Fragment() {
             val nextActive = row.urlField.text?.toString().orEmpty().trim()
             if (nextActive.isBlank()) return@setOnClickListener
             editor.activeUrl = nextActive
+            BackendPreferences.setActiveBackendUrl(context, editor.activeUrl)
+            BackendPreferences.setCustomBackendSources(context, readBackendEditorSources(editor))
             refreshBackendEditorRows(editor)
+            updateBackendUrlLabel()
+            refreshCatalogAfterBackendChange()
         }
 
         removeButton.setOnClickListener {
@@ -2065,9 +2073,12 @@ class SettingsFragment : Fragment() {
             editor.rows.remove(row)
             if (row.isActive) {
                 editor.activeUrl = RuntimeConfig.defaultCatalogUrl
+                BackendPreferences.setActiveBackendUrl(context, editor.activeUrl)
             }
             refreshBackendEditorRows(editor)
             updateBackendEmptyState(editor.emptyView, parent)
+            updateBackendUrlLabel()
+            refreshCatalogAfterBackendChange()
         }
 
         refreshBackendEditorRows(editor)
