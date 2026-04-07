@@ -271,7 +271,7 @@
     <string name="debug_section_title">Tools</string>
     <string name="debug_export_logs_title">Export app report</string>
     <string name="settings_backup_export_title">Export settings backup</string>
-    <string name="settings_backup_export_summary">Save favorites, preferences, sorts, and backend choice to a file</string>
+    <string name="settings_backup_export_summary">Save favorites, preferences, sorts, and custom backends to a file</string>
     <string name="settings_backup_import_title">Import settings backup</string>
     <string name="settings_backup_import_summary">Restore a previous HYDRV backup file</string>
     <string name="settings_backup_export_done">Settings backup exported.</string>
