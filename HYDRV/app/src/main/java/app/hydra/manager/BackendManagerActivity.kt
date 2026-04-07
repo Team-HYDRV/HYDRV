@@ -231,7 +231,6 @@ class BackendManagerActivity : AppCompatActivity() {
             private val actionRow: LinearLayout = itemView.findViewById(R.id.backendSourceActionRow)
             private val editButton: Button = itemView.findViewById(R.id.backendSourceEditButton)
             private val removeButton: Button = itemView.findViewById(R.id.backendSourceRemoveButton)
-            private val divider: View = itemView.findViewById(R.id.backendSourceDivider)
 
             fun bind(item: BackendRow, isLast: Boolean) {
                 val activeUrl = BackendPreferences.getActiveBackendUrlValue(itemView.context)
@@ -323,7 +322,6 @@ class BackendManagerActivity : AppCompatActivity() {
                     }
                 }
 
-                divider.visibility = if (isLast) View.GONE else View.VISIBLE
             }
         }
     }

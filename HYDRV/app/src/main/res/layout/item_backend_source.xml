@@ -2,9 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    android:background="@drawable/card"
     android:orientation="vertical"
-    android:paddingTop="10dp"
-    android:paddingBottom="10dp">
+    android:paddingLeft="14dp"
+    android:paddingTop="12dp"
+    android:paddingRight="14dp"
+    android:paddingBottom="12dp">
 
     <LinearLayout
         android:id="@+id/backendSourceTopRow"
@@ -39,7 +43,7 @@
         android:id="@+id/backendSourceActionRow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="8dp"
         android:orientation="horizontal">
 
         <Button
@@ -69,12 +73,5 @@
             android:text="@string/backend_remove_source"
             android:textSize="11sp" />
     </LinearLayout>
-
-    <View
-        android:id="@+id/backendSourceDivider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/about_list_divider" />
 
 </LinearLayout>
