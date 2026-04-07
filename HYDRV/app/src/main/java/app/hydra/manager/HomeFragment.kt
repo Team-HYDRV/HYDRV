@@ -316,7 +316,11 @@ class HomeFragment : Fragment() {
         }
 
         appsCall?.cancel()
-        appsCall = AppCatalogService.fetchApps(requireContext(), allowCacheFallback = true) { result ->
+        appsCall = AppCatalogService.fetchApps(
+            requireContext(),
+            allowCacheFallback = true,
+            bypassRemoteCache = true
+        ) { result ->
             if (!isAdded || view == null || appsCall?.isCanceled() == true) {
                 return@fetchApps
             }
