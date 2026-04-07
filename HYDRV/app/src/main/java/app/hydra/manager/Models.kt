@@ -197,3 +197,13 @@ internal fun String.isApkUrl(): Boolean {
         trim().substringBefore('?', trim()).substringBefore('#', trim()).endsWith(".apk", ignoreCase = true)
     }
 }
+
+internal fun String.cleanDuplicateSuffix(): String {
+    val trimmed = trim()
+    val cleaned = trimmed.replace(Regex("""\s*\((\d+)\)$"""), "")
+    return cleaned.ifBlank { trimmed }
+}
+
+internal fun Version.displayVersionName(): String {
+    return version_name.cleanDuplicateSuffix()
+}

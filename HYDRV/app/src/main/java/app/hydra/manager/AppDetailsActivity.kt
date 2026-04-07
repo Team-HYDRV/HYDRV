@@ -78,7 +78,7 @@ class AppDetailsActivity : AppCompatActivity() {
         latest.text = if (latestVersion != null) {
             getString(
                 R.string.app_details_latest_version,
-                "${latestVersion.version_name} (${latestVersion.version})"
+                latestVersion.displayVersionName()
             )
         } else {
             getString(R.string.app_details_latest_unavailable)
@@ -94,7 +94,7 @@ class AppDetailsActivity : AppCompatActivity() {
                 url = version.url,
                 name = app.name,
                 packageName = app.packageName,
-                versionName = version.version_name,
+                versionName = version.displayVersionName(),
                 versionCode = version.version
             )
         }
@@ -124,7 +124,7 @@ class AppDetailsActivity : AppCompatActivity() {
             val title = TextView(this)
             title.text = getString(
                 R.string.app_details_version_title,
-                "${v.version_name} (${v.version})"
+                v.displayVersionName()
             )
             title.setTextColor(
                 ThemeColors.color(
@@ -169,7 +169,7 @@ class AppDetailsActivity : AppCompatActivity() {
                     url = v.url,
                     name = app.name,
                     packageName = app.packageName,
-                    versionName = v.version_name,
+                    versionName = v.displayVersionName(),
                     versionCode = v.version
                 )
             }
