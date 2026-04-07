@@ -2,6 +2,8 @@
   <img src="assets/readme-banner.svg" alt="HYDRV banner">
 </p>
 
+<p align="center"><em>HYDRV is a personalized store made for you.</em></p>
+
 <p align="center">
   <a href="https://github.com/Team-HYDRV/HYDRV/actions/workflows/android-ci.yml">
     <img src="https://github.com/Team-HYDRV/HYDRV/actions/workflows/android-ci.yml/badge.svg" alt="Android CI">
