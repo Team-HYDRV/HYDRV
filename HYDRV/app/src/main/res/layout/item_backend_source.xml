@@ -29,19 +29,19 @@
         <Button
             android:id="@+id/backendSourceActiveButton"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/backend_chip_primary"
+            android:layout_height="36dp"
+            android:background="@drawable/button_install"
             android:backgroundTint="@null"
-            android:textAllCaps="false"
+            android:textAllCaps="true"
             android:textColor="?attr/colorOnPrimary"
-            android:minWidth="0dp"
+            android:minWidth="88dp"
             android:minEms="0"
             android:stateListAnimator="@null"
             android:paddingLeft="12dp"
-            android:paddingTop="5dp"
+            android:paddingTop="0dp"
             android:paddingRight="12dp"
-            android:paddingBottom="5dp"
-            android:textSize="11sp" />
+            android:paddingBottom="0dp"
+            android:textSize="12sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -55,39 +55,39 @@
         <Button
             android:id="@+id/backendSourceEditButton"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="36dp"
             android:layout_marginEnd="8dp"
-            android:background="@drawable/backend_chip_secondary"
+            android:background="@drawable/button_install"
             android:backgroundTint="@null"
-            android:textAllCaps="false"
-            android:textColor="?attr/colorOnSurface"
-            android:minWidth="0dp"
+            android:textAllCaps="true"
+            android:textColor="?attr/colorOnPrimary"
+            android:minWidth="72dp"
             android:minEms="0"
             android:stateListAnimator="@null"
             android:paddingLeft="12dp"
-            android:paddingTop="5dp"
+            android:paddingTop="0dp"
             android:paddingRight="12dp"
-            android:paddingBottom="5dp"
+            android:paddingBottom="0dp"
             android:text="@string/backend_edit_source"
-            android:textSize="11sp" />
+            android:textSize="12sp" />
 
         <Button
             android:id="@+id/backendSourceRemoveButton"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/backend_chip_secondary"
+            android:layout_height="36dp"
+            android:background="@drawable/button_install"
             android:backgroundTint="@null"
-            android:textAllCaps="false"
-            android:textColor="?attr/colorOnSurface"
-            android:minWidth="0dp"
+            android:textAllCaps="true"
+            android:textColor="?attr/colorOnPrimary"
+            android:minWidth="88dp"
             android:minEms="0"
             android:stateListAnimator="@null"
             android:paddingLeft="12dp"
-            android:paddingTop="5dp"
+            android:paddingTop="0dp"
             android:paddingRight="12dp"
-            android:paddingBottom="5dp"
+            android:paddingBottom="0dp"
             android:text="@string/backend_remove_source"
-            android:textSize="11sp" />
+            android:textSize="12sp" />
     </LinearLayout>
 
 </LinearLayout>
