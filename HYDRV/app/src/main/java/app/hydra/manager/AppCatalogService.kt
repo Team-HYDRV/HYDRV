@@ -247,6 +247,7 @@ object AppCatalogService {
         val appContext = context.applicationContext
         return BackendPreferences.getCatalogUrlCandidates(appContext)
             .firstNotNullOfOrNull { readCachedResult(appContext, it) }
+            ?: readAnyCachedResult(appContext)
     }
 
     private fun parse(raw: String): Result<List<AppModel>> {
@@ -359,6 +360,27 @@ object AppCatalogService {
             Result.success(FetchResult(parsed.getOrThrow(), fromCache = true))
         } else {
             null
+        }
+    }
+
+    private fun readAnyCachedResult(context: Context): Result<FetchResult>? {
+        val cacheDir = context.cacheDir ?: return null
+        val files = cacheDir.listFiles { file ->
+            file.isFile && file.name.startsWith("catalog_") && file.name.endsWith(".json")
+        }?.sortedByDescending { it.lastModified() }.orEmpty()
+
+        return files.firstNotNullOfOrNull { file ->
+            val parsed = runCatching {
+                file.inputStream().reader(Charsets.UTF_8).use { reader -> parse(reader).getOrThrow() }
+            }.fold(
+                onSuccess = { Result.success(it) },
+                onFailure = { Result.failure(it) }
+            )
+            if (parsed.isSuccess) {
+                Result.success(FetchResult(parsed.getOrThrow(), fromCache = true))
+            } else {
+                null
+            }
         }
     }
 
