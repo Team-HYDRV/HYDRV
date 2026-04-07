@@ -226,7 +226,7 @@ class BackendManagerActivity : AppCompatActivity() {
         }
 
         override fun onBindViewHolder(holder: BackendSourceViewHolder, position: Int) {
-            holder.bind(items[position], position == items.lastIndex)
+            holder.bind(items[position])
         }
 
         override fun getItemCount(): Int = items.size
@@ -238,7 +238,7 @@ class BackendManagerActivity : AppCompatActivity() {
             private val editButton: Button = itemView.findViewById(R.id.backendSourceEditButton)
             private val removeButton: Button = itemView.findViewById(R.id.backendSourceRemoveButton)
 
-            fun bind(item: BackendRow, isLast: Boolean) {
+            fun bind(item: BackendRow) {
                 val activeUrl = BackendPreferences.getActiveBackendUrlValue(itemView.context)
                 val isActive = if (item.isDefault) {
                     activeUrl.isBlank() ||
@@ -288,12 +288,6 @@ class BackendManagerActivity : AppCompatActivity() {
                     actionRow.visibility = View.GONE
                     removeButton.visibility = View.GONE
                     editButton.visibility = View.GONE
-                    itemView.setPadding(
-                        itemView.paddingLeft,
-                        itemView.paddingTop,
-                        itemView.paddingRight,
-                        itemView.paddingBottom
-                    )
                 } else {
                     actionRow.visibility = View.VISIBLE
                     removeButton.visibility = View.VISIBLE
