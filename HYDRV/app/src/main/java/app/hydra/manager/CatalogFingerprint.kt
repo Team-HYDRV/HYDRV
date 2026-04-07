@@ -8,6 +8,7 @@ object CatalogFingerprint {
             result = 31 * result + safe(app.name).hashCode()
             result = 31 * result + safe(app.packageName).hashCode()
             result = 31 * result + safe(app.icon).hashCode()
+            result = 31 * result + safe(app.catalogSourceUrl).hashCode()
             result = 31 * result + app.normalizedTags().joinToString("|").hashCode()
             app.sortedVersionsNewestFirst().forEach { version ->
                 result = 31 * result + version.version

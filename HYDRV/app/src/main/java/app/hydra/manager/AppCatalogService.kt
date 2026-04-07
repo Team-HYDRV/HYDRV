@@ -25,6 +25,48 @@ object AppCatalogService {
         val fromCache: Boolean
     )
 
+    private class CatalogFetchSession {
+        @Volatile var started: Boolean = false
+        @Volatile var cancelled: Boolean = false
+        @Volatile var currentCall: Call? = null
+
+        val call: Call = object : Call {
+            override fun request(): Request {
+                return currentCall?.request()
+                    ?: Request.Builder().url(RuntimeConfig.defaultCatalogUrl).build()
+            }
+
+            override fun execute(): Response {
+                throw UnsupportedOperationException("Use fetchApps callback")
+            }
+
+            override fun enqueue(responseCallback: Callback) {
+                throw UnsupportedOperationException("Use fetchApps callback")
+            }
+
+            override fun cancel() {
+                cancelled = true
+                currentCall?.cancel()
+            }
+
+            override fun isExecuted(): Boolean {
+                return started
+            }
+
+            override fun isCanceled(): Boolean {
+                return cancelled || currentCall?.isCanceled() == true
+            }
+
+            override fun clone(): Call {
+                return this
+            }
+
+            override fun timeout(): okio.Timeout {
+                return currentCall?.timeout() ?: okio.Timeout.NONE
+            }
+        }
+    }
+
     private val client = OkHttpClient.Builder()
         .retryOnConnectionFailure(true)
         .connectTimeout(10, TimeUnit.SECONDS)
@@ -75,104 +117,69 @@ object AppCatalogService {
         onResult: (Result<FetchResult>) -> Unit
     ): Call {
         val appContext = context.applicationContext
-        val candidates = BackendPreferences.getCatalogUrlCandidates(appContext)
-        val firstRequest = buildRequest(candidates.first(), bypassRemoteCache)
-        val call = firstRequest.call
+        val session = CatalogFetchSession()
 
-        call.enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                if (call.isCanceled()) return
-                tryNextCandidateAsync(
-                    context = appContext,
-                    candidates = candidates.drop(1),
-                    allowCacheFallback = allowCacheFallback,
-                    bypassRemoteCache = bypassRemoteCache,
-                    originalError = e,
-                    onResult = onResult
-                )
+        Thread {
+            session.started = true
+            val result = fetchAppsSync(
+                context = appContext,
+                allowCacheFallback = allowCacheFallback,
+                bypassRemoteCache = bypassRemoteCache,
+                session = session
+            )
+            if (!session.cancelled) {
+                postResult(onResult, result)
             }
+        }.start()
 
-            override fun onResponse(call: Call, response: Response) {
-                if (call.isCanceled()) {
-                    response.close()
-                    return
-                }
-
-                response.use {
-                    if (!response.isSuccessful) {
-                        tryNextCandidateAsync(
-                            context = appContext,
-                            candidates = candidates.drop(1),
-                            allowCacheFallback = allowCacheFallback,
-                            bypassRemoteCache = bypassRemoteCache,
-                            originalError = IOException("HTTP ${response.code}"),
-                            onResult = onResult
-                        )
-                        return
-                    }
-
-                    val parsed = parseResponseToCacheFile(
-                        context = appContext,
-                        cacheUrl = firstRequest.url,
-                        response = response
-                    )
-                    if (parsed.isSuccess) {
-                        postResult(onResult, Result.success(FetchResult(parsed.getOrThrow(), fromCache = false)))
-                        return
-                    }
-
-                    tryNextCandidateAsync(
-                        context = appContext,
-                        candidates = candidates.drop(1),
-                        allowCacheFallback = allowCacheFallback,
-                        bypassRemoteCache = bypassRemoteCache,
-                        originalError = parsed.exceptionOrNull().asException(),
-                        onResult = onResult
-                    )
-                }
-            }
-        })
-
-        return call
+        return session.call
     }
 
-    fun fetchAppsSync(
+    private fun fetchAppsSync(
         context: Context,
         allowCacheFallback: Boolean = true,
-        bypassRemoteCache: Boolean = false
+        bypassRemoteCache: Boolean = false,
+        session: CatalogFetchSession? = null
     ): Result<FetchResult> {
         val appContext = context.applicationContext
-        val candidates = BackendPreferences.getCatalogUrlCandidates(appContext)
+        val sources = BackendPreferences.getCatalogSources(appContext)
         var lastError: Exception? = null
+        val mergedApps = mutableListOf<AppModel>()
+        var sawNetworkSuccess = false
 
-        candidates.forEach { candidate ->
-            val request = buildRequest(candidate, bypassRemoteCache)
-            val result = runCatching {
-                request.call.execute().use { response ->
-                    if (!response.isSuccessful) {
-                        throw IOException("HTTP ${response.code}")
-                    }
-                    val parsed = parseResponseToCacheFile(
-                        context = appContext,
-                        cacheUrl = candidate,
-                        response = response
-                    ).getOrThrow()
-                    Result.success(FetchResult(parsed, fromCache = false))
-                }
-            }.getOrElse {
-                lastError = it.asException()
-                null
+        sources.forEach { source ->
+            if (session?.cancelled == true) {
+                return Result.failure(IOException("Catalog request canceled"))
             }
 
-            if (result != null) return result
+            val result = fetchSourceSync(
+                context = appContext,
+                source = source,
+                allowCacheFallback = allowCacheFallback,
+                bypassRemoteCache = bypassRemoteCache,
+                session = session
+            )
+
+            result.onSuccess { fetchResult ->
+                mergedApps += fetchResult.apps
+                if (!fetchResult.fromCache) {
+                    sawNetworkSuccess = true
+                }
+            }.onFailure {
+                lastError = it.asException()
+            }
         }
 
-        val fallback = if (allowCacheFallback) {
-            candidates.firstNotNullOfOrNull { readCachedResult(appContext, it) }
-        } else {
-            null
+        if (mergedApps.isNotEmpty()) {
+            return Result.success(
+                FetchResult(
+                    apps = mergedApps,
+                    fromCache = !sawNetworkSuccess
+                )
+            )
         }
-        return fallback ?: Result.failure(lastError ?: IOException("Catalog request failed"))
+
+        return Result.failure(lastError ?: IOException("Catalog request failed"))
     }
 
     fun validateCatalogEndpointSync(url: String): Result<Unit> {
@@ -203,8 +210,12 @@ object AppCatalogService {
 
     fun readCachedApps(context: Context): Result<FetchResult>? {
         val appContext = context.applicationContext
-        return BackendPreferences.getCatalogUrlCandidates(appContext)
-            .firstNotNullOfOrNull { readCachedResult(appContext, it) }
+        val cached = BackendPreferences.getCatalogSources(appContext)
+            .mapNotNull { readCachedResult(appContext, it) }
+        if (cached.isEmpty()) return null
+        val merged = cached.flatMap { it.getOrNull()?.apps.orEmpty() }
+        if (merged.isEmpty()) return null
+        return Result.success(FetchResult(merged, fromCache = true))
     }
 
     private fun parse(raw: String): Result<List<AppModel>> {
@@ -305,10 +316,12 @@ object AppCatalogService {
         }.orEmpty()
     }
 
-    private fun readCachedResult(context: Context, url: String): Result<FetchResult>? {
-        val cached = CatalogCacheStore.file(context, url) ?: return null
+    private fun readCachedResult(context: Context, source: BackendSource): Result<FetchResult>? {
+        val cached = CatalogCacheStore.file(context, source.url) ?: return null
         val parsed = runCatching {
-            cached.inputStream().reader(Charsets.UTF_8).use { reader -> parse(reader).getOrThrow() }
+            cached.inputStream().reader(Charsets.UTF_8).use { reader ->
+                parse(reader).getOrThrow().map { it.withCatalogSource(source.name, source.url) }
+            }
         }.fold(
             onSuccess = { Result.success(it) },
             onFailure = { Result.failure(it) }
@@ -341,7 +354,7 @@ object AppCatalogService {
     ) {
         if (candidates.isEmpty()) {
             val fallback = if (allowCacheFallback) {
-                BackendPreferences.getCatalogUrlCandidates(context)
+                BackendPreferences.getCatalogSources(context)
                     .firstNotNullOfOrNull { readCachedResult(context, it) }
             } else {
                 null
@@ -403,6 +416,69 @@ object AppCatalogService {
                 }
             }
         })
+    }
+
+    private fun fetchSourceSync(
+        context: Context,
+        source: BackendSource,
+        allowCacheFallback: Boolean,
+        bypassRemoteCache: Boolean,
+        session: CatalogFetchSession? = null
+    ): Result<FetchResult> {
+        val request = buildRequest(source.url, bypassRemoteCache)
+        val call = request.call
+        session?.currentCall = call
+
+        return try {
+            if (session?.cancelled == true) {
+                Result.failure(IOException("Catalog request canceled"))
+            } else {
+                call.execute().use { response ->
+                    if (!response.isSuccessful) {
+                        val fallback = if (allowCacheFallback) {
+                            readCachedResult(context, source)
+                        } else {
+                            null
+                        }
+                        fallback ?: Result.failure(IOException("HTTP ${response.code}"))
+                    } else {
+                        val parsed = parseResponseToCacheFile(
+                            context = context,
+                            cacheUrl = source.url,
+                            response = response
+                        )
+                        if (parsed.isSuccess) {
+                            Result.success(
+                                FetchResult(
+                                    apps = parsed.getOrThrow().map {
+                                        it.withCatalogSource(source.name, source.url)
+                                    },
+                                    fromCache = false
+                                )
+                            )
+                        } else {
+                            val fallback = if (allowCacheFallback) {
+                                readCachedResult(context, source)
+                            } else {
+                                null
+                            }
+                            fallback ?: Result.failure(parsed.exceptionOrNull().asException())
+                        }
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            val fallback = if (allowCacheFallback) {
+                readCachedResult(context, source)
+            } else {
+                null
+            }
+            fallback ?: Result.failure(e.asException())
+        } finally {
+            if (session?.currentCall === call) {
+                session.currentCall = null
+            }
+        }
     }
 
     private fun Throwable?.asException(): Exception {

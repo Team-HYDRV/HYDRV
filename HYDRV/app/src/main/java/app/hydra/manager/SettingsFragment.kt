@@ -25,7 +25,9 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.ScrollView
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.edit
@@ -139,6 +141,12 @@ class SettingsFragment : Fragment() {
         val state: UpdateActionState,
         val labelRes: Int,
         val enabled: Boolean
+    )
+
+    private data class BackendRowViews(
+        val container: LinearLayout,
+        val name: EditText,
+        val url: EditText
     )
 
     private data class ThemeOptionViews(
@@ -746,10 +754,11 @@ class SettingsFragment : Fragment() {
     }
 
     private fun updateBackendUrlLabel() {
-        backendUrlValue.text = if (BackendPreferences.isUsingDefault(requireContext())) {
+        val customCount = BackendPreferences.getCustomBackendSources(requireContext()).size
+        backendUrlValue.text = if (customCount == 0) {
             getString(R.string.backend_default_label)
         } else {
-            getString(R.string.backend_custom_label)
+            "Custom ($customCount)"
         }
     }
 
@@ -1694,9 +1703,37 @@ class SettingsFragment : Fragment() {
 
     private fun showBackendUrlDialog() {
         val context = requireContext()
-        val input = EditText(context).apply {
-            inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_URI
-            hint = ""
+        val defaultSource = BackendPreferences.defaultSource()
+        val existingSources = BackendPreferences.getCustomBackendSources(context)
+        val rows = mutableListOf<BackendRowViews>()
+
+        val content = LinearLayout(context).apply {
+            orientation = LinearLayout.VERTICAL
+            val horizontal = (20 * resources.displayMetrics.density).toInt()
+            val top = (8 * resources.displayMetrics.density).toInt()
+            setPadding(horizontal, top, horizontal, 0)
+        }
+
+        val description = TextView(context).apply {
+            text = getString(R.string.backend_dialog_message)
+            setTextColor(
+                ThemeColors.color(
+                    context,
+                    com.google.android.material.R.attr.colorOnSurfaceVariant,
+                    R.color.subtext
+                )
+            )
+            textSize = 13f
+        }
+        content.addView(description)
+
+        val defaultCard = LinearLayout(context).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(24, 20, 24, 20)
+            setBackgroundResource(R.drawable.card)
+        }
+        defaultCard.addView(TextView(context).apply {
+            text = defaultSource.name
             setTextColor(
                 ThemeColors.color(
                     context,
@@ -1704,36 +1741,133 @@ class SettingsFragment : Fragment() {
                     R.color.text
                 )
             )
-            setHintTextColor(
+            textSize = 16f
+            setTypeface(typeface, android.graphics.Typeface.BOLD)
+        })
+        defaultCard.addView(TextView(context).apply {
+            text = defaultSource.url
+            setTextColor(
                 ThemeColors.color(
                     context,
                     com.google.android.material.R.attr.colorOnSurfaceVariant,
                     R.color.subtext
                 )
             )
-            setBackgroundResource(R.drawable.dialog_input_background)
-            setPadding(28, 20, 28, 20)
-        }
-        val inputContainer = FrameLayout(context).apply {
-            val horizontal = (20 * resources.displayMetrics.density).toInt()
-            val top = (8 * resources.displayMetrics.density).toInt()
-            setPadding(horizontal, top, horizontal, 0)
-            addView(
-                input,
-                FrameLayout.LayoutParams(
-                    FrameLayout.LayoutParams.MATCH_PARENT,
-                    FrameLayout.LayoutParams.WRAP_CONTENT
+            textSize = 13f
+            setPadding(0, 6, 0, 0)
+        })
+        content.addView(defaultCard)
+
+        val listTitle = TextView(context).apply {
+            text = "Custom backends"
+            setTextColor(
+                ThemeColors.color(
+                    context,
+                    com.google.android.material.R.attr.colorOnBackground,
+                    R.color.text
                 )
             )
+            textSize = 14f
+            setTypeface(typeface, android.graphics.Typeface.BOLD)
+            setPadding(0, 18, 0, 8)
         }
+        content.addView(listTitle)
+
+        val listContainer = LinearLayout(context).apply {
+            orientation = LinearLayout.VERTICAL
+        }
+        content.addView(listContainer)
+
+        fun addRow(source: BackendSource? = null) {
+            val rowCard = LinearLayout(context).apply {
+                orientation = LinearLayout.VERTICAL
+                setBackgroundResource(R.drawable.card)
+                setPadding(16, 16, 16, 16)
+                val params = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                )
+                params.bottomMargin = (12 * resources.displayMetrics.density).toInt()
+                layoutParams = params
+            }
+
+            val nameInput = EditText(context).apply {
+                inputType = InputType.TYPE_CLASS_TEXT
+                hint = "Backend name"
+                setText(source?.name.orEmpty())
+                setTextColor(
+                    ThemeColors.color(
+                        context,
+                        com.google.android.material.R.attr.colorOnBackground,
+                        R.color.text
+                    )
+                )
+                setHintTextColor(
+                    ThemeColors.color(
+                        context,
+                        com.google.android.material.R.attr.colorOnSurfaceVariant,
+                        R.color.subtext
+                    )
+                )
+                setBackgroundResource(R.drawable.dialog_input_background)
+                setPadding(28, 20, 28, 20)
+            }
+
+            val urlInput = EditText(context).apply {
+                inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_URI
+                hint = "https://example.com/catalogue.json"
+                setText(source?.url.orEmpty())
+                setTextColor(
+                    ThemeColors.color(
+                        context,
+                        com.google.android.material.R.attr.colorOnBackground,
+                        R.color.text
+                    )
+                )
+                setHintTextColor(
+                    ThemeColors.color(
+                        context,
+                        com.google.android.material.R.attr.colorOnSurfaceVariant,
+                        R.color.subtext
+                    )
+                )
+                setBackgroundResource(R.drawable.dialog_input_background)
+                setPadding(28, 20, 28, 20)
+            }
+
+            val removeButton = Button(context).apply {
+                text = getString(R.string.downloads_delete)
+                setOnClickListener {
+                    rows.removeAll { it.container == rowCard }
+                    listContainer.removeView(rowCard)
+                }
+            }
+
+            rowCard.addView(nameInput)
+            rowCard.addView(urlInput)
+            rowCard.addView(removeButton)
+            listContainer.addView(rowCard)
+            rows += BackendRowViews(rowCard, nameInput, urlInput)
+        }
+
+        if (existingSources.isEmpty()) {
+            addRow()
+        } else {
+            existingSources.forEach { addRow(it) }
+        }
+
+        val addButton = Button(context).apply {
+            text = "Add backend"
+            setOnClickListener { addRow() }
+        }
+        content.addView(addButton)
 
         val dialog = MaterialAlertDialogBuilder(context)
             .setTitle(getString(R.string.backend_dialog_title))
-            .setMessage(getString(R.string.backend_dialog_message))
-            .setView(inputContainer)
+            .setView(content)
             .setPositiveButton(getString(R.string.save_label), null)
             .setNeutralButton(getString(R.string.reset_label)) { dialog, _ ->
-                BackendPreferences.setCatalogUrl(context, "")
+                BackendPreferences.setCustomBackendSources(context, emptyList())
                 updateBackendUrlLabel()
                 refreshCatalogAfterBackendChange()
                 AppSnackbar.show(
@@ -1746,9 +1880,24 @@ class SettingsFragment : Fragment() {
             .show()
 
         dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
-            val rawUrl = input.text?.toString().orEmpty().trim()
-            if (rawUrl.isBlank()) {
-                BackendPreferences.setCatalogUrl(context, "")
+            val sources = mutableListOf<BackendSource>()
+            rows.forEachIndexed { index, row ->
+                val rawName = row.name.text?.toString().orEmpty().trim()
+                val rawUrl = row.url.text?.toString().orEmpty().trim()
+
+                if (rawName.isBlank() && rawUrl.isBlank()) return@forEachIndexed
+                if (rawUrl.isBlank()) {
+                    row.url.error = getString(R.string.backend_invalid_message)
+                    return@setOnClickListener
+                }
+
+                val resolvedName = rawName.ifBlank { "Custom backend ${index + 1}" }
+                sources += BackendSource(resolvedName, rawUrl)
+            }
+            val distinctSources = sources.distinctBy { it.url.lowercase() }
+
+            if (distinctSources.isEmpty()) {
+                BackendPreferences.setCustomBackendSources(context, emptyList())
                 updateBackendUrlLabel()
                 refreshCatalogAfterBackendChange()
                 AppSnackbar.show(
@@ -1766,7 +1915,12 @@ class SettingsFragment : Fragment() {
 
             val rootView = activity?.findViewById<View>(R.id.rootLayout)
             Thread {
-                val validation = AppCatalogService.validateCatalogEndpointSync(rawUrl)
+                var validation: Result<Unit> = Result.success(Unit)
+                for (source in distinctSources) {
+                    validation = AppCatalogService.validateCatalogEndpointSync(source.url)
+                    if (validation.isFailure) break
+                }
+
                 mainHandler.post {
                     if (!isAdded || view == null || !dialog.isShowing) return@post
                     dialog.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = true
@@ -1774,8 +1928,7 @@ class SettingsFragment : Fragment() {
                     dialog.getButton(DialogInterface.BUTTON_NEGATIVE).isEnabled = true
 
                     validation.onSuccess {
-                        input.error = null
-                        BackendPreferences.setCatalogUrl(context, rawUrl)
+                        BackendPreferences.setCustomBackendSources(context, distinctSources)
                         updateBackendUrlLabel()
                         refreshCatalogAfterBackendChange()
                         if (rootView != null) {
@@ -1786,7 +1939,6 @@ class SettingsFragment : Fragment() {
                         }
                         dialog.dismiss()
                     }.onFailure {
-                        input.error = getString(R.string.backend_invalid_message)
                         if (rootView != null) {
                             AppSnackbar.show(
                                 rootView,

@@ -53,7 +53,7 @@ class HomeFragment : Fragment() {
     private lateinit var filterScroll: HorizontalScrollView
     private lateinit var filterChipContainer: LinearLayout
 
-    private lateinit var adapter: AppAdapter
+    private lateinit var adapter: HomeAdapter
     private var searchTextWatcher: TextWatcher? = null
     private var tabsListener: TabLayout.OnTabSelectedListener? = null
     private var pendingLastUpdatedBanner = false
@@ -97,7 +97,7 @@ class HomeFragment : Fragment() {
         tabs.addTab(tabs.newTab().setText(getString(R.string.tab_installed)))
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        adapter = AppAdapter()
+        adapter = HomeAdapter()
         recyclerView.adapter = adapter
         recyclerView.itemAnimator = null
         recyclerView.setHasFixedSize(true)
@@ -200,7 +200,7 @@ class HomeFragment : Fragment() {
         recyclerView.visibility = View.VISIBLE
         refreshFilterChips()
         val initialList = appList.take(INITIAL_RENDER_ITEM_COUNT)
-        adapter.submitList(initialList) {
+        submitAppsToAdapter(initialList) {
             updateEmptyState(initialList)
             signalHomeFirstRenderIfNeeded()
 
@@ -208,7 +208,7 @@ class HomeFragment : Fragment() {
                 startupFullListSubmitted = true
                 recyclerView.post {
                     if (!isAdded || view == null) return@post
-                    adapter.submitList(appList) {
+                    submitAppsToAdapter(appList) {
                         updateEmptyState(appList)
                     }
                 }
@@ -342,9 +342,7 @@ class HomeFragment : Fragment() {
                     cachedApps = appList
                     cachedHash = newHash
 
-                    if (adapter.currentList != appList) {
-                        adapter.submitList(appList)
-                    }
+                    submitAppsToAdapter(appList)
                 } else {
                     CatalogStateCenter.update(newList)
                 }
@@ -529,7 +527,7 @@ class HomeFragment : Fragment() {
         if (animate) {
             animateFilteredContentSwap(filteredList)
         } else {
-            adapter.submitList(filteredList)
+            submitAppsToAdapter(filteredList)
             updateEmptyState(filteredList)
         }
     }
@@ -543,7 +541,7 @@ class HomeFragment : Fragment() {
             .translationY(6f)
             .setDuration(90)
             .withEndAction {
-                adapter.submitList(filteredList) {
+                submitAppsToAdapter(filteredList) {
                     updateEmptyState(filteredList)
                     animateContentSwap()
                 }
@@ -647,6 +645,38 @@ class HomeFragment : Fragment() {
             setOnClickListener { onClick() }
         }
         filterChipContainer.addView(chip)
+    }
+
+    private fun submitAppsToAdapter(
+        apps: List<AppModel>,
+        onComplete: (() -> Unit)? = null
+    ) {
+        adapter.submitList(buildHomeFeedItems(apps)) {
+            onComplete?.invoke()
+        }
+    }
+
+    private fun buildHomeFeedItems(apps: List<AppModel>): List<HomeFeedItem> {
+        val sections = linkedMapOf<String, MutableList<AppModel>>()
+        val labels = linkedMapOf<String, String>()
+
+        apps.forEach { app ->
+            val key = app.catalogSourceUrl.ifBlank { app.catalogSourceName.ifBlank { "default" } }
+            sections.getOrPut(key) { mutableListOf() }.add(app)
+            if (!labels.containsKey(key)) {
+                labels[key] = app.catalogSourceDisplayName()
+            }
+        }
+
+        val items = mutableListOf<HomeFeedItem>()
+        sections.forEach { (key, appsInSection) ->
+            items += HomeFeedItem.SourceHeader(
+                sourceName = labels[key].orEmpty().ifBlank { "HYDRV Backend" },
+                sourceUrl = key
+            )
+            appsInSection.forEach { items += HomeFeedItem.AppEntry(it) }
+        }
+        return items
     }
 
     private fun isRecentApp(app: AppModel): Boolean {
