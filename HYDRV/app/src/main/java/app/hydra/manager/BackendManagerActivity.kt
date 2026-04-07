@@ -266,6 +266,7 @@ class BackendManagerActivity : AppCompatActivity() {
                         if (isActive) R.color.black else R.color.text
                     )
                 )
+                activeButton.backgroundTintList = null
 
                 activeButton.setOnClickListener {
                     val nextActive = if (item.isDefault) {
@@ -293,6 +294,10 @@ class BackendManagerActivity : AppCompatActivity() {
                     actionRow.visibility = View.VISIBLE
                     removeButton.visibility = View.VISIBLE
                     editButton.visibility = View.VISIBLE
+                    editButton.setBackgroundResource(R.drawable.backend_button_neutral)
+                    editButton.backgroundTintList = null
+                    removeButton.setBackgroundResource(R.drawable.button_delete)
+                    removeButton.backgroundTintList = null
 
                     editButton.setOnClickListener {
                         showBackendSourceFormDialog(
