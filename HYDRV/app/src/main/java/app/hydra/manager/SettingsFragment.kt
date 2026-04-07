@@ -1958,7 +1958,7 @@ class SettingsFragment : Fragment() {
         AppCatalogService.fetchApps(
             appContext,
             allowCacheFallback = true,
-            bypassRemoteCache = true
+            bypassRemoteCache = false
         ) { result ->
             result.onSuccess { fetchResult ->
                 if (!isAdded) return@onSuccess
