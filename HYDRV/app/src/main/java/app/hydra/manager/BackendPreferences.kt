@@ -18,7 +18,11 @@ object BackendPreferences {
 
     fun getCatalogUrlCandidates(context: Context): List<String> {
         val saved = getCustomCatalogUrl(context)
-        return if (saved.isBlank()) RuntimeConfig.defaultCatalogUrls else listOf(saved)
+        return if (saved.isBlank()) {
+            RuntimeConfig.defaultCatalogUrls
+        } else {
+            listOf(saved) + RuntimeConfig.defaultCatalogUrls
+        }
     }
 
     fun getCustomBackendSources(context: Context): List<BackendSource> {
