@@ -126,7 +126,7 @@
   <string name="device_info_archs_format">Supported Archs: %1$s</string>
   <string name="added_date_format">Added %1$s</string>
   <string name="battery_optimization_title">Battery optimization</string>
-  <string name="settings_advance_title">ê³ ê¸‰</string>
+    <string name="settings_advance_title">고급</string>
   <string name="updates_changelog_loading">Loading the latest GitHub release notes…</string>
   <string name="pure_black_summary">Use pure black backgrounds for dark theme</string>
   <string name="language_french_region">French (France)</string>
