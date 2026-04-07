@@ -1822,8 +1822,8 @@ class SettingsFragment : Fragment() {
             minWidth = 0
             minEms = 0
             minimumWidth = 0
-            setPaddingRelative(8, 3, 8, 3)
-            textSize = 11.5f
+            setPaddingRelative(12, 4, 12, 4)
+            textSize = 10.5f
             text = getString(R.string.backend_active_source)
             setOnClickListener {
                 editor.activeUrl = RuntimeConfig.defaultCatalogUrl
