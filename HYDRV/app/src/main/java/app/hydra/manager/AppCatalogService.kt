@@ -249,15 +249,6 @@ object AppCatalogService {
             .firstNotNullOfOrNull { readCachedResult(appContext, it) }
     }
 
-    fun clearCachedCatalogs(context: Context) {
-        val cacheDir = context.cacheDir ?: return
-        cacheDir.listFiles { file ->
-            file.isFile && file.name.startsWith("catalog_") && file.name.endsWith(".json")
-        }?.forEach { file ->
-            runCatching { file.delete() }
-        }
-    }
-
     private fun parse(raw: String): Result<List<AppModel>> {
         return raw.reader().use { parse(it) }
     }
