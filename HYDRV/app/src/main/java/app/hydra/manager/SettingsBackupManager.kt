@@ -6,7 +6,7 @@ import org.json.JSONObject
 
 object SettingsBackupManager {
 
-    private const val BACKUP_VERSION = 2
+    private const val BACKUP_VERSION = 3
 
     fun exportBackup(context: Context): String {
         val root = JSONObject()
@@ -141,6 +141,7 @@ object SettingsBackupManager {
                     )
                 }
             }
+            BackendPreferences.setActiveBackendUrl(context, "")
             BackendPreferences.setCustomBackendSources(context, backendSources)
             val activeBackendUrl = settings.optString("active_backend_url", "").trim()
             if (activeBackendUrl.isNotBlank() &&
@@ -148,6 +149,8 @@ object SettingsBackupManager {
                 backendSources.any { it.url.equals(activeBackendUrl, ignoreCase = true) }
             ) {
                 BackendPreferences.setActiveBackendUrl(context, activeBackendUrl)
+            } else {
+                BackendPreferences.setActiveBackendUrl(context, RuntimeConfig.defaultCatalogUrl)
             }
 
             val favoriteList = buildList {
