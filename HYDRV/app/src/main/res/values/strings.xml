@@ -315,6 +315,8 @@
     <string name="backend_manager_empty">No custom backends yet. Tap Add backend to create one.</string>
     <string name="backend_add_source">Add backend</string>
     <string name="backend_remove_source">Remove</string>
+    <string name="backend_set_active_source">Set active</string>
+    <string name="backend_active_source">Active backend</string>
     <string name="backend_source_name_hint">Backend name</string>
     <string name="backend_source_url_hint">https://example.com/catalogue.json</string>
     <string name="backend_example_url">Example: https://example.com/catalogue.json</string>

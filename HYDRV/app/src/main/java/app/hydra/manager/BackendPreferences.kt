@@ -9,29 +9,38 @@ object BackendPreferences {
     private const val PREFS_NAME = "backend_prefs"
     private const val KEY_CATALOG_URL = "catalog_url"
     private const val KEY_CUSTOM_BACKENDS = "custom_backends"
+    private const val KEY_ACTIVE_BACKEND_URL = "active_backend_url"
 
     private val gson = Gson()
     private val customBackendListType = object : TypeToken<List<BackendSource>>() {}.type
 
     fun getCatalogUrl(context: Context): String {
-        val saved = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-            .getString(KEY_CATALOG_URL, "")
-            .orEmpty()
-            .trim()
-
-        return if (saved.isBlank()) RuntimeConfig.defaultCatalogUrl else saved
+        return getCatalogUrlCandidates(context).firstOrNull() ?: RuntimeConfig.defaultCatalogUrl
     }
 
     fun getCatalogUrlCandidates(context: Context): List<String> {
-        val saved = getCustomCatalogUrl(context)
-        return if (saved.isBlank()) RuntimeConfig.defaultCatalogUrls else listOf(saved)
+        val active = getActiveCustomBackendSource(context)
+        val sources = getCustomBackendSources(context)
+
+        val ordered = buildList {
+            active?.let { add(it.url) }
+            addAll(
+                sources.asSequence()
+                    .filterNot { active != null && it.url.equals(active.url, ignoreCase = true) }
+                    .map { it.url }
+                    .toList()
+            )
+            add(RuntimeConfig.defaultCatalogUrl)
+        }
+
+        return ordered
+            .map { it.trim() }
+            .filter { it.isNotBlank() }
+            .distinctBy { it.lowercase() }
     }
 
     fun getCustomCatalogUrl(context: Context): String {
-        return context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-            .getString(KEY_CATALOG_URL, "")
-            .orEmpty()
-            .trim()
+        return getActiveCustomBackendSource(context)?.url.orEmpty()
     }
 
     fun getCustomBackendSources(context: Context): List<BackendSource> {
@@ -47,26 +56,38 @@ object BackendPreferences {
     }
 
     fun setCatalogUrl(context: Context, url: String) {
-        context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-            .edit { putString(KEY_CATALOG_URL, sanitize(url)) }
+        val sanitized = sanitize(url)
+        if (sanitized.isBlank()) {
+            setCustomBackendSources(context, emptyList())
+            return
+        }
+        setCustomBackendSources(
+            context,
+            listOf(BackendSource("Custom backend", sanitized, true))
+        )
     }
 
     fun setCustomBackendSources(context: Context, sources: List<BackendSource>) {
         val sanitized = sources
             .mapNotNull { it.normalizedOrNull() }
             .distinctBy { it.url.lowercase() }
+        val activeUrl = getActiveBackendUrl(context)
+        val nextActive = when {
+            sanitized.isEmpty() -> ""
+            activeUrl.isNotBlank() && sanitized.any { it.url.equals(activeUrl, ignoreCase = true) } -> activeUrl
+            else -> sanitized.firstOrNull()?.url.orEmpty()
+        }
 
         context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
             .edit {
                 putString(KEY_CUSTOM_BACKENDS, gson.toJson(sanitized))
+                putString(KEY_CATALOG_URL, nextActive)
+                putString(KEY_ACTIVE_BACKEND_URL, nextActive)
             }
     }
 
     fun addCustomBackendSource(context: Context, source: BackendSource) {
-        setCustomBackendSources(
-            context,
-            getCustomBackendSources(context) + source
-        )
+        setCustomBackendSources(context, getCustomBackendSources(context) + source)
     }
 
     fun updateCustomBackendSource(context: Context, index: Int, source: BackendSource) {
@@ -84,12 +105,34 @@ object BackendPreferences {
     }
 
     fun isUsingDefault(context: Context): Boolean {
-        return getCustomCatalogUrl(context).isBlank() && getCustomBackendSources(context).isEmpty()
+        return getCustomBackendSources(context).isEmpty()
+    }
+
+    fun setActiveBackendUrl(context: Context, url: String) {
+        val cleaned = sanitize(url)
+        context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+            .edit { putString(KEY_ACTIVE_BACKEND_URL, cleaned) }
     }
 
     private fun sanitize(url: String): String {
         val trimmed = url.trim()
         return if (trimmed.startsWith("https://")) trimmed else ""
+    }
+
+    private fun getActiveBackendUrl(context: Context): String {
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val active = prefs.getString(KEY_ACTIVE_BACKEND_URL, "").orEmpty().trim()
+        if (active.isNotBlank()) return active
+
+        val legacy = prefs.getString(KEY_CATALOG_URL, "").orEmpty().trim()
+        return legacy
+    }
+
+    fun getActiveCustomBackendSource(context: Context): BackendSource? {
+        val activeUrl = getActiveBackendUrl(context)
+        if (activeUrl.isBlank()) return null
+        return getCustomBackendSources(context)
+            .firstOrNull { it.url.equals(activeUrl, ignoreCase = true) }
     }
 
     private fun BackendSource.normalizedOrNull(): BackendSource? {
