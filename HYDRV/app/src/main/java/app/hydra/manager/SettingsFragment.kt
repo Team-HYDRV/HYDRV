@@ -1820,8 +1820,10 @@ class SettingsFragment : Fragment() {
                 LinearLayout.LayoutParams.WRAP_CONTENT
             )
             minWidth = 0
+            minEms = 0
             minimumWidth = 0
-            setPaddingRelative(10, 4, 10, 4)
+            setPaddingRelative(8, 3, 8, 3)
+            textSize = 11.5f
             text = getString(R.string.backend_active_source)
             setOnClickListener {
                 editor.activeUrl = RuntimeConfig.defaultCatalogUrl
@@ -1935,8 +1937,10 @@ class SettingsFragment : Fragment() {
                 LinearLayout.LayoutParams.WRAP_CONTENT
             )
             minWidth = 0
+            minEms = 0
             minimumWidth = 0
-            setPaddingRelative(10, 4, 10, 4)
+            setPaddingRelative(8, 3, 8, 3)
+            textSize = 11.5f
         }
 
         val editButton = Button(context).apply {
@@ -1947,8 +1951,10 @@ class SettingsFragment : Fragment() {
                 leftMargin = (3 * resources.displayMetrics.density).toInt()
             }
             minWidth = 0
+            minEms = 0
             minimumWidth = 0
-            setPaddingRelative(10, 4, 10, 4)
+            setPaddingRelative(8, 3, 8, 3)
+            textSize = 11.5f
         }
 
         val removeButton = Button(context).apply {
@@ -1959,8 +1965,10 @@ class SettingsFragment : Fragment() {
                 leftMargin = (3 * resources.displayMetrics.density).toInt()
             }
             minWidth = 0
+            minEms = 0
             minimumWidth = 0
-            setPaddingRelative(10, 4, 10, 4)
+            setPaddingRelative(8, 3, 8, 3)
+            textSize = 11.5f
         }
 
         val buttonRow = LinearLayout(context).apply {
