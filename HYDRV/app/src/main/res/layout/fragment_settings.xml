@@ -1345,6 +1345,16 @@
                         android:background="@drawable/about_list_divider" />
 
                     <LinearLayout
+                        android:id="@+id/backendManagerContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingHorizontal="16dp"
+                        android:paddingTop="16dp"
+                        android:paddingBottom="18dp"
+                        android:visibility="gone" />
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"

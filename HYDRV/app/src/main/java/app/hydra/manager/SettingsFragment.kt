@@ -207,6 +207,7 @@ class SettingsFragment : Fragment() {
     private lateinit var pureBlackSummary: TextView
     private lateinit var batteryOptimizationValue: TextView
     private lateinit var backendUrlValue: TextView
+    private lateinit var backendManagerContainer: LinearLayout
     private lateinit var deviceInfoValue: TextView
     private lateinit var adsSupportSwitchTrack: FrameLayout
     private lateinit var adsSupportSwitchThumb: View
@@ -274,6 +275,7 @@ class SettingsFragment : Fragment() {
         pureBlackSwitchThumb = view.findViewById(R.id.pureBlackSwitchThumb)
         pureBlackSummary = view.findViewById(R.id.pureBlackSummary)
         backendUrlValue = view.findViewById(R.id.backendUrlValue)
+        backendManagerContainer = view.findViewById(R.id.backendManagerContainer)
         deviceInfoValue = view.findViewById(R.id.deviceInfoValue)
         adsSupportSwitchTrack = view.findViewById(R.id.adsSupportSwitchTrack)
         adsSupportSwitchThumb = view.findViewById(R.id.adsSupportSwitchThumb)
@@ -317,6 +319,7 @@ class SettingsFragment : Fragment() {
         updateSettingsCardSurfaces(view)
         batteryOptimizationValue = view.findViewById(R.id.batteryOptimizationValue)
         updateBackendUrlLabel()
+        renderBackendManagerInline()
         updateBatteryOptimizationLabel()
         updateAdsSupportLabel()
         updateDeviceInfo()
@@ -389,7 +392,7 @@ class SettingsFragment : Fragment() {
             togglePureBlackTheme()
         }
         view.findViewById<View>(R.id.backendUrlRow).setOnClickListener {
-            showBackendUrlDialog()
+            toggleBackendManagerInline()
         }
         view.findViewById<View>(R.id.backendHealthRow).setOnClickListener {
             showBackendHealthDialog()
@@ -1715,7 +1718,17 @@ class SettingsFragment : Fragment() {
             .show()
     }
 
-    private fun showBackendUrlDialog() {
+    private fun toggleBackendManagerInline() {
+        if (!::backendManagerContainer.isInitialized) return
+        backendManagerContainer.visibility =
+            if (backendManagerContainer.visibility == View.VISIBLE) View.GONE else View.VISIBLE
+    }
+
+    private fun renderBackendManagerInline() {
+        if (!::backendManagerContainer.isInitialized) return
+
+        backendManagerContainer.removeAllViews()
+
         val context = requireContext()
         val existingSources = BackendPreferences.getCustomBackendSources(context).ifEmpty {
             BackendPreferences.getCustomCatalogUrl(context)
@@ -1724,38 +1737,8 @@ class SettingsFragment : Fragment() {
                 .orEmpty()
         }
         val editor = buildBackendEditorDialog(context, existingSources)
-
-        val dialog = MaterialAlertDialogBuilder(context)
-            .setTitle(getString(R.string.backend_dialog_title))
-            .setMessage(getString(R.string.backend_manager_hint))
-            .setView(editor.root)
-            .setPositiveButton(getString(R.string.save_label), null)
-            .setNeutralButton(getString(R.string.reset_label)) { dialog, _ ->
-                BackendPreferences.setCustomBackendSources(context, emptyList())
-                BackendPreferences.setActiveBackendUrl(context, "")
-                updateBackendUrlLabel()
-                refreshCatalogAfterBackendChange()
-                AppSnackbar.show(
-                    requireActivity().findViewById(R.id.rootLayout),
-                    getString(R.string.backend_reset_message)
-                )
-                dialog.dismiss()
-            }
-            .setNegativeButton(getString(R.string.downloads_cancel), null)
-            .show()
-
-        dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
-            val sources = readBackendEditorSources(editor)
-            BackendPreferences.setActiveBackendUrl(context, editor.activeUrl)
-            BackendPreferences.setCustomBackendSources(context, sources)
-            updateBackendUrlLabel()
-            refreshCatalogAfterBackendChange()
-            AppSnackbar.show(
-                requireActivity().findViewById(R.id.rootLayout),
-                getString(R.string.backend_saved_message)
-            )
-            dialog.dismiss()
-        }
+        backendManagerContainer.addView(editor.root)
+        backendManagerContainer.visibility = View.GONE
     }
 
     private fun buildBackendEditorDialog(
