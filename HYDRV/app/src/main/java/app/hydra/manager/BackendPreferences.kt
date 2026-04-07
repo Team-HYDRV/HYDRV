@@ -19,18 +19,24 @@ object BackendPreferences {
     }
 
     fun getCatalogUrlCandidates(context: Context): List<String> {
-        val active = getActiveCustomBackendSource(context)
+        val active = getActiveBackendUrl(context).trim()
         val sources = getCustomBackendSources(context)
 
         val ordered = buildList {
-            active?.let { add(it.url) }
+            if (active.isBlank() || active.equals(RuntimeConfig.defaultCatalogUrl, ignoreCase = true)) {
+                add(RuntimeConfig.defaultCatalogUrl)
+            } else {
+                add(active)
+            }
             addAll(
                 sources.asSequence()
-                    .filterNot { active != null && it.url.equals(active.url, ignoreCase = true) }
+                    .filterNot { active.isNotBlank() && it.url.equals(active, ignoreCase = true) }
                     .map { it.url }
                     .toList()
             )
-            add(RuntimeConfig.defaultCatalogUrl)
+            if (active.isNotBlank() && !active.equals(RuntimeConfig.defaultCatalogUrl, ignoreCase = true)) {
+                add(RuntimeConfig.defaultCatalogUrl)
+            }
         }
 
         return ordered
@@ -74,6 +80,8 @@ object BackendPreferences {
         val activeUrl = getActiveBackendUrl(context)
         val nextActive = when {
             sanitized.isEmpty() -> ""
+            activeUrl.isBlank() -> ""
+            activeUrl.equals(RuntimeConfig.defaultCatalogUrl, ignoreCase = true) -> RuntimeConfig.defaultCatalogUrl
             activeUrl.isNotBlank() && sanitized.any { it.url.equals(activeUrl, ignoreCase = true) } -> activeUrl
             else -> sanitized.firstOrNull()?.url.orEmpty()
         }
@@ -133,6 +141,10 @@ object BackendPreferences {
         if (activeUrl.isBlank()) return null
         return getCustomBackendSources(context)
             .firstOrNull { it.url.equals(activeUrl, ignoreCase = true) }
+    }
+
+    fun getActiveBackendUrlValue(context: Context): String {
+        return getActiveBackendUrl(context)
     }
 
     private fun BackendSource.normalizedOrNull(): BackendSource? {

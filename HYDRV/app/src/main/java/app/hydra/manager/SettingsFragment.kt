@@ -153,6 +153,7 @@ class SettingsFragment : Fragment() {
 
     private data class BackendEditorDialogViews(
         val root: ScrollView,
+        val defaultButton: Button,
         val sourcesContainer: LinearLayout,
         val emptyView: TextView,
         val rows: MutableList<BackendEditorRowViews>,
@@ -1827,11 +1828,67 @@ class SettingsFragment : Fragment() {
 
         val editor = BackendEditorDialogViews(
             root = scrollView,
+            defaultButton = Button(context),
             sourcesContainer = sourcesContainer,
             emptyView = emptyView,
             rows = mutableListOf(),
             activeUrl = ""
         )
+
+        val defaultCard = LinearLayout(context).apply {
+            orientation = LinearLayout.VERTICAL
+            setBackgroundResource(R.drawable.card)
+            val inner = (14 * resources.displayMetrics.density).toInt()
+            val top = (10 * resources.displayMetrics.density).toInt()
+            setPadding(inner, inner, inner, inner)
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            ).apply {
+                topMargin = top
+            }
+        }
+        val defaultTitle = TextView(context).apply {
+            text = getString(R.string.backend_default_label)
+            setTextColor(
+                ThemeColors.color(
+                    context,
+                    com.google.android.material.R.attr.colorOnBackground,
+                    R.color.text
+                )
+            )
+            textSize = 15f
+        }
+        val defaultUrl = TextView(context).apply {
+            text = RuntimeConfig.defaultCatalogUrl
+            setTextColor(
+                ThemeColors.color(
+                    context,
+                    com.google.android.material.R.attr.colorOnSurfaceVariant,
+                    R.color.subtext
+                )
+            )
+            textSize = 12f
+            val top = (4 * resources.displayMetrics.density).toInt()
+            setPadding(0, top, 0, 0)
+        }
+        editor.defaultButton.apply {
+            val top = (10 * resources.displayMetrics.density).toInt()
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            ).apply {
+                topMargin = top
+            }
+        }
+        defaultCard.addView(defaultTitle)
+        defaultCard.addView(defaultUrl)
+        defaultCard.addView(editor.defaultButton)
+        root.addView(defaultCard, 2)
+        editor.defaultButton.setOnClickListener {
+            editor.activeUrl = RuntimeConfig.defaultCatalogUrl
+            refreshBackendEditorRows(editor)
+        }
 
         root.addView(
             Button(context).apply {
@@ -1844,31 +1901,23 @@ class SettingsFragment : Fragment() {
                     topMargin = top
                 }
                 setOnClickListener {
-                    val row = addBackendEditorRow(
+                    addBackendEditorRow(
                         context = context,
                         parent = sourcesContainer,
                         editor = editor,
                         source = BackendSource("", "", true)
                     )
-                    if (editor.rows.size == 1 && editor.activeUrl.isBlank()) {
-                        editor.activeUrl = row.sourceUrl
-                        row.isActive = true
-                    }
                     refreshBackendEditorRows(editor)
                     updateBackendEmptyState(emptyView, sourcesContainer)
                 }
             }
         )
 
-        editor.activeUrl = BackendPreferences.getActiveCustomBackendSource(context)
-            ?.url
+        editor.activeUrl = BackendPreferences.getActiveBackendUrlValue(context)
             .orEmpty()
 
         sources.forEach { source ->
             addBackendEditorRow(context, sourcesContainer, editor, source)
-        }
-        if (editor.activeUrl.isBlank()) {
-            editor.activeUrl = editor.rows.firstOrNull { it.sourceUrl.isNotBlank() }?.sourceUrl.orEmpty()
         }
         refreshBackendEditorRows(editor)
         updateBackendEmptyState(emptyView, sourcesContainer)
@@ -2008,9 +2057,6 @@ class SettingsFragment : Fragment() {
             val nextActive = row.urlField.text?.toString().orEmpty().trim()
             if (nextActive.isBlank()) return@setOnClickListener
             editor.activeUrl = nextActive
-            editor.rows.forEach { current ->
-                current.isActive = current === row
-            }
             refreshBackendEditorRows(editor)
         }
 
@@ -2018,11 +2064,7 @@ class SettingsFragment : Fragment() {
             parent.removeView(card)
             editor.rows.remove(row)
             if (row.isActive) {
-                editor.activeUrl = editor.rows.firstOrNull { it.sourceUrl.isNotBlank() }?.sourceUrl.orEmpty()
-                editor.rows.forEachIndexed { index, current ->
-                    current.isActive = index == 0 && editor.activeUrl.isNotBlank() &&
-                        current.sourceUrl.equals(editor.activeUrl, ignoreCase = true)
-                }
+                editor.activeUrl = RuntimeConfig.defaultCatalogUrl
             }
             refreshBackendEditorRows(editor)
             updateBackendEmptyState(editor.emptyView, parent)
@@ -2051,6 +2093,14 @@ class SettingsFragment : Fragment() {
     }
 
     private fun refreshBackendEditorRows(editor: BackendEditorDialogViews) {
+        val activeIsDefault = editor.activeUrl.isBlank() ||
+            editor.activeUrl.equals(RuntimeConfig.defaultCatalogUrl, ignoreCase = true)
+        editor.defaultButton.text = if (activeIsDefault) {
+            getString(R.string.backend_active_source)
+        } else {
+            getString(R.string.backend_set_active_source)
+        }
+
         editor.rows.forEach { row ->
             row.sourceUrl = row.urlField.text?.toString().orEmpty().trim()
             val isActive = row.sourceUrl.isNotBlank() &&
