@@ -357,9 +357,14 @@ class BackendManagerActivity : AppCompatActivity() {
                     refreshBackendList()
                     refreshCatalogAfterBackendChange()
                 } else {
+                    val reason = validation.exceptionOrNull()?.message?.takeIf { it.isNotBlank() }
                     AppSnackbar.show(
                         findViewById(R.id.rootLayout),
-                        getString(R.string.backend_set_active_failed)
+                        if (reason != null) {
+                            getString(R.string.backend_set_active_failed_detail, reason)
+                        } else {
+                            getString(R.string.backend_set_active_failed)
+                        }
                     )
                 }
             }
