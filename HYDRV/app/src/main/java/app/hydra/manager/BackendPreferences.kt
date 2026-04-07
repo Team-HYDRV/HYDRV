@@ -8,21 +8,11 @@ object BackendPreferences {
     private const val KEY_CATALOG_URL = "catalog_url"
 
     fun getCatalogUrl(context: Context): String {
-        val saved = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-            .getString(KEY_CATALOG_URL, "")
-            .orEmpty()
-            .trim()
-
-        return if (saved.isBlank()) RuntimeConfig.defaultCatalogUrl else saved
+        return RuntimeConfig.defaultCatalogUrl
     }
 
     fun getCatalogUrlCandidates(context: Context): List<String> {
-        val saved = getCustomCatalogUrl(context)
-        return if (saved.isBlank()) {
-            RuntimeConfig.defaultCatalogUrls
-        } else {
-            listOf(saved) + RuntimeConfig.defaultCatalogUrls
-        }
+        return RuntimeConfig.defaultCatalogUrls
     }
 
     fun getCustomBackendSources(context: Context): List<BackendSource> {
@@ -50,7 +40,7 @@ object BackendPreferences {
     }
 
     fun isUsingDefault(context: Context): Boolean {
-        return getCustomCatalogUrl(context).isBlank()
+        return true
     }
 
     fun defaultSource(): BackendSource {
