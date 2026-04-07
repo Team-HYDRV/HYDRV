@@ -801,13 +801,13 @@ class DownloadAdapter(
     }
 
     private fun displayName(item: DownloadItem): String {
-        if (item.versionName.isBlank()) return item.name
+        if (item.versionName.isBlank()) return item.name.cleanDuplicateSuffix()
         val versionLabel = if (item.versionCode > 0) {
-            "${item.versionName} (${item.versionCode})"
+            "${item.versionName.cleanDuplicateSuffix()} (${item.versionCode})"
         } else {
-            item.versionName
+            item.versionName.cleanDuplicateSuffix()
         }
-        return "${item.name} - $versionLabel"
+        return "${item.name.cleanDuplicateSuffix()} - $versionLabel"
     }
 
     private fun isControlCoolingDown(itemKey: String): Boolean {

@@ -212,7 +212,7 @@ class VersionSheet(
         currentLatestVersion = sortedVersions.firstOrNull()
         val latestVersionNumber = currentLatestVersion?.version
 
-        appNameView.text = currentApp.name
+        appNameView.text = currentApp.name.cleanDuplicateSuffix()
         sheetSummaryView.text =
             ctx.getString(
                 R.string.versions_summary_format,
@@ -307,7 +307,7 @@ class VersionSheet(
         val buttonIcon = card.findViewById<ImageView>(R.id.versionDownloadIcon)
         title.text = ctx.getString(
             R.string.version_format,
-            "${version.version_name} (${version.version})"
+            "${version.displayVersionName()} (${version.version})"
         )
         badge.visibility = if (version.version == latestVersionNumber) View.VISIBLE else View.GONE
 
@@ -617,7 +617,11 @@ class VersionSheet(
             activeSessionKeys.add(key)
             lastKnownStatuses[key] = "Downloading"
             applyProgressState(buttonViewsByKey.getValue(key), 0, "0%")
-            getString(R.string.added_to_downloads_format, currentApp.name, version.version_name)
+            getString(
+                R.string.added_to_downloads_format,
+                currentApp.name.cleanDuplicateSuffix(),
+                version.displayVersionName()
+            )
         } else {
             if (result == DownloadRepository.StartResult.INVALID_URL) {
                 failedKeys.add(key)
@@ -1303,9 +1307,9 @@ class VersionSheet(
     private fun copyChangelog(version: Version, changelog: String) {
         val clipboard = context?.getSystemService(ClipboardManager::class.java) ?: return
         val text = buildString {
-            append(currentApp.name)
+            append(currentApp.name.cleanDuplicateSuffix())
             append(" ")
-            append(version.version_name)
+            append(version.displayVersionName())
             append('\n')
             append(changelog)
         }
@@ -1315,9 +1319,9 @@ class VersionSheet(
 
     private fun shareChangelog(version: Version, changelog: String) {
         val shareText = buildString {
-            append(currentApp.name)
+            append(currentApp.name.cleanDuplicateSuffix())
             append(" ")
-            append(version.version_name)
+            append(version.displayVersionName())
             append('\n')
             append(changelog)
             val host = version.downloadHost()
@@ -1330,7 +1334,10 @@ class VersionSheet(
             Intent.createChooser(
                 Intent(Intent.ACTION_SEND).apply {
                     type = "text/plain"
-                    putExtra(Intent.EXTRA_SUBJECT, "${currentApp.name} ${version.version_name}")
+                    putExtra(
+                        Intent.EXTRA_SUBJECT,
+                        "${currentApp.name.cleanDuplicateSuffix()} ${version.displayVersionName()}"
+                    )
                     putExtra(Intent.EXTRA_TEXT, shareText)
                 },
                 getString(R.string.version_share_notes)
