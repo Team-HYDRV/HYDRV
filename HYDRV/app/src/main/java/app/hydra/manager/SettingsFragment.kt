@@ -1745,14 +1745,14 @@ class SettingsFragment : Fragment() {
     ): BackendEditorDialogViews {
         val root = LinearLayout(context).apply {
             orientation = LinearLayout.VERTICAL
-            val horizontal = (16 * resources.displayMetrics.density).toInt()
-            val top = (16 * resources.displayMetrics.density).toInt()
+            val horizontal = (14 * resources.displayMetrics.density).toInt()
+            val top = (12 * resources.displayMetrics.density).toInt()
             setPadding(horizontal, top, horizontal, 0)
         }
 
         val sourcesContainer = LinearLayout(context).apply {
             orientation = LinearLayout.VERTICAL
-            val top = (12 * resources.displayMetrics.density).toInt()
+            val top = (8 * resources.displayMetrics.density).toInt()
             setPadding(0, top, 0, 0)
         }
         val emptyView = TextView(context).apply {
@@ -1793,14 +1793,14 @@ class SettingsFragment : Fragment() {
         val defaultCard = LinearLayout(context).apply {
             orientation = LinearLayout.VERTICAL
             setBackgroundResource(R.drawable.card)
-            val horizontal = (14 * resources.displayMetrics.density).toInt()
-            val vertical = (10 * resources.displayMetrics.density).toInt()
+            val horizontal = (12 * resources.displayMetrics.density).toInt()
+            val vertical = (8 * resources.displayMetrics.density).toInt()
             setPadding(horizontal, vertical, horizontal, vertical)
             layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
             ).apply {
-                topMargin = (8 * resources.displayMetrics.density).toInt()
+                topMargin = (6 * resources.displayMetrics.density).toInt()
             }
         }
         val defaultRow = LinearLayout(context).apply {
@@ -1851,8 +1851,8 @@ class SettingsFragment : Fragment() {
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 1
             ).apply {
-                topMargin = (10 * resources.displayMetrics.density).toInt()
-                bottomMargin = (10 * resources.displayMetrics.density).toInt()
+                topMargin = (8 * resources.displayMetrics.density).toInt()
+                bottomMargin = (8 * resources.displayMetrics.density).toInt()
             }
             setBackgroundResource(R.drawable.about_list_divider)
         })
@@ -1869,7 +1869,7 @@ class SettingsFragment : Fragment() {
         root.addView(
             Button(context).apply {
                 text = getString(R.string.backend_add_source)
-                val top = (10 * resources.displayMetrics.density).toInt()
+                val top = (8 * resources.displayMetrics.density).toInt()
                 layoutParams = LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT
@@ -1910,14 +1910,14 @@ class SettingsFragment : Fragment() {
     ): BackendEditorRowViews {
         val card = LinearLayout(context).apply {
             orientation = LinearLayout.VERTICAL
-            val horizontal = (14 * resources.displayMetrics.density).toInt()
-            val vertical = (8 * resources.displayMetrics.density).toInt()
+            val horizontal = (10 * resources.displayMetrics.density).toInt()
+            val vertical = (4 * resources.displayMetrics.density).toInt()
             setPadding(horizontal, vertical, horizontal, vertical)
             layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
             ).apply {
-                topMargin = (6 * resources.displayMetrics.density).toInt()
+                topMargin = (4 * resources.displayMetrics.density).toInt()
             }
         }
 
@@ -1945,7 +1945,7 @@ class SettingsFragment : Fragment() {
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
             ).apply {
-                leftMargin = (8 * resources.displayMetrics.density).toInt()
+                leftMargin = (6 * resources.displayMetrics.density).toInt()
             }
         }
 
@@ -1954,7 +1954,7 @@ class SettingsFragment : Fragment() {
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
             ).apply {
-                leftMargin = (8 * resources.displayMetrics.density).toInt()
+                leftMargin = (6 * resources.displayMetrics.density).toInt()
             }
         }
 
@@ -1977,8 +1977,8 @@ class SettingsFragment : Fragment() {
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 1
             ).apply {
-                topMargin = (10 * resources.displayMetrics.density).toInt()
-                bottomMargin = (10 * resources.displayMetrics.density).toInt()
+                topMargin = (8 * resources.displayMetrics.density).toInt()
+                bottomMargin = (8 * resources.displayMetrics.density).toInt()
             }
             setBackgroundResource(R.drawable.about_list_divider)
         })
@@ -2063,7 +2063,7 @@ class SettingsFragment : Fragment() {
         val activeIsDefault = editor.activeUrl.isBlank() ||
             editor.activeUrl.equals(RuntimeConfig.defaultCatalogUrl, ignoreCase = true)
         editor.defaultButton.text = if (activeIsDefault) {
-            getString(R.string.backend_active_source)
+            getString(R.string.backend_active_source_short)
         } else {
             getString(R.string.backend_set_active_source)
         }
@@ -2075,7 +2075,7 @@ class SettingsFragment : Fragment() {
                 row.sourceUrl.equals(editor.activeUrl, ignoreCase = true)
             row.isActive = isActive
             row.activeButton.text = if (isActive) {
-                getString(R.string.backend_active_source)
+                getString(R.string.backend_active_source_short)
             } else {
                 getString(R.string.backend_set_active_source)
             }
