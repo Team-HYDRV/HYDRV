@@ -1736,66 +1736,27 @@ class SettingsFragment : Fragment() {
                 ?.let { legacy -> listOf(BackendSource("Custom backend", legacy, true)) }
                 .orEmpty()
         }
-        val editor = buildBackendEditorDialog(context, existingSources)
+        val editor = buildBackendManagerInlineView(context, existingSources)
         backendManagerContainer.addView(editor.root)
         backendManagerContainer.visibility = View.GONE
     }
 
-    private fun buildBackendEditorDialog(
+    private fun buildBackendManagerInlineView(
         context: android.content.Context,
         sources: List<BackendSource>
     ): BackendEditorDialogViews {
-        val scrollView = ScrollView(context)
         val root = LinearLayout(context).apply {
             orientation = LinearLayout.VERTICAL
-            val horizontal = (20 * resources.displayMetrics.density).toInt()
-            val top = (8 * resources.displayMetrics.density).toInt()
+            val horizontal = (16 * resources.displayMetrics.density).toInt()
+            val top = (16 * resources.displayMetrics.density).toInt()
             setPadding(horizontal, top, horizontal, 0)
         }
-        scrollView.addView(
-            root,
-            ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            )
-        )
-
-        root.addView(
-            TextView(context).apply {
-                text = getString(R.string.backend_dialog_message)
-                setTextColor(
-                    ThemeColors.color(
-                        context,
-                        com.google.android.material.R.attr.colorOnSurfaceVariant,
-                        R.color.subtext
-                    )
-                )
-                textSize = 13f
-            }
-        )
-        root.addView(
-            TextView(context).apply {
-                text = getString(R.string.backend_default_label) + ": " + RuntimeConfig.defaultCatalogUrl
-                setTextColor(
-                    ThemeColors.color(
-                        context,
-                        com.google.android.material.R.attr.colorOnBackground,
-                        R.color.text
-                    )
-                )
-                textSize = 13f
-                val top = (12 * resources.displayMetrics.density).toInt()
-                setPadding(0, top, 0, 0)
-            }
-        )
 
         val sourcesContainer = LinearLayout(context).apply {
             orientation = LinearLayout.VERTICAL
-            val top = (8 * resources.displayMetrics.density).toInt()
+            val top = (12 * resources.displayMetrics.density).toInt()
             setPadding(0, top, 0, 0)
         }
-        root.addView(sourcesContainer)
-
         val emptyView = TextView(context).apply {
             text = getString(R.string.backend_manager_empty)
             setTextColor(
@@ -1806,20 +1767,30 @@ class SettingsFragment : Fragment() {
                 )
             )
             textSize = 13f
-            val top = (8 * resources.displayMetrics.density).toInt()
+            val top = (10 * resources.displayMetrics.density).toInt()
             setPadding(0, top, 0, 0)
             visibility = if (sources.isEmpty()) View.VISIBLE else View.GONE
         }
-        root.addView(emptyView)
 
         val editor = BackendEditorDialogViews(
-            root = scrollView,
+            root = ScrollView(context).apply {
+                addView(
+                    root,
+                    ViewGroup.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT
+                    )
+                )
+            },
             defaultButton = Button(context),
             sourcesContainer = sourcesContainer,
             emptyView = emptyView,
             rows = mutableListOf(),
             activeUrl = ""
         )
+
+        editor.activeUrl = BackendPreferences.getActiveBackendUrlValue(context)
+            .orEmpty()
 
         val defaultCard = LinearLayout(context).apply {
             orientation = LinearLayout.VERTICAL
@@ -1834,6 +1805,13 @@ class SettingsFragment : Fragment() {
                 topMargin = top
             }
         }
+        val defaultRow = LinearLayout(context).apply {
+            orientation = LinearLayout.HORIZONTAL
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+        }
         val defaultTitle = TextView(context).apply {
             text = getString(R.string.backend_default_label)
             setTextColor(
@@ -1844,27 +1822,50 @@ class SettingsFragment : Fragment() {
                 )
             )
             textSize = 15f
+            layoutParams = LinearLayout.LayoutParams(
+                0,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                1f
+            )
         }
         editor.defaultButton.apply {
-            val top = (10 * resources.displayMetrics.density).toInt()
             layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
-            ).apply {
-                topMargin = top
+            )
+            setOnClickListener {
+                editor.activeUrl = RuntimeConfig.defaultCatalogUrl
+                BackendPreferences.setActiveBackendUrl(context, editor.activeUrl)
+                BackendPreferences.setCustomBackendSources(context, readBackendEditorSources(editor))
+                refreshBackendEditorRows(editor)
+                updateBackendUrlLabel()
+                refreshCatalogAfterBackendChange()
             }
         }
-        defaultCard.addView(defaultTitle)
-        defaultCard.addView(editor.defaultButton)
-        root.addView(defaultCard, 2)
-        editor.defaultButton.setOnClickListener {
-            editor.activeUrl = RuntimeConfig.defaultCatalogUrl
-            BackendPreferences.setActiveBackendUrl(context, editor.activeUrl)
-            BackendPreferences.setCustomBackendSources(context, readBackendEditorSources(editor))
-            refreshBackendEditorRows(editor)
-            updateBackendUrlLabel()
-            refreshCatalogAfterBackendChange()
+        defaultRow.addView(defaultTitle)
+        defaultRow.addView(editor.defaultButton)
+        defaultCard.addView(defaultRow)
+        root.addView(defaultCard)
+
+        root.addView(View(context).apply {
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                1
+            ).apply {
+                topMargin = (12 * resources.displayMetrics.density).toInt()
+                bottomMargin = (12 * resources.displayMetrics.density).toInt()
+            }
+            setBackgroundResource(R.drawable.about_list_divider)
+        })
+
+        root.addView(sourcesContainer)
+        root.addView(emptyView)
+
+        sources.forEach { source ->
+            addBackendEditorRow(context, sourcesContainer, editor, source)
         }
+        refreshBackendEditorRows(editor)
+        updateBackendEmptyState(emptyView, sourcesContainer)
 
         root.addView(
             Button(context).apply {
@@ -1877,26 +1878,27 @@ class SettingsFragment : Fragment() {
                     topMargin = top
                 }
                 setOnClickListener {
-                    addBackendEditorRow(
+                    showBackendSourceFormDialog(
                         context = context,
-                        parent = sourcesContainer,
-                        editor = editor,
-                        source = BackendSource("", "", true)
-                    )
-                    refreshBackendEditorRows(editor)
-                    updateBackendEmptyState(emptyView, sourcesContainer)
+                        title = getString(R.string.backend_add_source),
+                        initialName = "",
+                        initialUrl = ""
+                    ) { name, url ->
+                        addBackendEditorRow(
+                            context = context,
+                            parent = sourcesContainer,
+                            editor = editor,
+                            source = BackendSource(name, url, true)
+                        )
+                        BackendPreferences.setCustomBackendSources(context, readBackendEditorSources(editor))
+                        refreshBackendEditorRows(editor)
+                        updateBackendEmptyState(emptyView, sourcesContainer)
+                        updateBackendUrlLabel()
+                        refreshCatalogAfterBackendChange()
+                    }
                 }
             }
         )
-
-        editor.activeUrl = BackendPreferences.getActiveBackendUrlValue(context)
-            .orEmpty()
-
-        sources.forEach { source ->
-            addBackendEditorRow(context, sourcesContainer, editor, source)
-        }
-        refreshBackendEditorRows(editor)
-        updateBackendEmptyState(emptyView, sourcesContainer)
 
         return editor
     }
