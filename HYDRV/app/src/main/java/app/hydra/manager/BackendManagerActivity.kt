@@ -3,6 +3,8 @@ package app.hydra.manager
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
@@ -279,9 +281,7 @@ class BackendManagerActivity : AppCompatActivity() {
                         item.source.url.trim()
                     }
                     if (nextActive.isBlank()) return@setOnClickListener
-                    BackendPreferences.setActiveBackendUrl(this@BackendManagerActivity, nextActive)
-                    refreshBackendList()
-                    refreshCatalogAfterBackendChange()
+                    activateBackend(item, nextActive)
                 }
 
                 if (item.isDefault) {
@@ -344,5 +344,31 @@ class BackendManagerActivity : AppCompatActivity() {
 
             }
         }
+    }
+
+    private fun activateBackend(item: BackendRow, nextActive: String) {
+        if (item.isDefault) {
+            BackendPreferences.setActiveBackendUrl(this@BackendManagerActivity, nextActive)
+            refreshBackendList()
+            refreshCatalogAfterBackendChange()
+            return
+        }
+
+        Thread {
+            val validation = AppCatalogService.validateCatalogEndpointSync(nextActive)
+            val handler = Handler(Looper.getMainLooper())
+            handler.post {
+                if (validation.isSuccess) {
+                    BackendPreferences.setActiveBackendUrl(this@BackendManagerActivity, nextActive)
+                    refreshBackendList()
+                    refreshCatalogAfterBackendChange()
+                } else {
+                    AppSnackbar.show(
+                        findViewById(R.id.rootLayout),
+                        getString(R.string.backend_set_active_failed)
+                    )
+                }
+            }
+        }.start()
     }
 }

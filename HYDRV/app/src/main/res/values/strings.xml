@@ -324,6 +324,7 @@
     <string name="backend_example_url">Example: https://example.com/catalogue.json</string>
     <string name="backend_validating_message">Checking backend link...</string>
     <string name="backend_invalid_message">That link does not look like a valid JSON endpoint.</string>
+    <string name="backend_set_active_failed">That backend is not working right now.</string>
     <string name="backend_saved_message">Backend link updated.</string>
     <string name="backend_reset_message">Backend reset to default.</string>
     <string name="save_label">Save</string>
