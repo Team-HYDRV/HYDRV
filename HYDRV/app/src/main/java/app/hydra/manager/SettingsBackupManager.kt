@@ -6,7 +6,7 @@ import org.json.JSONObject
 
 object SettingsBackupManager {
 
-    private const val BACKUP_VERSION = 1
+    private const val BACKUP_VERSION = 2
 
     fun exportBackup(context: Context): String {
         val root = JSONObject()
@@ -29,6 +29,33 @@ object SettingsBackupManager {
             put("version_sort", ListSortPreferences.getVersionSort(context))
             put("download_sort", ListSortPreferences.getDownloadSort(context))
         }
+        val backendSources = BackendPreferences.getCustomBackendSources(context)
+        val activeBackendUrl = BackendPreferences.getActiveBackendUrlValue(context).trim()
+        settings.put(
+            "active_backend_url",
+            if (activeBackendUrl.isNotBlank() &&
+                !activeBackendUrl.equals(RuntimeConfig.defaultCatalogUrl, ignoreCase = true) &&
+                backendSources.any { it.url.equals(activeBackendUrl, ignoreCase = true) }
+            ) {
+                activeBackendUrl
+            } else {
+                ""
+            }
+        )
+        settings.put(
+            "backend_sources",
+            JSONArray().apply {
+                backendSources.forEach { source ->
+                    put(
+                        JSONObject().apply {
+                            put("name", source.name)
+                            put("url", source.url)
+                            put("enabled", source.enabled)
+                        }
+                    )
+                }
+            }
+        )
         root.put("settings", settings)
         return root.toString(2)
     }
@@ -97,6 +124,31 @@ object SettingsBackupManager {
                 context,
                 settings.optString("download_sort", ListSortPreferences.DOWNLOAD_SORT_NEWEST)
             )
+
+            val backendSources = buildList {
+                val rawSources = settings.optJSONArray("backend_sources") ?: JSONArray()
+                for (index in 0 until rawSources.length()) {
+                    val source = rawSources.optJSONObject(index) ?: continue
+                    val name = source.optString("name").trim()
+                    val url = source.optString("url").trim()
+                    if (url.isBlank()) continue
+                    add(
+                        BackendSource(
+                            name = name.ifBlank { "Custom backend" },
+                            url = url,
+                            enabled = source.optBoolean("enabled", true)
+                        )
+                    )
+                }
+            }
+            BackendPreferences.setCustomBackendSources(context, backendSources)
+            val activeBackendUrl = settings.optString("active_backend_url", "").trim()
+            if (activeBackendUrl.isNotBlank() &&
+                !activeBackendUrl.equals(RuntimeConfig.defaultCatalogUrl, ignoreCase = true) &&
+                backendSources.any { it.url.equals(activeBackendUrl, ignoreCase = true) }
+            ) {
+                BackendPreferences.setActiveBackendUrl(context, activeBackendUrl)
+            }
 
             val favoriteList = buildList {
                 for (index in 0 until favorites.length()) {
