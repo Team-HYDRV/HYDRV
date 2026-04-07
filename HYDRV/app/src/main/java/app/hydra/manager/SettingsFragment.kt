@@ -162,8 +162,11 @@ class SettingsFragment : Fragment() {
 
     private data class BackendEditorRowViews(
         val card: LinearLayout,
+        val nameView: TextView,
         val activeButton: Button,
-        val urlField: EditText,
+        val editButton: Button,
+        val removeButton: Button,
+        var sourceName: String,
         var sourceUrl: String,
         var isActive: Boolean = false
     )
@@ -1859,19 +1862,6 @@ class SettingsFragment : Fragment() {
             )
             textSize = 15f
         }
-        val defaultUrl = TextView(context).apply {
-            text = RuntimeConfig.defaultCatalogUrl
-            setTextColor(
-                ThemeColors.color(
-                    context,
-                    com.google.android.material.R.attr.colorOnSurfaceVariant,
-                    R.color.subtext
-                )
-            )
-            textSize = 12f
-            val top = (4 * resources.displayMetrics.density).toInt()
-            setPadding(0, top, 0, 0)
-        }
         editor.defaultButton.apply {
             val top = (10 * resources.displayMetrics.density).toInt()
             layoutParams = LinearLayout.LayoutParams(
@@ -1882,7 +1872,6 @@ class SettingsFragment : Fragment() {
             }
         }
         defaultCard.addView(defaultTitle)
-        defaultCard.addView(defaultUrl)
         defaultCard.addView(editor.defaultButton)
         root.addView(defaultCard, 2)
         editor.defaultButton.setOnClickListener {
@@ -1949,9 +1938,178 @@ class SettingsFragment : Fragment() {
             }
         }
 
-        val name = EditText(context).apply {
+        val nameView = TextView(context).apply {
+            text = source.name.ifBlank { "Custom backend" }
+            setTextColor(
+                ThemeColors.color(
+                    context,
+                    com.google.android.material.R.attr.colorOnBackground,
+                    R.color.text
+                )
+            )
+            textSize = 15f
+        }
+
+        val activeButton = Button(context).apply {
+            layoutParams = LinearLayout.LayoutParams(
+                0,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                1f
+            )
+        }
+
+        val editButton = Button(context).apply {
+            layoutParams = LinearLayout.LayoutParams(
+                0,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                1f
+            ).apply {
+                leftMargin = (8 * resources.displayMetrics.density).toInt()
+                rightMargin = (8 * resources.displayMetrics.density).toInt()
+            }
+        }
+
+        val removeButton = Button(context).apply {
+            layoutParams = LinearLayout.LayoutParams(
+                0,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            ).apply { weight = 1f }
+        }
+
+        val buttonRow = LinearLayout(context).apply {
+            orientation = LinearLayout.HORIZONTAL
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+        }
+        buttonRow.addView(activeButton)
+        buttonRow.addView(editButton)
+        buttonRow.addView(removeButton)
+
+        card.addView(nameView)
+        card.addView(buttonRow)
+        parent.addView(card)
+
+        val row = BackendEditorRowViews(
+            card = card,
+            nameView = nameView,
+            activeButton = activeButton,
+            editButton = editButton,
+            removeButton = removeButton,
+            sourceName = source.name.trim(),
+            sourceUrl = source.url.trim()
+        )
+        editor.rows += row
+
+        activeButton.setOnClickListener {
+            val nextActive = row.sourceUrl.trim()
+            if (nextActive.isBlank()) return@setOnClickListener
+            editor.activeUrl = nextActive
+            BackendPreferences.setActiveBackendUrl(context, editor.activeUrl)
+            BackendPreferences.setCustomBackendSources(context, readBackendEditorSources(editor))
+            refreshBackendEditorRows(editor)
+            updateBackendUrlLabel()
+            refreshCatalogAfterBackendChange()
+        }
+
+        editButton.setOnClickListener {
+            showBackendSourceFormDialog(
+                context = context,
+                title = getString(R.string.backend_dialog_title),
+                initialName = row.sourceName,
+                initialUrl = row.sourceUrl
+            ) { updatedName, updatedUrl ->
+                row.sourceName = updatedName
+                row.sourceUrl = updatedUrl
+                row.nameView.text = updatedName.ifBlank { "Custom backend" }
+                if (row.isActive) {
+                    editor.activeUrl = row.sourceUrl
+                    BackendPreferences.setActiveBackendUrl(context, editor.activeUrl)
+                }
+                BackendPreferences.setCustomBackendSources(context, readBackendEditorSources(editor))
+                refreshBackendEditorRows(editor)
+                updateBackendUrlLabel()
+                refreshCatalogAfterBackendChange()
+            }
+        }
+
+        removeButton.setOnClickListener {
+            parent.removeView(card)
+            editor.rows.remove(row)
+            if (row.sourceUrl.equals(editor.activeUrl, ignoreCase = true)) {
+                editor.activeUrl = RuntimeConfig.defaultCatalogUrl
+                BackendPreferences.setActiveBackendUrl(context, editor.activeUrl)
+            }
+            BackendPreferences.setCustomBackendSources(context, readBackendEditorSources(editor))
+            refreshBackendEditorRows(editor)
+            updateBackendEmptyState(editor.emptyView, parent)
+            updateBackendUrlLabel()
+            refreshCatalogAfterBackendChange()
+        }
+
+        refreshBackendEditorRows(editor)
+        return row
+    }
+
+    private fun readBackendEditorSources(editor: BackendEditorDialogViews): List<BackendSource> {
+        val results = mutableListOf<BackendSource>()
+        editor.rows.forEach { row ->
+            val name = row.sourceName.trim()
+            val url = row.sourceUrl.trim()
+            if (url.isBlank()) return@forEach
+            results += BackendSource(
+                name = name.ifBlank { "Custom backend" },
+                url = url,
+                enabled = true
+            )
+        }
+        return results.distinctBy { it.url.lowercase() }
+    }
+
+    private fun refreshBackendEditorRows(editor: BackendEditorDialogViews) {
+        val activeIsDefault = editor.activeUrl.isBlank() ||
+            editor.activeUrl.equals(RuntimeConfig.defaultCatalogUrl, ignoreCase = true)
+        editor.defaultButton.text = if (activeIsDefault) {
+            getString(R.string.backend_active_source)
+        } else {
+            getString(R.string.backend_set_active_source)
+        }
+
+        editor.rows.forEach { row ->
+            row.nameView.text = row.sourceName.ifBlank { "Custom backend" }
+            val isActive = row.sourceUrl.isNotBlank() &&
+                editor.activeUrl.isNotBlank() &&
+                row.sourceUrl.equals(editor.activeUrl, ignoreCase = true)
+            row.isActive = isActive
+            row.activeButton.text = if (isActive) {
+                getString(R.string.backend_active_source)
+            } else {
+                getString(R.string.backend_set_active_source)
+            }
+            row.editButton.text = getString(R.string.backend_edit_source)
+            row.removeButton.text = getString(R.string.backend_remove_source)
+            row.removeButton.isEnabled = true
+        }
+    }
+
+    private fun showBackendSourceFormDialog(
+        context: android.content.Context,
+        title: String,
+        initialName: String,
+        initialUrl: String,
+        onSave: (String, String) -> Unit
+    ) {
+        val container = LinearLayout(context).apply {
+            orientation = LinearLayout.VERTICAL
+            val horizontal = (20 * resources.displayMetrics.density).toInt()
+            val vertical = (16 * resources.displayMetrics.density).toInt()
+            setPadding(horizontal, vertical, horizontal, vertical)
+        }
+
+        val nameField = EditText(context).apply {
             inputType = InputType.TYPE_CLASS_TEXT
-            setText(source.name)
+            setText(initialName)
             hint = getString(R.string.backend_source_name_hint)
             setTextColor(
                 ThemeColors.color(
@@ -1971,9 +2129,9 @@ class SettingsFragment : Fragment() {
             setPadding(28, 20, 28, 20)
         }
 
-        val url = EditText(context).apply {
+        val urlField = EditText(context).apply {
             inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_URI
-            setText(source.url)
+            setText(initialUrl)
             hint = getString(R.string.backend_source_url_hint)
             setTextColor(
                 ThemeColors.color(
@@ -2000,129 +2158,25 @@ class SettingsFragment : Fragment() {
             }
         }
 
-        val activeButton = Button(context).apply {
-            val top = (10 * resources.displayMetrics.density).toInt()
-            layoutParams = LinearLayout.LayoutParams(
-                0,
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                1f
-            ).apply {
-                topMargin = top
-                rightMargin = (8 * resources.displayMetrics.density).toInt()
-            }
-        }
+        container.addView(nameField)
+        container.addView(urlField)
 
-        val removeButton = Button(context).apply {
-            text = getString(R.string.backend_remove_source)
-            val top = (10 * resources.displayMetrics.density).toInt()
-            layoutParams = LinearLayout.LayoutParams(
-                0,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-            ).apply {
-                topMargin = top
-                weight = 1f
-            }
-        }
+        val dialog = MaterialAlertDialogBuilder(context)
+            .setTitle(title)
+            .setView(container)
+            .setPositiveButton(getString(R.string.save_label), null)
+            .setNegativeButton(getString(R.string.downloads_cancel), null)
+            .show()
 
-        val buttonRow = LinearLayout(context).apply {
-            orientation = LinearLayout.HORIZONTAL
-            layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-            )
-        }
-        buttonRow.addView(activeButton)
-        buttonRow.addView(removeButton)
-
-        card.addView(name)
-        card.addView(url)
-        card.addView(buttonRow)
-        parent.addView(card)
-
-        val row = BackendEditorRowViews(
-            card = card,
-            activeButton = activeButton,
-            urlField = url,
-            sourceUrl = source.url.trim(),
-            isActive = editor.activeUrl.isNotBlank() &&
-                source.url.trim().equals(editor.activeUrl, ignoreCase = true)
-        )
-        editor.rows += row
-
-        url.doAfterTextChanged {
-            row.sourceUrl = it?.toString().orEmpty().trim()
-            if (row.isActive) {
-                editor.activeUrl = row.sourceUrl
-            }
-            refreshBackendEditorRows(editor)
-        }
-
-        activeButton.setOnClickListener {
-            val nextActive = row.urlField.text?.toString().orEmpty().trim()
-            if (nextActive.isBlank()) return@setOnClickListener
-            editor.activeUrl = nextActive
-            BackendPreferences.setActiveBackendUrl(context, editor.activeUrl)
-            BackendPreferences.setCustomBackendSources(context, readBackendEditorSources(editor))
-            refreshBackendEditorRows(editor)
-            updateBackendUrlLabel()
-            refreshCatalogAfterBackendChange()
-        }
-
-        removeButton.setOnClickListener {
-            parent.removeView(card)
-            editor.rows.remove(row)
-            if (row.isActive) {
-                editor.activeUrl = RuntimeConfig.defaultCatalogUrl
-                BackendPreferences.setActiveBackendUrl(context, editor.activeUrl)
-            }
-            refreshBackendEditorRows(editor)
-            updateBackendEmptyState(editor.emptyView, parent)
-            updateBackendUrlLabel()
-            refreshCatalogAfterBackendChange()
-        }
-
-        refreshBackendEditorRows(editor)
-        return row
-    }
-
-    private fun readBackendEditorSources(editor: BackendEditorDialogViews): List<BackendSource> {
-        val results = mutableListOf<BackendSource>()
-        editor.rows.forEach { row ->
-            val card = row.card
-            val nameField = card.getChildAt(0) as? EditText ?: return@forEach
-            val urlField = card.getChildAt(1) as? EditText ?: return@forEach
-            val name = nameField.text?.toString().orEmpty().trim()
+        dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
+            val name = nameField.text?.toString().orEmpty().trim().ifBlank { "Custom backend" }
             val url = urlField.text?.toString().orEmpty().trim()
-            if (url.isBlank()) return@forEach
-            results += BackendSource(
-                name = name.ifBlank { "Custom backend" },
-                url = url,
-                enabled = true
-            )
-        }
-        return results.distinctBy { it.url.lowercase() }
-    }
-
-    private fun refreshBackendEditorRows(editor: BackendEditorDialogViews) {
-        val activeIsDefault = editor.activeUrl.isBlank() ||
-            editor.activeUrl.equals(RuntimeConfig.defaultCatalogUrl, ignoreCase = true)
-        editor.defaultButton.text = if (activeIsDefault) {
-            getString(R.string.backend_active_source)
-        } else {
-            getString(R.string.backend_set_active_source)
-        }
-
-        editor.rows.forEach { row ->
-            row.sourceUrl = row.urlField.text?.toString().orEmpty().trim()
-            val isActive = row.sourceUrl.isNotBlank() &&
-                editor.activeUrl.isNotBlank() &&
-                row.sourceUrl.equals(editor.activeUrl, ignoreCase = true)
-            row.isActive = isActive
-            row.activeButton.text = if (isActive) {
-                getString(R.string.backend_active_source)
-            } else {
-                getString(R.string.backend_set_active_source)
+            if (url.isBlank()) {
+                urlField.error = getString(R.string.backend_invalid_message)
+                return@setOnClickListener
             }
+            onSave(name, url)
+            dialog.dismiss()
         }
     }
 
