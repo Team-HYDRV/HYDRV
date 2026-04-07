@@ -60,7 +60,7 @@ class BackendManagerActivity : AppCompatActivity() {
         adapter = BackendSourceAdapter()
         recyclerView.adapter = adapter
 
-        findViewById<Button>(R.id.addBackendButton).setOnClickListener {
+        findViewById<View>(R.id.addBackendRow).setOnClickListener {
             showBackendSourceFormDialog(
                 title = getString(R.string.backend_add_source),
                 initialName = "",
@@ -273,6 +273,12 @@ class BackendManagerActivity : AppCompatActivity() {
                     actionRow.visibility = View.GONE
                     removeButton.visibility = View.GONE
                     editButton.visibility = View.GONE
+                    itemView.setPadding(
+                        itemView.paddingLeft,
+                        itemView.paddingTop,
+                        itemView.paddingRight,
+                        itemView.paddingBottom
+                    )
                 } else {
                     actionRow.visibility = View.VISIBLE
                     removeButton.visibility = View.VISIBLE
