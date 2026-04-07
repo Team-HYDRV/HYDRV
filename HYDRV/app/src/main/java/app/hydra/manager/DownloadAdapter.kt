@@ -802,11 +802,7 @@ class DownloadAdapter(
 
     private fun displayName(item: DownloadItem): String {
         if (item.versionName.isBlank()) return item.name.cleanDuplicateSuffix()
-        val versionLabel = if (item.versionCode > 0) {
-            "${item.versionName.cleanDuplicateSuffix()} (${item.versionCode})"
-        } else {
-            item.versionName.cleanDuplicateSuffix()
-        }
+        val versionLabel = item.versionName.cleanDuplicateSuffix()
         return "${item.name.cleanDuplicateSuffix()} - $versionLabel"
     }
 

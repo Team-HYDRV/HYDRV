@@ -78,7 +78,7 @@ class AppDetailsActivity : AppCompatActivity() {
         latest.text = if (latestVersion != null) {
             getString(
                 R.string.app_details_latest_version,
-                "${latestVersion.displayVersionName()} (${latestVersion.version})"
+                latestVersion.displayVersionName()
             )
         } else {
             getString(R.string.app_details_latest_unavailable)
@@ -124,7 +124,7 @@ class AppDetailsActivity : AppCompatActivity() {
             val title = TextView(this)
             title.text = getString(
                 R.string.app_details_version_title,
-                "${v.displayVersionName()} (${v.version})"
+                v.displayVersionName()
             )
             title.setTextColor(
                 ThemeColors.color(
