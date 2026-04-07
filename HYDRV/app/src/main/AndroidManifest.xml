@@ -54,6 +54,7 @@
         <activity android:name=".ContributorsActivity" />
         <activity android:name=".LanguageSelectionActivity" />
         <activity android:name=".LibrariesCreditsActivity" />
+        <activity android:name=".BackendManagerActivity" />
 
         <receiver
             android:name=".InstallResultReceiver"

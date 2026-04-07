@@ -319,7 +319,6 @@ class SettingsFragment : Fragment() {
         updateSettingsCardSurfaces(view)
         batteryOptimizationValue = view.findViewById(R.id.batteryOptimizationValue)
         updateBackendUrlLabel()
-        renderBackendManagerInline()
         updateBatteryOptimizationLabel()
         updateAdsSupportLabel()
         updateDeviceInfo()
@@ -391,7 +390,9 @@ class SettingsFragment : Fragment() {
         view.findViewById<View>(R.id.pureBlackRow).setOnClickListener {
             togglePureBlackTheme()
         }
-        view.findViewById<View>(R.id.backendUrlRow).setOnClickListener(null)
+        view.findViewById<View>(R.id.backendUrlRow).setOnClickListener {
+            startActivity(Intent(requireContext(), BackendManagerActivity::class.java))
+        }
         view.findViewById<View>(R.id.backendHealthRow).setOnClickListener {
             showBackendHealthDialog()
         }
