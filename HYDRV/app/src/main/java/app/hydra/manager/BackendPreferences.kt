@@ -84,7 +84,7 @@ object BackendPreferences {
     }
 
     fun isUsingDefault(context: Context): Boolean {
-        return getCustomCatalogUrl(context).isBlank()
+        return getCustomCatalogUrl(context).isBlank() && getCustomBackendSources(context).isEmpty()
     }
 
     private fun sanitize(url: String): String {

@@ -311,6 +311,12 @@
     <string name="backend_custom_label">Custom</string>
     <string name="backend_dialog_title">Change backend</string>
     <string name="backend_dialog_message">Paste a direct JSON endpoint, not a normal web page link. If you leave it empty, the built-in backend will be used.</string>
+    <string name="backend_manager_hint">You can add, rename, and remove extra backend sources here. The built-in HYDRV backend stays available separately.</string>
+    <string name="backend_manager_empty">No custom backends yet. Tap Add backend to create one.</string>
+    <string name="backend_add_source">Add backend</string>
+    <string name="backend_remove_source">Remove</string>
+    <string name="backend_source_name_hint">Backend name</string>
+    <string name="backend_source_url_hint">https://example.com/catalogue.json</string>
     <string name="backend_example_url">Example: https://example.com/catalogue.json</string>
     <string name="backend_validating_message">Checking backend link...</string>
     <string name="backend_invalid_message">That link does not look like a valid JSON endpoint.</string>
