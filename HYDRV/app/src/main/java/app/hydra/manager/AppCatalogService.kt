@@ -25,48 +25,6 @@ object AppCatalogService {
         val fromCache: Boolean
     )
 
-    private class CatalogFetchSession {
-        @Volatile var started: Boolean = false
-        @Volatile var cancelled: Boolean = false
-        @Volatile var currentCall: Call? = null
-
-        val call: Call = object : Call {
-            override fun request(): Request {
-                return currentCall?.request()
-                    ?: Request.Builder().url(RuntimeConfig.defaultCatalogUrl).build()
-            }
-
-            override fun execute(): Response {
-                throw UnsupportedOperationException("Use fetchApps callback")
-            }
-
-            override fun enqueue(responseCallback: Callback) {
-                throw UnsupportedOperationException("Use fetchApps callback")
-            }
-
-            override fun cancel() {
-                cancelled = true
-                currentCall?.cancel()
-            }
-
-            override fun isExecuted(): Boolean {
-                return started
-            }
-
-            override fun isCanceled(): Boolean {
-                return cancelled || currentCall?.isCanceled() == true
-            }
-
-            override fun clone(): Call {
-                return this
-            }
-
-            override fun timeout(): okio.Timeout {
-                return currentCall?.timeout() ?: okio.Timeout.NONE
-            }
-        }
-    }
-
     private val client = OkHttpClient.Builder()
         .retryOnConnectionFailure(true)
         .connectTimeout(10, TimeUnit.SECONDS)
@@ -247,7 +205,6 @@ object AppCatalogService {
         val appContext = context.applicationContext
         return BackendPreferences.getCatalogUrlCandidates(appContext)
             .firstNotNullOfOrNull { readCachedResult(appContext, it) }
-            ?: readAnyCachedResult(appContext)
     }
 
     private fun parse(raw: String): Result<List<AppModel>> {
@@ -363,27 +320,6 @@ object AppCatalogService {
         }
     }
 
-    private fun readAnyCachedResult(context: Context): Result<FetchResult>? {
-        val cacheDir = context.cacheDir ?: return null
-        val files = cacheDir.listFiles { file ->
-            file.isFile && file.name.startsWith("catalog_") && file.name.endsWith(".json")
-        }?.sortedByDescending { it.lastModified() }.orEmpty()
-
-        return files.firstNotNullOfOrNull { file ->
-            val parsed = runCatching {
-                file.inputStream().reader(Charsets.UTF_8).use { reader -> parse(reader).getOrThrow() }
-            }.fold(
-                onSuccess = { Result.success(it) },
-                onFailure = { Result.failure(it) }
-            )
-            if (parsed.isSuccess) {
-                Result.success(FetchResult(parsed.getOrThrow(), fromCache = true))
-            } else {
-                null
-            }
-        }
-    }
-
     private fun postResult(
         callback: (Result<FetchResult>) -> Unit,
         result: Result<FetchResult>
@@ -467,69 +403,6 @@ object AppCatalogService {
                 }
             }
         })
-    }
-
-    private fun fetchSourceSync(
-        context: Context,
-        source: BackendSource,
-        allowCacheFallback: Boolean,
-        bypassRemoteCache: Boolean,
-        session: CatalogFetchSession? = null
-    ): Result<FetchResult> {
-        val request = buildRequest(source.url, bypassRemoteCache)
-        val call = request.call
-        session?.currentCall = call
-
-        return try {
-            if (session?.cancelled == true) {
-                Result.failure(IOException("Catalog request canceled"))
-            } else {
-                call.execute().use { response ->
-                    if (!response.isSuccessful) {
-                        val fallback = if (allowCacheFallback) {
-                            readCachedResult(context, source.url)
-                        } else {
-                            null
-                        }
-                        fallback ?: Result.failure(IOException("HTTP ${response.code}"))
-                    } else {
-                        val parsed = parseResponseToCacheFile(
-                            context = context,
-                            cacheUrl = source.url,
-                            response = response
-                        )
-                        if (parsed.isSuccess) {
-                            Result.success(
-                                FetchResult(
-                                    apps = parsed.getOrThrow().map {
-                                        it.withCatalogSource(source.name, source.url)
-                                    },
-                                    fromCache = false
-                                )
-                            )
-                        } else {
-                            val fallback = if (allowCacheFallback) {
-                                readCachedResult(context, source.url)
-                            } else {
-                                null
-                            }
-                            fallback ?: Result.failure(parsed.exceptionOrNull().asException())
-                        }
-                    }
-                }
-            }
-        } catch (e: Exception) {
-            val fallback = if (allowCacheFallback) {
-                readCachedResult(context, source.url)
-            } else {
-                null
-            }
-            fallback ?: Result.failure(e.asException())
-        } finally {
-            if (session?.currentCall === call) {
-                session.currentCall = null
-            }
-        }
     }
 
     private fun Throwable?.asException(): Exception {

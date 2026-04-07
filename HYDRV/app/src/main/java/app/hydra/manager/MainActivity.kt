@@ -383,7 +383,7 @@ class MainActivity : AppCompatActivity() {
         AppCatalogService.fetchApps(
             this,
             allowCacheFallback = true,
-            bypassRemoteCache = false
+            bypassRemoteCache = true
         ) { result ->
             result.onSuccess { fetchResult ->
                 val apps = fetchResult.apps

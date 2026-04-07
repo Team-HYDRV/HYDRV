@@ -342,7 +342,9 @@ class HomeFragment : Fragment() {
                     cachedApps = appList
                     cachedHash = newHash
 
-                    adapter.submitList(appList)
+                    if (adapter.currentList != appList) {
+                        adapter.submitList(appList)
+                    }
                 } else {
                     CatalogStateCenter.update(newList)
                 }
