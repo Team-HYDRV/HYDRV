@@ -1,0 +1,17 @@
+{
+  "name": "HYDRV",
+  "short_name": "HYDRV",
+  "description": "Android release browsing, kept clean.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#111015",
+  "theme_color": "#111015",
+  "icons": [
+    {
+      "src": "./assets/hydrv-icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
