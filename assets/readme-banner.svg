@@ -19,16 +19,21 @@
     <rect width="128" height="128" rx="34" fill="#11151B" fill-opacity="0.96" stroke="#2D323B" stroke-width="1.5"/>
     <rect x="9" y="9" width="110" height="110" rx="28" fill="#0E1115" fill-opacity="0.88"/>
     <g transform="translate(64 64)">
-      <rect x="-35" y="-35" width="70" height="70" rx="20" fill="#0F1318" stroke="#262C35" stroke-width="2"/>
-      <rect x="-28" y="-28" width="56" height="56" rx="16" fill="#12161C" stroke="#1D232B" stroke-width="1.5"/>
-      <circle r="20" fill="none" stroke="#28E06F" stroke-width="4"/>
-      <circle r="2.8" fill="#28E06F"/>
-      <path d="M-3 -15H3V-3H15V3H3V15H-3V3H-15V-3H-3Z" fill="#28E06F"/>
-      <path d="M0 -22C9 -22 16 -15 16 -6V-3" stroke="#28E06F" stroke-width="3" stroke-linecap="round"/>
-      <path d="M-11 13C-18 10 -21 3 -21 -5" stroke="#28E06F" stroke-width="3" stroke-linecap="round"/>
-      <path d="M11 -13C18 -10 21 -3 21 5" stroke="#28E06F" stroke-width="3" stroke-linecap="round"/>
-      <circle cx="-18" cy="11" r="2.4" fill="#28E06F"/>
-      <circle cx="17" cy="-11" r="2.4" fill="#28E06F"/>
+      <rect x="-36" y="-36" width="72" height="72" rx="22" fill="#161B22" stroke="#2B313A" stroke-width="2"/>
+      <circle r="24" fill="#0C1015" stroke="#8EFAAE" stroke-width="4"/>
+      <g fill="#D7FFE1">
+        <rect x="-8" y="-38" width="16" height="18" rx="5"/>
+        <rect x="-8" y="20" width="16" height="18" rx="5"/>
+        <rect x="-38" y="-8" width="18" height="16" rx="5"/>
+        <rect x="20" y="-8" width="18" height="16" rx="5"/>
+        <rect x="10" y="-31" width="16" height="18" rx="5" transform="rotate(45)"/>
+        <rect x="10" y="-31" width="16" height="18" rx="5" transform="rotate(135)"/>
+        <rect x="10" y="-31" width="16" height="18" rx="5" transform="rotate(225)"/>
+        <rect x="10" y="-31" width="16" height="18" rx="5" transform="rotate(315)"/>
+      </g>
+      <path d="M-8 -9C-8 -17 1 -23 10 -20C16 -17 17 -11 15 -6C13 -1 8 1 8 6C8 10 11 13 14 15" stroke="#0C1015" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M-6 -8C-6 -14 0 -18 6 -17C10 -16 13 -12 13 -8C13 -4 10 -1 8 2C6 5 6 8 8 11" stroke="#D7FFE1" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle r="3.2" fill="#8EFAAE"/>
     </g>
   </g>
 
