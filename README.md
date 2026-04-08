@@ -158,17 +158,21 @@ In practice, HYDRV keeps the public release flow simple: the app reads the visib
 
 <table>
   <tr>
-    <td width="33%" align="center" valign="top">
-      <img src="assets/screenshots/about.png" alt="HYDRV About screen" width="100%">
-      <p><strong>About</strong><br>Project info, quick links, and the current brand.</p>
-    </td>
-    <td width="33%" align="center" valign="top">
+    <td width="25%" align="center" valign="top">
       <img src="assets/screenshots/permissions.png" alt="HYDRV permissions screen" width="100%">
       <p><strong>Permissions</strong><br>Clear setup steps before you start downloading.</p>
     </td>
-    <td width="33%" align="center" valign="top">
-      <img src="assets/screenshots/advanced.png" alt="HYDRV advanced settings screen" width="100%">
-      <p><strong>Advanced</strong><br>Backend controls, diagnostics, and support options.</p>
+    <td width="25%" align="center" valign="top">
+      <img src="assets/screenshots/home.png" alt="HYDRV home screen" width="100%">
+      <p><strong>Home</strong><br>Browse releases, track versions, and keep installs organized.</p>
+    </td>
+    <td width="25%" align="center" valign="top">
+      <img src="assets/screenshots/settings.png" alt="HYDRV settings screen" width="100%">
+      <p><strong>Settings</strong><br>Backend controls, diagnostics, and support options.</p>
+    </td>
+    <td width="25%" align="center" valign="top">
+      <img src="assets/screenshots/about.png" alt="HYDRV About screen" width="100%">
+      <p><strong>About</strong><br>Project info, quick links, and the current brand.</p>
     </td>
   </tr>
 </table>
