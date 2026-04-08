@@ -97,10 +97,18 @@
 
 <h2 align="center">Build</h2>
 
-From `HYDRV/`:
+1. Open `HYDRV/` in Android Studio or a terminal.
+2. Sync the project if needed.
+3. Run:
 
 ```powershell
 .\gradlew.bat assembleDebug
+```
+
+To build a release APK instead, use:
+
+```powershell
+.\gradlew.bat assembleRelease
 ```
 
 <h2 align="center">Project Structure</h2>
