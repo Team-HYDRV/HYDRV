@@ -327,7 +327,7 @@
                     android:background="@drawable/card"
                     android:gravity="center"
                     android:orientation="horizontal"
-                    android:paddingHorizontal="8dp"
+                    android:paddingHorizontal="12dp"
                     android:paddingVertical="14dp">
 
                     <LinearLayout
