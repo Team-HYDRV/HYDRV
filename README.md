@@ -1,4 +1,4 @@
-<p align="center">
+﻿<p align="center">
   <img src="assets/readme-banner-v2.svg" alt="HYDRV banner">
 </p>
 
@@ -36,6 +36,31 @@
 <p align="center">
   <strong>HYDRV is a personalized store made just for you.</strong>
 </p>
+
+---
+
+## Screenshots
+
+<table>
+  <tr>
+    <td width="25%" align="center" valign="top">
+      <img src="assets/screenshots/permissions.png" alt="HYDRV permissions screen" width="100%">
+      <p><strong>Permissions</strong><br>Clear setup steps before you start downloading.</p>
+    </td>
+    <td width="25%" align="center" valign="top">
+      <img src="assets/screenshots/home.png" alt="HYDRV home screen" width="100%">
+      <p><strong>Home</strong><br>Browse releases, track versions, and keep installs organized.</p>
+    </td>
+    <td width="25%" align="center" valign="top">
+      <img src="assets/screenshots/settings.png" alt="HYDRV settings screen" width="100%">
+      <p><strong>Settings</strong><br>Backend controls, diagnostics, and support options.</p>
+    </td>
+    <td width="25%" align="center" valign="top">
+      <img src="assets/screenshots/about.png" alt="HYDRV About screen" width="100%">
+      <p><strong>About</strong><br>Project info, quick links, and the current brand.</p>
+    </td>
+  </tr>
+</table>
 
 ---
 
@@ -154,29 +179,6 @@ In practice, HYDRV keeps the public release flow simple: the app reads the visib
 - [Changelog](CHANGELOG.md)
 - [Support on Ko-fi](https://ko-fi.com/xc3fff0e)
 
-## Screenshots
-
-<table>
-  <tr>
-    <td width="25%" align="center" valign="top">
-      <img src="assets/screenshots/permissions.png" alt="HYDRV permissions screen" width="100%">
-      <p><strong>Permissions</strong><br>Clear setup steps before you start downloading.</p>
-    </td>
-    <td width="25%" align="center" valign="top">
-      <img src="assets/screenshots/home.png" alt="HYDRV home screen" width="100%">
-      <p><strong>Home</strong><br>Browse releases, track versions, and keep installs organized.</p>
-    </td>
-    <td width="25%" align="center" valign="top">
-      <img src="assets/screenshots/settings.png" alt="HYDRV settings screen" width="100%">
-      <p><strong>Settings</strong><br>Backend controls, diagnostics, and support options.</p>
-    </td>
-    <td width="25%" align="center" valign="top">
-      <img src="assets/screenshots/about.png" alt="HYDRV About screen" width="100%">
-      <p><strong>About</strong><br>Project info, quick links, and the current brand.</p>
-    </td>
-  </tr>
-</table>
-
 ## At a Glance
 
 | Area | What it covers |
@@ -263,3 +265,5 @@ See [`HYDRV/docs/backend-example.md`](HYDRV/docs/backend-example.md) for a Cloud
 ## Website
 
 The public website is hosted separately on Cloudflare and is not part of this repository.
+
+
