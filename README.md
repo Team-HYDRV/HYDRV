@@ -35,6 +35,31 @@
 
 ---
 
+<h2 align="center">Highlights</h2>
+
+<table>
+  <tr>
+    <td width="25%" valign="top" align="center">
+      <h3>Release browsing</h3>
+      <p>Open apps, scan releases, and move through versions without extra clutter.</p>
+    </td>
+    <td width="25%" valign="top" align="center">
+      <h3>Signed downloads</h3>
+      <p>The public catalogue stays simple while the Worker signs the real file path.</p>
+    </td>
+    <td width="25%" valign="top" align="center">
+      <h3>Flexible setup</h3>
+      <p>Theme, language, lists, backend sources, and launcher icons are all built in.</p>
+    </td>
+    <td width="25%" valign="top" align="center">
+      <h3>Support tools</h3>
+      <p>Export reports, backend health, update info, and project links stay easy to reach.</p>
+    </td>
+  </tr>
+</table>
+
+---
+
 <h2 align="center">Screenshots</h2>
 
 <table>
@@ -142,29 +167,6 @@
 <p align="center">
   <strong>Good to know:</strong> if a backend is broken or unreachable, HYDRV may not be able to load apps from it. For most people, the default backend is still the simplest choice.
 </p>
-
-<h2 align="center">Highlights</h2>
-
-<table>
-  <tr>
-    <td width="25%" valign="top" align="center">
-      <h3>Release browsing</h3>
-      <p>Open apps, scan releases, and move through versions without extra clutter.</p>
-    </td>
-    <td width="25%" valign="top" align="center">
-      <h3>Signed downloads</h3>
-      <p>The public catalogue stays simple while the Worker signs the real file path.</p>
-    </td>
-    <td width="25%" valign="top" align="center">
-      <h3>Flexible setup</h3>
-      <p>Theme, language, lists, backend sources, and launcher icons are all built in.</p>
-    </td>
-    <td width="25%" valign="top" align="center">
-      <h3>Support tools</h3>
-      <p>Export reports, backend health, update info, and project links stay easy to reach.</p>
-    </td>
-  </tr>
-</table>
 
 <h2 align="center">How It Fits Together</h2>
 
