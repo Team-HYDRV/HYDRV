@@ -9,6 +9,8 @@ import androidx.core.content.edit
 
 object AppIconPreferences {
 
+    private const val ICON_SWITCH_DISABLE_DELAY_MS = 2000L
+
     private const val PREFS_NAME = "app_icon_prefs"
     private const val KEY_ICON = "icon_choice"
 
@@ -86,7 +88,7 @@ object AppIconPreferences {
                     setComponentEnabled(packageManager, alternativeAlias(context), false)
                     setComponentEnabled(packageManager, legacyAlias(context), false)
                     setComponentEnabled(packageManager, legacyGradientAlias(context), false)
-                }, 250L)
+                }, ICON_SWITCH_DISABLE_DELAY_MS)
             }
             ICON_ALTERNATIVE -> {
                 setComponentEnabled(packageManager, alternativeAlias(context), true)
@@ -94,7 +96,7 @@ object AppIconPreferences {
                     setComponentEnabled(packageManager, defaultAlias(context), false)
                     setComponentEnabled(packageManager, legacyAlias(context), false)
                     setComponentEnabled(packageManager, legacyGradientAlias(context), false)
-                }, 250L)
+                }, ICON_SWITCH_DISABLE_DELAY_MS)
             }
             ICON_LEGACY -> {
                 setComponentEnabled(packageManager, legacyAlias(context), true)
@@ -102,7 +104,7 @@ object AppIconPreferences {
                     setComponentEnabled(packageManager, defaultAlias(context), false)
                     setComponentEnabled(packageManager, alternativeAlias(context), false)
                     setComponentEnabled(packageManager, legacyGradientAlias(context), false)
-                }, 250L)
+                }, ICON_SWITCH_DISABLE_DELAY_MS)
             }
             ICON_LEGACY_GRADIENT -> {
                 setComponentEnabled(packageManager, legacyGradientAlias(context), true)
@@ -110,7 +112,7 @@ object AppIconPreferences {
                     setComponentEnabled(packageManager, defaultAlias(context), false)
                     setComponentEnabled(packageManager, alternativeAlias(context), false)
                     setComponentEnabled(packageManager, legacyAlias(context), false)
-                }, 250L)
+                }, ICON_SWITCH_DISABLE_DELAY_MS)
             }
         }
     }
@@ -133,3 +135,4 @@ object AppIconPreferences {
         )
     }
 }
+
