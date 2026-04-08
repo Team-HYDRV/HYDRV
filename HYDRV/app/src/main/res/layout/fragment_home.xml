@@ -81,11 +81,11 @@
             app:shimmer_base_color="@color/shimmer_base"
             app:shimmer_highlight_color="@color/shimmer_highlight">
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="12dp">
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp">
 
                 <include layout="@layout/shimmer_item"/>
                 <include layout="@layout/shimmer_item"/>
@@ -120,9 +120,9 @@
                     android:id="@+id/recyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:paddingStart="12dp"
-                    android:paddingTop="12dp"
-                    android:paddingEnd="12dp"
+                    android:paddingStart="16dp"
+                    android:paddingTop="16dp"
+                    android:paddingEnd="16dp"
                     android:paddingBottom="196dp"
                     android:clipToPadding="false"/>
 

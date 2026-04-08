@@ -6,7 +6,7 @@ import org.json.JSONObject
 
 object SettingsBackupManager {
 
-    private const val BACKUP_VERSION = 3
+    private const val BACKUP_VERSION = 4
 
     fun exportBackup(context: Context): String {
         val root = JSONObject()
@@ -19,6 +19,7 @@ object SettingsBackupManager {
             put("download_network", DownloadNetworkPreferences.getMode(context))
             put("dynamic_color", AppearancePreferences.isDynamicColorEnabled(context))
             put("pure_black", AppearancePreferences.isPureBlackEnabled(context))
+            put("app_icon", AppIconPreferences.currentIcon(context))
             put("rewarded_ads", AdsPreferences.areRewardedAdsEnabled(context))
             put("update_notifications", NotificationPreferences.areUpdateNotificationsEnabled(context))
             put("check_on_launch", UpdatePreferences.isCheckOnLaunchEnabled(context))
@@ -87,6 +88,10 @@ object SettingsBackupManager {
             AppearancePreferences.setPureBlackEnabled(
                 context,
                 settings.optBoolean("pure_black", false)
+            )
+            AppIconPreferences.setIcon(
+                context,
+                settings.optString("app_icon", AppIconPreferences.ICON_DEFAULT)
             )
             AdsPreferences.setRewardedAdsEnabled(
                 context,

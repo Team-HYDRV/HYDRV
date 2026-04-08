@@ -168,7 +168,11 @@ class VersionSheet(
         fadeView = view.findViewById(R.id.scrollFade)
         appNameView = view.findViewById(R.id.appName)
         sheetSummaryView = view.findViewById(R.id.sheetSummary)
-        RewardedAdManager.preload(requireContext())
+        if (AdsPreferences.areRewardedAdsEnabled(requireContext())) {
+            RewardedAdManager.preload(requireContext())
+        } else {
+            RewardedAdManager.clear()
+        }
 
         versionList.layoutManager = LinearLayoutManager(requireContext())
         versionList.adapter = versionAdapter

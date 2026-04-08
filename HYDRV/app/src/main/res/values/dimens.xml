@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="search_clear_button_size">28dp</dimen>
+    <dimen name="search_clear_icon_padding">8dp</dimen>
+    <dimen name="search_clear_icon_end_padding">40dp</dimen>
+</resources>

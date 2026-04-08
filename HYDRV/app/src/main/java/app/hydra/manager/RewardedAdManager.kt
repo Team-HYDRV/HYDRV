@@ -18,6 +18,10 @@ object RewardedAdManager {
     private var initialized = false
 
     fun initialize(context: Context) {
+        if (!AdsPreferences.areRewardedAdsEnabled(context)) {
+            clear()
+            return
+        }
         if (initialized) {
             preload(context)
             return
@@ -30,6 +34,10 @@ object RewardedAdManager {
     }
 
     fun preload(context: Context) {
+        if (!AdsPreferences.areRewardedAdsEnabled(context)) {
+            clear()
+            return
+        }
         if (isLoading || rewardedAd != null) return
 
         isLoading = true
@@ -56,6 +64,10 @@ object RewardedAdManager {
         onRewardEarned: () -> Unit,
         onAdUnavailable: () -> Unit
     ) {
+        if (!AdsPreferences.areRewardedAdsEnabled(activity)) {
+            onAdUnavailable()
+            return
+        }
         val ad = rewardedAd
         if (ad == null) {
             preload(activity.applicationContext)
@@ -107,6 +119,12 @@ object RewardedAdManager {
 
     fun shouldBypassRewardGate(): Boolean {
         return runtimeAvailabilityReason().contains(NO_ADS_AVAILABLE_REASON, ignoreCase = true)
+    }
+
+    fun clear() {
+        rewardedAd = null
+        isLoading = false
+        initialized = false
     }
 
     private fun activeAdUnitId(): String {

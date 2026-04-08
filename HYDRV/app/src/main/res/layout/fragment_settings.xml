@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:paddingTop="44dp"
     android:orientation="vertical">
 
     <LinearLayout
@@ -57,13 +58,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingTop="6dp">
+                android:paddingTop="0dp">
 
                 <LinearLayout
                     android:id="@+id/generalSectionTab"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="12dp"
+                    android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="12dp"
                     android:background="@drawable/settings_section_card"
                     android:clickable="true"
@@ -72,8 +73,8 @@
                     android:gravity="center_vertical"
                     android:minHeight="92dp"
                     android:orientation="horizontal"
-                    android:paddingHorizontal="18dp"
-                    android:paddingVertical="18dp">
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="16dp">
 
                     <FrameLayout
                         android:id="@+id/generalSectionIconBg"
@@ -119,7 +120,7 @@
                     android:id="@+id/updatesSectionTab"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="12dp"
+                    android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="12dp"
                     android:background="@drawable/settings_section_card"
                     android:clickable="true"
@@ -128,8 +129,8 @@
                     android:gravity="center_vertical"
                     android:minHeight="92dp"
                     android:orientation="horizontal"
-                    android:paddingHorizontal="18dp"
-                    android:paddingVertical="18dp">
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="16dp">
 
                     <FrameLayout
                         android:id="@+id/updatesSectionIconBg"
@@ -175,7 +176,7 @@
                     android:id="@+id/advanceSectionTab"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="12dp"
+                    android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="12dp"
                     android:background="@drawable/settings_section_card"
                     android:clickable="true"
@@ -184,8 +185,8 @@
                     android:gravity="center_vertical"
                     android:minHeight="92dp"
                     android:orientation="horizontal"
-                    android:paddingHorizontal="18dp"
-                    android:paddingVertical="18dp">
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="16dp">
 
                     <FrameLayout
                         android:id="@+id/advanceSectionIconBg"
@@ -326,7 +327,7 @@
                     android:background="@drawable/card"
                     android:gravity="center"
                     android:orientation="horizontal"
-                    android:paddingHorizontal="8dp"
+                    android:paddingHorizontal="12dp"
                     android:paddingVertical="14dp">
 
                     <LinearLayout
@@ -441,6 +442,214 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:text="@string/theme_dark"
+                            android:textColor="?attr/colorOnBackground"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:contentDescription="@null"
+                        android:src="@drawable/ic_app_placeholder"
+                        app:tint="?attr/colorOnSurfaceVariant" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/app_icon_section_title"
+                            android:textColor="?attr/colorOnSurfaceVariant"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="@string/app_icon_section_summary"
+                            android:textColor="?attr/colorOnSurfaceVariant"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/appIconOptionsCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/card"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="14dp">
+
+                    <LinearLayout
+                        android:id="@+id/appIconDefaultOption"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="@android:color/transparent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:paddingVertical="10dp">
+
+                        <FrameLayout
+                            android:id="@+id/appIconDefaultIconBg"
+                            android:layout_width="72dp"
+                            android:layout_height="72dp"
+                            android:background="@drawable/theme_option_icon_bg">
+
+                            <ImageView
+                                android:id="@+id/appIconDefaultIcon"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:contentDescription="@null"
+                                android:scaleType="centerInside"
+                                android:src="@mipmap/ic_launcher_hydra" />
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/appIconDefaultLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/app_icon_default_title"
+                            android:textColor="?attr/colorOnBackground"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/appIconHydraOption"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="@android:color/transparent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:paddingVertical="10dp">
+
+                        <FrameLayout
+                            android:id="@+id/appIconHydraIconBg"
+                            android:layout_width="72dp"
+                            android:layout_height="72dp"
+                            android:background="@drawable/theme_option_icon_bg">
+
+                            <ImageView
+                                android:id="@+id/appIconHydraIcon"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:contentDescription="@null"
+                                android:scaleType="centerInside"
+                                android:src="@mipmap/ic_launcher_hydra_alt" />
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/appIconHydraLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/app_icon_hydra_title"
+                            android:textColor="?attr/colorOnBackground"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/appIconLegacyOption"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="@android:color/transparent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:paddingVertical="10dp">
+
+                        <FrameLayout
+                            android:id="@+id/appIconLegacyIconBg"
+                            android:layout_width="72dp"
+                            android:layout_height="72dp"
+                            android:background="@drawable/theme_option_icon_bg">
+
+                            <ImageView
+                                android:id="@+id/appIconLegacyIcon"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:contentDescription="@null"
+                                android:scaleType="centerInside"
+                                android:src="@mipmap/ic_launcher_legacy" />
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/appIconLegacyLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/app_icon_legacy_title"
+                            android:textColor="?attr/colorOnBackground"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/appIconFreedomOption"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="@android:color/transparent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:paddingVertical="10dp">
+
+                        <FrameLayout
+                            android:id="@+id/appIconFreedomIconBg"
+                            android:layout_width="72dp"
+                            android:layout_height="72dp"
+                            android:background="@drawable/theme_option_icon_bg">
+
+                            <ImageView
+                                android:id="@+id/appIconFreedomIcon"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:contentDescription="@null"
+                                android:scaleType="centerInside"
+                                android:src="@mipmap/ic_launcher_legacy_alt" />
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/appIconFreedomLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/app_icon_freedom_title"
                             android:textColor="?attr/colorOnBackground"
                             android:textSize="14sp"
                             android:textStyle="bold" />
@@ -1580,11 +1789,12 @@
                             android:padding="0dp">
 
                             <ImageView
+                                android:id="@+id/aboutAppIcon"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_gravity="center"
                                 android:contentDescription="@null"
-                                android:src="@mipmap/ic_launcher_round" />
+                                android:src="@mipmap/ic_launcher_hydra" />
                         </FrameLayout>
 
                         <LinearLayout

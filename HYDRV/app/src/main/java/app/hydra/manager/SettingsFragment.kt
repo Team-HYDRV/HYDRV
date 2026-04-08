@@ -29,6 +29,8 @@ import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.edit
 import androidx.core.net.toUri
@@ -151,6 +153,13 @@ class SettingsFragment : Fragment() {
         val labelView: TextView
     )
 
+    private data class AppIconOptionViews(
+        val optionView: View,
+        val iconBackground: View,
+        val iconView: ImageView,
+        val labelView: TextView
+    )
+
     private data class BackendEditorDialogViews(
         val root: ScrollView,
         val defaultButton: Button,
@@ -178,6 +187,7 @@ class SettingsFragment : Fragment() {
     private lateinit var generalSection: View
     private lateinit var generalSectionTab: View
     private lateinit var generalSectionIconBg: View
+    private lateinit var appIconOptions: Map<Int, AppIconOptionViews>
     private lateinit var updatesSection: View
     private lateinit var updatesSectionTab: View
     private lateinit var updatesSectionIconBg: View
@@ -187,6 +197,7 @@ class SettingsFragment : Fragment() {
     private lateinit var aboutSection: View
     private lateinit var aboutSectionTab: View
     private lateinit var aboutSectionIconBg: View
+    private lateinit var aboutAppIcon: ImageView
     private lateinit var aboutIssueDivider: View
     private lateinit var aboutContributorsDivider: View
     private lateinit var aboutLicensesDivider: View
@@ -256,6 +267,7 @@ class SettingsFragment : Fragment() {
         aboutSection = view.findViewById(R.id.aboutSection)
         aboutSectionTab = view.findViewById(R.id.aboutSectionTab)
         aboutSectionIconBg = view.findViewById(R.id.aboutSectionIconBg)
+        aboutAppIcon = view.findViewById(R.id.aboutAppIcon)
         aboutIssueDivider = view.findViewById(R.id.aboutIssueDivider)
         aboutContributorsDivider = view.findViewById(R.id.aboutContributorsDivider)
         aboutLicensesDivider = view.findViewById(R.id.aboutLicensesDivider)
@@ -303,6 +315,32 @@ class SettingsFragment : Fragment() {
                 labelView = view.findViewById(R.id.themeLabelDark)
             )
         )
+        appIconOptions = mapOf(
+            R.id.appIconDefaultOption to AppIconOptionViews(
+                optionView = view.findViewById(R.id.appIconDefaultOption),
+                iconBackground = view.findViewById(R.id.appIconDefaultIconBg),
+                iconView = view.findViewById(R.id.appIconDefaultIcon),
+                labelView = view.findViewById(R.id.appIconDefaultLabel)
+            ),
+            R.id.appIconHydraOption to AppIconOptionViews(
+                optionView = view.findViewById(R.id.appIconHydraOption),
+                iconBackground = view.findViewById(R.id.appIconHydraIconBg),
+                iconView = view.findViewById(R.id.appIconHydraIcon),
+                labelView = view.findViewById(R.id.appIconHydraLabel)
+            ),
+            R.id.appIconLegacyOption to AppIconOptionViews(
+                optionView = view.findViewById(R.id.appIconLegacyOption),
+                iconBackground = view.findViewById(R.id.appIconLegacyIconBg),
+                iconView = view.findViewById(R.id.appIconLegacyIcon),
+                labelView = view.findViewById(R.id.appIconLegacyLabel)
+            ),
+            R.id.appIconFreedomOption to AppIconOptionViews(
+                optionView = view.findViewById(R.id.appIconFreedomOption),
+                iconBackground = view.findViewById(R.id.appIconFreedomIconBg),
+                iconView = view.findViewById(R.id.appIconFreedomIcon),
+                labelView = view.findViewById(R.id.appIconFreedomLabel)
+            )
+        )
         homeSortValue = view.findViewById(R.id.homeSortValue)
         favoritesSortValue = view.findViewById(R.id.favoritesSortValue)
         installedSortValue = view.findViewById(R.id.installedSortValue)
@@ -316,6 +354,7 @@ class SettingsFragment : Fragment() {
         updateDownloadNetworkLabel()
         updateAppearanceSwitches()
         updateSettingsSectionTabs()
+        updateAboutAppIcon()
         updateSettingsCardSurfaces(view)
         batteryOptimizationValue = view.findViewById(R.id.batteryOptimizationValue)
         updateBackendUrlLabel()
@@ -337,8 +376,17 @@ class SettingsFragment : Fragment() {
         }
 
         backButton.setOnClickListener {
-            showOverview()
+            handleBackNavigation()
         }
+
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    handleBackNavigation()
+                }
+            }
+        )
 
         view.findViewById<View>(R.id.generalSectionTab).setOnClickListener {
             showSection(SettingsSection.GENERAL)
@@ -368,6 +416,10 @@ class SettingsFragment : Fragment() {
                 prefs.edit { putInt(ThemePreferences.KEY_THEME, mode) }
                 AppCompatDelegate.setDefaultNightMode(mode)
             }
+        }
+
+        appIconOptions.forEach { (optionId, optionViews) ->
+            optionViews.optionView.setOnClickListener { selectAppIcon(optionIdToIcon(optionId)) }
         }
 
         view.findViewById<View>(R.id.homeSortRow).setOnClickListener {
@@ -547,6 +599,19 @@ class SettingsFragment : Fragment() {
         transitionTo(sectionList, currentVisiblePanel, reverse = true)
     }
 
+    private fun handleBackNavigation() {
+        if (currentSection != null) {
+            showOverview()
+            return
+        }
+        val homeTab = activity?.findViewById<View>(R.id.nav_home_tab)
+        if (homeTab != null) {
+            homeTab.performClick()
+            return
+        }
+        activity?.onBackPressedDispatcher?.onBackPressed()
+    }
+
     private fun showSection(section: SettingsSection) {
         currentSection = section
         val targetView = when (section) {
@@ -685,6 +750,7 @@ class SettingsFragment : Fragment() {
         if (!AppearancePreferences.isDynamicColorEnabled(requireContext())) return
         listOf(
             R.id.themeOptionsCard,
+            R.id.appIconOptionsCard,
             R.id.dynamicColorRow,
             R.id.pureBlackRow,
             R.id.languageRow,
@@ -803,6 +869,82 @@ class SettingsFragment : Fragment() {
             AppearancePreferences.isPureBlackEnabled(context)
         )
         updatePureBlackSummary(context)
+        if (this::appIconOptions.isInitialized) {
+            updateAppIconCards()
+        }
+    }
+
+    private fun updateAppIconCards() {
+        val currentIcon = AppIconPreferences.currentIcon(requireContext())
+        appIconOptions.forEach { (optionId, optionViews) ->
+            val isSelected = currentIcon == optionIdToIcon(optionId)
+            optionViews.optionView.isSelected = isSelected
+            optionViews.iconBackground.setBackgroundResource(
+                if (AppearancePreferences.isDynamicColorEnabled(requireContext())) {
+                    if (isSelected) {
+                        R.drawable.theme_option_icon_bg_selected_material
+                    } else {
+                        R.drawable.theme_option_icon_bg_material
+                    }
+                } else {
+                    if (isSelected) {
+                        R.drawable.theme_option_icon_bg_selected
+                    } else {
+                        R.drawable.theme_option_icon_bg
+                    }
+                }
+            )
+            optionViews.iconView.imageTintList =
+                null
+            optionViews.labelView.setTextColor(
+                ThemeColors.color(
+                    requireContext(),
+                    if (isSelected) androidx.appcompat.R.attr.colorPrimary else com.google.android.material.R.attr.colorOnBackground,
+                    if (isSelected) R.color.accent else R.color.text
+                )
+            )
+            optionViews.labelView.alpha = if (isSelected) 1f else 0.85f
+        }
+        if (this::aboutAppIcon.isInitialized) {
+            updateAboutAppIcon()
+        }
+    }
+
+    private fun selectAppIcon(choice: String) {
+        val context = requireContext()
+        if (AppIconPreferences.currentIcon(context) == choice) return
+        AppIconPreferences.setIcon(context, choice)
+        updateAppIconCards()
+        showAppIconChangedSnackbar()
+    }
+
+    private fun optionIdToIcon(optionId: Int): String {
+        return when (optionId) {
+            R.id.appIconDefaultOption -> AppIconPreferences.ICON_DEFAULT
+            R.id.appIconHydraOption -> AppIconPreferences.ICON_ALTERNATIVE
+            R.id.appIconLegacyOption -> AppIconPreferences.ICON_LEGACY
+            R.id.appIconFreedomOption -> AppIconPreferences.ICON_LEGACY_GRADIENT
+            else -> AppIconPreferences.ICON_DEFAULT
+        }
+    }
+
+    private fun updateAboutAppIcon() {
+        if (!this::aboutAppIcon.isInitialized) return
+        aboutAppIcon.setImageResource(
+            when (AppIconPreferences.currentIcon(requireContext())) {
+                AppIconPreferences.ICON_ALTERNATIVE -> R.mipmap.ic_launcher_hydra_alt
+                AppIconPreferences.ICON_LEGACY -> R.mipmap.ic_launcher_legacy
+                AppIconPreferences.ICON_LEGACY_GRADIENT -> R.mipmap.ic_launcher_legacy_alt
+                else -> R.mipmap.ic_launcher_hydra
+            }
+        )
+    }
+
+    private fun showAppIconChangedSnackbar() {
+        AppSnackbar.show(
+            requireActivity().findViewById(R.id.rootLayout),
+            getString(R.string.app_icon_changed)
+        )
     }
 
     private fun updatePureBlackSummary(context: android.content.Context) {
@@ -874,6 +1016,11 @@ class SettingsFragment : Fragment() {
         val context = requireContext()
         val enabled = !AdsPreferences.areRewardedAdsEnabled(context)
         AdsPreferences.setRewardedAdsEnabled(context, enabled)
+        if (enabled) {
+            RewardedAdManager.initialize(context)
+        } else {
+            RewardedAdManager.clear()
+        }
         updateAdsSupportLabel()
     }
 

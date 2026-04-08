@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -6,15 +6,18 @@
     <title>HYDRV</title>
     <meta
         name="description"
-        content="HYDRV is a personalized store made just for you."
+        content="Android release browsing, kept clean."
     >
     <meta name="theme-color" content="#111015">
     <meta property="og:title" content="HYDRV">
-    <meta property="og:description" content="HYDRV is a personalized store made just for you.">
+    <meta property="og:description" content="Android release browsing, kept clean.">
     <meta property="og:type" content="website">
-    <meta property="og:image" content="./assets/hydrv-icon.png">
+    <meta property="og:image" content="./assets/icon-512.png">
     <meta name="twitter:card" content="summary_large_image">
-    <link rel="icon" type="image/png" href="./assets/hydrv-icon.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="./assets/icon-512.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="./assets/icon-192.png">
+    <link rel="apple-touch-icon" href="./assets/apple-touch-icon.png">
+    <link rel="icon" type="image/x-icon" href="./assets/favicon.ico">
     <link rel="manifest" href="./site.webmanifest">
     <link rel="stylesheet" href="./styles.css">
 </head>
@@ -23,16 +26,18 @@
         <header class="topbar">
             <a class="brand" href="#top" aria-label="HYDRV home">
                 <span class="brand-mark">
-                    <img src="./assets/hydrv-icon.png" alt="HYDRV icon">
+                    <img src="./assets/icon-512.png" alt="HYDRV icon">
                 </span>
                 <span class="brand-copy">
                     <strong>HYDRV</strong>
-                    <span>HYDRV is a personalized store made just for you.</span>
+                    <span>Android release browsing, kept clean.</span>
                 </span>
             </a>
 
             <nav class="nav">
-                <a href="#features">Features</a>
+                <a href="#guide">Guide</a>
+                <a href="#backend">Backend</a>
+                <a href="#highlights">Highlights</a>
                 <a href="#releases">Releases</a>
                 <a href="#why">Why HYDRV</a>
                 <a href="#roadmap">Roadmap</a>
@@ -44,23 +49,22 @@
         <main id="top">
             <section class="hero">
                 <div class="hero-copy">
-                    <p class="eyebrow">Rebrand update</p>
+                    <p class="eyebrow">New name</p>
                     <h1>xManager is now HYDRV.</h1>
-                    <p class="pronunciation">HYDRV is a personalized store made just for you.</p>
+                    <p class="pronunciation">Android release browsing, kept clean.</p>
                     <p class="hero-text">
-                        HYDRV is a personalized store made just for you, keeping releases easy to browse, downloads
-                        easy to follow, and installs simple.
+                        Browse releases, grab signed downloads, and keep installs in one place without the extra clutter.
                     </p>
 
                     <div class="hero-actions">
                         <a class="button button-primary" href="https://github.com/Team-HYDRV/HYDRV/releases/latest/download/HYDRV.apk" target="_blank" rel="noopener noreferrer">Download</a>
-                        <a class="button button-secondary" href="#features">Explore features</a>
+                        <a class="button button-secondary" href="#highlights">Explore highlights</a>
                     </div>
 
                     <ul class="hero-points">
                         <li>Same project, new name</li>
-                        <li>Quick access to releases and downloads</li>
-                        <li>Built to stay light and easy to use</li>
+                        <li>Releases, downloads, and installs in one flow</li>
+                        <li>Built to stay light and easy to live with</li>
                     </ul>
                 </div>
 
@@ -70,7 +74,7 @@
                         <div class="phone-screen">
                             <div class="screen-head">
                                 <span class="screen-logo">
-                                    <img src="./assets/hydrv-icon.png" alt="">
+                                    <img src="./assets/icon-512.png" alt="">
                                 </span>
                                 <div>
                                     <strong>HYDRV</strong>
@@ -132,36 +136,153 @@
                 </article>
             </section>
 
-            <section class="section" id="features">
+            <section class="section" id="guide">
                 <div class="section-heading">
-                    <p class="eyebrow">Features</p>
-                    <h2>Everything the app is meant to handle, without the clutter.</h2>
+                    <p class="eyebrow">Guide</p>
+                    <h2>How to use HYDRV.</h2>
+                    <p class="section-lead">A quick walk-through of the parts people actually use every day.</p>
+                </div>
+
+                <div class="story-grid">
+                    <article class="story-card">
+                        <span class="story-index">01</span>
+                        <h3>Allow permissions first</h3>
+                        <p>HYDRV needs internet access and install permission before it can download or install anything. Once that is done, you’re ready to go.</p>
+                    </article>
+                    <article class="story-card">
+                        <span class="story-index">02</span>
+                        <h3>Use Home to browse</h3>
+                        <p>Search for an app, open a release, choose a version, and download the one you want.</p>
+                    </article>
+                    <article class="story-card">
+                        <span class="story-index">03</span>
+                        <h3>Keep Favorites close</h3>
+                        <p>Star the apps you use often so they’re easy to find again later.</p>
+                    </article>
+                    <article class="story-card">
+                        <span class="story-index">04</span>
+                        <h3>Check Installed</h3>
+                        <p>See what’s already on your phone and check whether HYDRV has something newer.</p>
+                    </article>
+                    <article class="story-card">
+                        <span class="story-index">05</span>
+                        <h3>Manage Downloads</h3>
+                        <p>Watch files finish, install APKs, retry failed downloads, or clear old items when you’re done with them.</p>
+                    </article>
+                    <article class="story-card">
+                        <span class="story-index">06</span>
+                        <h3>Use General and About</h3>
+                        <p>General is where you change how HYDRV looks and behaves. About is where you’ll find version info, reports, and project links.</p>
+                    </article>
+                </div>
+            </section>
+
+            <section class="section" id="app-areas">
+                <div class="section-heading">
+                    <p class="eyebrow">App areas</p>
+                    <h2>What each tab is for.</h2>
+                    <p class="section-lead">The app is split into a few simple tabs so you can get where you need to go without digging around.</p>
+                </div>
+
+                <div class="story-grid">
+                    <article class="story-card">
+                        <span class="story-index">01</span>
+                        <h3>Home</h3>
+                        <p>Browse apps, open a release, pick a version, and start a download from the main catalogue.</p>
+                    </article>
+                    <article class="story-card">
+                        <span class="story-index">02</span>
+                        <h3>Favorites</h3>
+                        <p>Keep the apps you care about close by so you can jump back to them without searching again.</p>
+                    </article>
+                    <article class="story-card">
+                        <span class="story-index">03</span>
+                        <h3>Installed</h3>
+                        <p>See what is already on your phone and spot anything newer at a glance.</p>
+                    </article>
+                    <article class="story-card">
+                        <span class="story-index">04</span>
+                        <h3>Downloads</h3>
+                        <p>Watch files finish, install APKs, retry failed downloads, or clear old items when you are done.</p>
+                    </article>
+                    <article class="story-card">
+                        <span class="story-index">05</span>
+                        <h3>General</h3>
+                        <p>Adjust the look and behavior of HYDRV, including theme, language, sorting, backend, and icon settings.</p>
+                    </article>
+                    <article class="story-card">
+                        <span class="story-index">06</span>
+                        <h3>About</h3>
+                        <p>Find version info, reports, support links, and the small project details people usually need first.</p>
+                    </article>
+                </div>
+            </section>
+
+            <section class="section section-alt" id="backend">
+                <div class="section-heading">
+                    <p class="eyebrow">Backend tutorial</p>
+                    <h2>For power users who want their own source.</h2>
+                    <p class="section-lead">Most people can stay on Default. If you want HYDRV to point at your own catalogue, this is where it happens.</p>
+                </div>
+
+                <div class="story-grid">
+                    <article class="story-card">
+                        <span class="story-index">01</span>
+                        <h3>What it does</h3>
+                        <p>The backend lets HYDRV load catalogue data from your own JSON source instead of only the built-in one.</p>
+                    </article>
+                    <article class="story-card">
+                        <span class="story-index">02</span>
+                        <h3>Why it helps</h3>
+                        <p>It’s useful if you want a private list, a test source, or a mirrored catalogue that you control yourself.</p>
+                    </article>
+                    <article class="story-card">
+                        <span class="story-index">03</span>
+                        <h3>How to set it up</h3>
+                        <p>Open General, tap Backend, add or select a URL, and make sure it returns valid HYDRV catalogue data.</p>
+                    </article>
+                    <article class="story-card">
+                        <span class="story-index">04</span>
+                        <h3>Switch back anytime</h3>
+                        <p>If you just want the normal HYDRV setup again, switch back to Default and keep using the built-in source.</p>
+                    </article>
+                </div>
+
+                <p class="section-lead" style="text-align:center; margin-top: 1.5rem;">
+                    If a backend is broken or offline, HYDRV may not be able to load apps from it. For most people, Default is still the safest choice.
+                </p>
+            </section>
+
+            <section class="section" id="highlights">
+                <div class="section-heading">
+                    <p class="eyebrow">Highlights</p>
+                    <h2>What HYDRV handles without getting in the way.</h2>
                 </div>
 
                 <div class="feature-grid">
                     <article class="feature-card">
                         <h3>Release browsing that stays clear</h3>
-                        <p>Open an app, see the available versions, and go straight to the one you want.</p>
+                        <p>Open an app, check the versions it has, and go straight to the one you want.</p>
                     </article>
                     <article class="feature-card">
                         <h3>Downloads that stay easy to follow</h3>
-                        <p>Track progress, pause when needed, and come back without losing your place.</p>
+                        <p>Keep an eye on progress, install when it’s ready, and come back later without losing your place.</p>
                     </article>
                     <article class="feature-card">
                         <h3>One place for releases and installs</h3>
-                        <p>Release discovery, signed downloads, and install steps all stay in one flow.</p>
+                        <p>Release discovery, signed downloads, and install steps all stay together.</p>
                     </article>
                     <article class="feature-card">
                         <h3>Built-in update awareness</h3>
-                        <p>Launch checks, update messages, and notifications help you notice changes without digging around.</p>
+                        <p>Launch checks, update messages, and notifications help you notice changes without hunting for them.</p>
                     </article>
                     <article class="feature-card">
                         <h3>Appearance that fits your device</h3>
-                        <p>Light, dark, and pure black modes keep the app comfortable without adding extra noise.</p>
+                        <p>Light, dark, and pure black help HYDRV fit the way you already use your phone.</p>
                     </article>
                     <article class="feature-card">
                         <h3>Designed to stay lightweight</h3>
-                        <p>Recent work has focused on startup feel, smoother browsing, and cleaner screen transitions.</p>
+                        <p>Recent work has been about keeping it quick, simple, and out of the way.</p>
                     </article>
                 </div>
             </section>
@@ -175,31 +296,41 @@
                 <div class="shot-grid">
                     <figure class="shot-card">
                         <div class="shot-media">
-                            <img src="./assets/screen-about.png" alt="HYDRV About screen">
-                        </div>
-                        <figcaption>
-                        <strong>About</strong>
-                        <span>Project info, quick links, and the new name in one place.</span>
-                        </figcaption>
-                    </figure>
-
-                    <figure class="shot-card">
-                        <div class="shot-media">
                             <img src="./assets/screen-permissions.png" alt="HYDRV permission setup screen">
                         </div>
                         <figcaption>
-                            <strong>Quick Start</strong>
-                            <span>Permission setup that stays clear and easy to get through.</span>
+                            <strong>Permissions</strong>
+                            <span>Clear setup steps before you start downloading.</span>
                         </figcaption>
                     </figure>
 
                     <figure class="shot-card">
                         <div class="shot-media">
-                            <img src="./assets/screen-settings.png" alt="HYDRV settings screen">
+                            <img src="./assets/screen-home.png" alt="HYDRV home screen">
                         </div>
                         <figcaption>
-                            <strong>Advanced</strong>
-                            <span>Backend controls, diagnostics, battery handling, and support options.</span>
+                            <strong>Home</strong>
+                            <span>Browse releases, track versions, and keep installs organized.</span>
+                        </figcaption>
+                    </figure>
+
+                    <figure class="shot-card">
+                        <div class="shot-media">
+                            <img src="./assets/screen-general.png" alt="HYDRV general screen">
+                        </div>
+                        <figcaption>
+                            <strong>General</strong>
+                            <span>Theme, language, and list controls in one place.</span>
+                        </figcaption>
+                    </figure>
+
+                    <figure class="shot-card">
+                        <div class="shot-media">
+                            <img src="./assets/screen-about.png" alt="HYDRV About screen">
+                        </div>
+                        <figcaption>
+                            <strong>About</strong>
+                            <span>Project info, quick links, and the new name in one place.</span>
                         </figcaption>
                     </figure>
                 </div>
@@ -208,24 +339,24 @@
             <section class="section section-alt" id="why">
                 <div class="section-heading">
                     <p class="eyebrow">Why HYDRV</p>
-                    <h2>Why the project changed names.</h2>
+                    <h2>Why HYDRV feels a little different.</h2>
                 </div>
 
                 <div class="story-grid">
                     <article class="story-card">
                         <span class="story-index">01</span>
                         <h3>Clarity first</h3>
-                        <p>HYDRV keeps the interface clean so releases, downloads, and settings stay easy to follow.</p>
+                        <p>HYDRV keeps the important stuff up front so releases, downloads, and settings don’t feel buried.</p>
                     </article>
                     <article class="story-card">
                         <span class="story-index">02</span>
                         <h3>Speed matters</h3>
-                        <p>The app is tuned to feel responsive without getting in your way.</p>
+                        <p>It should feel quick from the first tap, not like you’re waiting around.</p>
                     </article>
                     <article class="story-card">
                         <span class="story-index">03</span>
                         <h3>Room to grow</h3>
-                        <p>HYDRV is set up to keep improving without losing the focused feel that makes it useful now.</p>
+                        <p>HYDRV is built to keep improving without losing the simple feel that makes it useful now.</p>
                     </article>
                 </div>
             </section>
@@ -245,7 +376,7 @@
                         <a class="button button-secondary" href="https://github.com/Team-HYDRV/HYDRV" target="_blank" rel="noopener noreferrer">View source</a>
                     </div>
                     <p class="download-note">
-                        Need your own catalogue JSON? Read the
+                        Want to use your own catalogue JSON? Read the
                         <a href="https://github.com/Team-HYDRV/HYDRV/blob/develop/HYDRV/docs/backend-example.md" target="_blank" rel="noopener noreferrer">backend guide</a>
                         and sample files.
                     </p>
@@ -333,7 +464,7 @@
         <footer class="footer" id="contact">
             <div>
                 <strong>HYDRV</strong>
-                <p>Android release browsing and signed downloads.</p>
+                <p>Android release browsing, kept clean.</p>
             </div>
             <div class="footer-links">
                 <a href="mailto:support@hydrv.app">support@hydrv.app</a>
@@ -347,3 +478,4 @@
     <script src="./app.js"></script>
 </body>
 </html>
+

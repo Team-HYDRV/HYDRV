@@ -205,6 +205,12 @@ object DownloadRepository {
 
     private fun itemKey(item: DownloadItem): String = item.requestKey()
 
+    private fun isInstalledDownload(item: DownloadItem): Boolean {
+        return item.packageName.isNotBlank() ||
+            item.filePath.endsWith(".apk", ignoreCase = true) ||
+            item.url.isApkUrl()
+    }
+
     fun pause(context: Context, item: DownloadItem) {
         synchronized(startLock) {
             item.requestToken = System.currentTimeMillis()
@@ -325,6 +331,27 @@ object DownloadRepository {
                 if (file.exists()) file.delete()
                 iterator.remove()
                 changed = true
+            }
+
+            if (!changed) return
+
+            scheduleSave(context)
+            notifyChange()
+        }
+    }
+
+    fun syncInstalledState(context: Context) {
+        synchronized(startLock) {
+            var changed = false
+
+            downloads.forEach { item ->
+                val shouldBeInstalled = isInstalledDownload(item) &&
+                    AppStateCacheManager.isInstalled(context, item.packageName, item.name)
+
+                if (item.installed != shouldBeInstalled) {
+                    item.installed = shouldBeInstalled
+                    changed = true
+                }
             }
 
             if (!changed) return

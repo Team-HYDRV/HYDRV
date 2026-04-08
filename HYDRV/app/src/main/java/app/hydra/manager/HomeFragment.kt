@@ -6,6 +6,7 @@ import android.os.Looper
 import android.os.SystemClock
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.MotionEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import android.widget.HorizontalScrollView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
@@ -82,6 +84,26 @@ class HomeFragment : Fragment() {
         search = view.findViewById(R.id.search)
         if (AppearancePreferences.isDynamicColorEnabled(requireContext())) {
             search.setBackgroundResource(R.drawable.card_material)
+        }
+        search.setCompoundDrawablePadding(resources.getDimensionPixelSize(R.dimen.search_clear_icon_padding))
+        search.setPaddingRelative(
+            search.paddingStart,
+            search.paddingTop,
+            resources.getDimensionPixelSize(R.dimen.search_clear_icon_end_padding),
+            search.paddingBottom
+        )
+        updateSearchClearIcon()
+        search.setOnTouchListener { _, event ->
+            val clearDrawable = search.compoundDrawablesRelative[2] ?: return@setOnTouchListener false
+            if (event.action == MotionEvent.ACTION_UP) {
+                val touchStart = search.width - search.paddingEnd - clearDrawable.bounds.width()
+                if (event.x >= touchStart) {
+                    search.text?.clear()
+                    search.setSelection(0)
+                    return@setOnTouchListener true
+                }
+            }
+            false
         }
         tabs = view.findViewById(R.id.tabs)
         emptyView = view.findViewById(R.id.emptyView)
@@ -155,6 +177,7 @@ class HomeFragment : Fragment() {
 
         searchTextWatcher = object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
+                updateSearchClearIcon()
                 handler.removeCallbacks(searchRunnable)
                 handler.postDelayed(searchRunnable, SEARCH_DEBOUNCE_MS)
             }
@@ -176,6 +199,24 @@ class HomeFragment : Fragment() {
         tabs.addOnTabSelectedListener(tabsListener!!)
 
         return view
+    }
+
+    private fun updateSearchClearIcon() {
+        val showClear = search.text?.isNotEmpty() == true
+        val drawable = if (showClear) {
+            ResourcesCompat.getDrawable(resources, R.drawable.search_clear_button, requireContext().theme)?.mutate()?.also {
+                val size = resources.getDimensionPixelSize(R.dimen.search_clear_button_size)
+                it.setBounds(0, 0, size, size)
+            }
+        } else {
+            null
+        }
+        search.setCompoundDrawablesRelative(
+            null,
+            null,
+            drawable,
+            null
+        )
     }
 
     private fun preloadCachedApps() {

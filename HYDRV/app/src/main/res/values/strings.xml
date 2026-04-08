@@ -11,6 +11,19 @@
     <string name="settings_about_title">About</string>
     <string name="settings_about_subtitle">App info and support details</string>
     <string name="settings_section_appearance">Appearance</string>
+    <string name="app_icon_section_title">App icon</string>
+    <string name="app_icon_section_summary">Choose which launcher icon HYDRV uses.</string>
+    <string name="app_icon_default_title">Default</string>
+    <string name="app_icon_default_summary">Use the standard HYDRV icon set.</string>
+    <string name="app_icon_hydra_title">Hydra</string>
+    <string name="app_icon_alternative_summary">Use the alternate HYDRV icon set.</string>
+    <string name="app_icon_legacy_title">Legacy</string>
+    <string name="app_icon_legacy_summary">Use the classic HYDRV icon set.</string>
+    <string name="app_icon_freedom_title">Freedom</string>
+    <string name="app_icon_legacy_gradient_summary">Use the classic icon with a gradient look.</string>
+    <string name="app_icon_active">Active</string>
+    <string name="app_icon_set_active">Set active</string>
+    <string name="app_icon_changed">App icon updated</string>
     <string name="settings_section_lists">Lists</string>
 
     <string name="theme_system">System</string>
@@ -271,7 +284,7 @@
     <string name="debug_section_title">Tools</string>
     <string name="debug_export_logs_title">Export app report</string>
     <string name="settings_backup_export_title">Export settings backup</string>
-    <string name="settings_backup_export_summary">Save favorites, preferences, sorts, and custom backends to a file</string>
+    <string name="settings_backup_export_summary">Save favorites, preferences, sorts, app icon, and custom backends to a file</string>
     <string name="settings_backup_import_title">Import settings backup</string>
     <string name="settings_backup_import_summary">Restore a previous HYDRV backup file</string>
     <string name="settings_backup_export_done">Settings backup exported.</string>
@@ -350,7 +363,7 @@
     <string name="updates_check_now">Check for updates</string>
     <string name="updates_checking">Checking…</string>
     <string name="updates_changelog_title">Release changelog</string>
-    <string name="updates_changelog_body">HYDRV shows the latest GitHub release notes here so the in-app changelog stays aligned with the repo release.</string>
+    <string name="updates_changelog_body">HYDRV keeps the in-app changelog aligned with the latest GitHub release notes.</string>
     <string name="updates_changelog_loading">Loading the latest GitHub release notes…</string>
     <string name="updates_release_unavailable">No release loaded yet</string>
     <string name="updates_check_failed">Couldn\'t check for updates right now.</string>
@@ -358,7 +371,7 @@
     <string name="updates_check_live_generic">New release is available in HYDRV.</string>
     <string name="updates_check_up_to_date">You\'re up to date.</string>
     <string name="about_version_code_format">Version %1$s (%2$d)</string>
-    <string name="about_tagline">Clean release browsing, signed downloads, and package tools, kept simple.</string>
+    <string name="about_tagline">Android release browsing, kept clean.</string>
     <string name="about_link_website">Website</string>
     <string name="about_link_discord">Discord</string>
     <string name="about_link_donate">Donate</string>
@@ -369,8 +382,8 @@
     <string name="about_link_github_caption">Source, commits, and issue history</string>
     <string name="about_quick_label">Quick links</string>
     <string name="about_description_title">About HYDRV</string>
-    <string name="about_description_body">HYDRV keeps app releases, signed downloads, and package installs in one calm place, so updates stay easy to browse and simple to manage.</string>
-    <string name="about_focus_label">Built for clean package management</string>
+    <string name="about_description_body">Browse releases, manage signed downloads, and keep installs in one calm place.</string>
+    <string name="about_focus_label">Built for personal release browsing</string>
     <string name="about_issue_title">Report a problem</string>
     <string name="about_issue_summary">Send bugs, rough edges, or ideas that could make HYDRV better.</string>
     <string name="about_contributors_title">People behind HYDRV</string>
@@ -409,4 +422,5 @@
         <item quantity="other">%d selected</item>
     </plurals>
 </resources>
+
 
