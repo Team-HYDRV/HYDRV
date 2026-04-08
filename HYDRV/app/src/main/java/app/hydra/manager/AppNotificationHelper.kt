@@ -13,6 +13,7 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
+import java.security.MessageDigest
 
 object AppNotificationHelper {
 
@@ -75,6 +76,50 @@ object AppNotificationHelper {
     }
 
     @SuppressLint("MissingPermission")
+    fun showBackendUpdateNotification(
+        context: Context,
+        backendName: String,
+        backendUrl: String
+    ) {
+        ensureChannels(context)
+        if (!NotificationPreferences.areUpdateNotificationsEnabled(context)) return
+        if (!canPostNotifications(context)) return
+
+        val intent = Intent(context, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+        }
+
+        val pendingIntent = PendingIntent.getActivity(
+            context,
+            0,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
+        val resolvedName = backendName.trim().ifBlank {
+            context.getString(R.string.backend_default_label)
+        }
+        val notificationId = backendNotificationId(backendUrl)
+        val contentText = context.getString(R.string.notification_text_backend_update)
+        val contentTitle = context.getString(
+            R.string.notification_title_backend_update_format,
+            resolvedName
+        )
+
+        val notification = NotificationCompat.Builder(context, CHANNEL_UPDATES)
+            .setSmallIcon(android.R.drawable.stat_notify_sync)
+            .setContentTitle(contentTitle)
+            .setContentText(contentText)
+            .setStyle(NotificationCompat.BigTextStyle().bigText(contentText))
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setAutoCancel(true)
+            .setContentIntent(pendingIntent)
+            .build()
+
+        NotificationManagerCompat.from(context).notify(notificationId, notification)
+    }
+
+    @SuppressLint("MissingPermission")
     fun showReleaseUpdateNotification(
         context: Context,
         releaseLabel: String? = null,
@@ -117,5 +162,14 @@ object AppNotificationHelper {
             .build()
 
         NotificationManagerCompat.from(context).notify(NOTIFICATION_ID_RELEASE_UPDATES, notification)
+    }
+
+    private fun backendNotificationId(backendUrl: String): Int {
+        val digest = MessageDigest.getInstance("SHA-256").digest(backendUrl.trim().toByteArray())
+        val base = digest.take(4).fold(0) { acc, byte ->
+            (acc shl 8) or (byte.toInt() and 0xff)
+        }
+        val safe = (base and Int.MAX_VALUE) % 1_000_000
+        return 2000 + safe
     }
 }

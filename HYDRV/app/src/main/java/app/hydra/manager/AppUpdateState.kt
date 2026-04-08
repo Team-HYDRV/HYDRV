@@ -1,6 +1,7 @@
 package app.hydra.manager
 
 import android.content.Context
+import java.security.MessageDigest
 
 object AppUpdateState {
 
@@ -8,6 +9,8 @@ object AppUpdateState {
     private const val KEY_LAST_SEEN_HASH = "last_seen_hash"
     private const val KEY_LAST_NOTIFIED_HASH = "last_notified_hash"
     private const val KEY_LAST_CHECKED_AT = "last_checked_at"
+    private const val KEY_BACKEND_LAST_SEEN_HASH_PREFIX = "backend_last_seen_hash_"
+    private const val KEY_BACKEND_LAST_NOTIFIED_HASH_PREFIX = "backend_last_notified_hash_"
 
     fun getLastSeenHash(context: Context): Int {
         return context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
@@ -43,5 +46,42 @@ object AppUpdateState {
             .edit()
             .putLong(KEY_LAST_CHECKED_AT, timestamp)
             .apply()
+    }
+
+    fun getBackendLastSeenHash(context: Context, backendUrl: String): Int {
+        return context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+            .getInt(backendKey(KEY_BACKEND_LAST_SEEN_HASH_PREFIX, backendUrl), 0)
+    }
+
+    fun setBackendLastSeenHash(context: Context, backendUrl: String, hash: Int) {
+        context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+            .edit()
+            .putInt(backendKey(KEY_BACKEND_LAST_SEEN_HASH_PREFIX, backendUrl), hash)
+            .apply()
+    }
+
+    fun getBackendLastNotifiedHash(context: Context, backendUrl: String): Int {
+        return context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+            .getInt(backendKey(KEY_BACKEND_LAST_NOTIFIED_HASH_PREFIX, backendUrl), 0)
+    }
+
+    fun setBackendLastNotifiedHash(context: Context, backendUrl: String, hash: Int) {
+        context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+            .edit()
+            .putInt(backendKey(KEY_BACKEND_LAST_NOTIFIED_HASH_PREFIX, backendUrl), hash)
+            .apply()
+    }
+
+    private fun backendKey(prefix: String, backendUrl: String): String {
+        return prefix + sha256Hex(backendUrl.trim()).take(24)
+    }
+
+    private fun sha256Hex(value: String): String {
+        val digest = MessageDigest.getInstance("SHA-256").digest(value.toByteArray())
+        return buildString(digest.size * 2) {
+            digest.forEach { byte ->
+                append(byte.toUByte().toString(16).padStart(2, '0'))
+            }
+        }
     }
 }

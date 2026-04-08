@@ -40,6 +40,48 @@ object AppCatalogService {
         return buildRequest(baseUrl, bypassRemoteCache).call
     }
 
+    fun fetchBackendAppsSync(
+        context: Context,
+        backendUrl: String,
+        allowCacheFallback: Boolean = true,
+        bypassRemoteCache: Boolean = false
+    ): Result<FetchResult> {
+        val appContext = context.applicationContext
+        val normalizedUrl = backendUrl.trim()
+        if (normalizedUrl.isBlank()) {
+            return Result.failure(IOException("Catalog request failed"))
+        }
+
+        val request = buildRequest(normalizedUrl, bypassRemoteCache)
+        var lastError: Exception? = null
+
+        val freshResult = runCatching {
+            request.call.execute().use { response ->
+                if (!response.isSuccessful) {
+                    throw IOException("HTTP ${response.code}")
+                }
+                val parsed = parseResponseToCacheFile(
+                    context = appContext,
+                    cacheUrl = normalizedUrl,
+                    response = response
+                ).getOrThrow()
+                Result.success(FetchResult(parsed, fromCache = false))
+            }
+        }.getOrElse {
+            lastError = it.asException()
+            null
+        }
+
+        if (freshResult != null) return freshResult
+
+        return if (allowCacheFallback) {
+            readCachedResult(appContext, normalizedUrl)
+                ?: Result.failure(lastError ?: IOException("Catalog request failed"))
+        } else {
+            Result.failure(lastError ?: IOException("Catalog request failed"))
+        }
+    }
+
     private fun buildRequest(
         baseUrl: String,
         bypassRemoteCache: Boolean
@@ -146,25 +188,17 @@ object AppCatalogService {
         var lastError: Exception? = null
 
         candidates.forEach { candidate ->
-            val request = buildRequest(candidate, bypassRemoteCache)
-            val result = runCatching {
-                request.call.execute().use { response ->
-                    if (!response.isSuccessful) {
-                        throw IOException("HTTP ${response.code}")
-                    }
-                    val parsed = parseResponseToCacheFile(
-                        context = appContext,
-                        cacheUrl = candidate,
-                        response = response
-                    ).getOrThrow()
-                    Result.success(FetchResult(parsed, fromCache = false))
-                }
-            }.getOrElse {
+            val result = fetchBackendAppsSync(
+                context = appContext,
+                backendUrl = candidate,
+                allowCacheFallback = allowCacheFallback,
+                bypassRemoteCache = bypassRemoteCache
+            ).getOrElse {
                 lastError = it.asException()
                 null
             }
 
-            if (result != null) return result
+            if (result != null) return Result.success(result)
         }
 
         val fallback = if (allowCacheFallback) {

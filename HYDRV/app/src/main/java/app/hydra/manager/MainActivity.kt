@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.R as MaterialR
 import com.google.android.material.color.DynamicColors
 import com.google.android.material.snackbar.Snackbar
+import java.util.concurrent.atomic.AtomicBoolean
 
 class MainActivity : AppCompatActivity() {
 
@@ -47,6 +48,7 @@ class MainActivity : AppCompatActivity() {
     private var iconSyncScheduled = false
     private var shouldShowLaunchOverlay = true
     private val mainHandler = Handler(Looper.getMainLooper())
+    private val foregroundRefreshInFlight = AtomicBoolean(false)
     private var packageChangeReceiverRegistered = false
     private val packageChangeReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -81,6 +83,14 @@ class MainActivity : AppCompatActivity() {
             mainHandler.postDelayed(this, FOREGROUND_CATALOG_REFRESH_MS)
         }
     }
+
+    private data class BackendRefreshResult(
+        val source: BackendSource,
+        val apps: List<AppModel>,
+        val hash: Int,
+        val fromCache: Boolean,
+        val changed: Boolean
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AppearancePreferences.applyActivityTheme(this)
@@ -398,36 +408,114 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun refreshCatalogInForeground() {
-        AppCatalogService.fetchApps(
-            this,
-            allowCacheFallback = true,
-            bypassRemoteCache = true
-        ) { result ->
-            result.onSuccess { fetchResult ->
-                val apps = fetchResult.apps
-                val newHash = CatalogFingerprint.hash(apps)
-                val previousHash = AppUpdateState.getLastSeenHash(this)
-                val hasChanges = previousHash != 0 && newHash != previousHash
+        if (!foregroundRefreshInFlight.compareAndSet(false, true)) return
 
-                CatalogStateCenter.update(apps)
-                AppUpdateState.setLastCheckedAt(this, System.currentTimeMillis())
-                if (newHash != 0) {
-                    AppUpdateState.setLastSeenHash(this, newHash)
+        val appContext = applicationContext
+        Thread {
+            try {
+                val monitoredSources = BackendPreferences.getMonitoredBackendSources(appContext)
+                val results = linkedMapOf<String, BackendRefreshResult?>()
+
+                monitoredSources.forEach { source ->
+                    val result = AppCatalogService.fetchBackendAppsSync(
+                        context = appContext,
+                        backendUrl = source.url,
+                        allowCacheFallback = true,
+                        bypassRemoteCache = true
+                    )
+
+                    val backendResult = result.getOrNull()?.let { fetchResult ->
+                        val hash = CatalogFingerprint.hash(fetchResult.apps)
+                        val previousHash = AppUpdateState.getBackendLastSeenHash(appContext, source.url)
+                        val hasChanges = previousHash != 0 && hash != previousHash && !fetchResult.fromCache
+
+                        if (!fetchResult.fromCache && hash != 0) {
+                            AppUpdateState.setBackendLastSeenHash(appContext, source.url, hash)
+                        }
+                        if (hasChanges) {
+                            AppUpdateState.setBackendLastNotifiedHash(appContext, source.url, hash)
+                        }
+
+                        BackendRefreshResult(
+                            source = source,
+                            apps = fetchResult.apps,
+                            hash = hash,
+                            fromCache = fetchResult.fromCache,
+                            changed = hasChanges
+                        )
+                    }
+
+                    results[source.url.lowercase()] = backendResult
                 }
 
-                if (hasChanges && !fetchResult.fromCache) {
-                    AppUpdateState.setLastNotifiedHash(this, newHash)
-                    AppSnackbar.show(
-                        findViewById(R.id.rootLayout),
-                        getString(R.string.new_changes_available),
-                        Snackbar.LENGTH_LONG
-                    )
-                    if (NotificationPreferences.areUpdateNotificationsEnabled(this)) {
-                        AppNotificationHelper.showBackendUpdateNotification(this)
+                val activeUrl = BackendPreferences.getActiveBackendUrlValue(appContext).trim()
+                val activeSource = monitoredSources.firstOrNull {
+                    it.url.equals(activeUrl, ignoreCase = true)
+                } ?: monitoredSources.firstOrNull {
+                    it.url.equals(RuntimeConfig.defaultCatalogUrl, ignoreCase = true)
+                }
+
+                val activeResult = activeSource?.let { results[it.url.lowercase()] }
+                val changedNonActiveResults = results.values
+                    .filterNotNull()
+                    .filter { result ->
+                        activeSource == null || !result.source.url.equals(activeSource.url, ignoreCase = true)
+                    }
+                    .filter { it.changed }
+
+                mainHandler.post {
+                    try {
+                        if (isFinishing || isDestroyed) return@post
+
+                        AppUpdateState.setLastCheckedAt(this, System.currentTimeMillis())
+
+                        activeResult?.let { result ->
+                            CatalogStateCenter.update(result.apps)
+                            AppStateCacheManager.refreshFavorites(appContext)
+                            AppStateCacheManager.warmInstalledPackages(appContext)
+                            if (result.hash != 0) {
+                                AppUpdateState.setLastSeenHash(this, result.hash)
+                            }
+
+                            if (result.changed) {
+                                AppUpdateState.setLastNotifiedHash(this, result.hash)
+                                AppSnackbar.show(
+                                    findViewById(R.id.rootLayout),
+                                    getString(
+                                        R.string.backend_update_snackbar_format,
+                                        result.source.name.ifBlank { getString(R.string.backend_default_label) }
+                                    ),
+                                    Snackbar.LENGTH_LONG
+                                )
+                                AppNotificationHelper.showBackendUpdateNotification(
+                                    this,
+                                    result.source.name.ifBlank {
+                                        getString(R.string.backend_default_label)
+                                    },
+                                    result.source.url
+                                )
+                            }
+                        }
+
+                        if (NotificationPreferences.areUpdateNotificationsEnabled(this)) {
+                            changedNonActiveResults.forEach { result ->
+                                AppNotificationHelper.showBackendUpdateNotification(
+                                    this,
+                                    result.source.name.ifBlank {
+                                        getString(R.string.backend_default_label)
+                                    },
+                                    result.source.url
+                                )
+                            }
+                        }
+                    } finally {
+                        foregroundRefreshInFlight.set(false)
                     }
                 }
+            } catch (_: Throwable) {
+                foregroundRefreshInFlight.set(false)
             }
-        }
+        }.start()
     }
 
     private fun resolveDisplayNameForPackage(packageName: String): String {

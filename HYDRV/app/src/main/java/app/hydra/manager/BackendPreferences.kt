@@ -18,6 +18,34 @@ object BackendPreferences {
         return getCatalogUrlCandidates(context).firstOrNull() ?: RuntimeConfig.defaultCatalogUrl
     }
 
+    fun getMonitoredBackendSources(context: Context): List<BackendSource> {
+        val defaultSource = BackendSource(
+            name = context.getString(R.string.backend_default_label),
+            url = RuntimeConfig.defaultCatalogUrl,
+            enabled = true
+        )
+        val activeUrl = getActiveBackendUrlValue(context).trim()
+        val customSources = getCustomBackendSources(context)
+        val activeCustom = customSources.firstOrNull {
+            it.url.equals(activeUrl, ignoreCase = true)
+        }
+
+        return buildList {
+            if (activeCustom != null) {
+                add(activeCustom)
+            }
+
+            add(defaultSource)
+
+            customSources.asSequence()
+                .filter { it.enabled || it.url.equals(activeUrl, ignoreCase = true) }
+                .filterNot { it.url.equals(defaultSource.url, ignoreCase = true) }
+                .filterNot { it.url.equals(activeUrl, ignoreCase = true) && activeCustom != null }
+                .forEach { add(it) }
+        }
+            .distinctBy { it.url.lowercase() }
+    }
+
     fun getCatalogUrlCandidates(context: Context): List<String> {
         val active = getActiveBackendUrl(context).trim()
         val sources = getCustomBackendSources(context)
