@@ -97,7 +97,7 @@
   <li><strong>Visit About.</strong> Use About for app info, report export, support links, and quick project details.</li>
 </ol>
 
-<h2 align="center">App Areas</h2>
+<h2 align="center">What Each Tab Does</h2>
 
 <table>
   <tr>
@@ -133,7 +133,7 @@
 <h2 align="center">Backend Tutorial</h2>
 
 <p align="center">
-  HYDRV also supports custom backends for people who want more control over where the catalogue comes from.
+  HYDRV also supports custom backends if you want to point the catalogue somewhere else.
 </p>
 
 <table>
