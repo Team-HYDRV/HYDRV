@@ -33,6 +33,10 @@
   <a href="HYDRV/docs/index.md">Docs</a>
 </p>
 
+<p align="center">
+  <strong>HYDRV is a personalized store made just for you.</strong>
+</p>
+
 ---
 
 ## Snapshot
@@ -41,7 +45,7 @@
   <tr>
     <td width="33%" valign="top">
       <h3>App</h3>
-      <p>Browse releases, follow downloads, and manage installs from Android.</p>
+      <p>Browse releases, follow downloads, and manage installs in a personalized Android store.</p>
     </td>
     <td width="33%" valign="top">
       <h3>Backend</h3>
@@ -49,7 +53,7 @@
     </td>
     <td width="33%" valign="top">
       <h3>Website</h3>
-      <p>Show the latest release info, changelogs, and supporting pages in one place.</p>
+      <p>Show the latest release info, changelogs, and supporting pages in one calm place.</p>
     </td>
   </tr>
 </table>
