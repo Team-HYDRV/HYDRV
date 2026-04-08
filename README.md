@@ -48,8 +48,8 @@
       <p><strong>Home</strong><br>Browse releases, track versions, and keep installs organized.</p>
     </td>
     <td width="25%" align="center" valign="top">
-      <img src="assets/screenshots/settings.png" alt="HYDRV settings screen" width="100%">
-      <p><strong>Settings</strong><br>Backend controls, diagnostics, and support options.</p>
+      <img src="assets/screenshots/general.png" alt="HYDRV general screen" width="100%">
+      <p><strong>General</strong><br>Theme, language, and list controls in one place.</p>
     </td>
     <td width="25%" align="center" valign="top">
       <img src="assets/screenshots/about.png" alt="HYDRV About screen" width="100%">
