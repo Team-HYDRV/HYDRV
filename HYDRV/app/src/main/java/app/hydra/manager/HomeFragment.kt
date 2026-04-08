@@ -15,7 +15,6 @@ import android.widget.HorizontalScrollView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -205,9 +204,8 @@ class HomeFragment : Fragment() {
     private fun updateSearchClearIcon() {
         val showClear = search.text?.isNotEmpty() == true
         val drawable = if (showClear) {
-            ResourcesCompat.getDrawable(resources, R.drawable.ic_close_small, requireContext().theme)?.mutate()?.also {
-                DrawableCompat.setTint(it, ContextCompat.getColor(requireContext(), R.color.placeholder))
-                val size = resources.getDimensionPixelSize(R.dimen.search_clear_icon_size)
+            ResourcesCompat.getDrawable(resources, R.drawable.search_clear_button, requireContext().theme)?.mutate()?.also {
+                val size = resources.getDimensionPixelSize(R.dimen.search_clear_button_size)
                 it.setBounds(0, 0, size, size)
             }
         } else {
