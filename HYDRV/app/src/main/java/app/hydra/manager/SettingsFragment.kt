@@ -887,7 +887,6 @@ class SettingsFragment : Fragment() {
         AppIconPreferences.setIcon(context, choice)
         updateAppIconCards()
         showAppIconChangedSnackbar()
-        relaunchApp()
     }
 
     private fun optionIdToIcon(optionId: Int): String {
@@ -905,15 +904,6 @@ class SettingsFragment : Fragment() {
             requireActivity().findViewById(R.id.rootLayout),
             getString(R.string.app_icon_changed)
         )
-    }
-
-    private fun relaunchApp() {
-        val activity = activity ?: return
-        val launchIntent = activity.packageManager.getLaunchIntentForPackage(activity.packageName)
-            ?: return
-        launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-        activity.startActivity(launchIntent)
-        activity.finish()
     }
 
     private fun updatePureBlackSummary(context: android.content.Context) {
