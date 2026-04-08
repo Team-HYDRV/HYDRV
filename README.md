@@ -189,7 +189,7 @@ In practice, HYDRV keeps the public release flow simple: the app reads the visib
 ## Visual Identity
 
 <p align="center">
-  <img src="assets/ic_rounded.png" alt="HYDRV brand mark" width="260">
+  <img src="assets/ic_rounded_repo.png" alt="HYDRV brand mark" width="260">
 </p>
 
 ## Quick Start
