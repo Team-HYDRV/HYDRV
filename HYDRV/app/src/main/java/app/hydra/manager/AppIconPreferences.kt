@@ -76,26 +76,32 @@ object AppIconPreferences {
         val packageManager = context.packageManager
         val selected = if (choice in allowedIcons) choice else ICON_DEFAULT
 
-        setComponentEnabled(
-            packageManager,
-            defaultAlias(context),
-            selected == ICON_DEFAULT
-        )
-        setComponentEnabled(
-            packageManager,
-            alternativeAlias(context),
-            selected == ICON_ALTERNATIVE
-        )
-        setComponentEnabled(
-            packageManager,
-            legacyAlias(context),
-            selected == ICON_LEGACY
-        )
-        setComponentEnabled(
-            packageManager,
-            legacyGradientAlias(context),
-            selected == ICON_LEGACY_GRADIENT
-        )
+        when (selected) {
+            ICON_DEFAULT -> {
+                setComponentEnabled(packageManager, defaultAlias(context), true)
+                setComponentEnabled(packageManager, alternativeAlias(context), false)
+                setComponentEnabled(packageManager, legacyAlias(context), false)
+                setComponentEnabled(packageManager, legacyGradientAlias(context), false)
+            }
+            ICON_ALTERNATIVE -> {
+                setComponentEnabled(packageManager, alternativeAlias(context), true)
+                setComponentEnabled(packageManager, defaultAlias(context), false)
+                setComponentEnabled(packageManager, legacyAlias(context), false)
+                setComponentEnabled(packageManager, legacyGradientAlias(context), false)
+            }
+            ICON_LEGACY -> {
+                setComponentEnabled(packageManager, legacyAlias(context), true)
+                setComponentEnabled(packageManager, defaultAlias(context), false)
+                setComponentEnabled(packageManager, alternativeAlias(context), false)
+                setComponentEnabled(packageManager, legacyGradientAlias(context), false)
+            }
+            ICON_LEGACY_GRADIENT -> {
+                setComponentEnabled(packageManager, legacyGradientAlias(context), true)
+                setComponentEnabled(packageManager, defaultAlias(context), false)
+                setComponentEnabled(packageManager, alternativeAlias(context), false)
+                setComponentEnabled(packageManager, legacyAlias(context), false)
+            }
+        }
     }
 
     private fun setComponentEnabled(
