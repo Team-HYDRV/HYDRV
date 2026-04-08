@@ -75,6 +75,16 @@ object AppIconPreferences {
         }
     }
 
+    fun hasPendingIconSync(context: Context): Boolean {
+        return context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+            .getBoolean(KEY_ICON_SYNC_PENDING, false)
+    }
+
+    fun clearPendingIconSync(context: Context) {
+        context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+            .edit { putBoolean(KEY_ICON_SYNC_PENDING, false) }
+    }
+
     fun consumePendingIconSync(context: Context): Boolean {
         val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         if (!prefs.getBoolean(KEY_ICON_SYNC_PENDING, false)) return false

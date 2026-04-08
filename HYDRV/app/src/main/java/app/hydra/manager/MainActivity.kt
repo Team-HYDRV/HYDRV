@@ -44,6 +44,7 @@ class MainActivity : AppCompatActivity() {
     private var activeTag: String = TAG_HOME
     private var homeReady = false
     private var deferredStartupRan = false
+    private var iconSyncScheduled = false
     private var shouldShowLaunchOverlay = true
     private val mainHandler = Handler(Looper.getMainLooper())
     private var packageChangeReceiverRegistered = false
@@ -126,9 +127,6 @@ class MainActivity : AppCompatActivity() {
             R.color.subtext
         )
         supportActionBar?.hide()
-        if (!AppIconPreferences.consumePendingIconSync(this)) {
-            AppIconPreferences.applySavedIcon(this)
-        }
         val homeTab = findViewById<View>(R.id.nav_home_tab)
         val downloadTab = findViewById<View>(R.id.nav_download_tab)
         val settingsTab = findViewById<View>(R.id.nav_settings_tab)
@@ -272,6 +270,7 @@ class MainActivity : AppCompatActivity() {
 
     fun onHomeFirstRenderComplete() {
         homeReady = true
+        scheduleStartupIconSync()
         dismissLaunchOverlay()
         runDeferredStartupIfNeeded()
     }
@@ -338,6 +337,20 @@ class MainActivity : AppCompatActivity() {
                 RewardedAdManager.clear()
             }
         }
+    }
+
+    private fun scheduleStartupIconSync() {
+        if (iconSyncScheduled) return
+        iconSyncScheduled = true
+
+        val wasPendingReset = AppIconPreferences.hasPendingIconSync(this)
+        mainHandler.postDelayed({
+            if (isFinishing || isDestroyed) return@postDelayed
+            AppIconPreferences.applySavedIcon(this)
+            if (wasPendingReset) {
+                AppIconPreferences.clearPendingIconSync(this)
+            }
+        }, if (wasPendingReset) 1500L else 500L)
     }
 
     private fun showInstallSnackbar(event: InstallStatusCenter.Event) {
