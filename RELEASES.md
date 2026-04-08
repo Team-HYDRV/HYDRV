@@ -12,14 +12,15 @@ Use this file as the release checklist for HYDRV GitHub releases.
 1. Bump `versionCode` and `versionName` in `HYDRV/app/build.gradle.kts`.
 2. Run `assembleRelease` locally if you want a quick check first.
 3. Make sure the release APK builds cleanly.
-4. Commit the version bump.
+4. Update the matching `CHANGELOG.md` entry with `Added`, `Changed`, and `Fixed` notes for the tag.
+5. Commit the version bump and changelog notes together.
 
 ## Publish Flow
 
 1. Create the tag.
 2. Push the tag to GitHub.
 3. GitHub Actions runs the Android Release workflow.
-4. The workflow uploads the APK artifact and creates the GitHub Release for tagged builds.
+4. The workflow reads the matching changelog entry, turns it into `Added`, `Changed`, and `Fixed` release notes, uploads the APK artifact, and creates the GitHub Release.
 
 ## Notes
 

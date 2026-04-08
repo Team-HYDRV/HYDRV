@@ -73,17 +73,48 @@ jobs:
         run: |
           release_version="${GITHUB_REF_NAME#v}"
           repo_root="$(git rev-parse --show-toplevel)"
+          changelog="$repo_root/CHANGELOG.md"
+
+          extract_section() {
+            local section="$1"
+            awk -v version="$release_version" -v wanted="$section" '
+              BEGIN { in_version=0; in_section=0 }
+              $0 ~ "^## \\[" version "\\]" { in_version=1; next }
+              in_version && $0 ~ "^## \\[" { exit }
+              in_version && $0 ~ "^### " {
+                current = substr($0, 5)
+                if (current == wanted) {
+                  in_section = 1
+                  next
+                }
+                if (in_section) exit
+                next
+              }
+              in_section {
+                if ($0 ~ "^### " || $0 ~ "^## \\[") exit
+                print
+              }
+            ' "$changelog" | sed '/^[[:space:]]*$/d'
+          }
+
+          write_section() {
+            local title="$1"
+            local body
+            body="$(extract_section "$title")"
+            echo "## $title"
+            echo
+            if [ -n "$body" ]; then
+              printf '%s\n' "$body"
+            else
+              echo "- None"
+            fi
+            echo
+          }
+
           {
-            awk -v version="$release_version" '
-              $0 ~ "^## \\[" version "\\]" { printing = 1; next }
-              printing && $0 ~ "^## \\[" { exit }
-              printing { print }
-            ' "$repo_root/CHANGELOG.md"
-            echo
-            echo "## Recent work"
-            echo
-            git -C "$repo_root" log --pretty=format:'- %s' --no-merges -n 12
-            echo
+            write_section Added
+            write_section Changed
+            write_section Fixed
             echo "## Contributors"
             echo
             git -C "$repo_root" shortlog -s --all --no-merges | awk '{ $1=""; sub(/^ /, ""); print "- " $0 }'
