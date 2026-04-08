@@ -15,34 +15,6 @@
   <rect width="1600" height="420" rx="36" fill="url(#bg)"/>
   <rect width="1600" height="420" rx="36" fill="url(#glow)"/>
 
-  <g transform="translate(112 105)">
-    <rect width="128" height="128" rx="34" fill="#11151B" fill-opacity="0.96" stroke="#2D323B" stroke-width="1.5"/>
-    <rect x="9" y="9" width="110" height="110" rx="28" fill="#0E1115" fill-opacity="0.88"/>
-    <g transform="translate(64 64)">
-      <rect x="-36" y="-36" width="72" height="72" rx="22" fill="#181C23" stroke="#2A3038" stroke-width="2"/>
-      <circle r="24" fill="#0C1015" stroke="#86F7A7" stroke-width="4"/>
-      <g fill="#D8FFE2">
-        <rect x="-7" y="-36" width="14" height="16" rx="5"/>
-        <rect x="-7" y="20" width="14" height="16" rx="5"/>
-        <rect x="-36" y="-7" width="16" height="14" rx="5"/>
-        <rect x="20" y="-7" width="16" height="14" rx="5"/>
-        <g transform="rotate(45)">
-          <rect x="-7" y="-36" width="14" height="16" rx="5"/>
-          <rect x="-7" y="20" width="14" height="16" rx="5"/>
-        </g>
-        <g transform="rotate(-45)">
-          <rect x="-7" y="-36" width="14" height="16" rx="5"/>
-          <rect x="-7" y="20" width="14" height="16" rx="5"/>
-        </g>
-      </g>
-      <circle r="13.5" fill="#0C1015" stroke="#86F7A7" stroke-width="2.5"/>
-      <rect x="-10" y="-11" width="5.5" height="22" rx="2.75" fill="#86F7A7"/>
-      <rect x="4.5" y="-11" width="5.5" height="22" rx="2.75" fill="#86F7A7"/>
-      <rect x="-10" y="-2.5" width="20" height="5" rx="2.5" fill="#86F7A7"/>
-      <path d="M0 -17C8 -17 14 -12 14 -5" stroke="#0C1015" stroke-width="6" stroke-linecap="round"/>
-    </g>
-  </g>
-
   <g opacity="0.14" stroke="#FFFFFF" stroke-width="1">
     <path d="M90 90H1510"/>
     <path d="M90 330H1510"/>
@@ -50,21 +22,21 @@
     <path d="M1510 90V330"/>
   </g>
 
-  <text x="300" y="166" fill="#F7F8FA" font-family="Segoe UI, Arial, sans-serif" font-size="72" font-weight="800" letter-spacing="-1.5">HYDRV</text>
-  <text x="300" y="220" fill="#B9BEC8" font-family="Segoe UI, Arial, sans-serif" font-size="30" font-weight="500">Android release browsing, kept clean.</text>
-  <text x="300" y="270" fill="#9EA3AD" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="400">Signed downloads • GitHub release awareness • Cloudflare-backed catalogue</text>
+  <text x="112" y="166" fill="#F7F8FA" font-family="Segoe UI, Arial, sans-serif" font-size="72" font-weight="800" letter-spacing="-1.5">HYDRV</text>
+  <text x="112" y="220" fill="#B9BEC8" font-family="Segoe UI, Arial, sans-serif" font-size="30" font-weight="500">Android release browsing, kept clean.</text>
+  <text x="112" y="270" fill="#9EA3AD" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="400">Signed downloads • GitHub release awareness • Cloudflare-backed catalogue</text>
 
-  <g transform="translate(300 300)">
+  <g transform="translate(112 300)">
     <rect width="172" height="46" rx="23" fill="#22C55E" fill-opacity="0.16"/>
     <text x="22" y="31" fill="#28E06F" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="700">Release ready</text>
   </g>
 
-  <g transform="translate(486 300)">
+  <g transform="translate(298 300)">
     <rect width="170" height="46" rx="23" fill="#FFFFFF" fill-opacity="0.06"/>
     <text x="22" y="31" fill="#E7EAF0" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="700">Signed flow</text>
   </g>
 
-  <g transform="translate(670 300)">
+  <g transform="translate(482 300)">
     <rect width="236" height="46" rx="23" fill="#FFFFFF" fill-opacity="0.06"/>
     <text x="22" y="31" fill="#E7EAF0" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="700">GitHub release aware</text>
   </g>
