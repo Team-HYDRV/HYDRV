@@ -14,6 +14,7 @@ object AppIconPreferences {
 
     private const val PREFS_NAME = "app_icon_prefs"
     private const val KEY_ICON = "icon_choice"
+    private const val KEY_ICON_INITIALIZED = "icon_initialized"
 
     const val ICON_DEFAULT = "default"
     const val ICON_ALTERNATIVE = "alternative"
@@ -62,6 +63,17 @@ object AppIconPreferences {
             ?: ICON_DEFAULT
     }
 
+    fun ensureDefaultOnFirstLaunch(context: Context) {
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        if (prefs.getBoolean(KEY_ICON_INITIALIZED, false)) return
+
+        prefs.edit {
+            putString(KEY_ICON, ICON_DEFAULT)
+            putBoolean(KEY_ICON_INITIALIZED, true)
+        }
+        applyIcon(context, ICON_DEFAULT)
+    }
+
     fun isAlternativeSelected(context: Context): Boolean {
         return currentIcon(context) == ICON_ALTERNATIVE
     }
@@ -69,7 +81,10 @@ object AppIconPreferences {
     fun setIcon(context: Context, choice: String) {
         val selected = if (choice in allowedIcons) choice else ICON_DEFAULT
         context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-            .edit { putString(KEY_ICON, selected) }
+            .edit {
+                putString(KEY_ICON, selected)
+                putBoolean(KEY_ICON_INITIALIZED, true)
+            }
         applyIcon(context, selected)
     }
 
