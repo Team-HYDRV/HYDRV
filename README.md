@@ -60,21 +60,35 @@
 
 ---
 
-<h2 align="center">Snapshot</h2>
+<h2 align="center">How To Use</h2>
+
+<ol>
+  <li><strong>Open the app and allow permissions.</strong> HYDRV needs internet access and install permissions before it can handle downloads.</li>
+  <li><strong>Browse Home.</strong> Search for apps, open a release, and check the version list.</li>
+  <li><strong>Download or install.</strong> Tap a version to download it, then install it from the Downloads screen when it is ready.</li>
+  <li><strong>Adjust General.</strong> Use General to change theme, language, sorting, backend, and the launcher icon.</li>
+  <li><strong>Check About.</strong> Use About for app info, export reports, support links, and quick project details.</li>
+</ol>
+
+<h2 align="center">Highlights</h2>
 
 <table>
   <tr>
-    <td width="33%" valign="top" align="center">
-      <h3>App</h3>
-      <p>Browse releases, follow downloads, and manage installs in a personalized Android store.</p>
+    <td width="25%" valign="top" align="center">
+      <h3>Release browsing</h3>
+      <p>See apps, open releases, and move through versions without extra clutter.</p>
     </td>
-    <td width="33%" valign="top" align="center">
-      <h3>Backend</h3>
-      <p>Resolve the private file path and issue signed download URLs through Cloudflare.</p>
+    <td width="25%" valign="top" align="center">
+      <h3>Signed downloads</h3>
+      <p>The app keeps the public catalogue simple while the Worker signs the real file path.</p>
     </td>
-    <td width="33%" valign="top" align="center">
-      <h3>Website</h3>
-      <p>Show the latest release info, changelogs, and supporting pages in one calm place.</p>
+    <td width="25%" valign="top" align="center">
+      <h3>Flexible setup</h3>
+      <p>Theme, language, lists, backend sources, and launcher icons are all built in.</p>
+    </td>
+    <td width="25%" valign="top" align="center">
+      <h3>Support tools</h3>
+      <p>Export reports, backend health, update info, and project links stay easy to reach.</p>
     </td>
   </tr>
 </table>
