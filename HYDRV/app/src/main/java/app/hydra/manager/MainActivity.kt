@@ -126,6 +126,7 @@ class MainActivity : AppCompatActivity() {
             R.color.subtext
         )
         supportActionBar?.hide()
+        AppIconPreferences.applySavedIcon(this)
         val homeTab = findViewById<View>(R.id.nav_home_tab)
         val downloadTab = findViewById<View>(R.id.nav_download_tab)
         val settingsTab = findViewById<View>(R.id.nav_settings_tab)
@@ -424,5 +425,6 @@ class MainActivity : AppCompatActivity() {
         return packageName
     }
 }
+
 
 
