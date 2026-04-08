@@ -64,7 +64,7 @@
                     android:id="@+id/generalSectionTab"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="12dp"
+                    android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="12dp"
                     android:background="@drawable/settings_section_card"
                     android:clickable="true"
@@ -73,8 +73,8 @@
                     android:gravity="center_vertical"
                     android:minHeight="92dp"
                     android:orientation="horizontal"
-                    android:paddingHorizontal="18dp"
-                    android:paddingVertical="18dp">
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="16dp">
 
                     <FrameLayout
                         android:id="@+id/generalSectionIconBg"
@@ -120,7 +120,7 @@
                     android:id="@+id/updatesSectionTab"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="12dp"
+                    android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="12dp"
                     android:background="@drawable/settings_section_card"
                     android:clickable="true"
@@ -129,8 +129,8 @@
                     android:gravity="center_vertical"
                     android:minHeight="92dp"
                     android:orientation="horizontal"
-                    android:paddingHorizontal="18dp"
-                    android:paddingVertical="18dp">
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="16dp">
 
                     <FrameLayout
                         android:id="@+id/updatesSectionIconBg"
@@ -176,7 +176,7 @@
                     android:id="@+id/advanceSectionTab"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="12dp"
+                    android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="12dp"
                     android:background="@drawable/settings_section_card"
                     android:clickable="true"
@@ -185,8 +185,8 @@
                     android:gravity="center_vertical"
                     android:minHeight="92dp"
                     android:orientation="horizontal"
-                    android:paddingHorizontal="18dp"
-                    android:paddingVertical="18dp">
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="16dp">
 
                     <FrameLayout
                         android:id="@+id/advanceSectionIconBg"
