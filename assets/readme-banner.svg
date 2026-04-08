@@ -19,16 +19,16 @@
     <rect width="128" height="128" rx="34" fill="#11151B" fill-opacity="0.96" stroke="#2D323B" stroke-width="1.5"/>
     <rect x="9" y="9" width="110" height="110" rx="28" fill="#0E1115" fill-opacity="0.88"/>
     <g transform="translate(64 64)">
-      <circle r="42" fill="#22C55E" fill-opacity="0.08"/>
-      <circle r="33" fill="#171B22"/>
-      <circle r="27" fill="#0F1318" stroke="#22C55E" stroke-width="4"/>
-      <g transform="translate(-17 -18)">
-        <rect x="0" y="0" width="12" height="36" rx="6" fill="#28E06F"/>
-        <rect x="24" y="0" width="12" height="36" rx="6" fill="#28E06F"/>
-        <rect x="0" y="14" width="36" height="8" rx="4" fill="#28E06F"/>
-      </g>
-      <circle cx="-24" cy="17" r="3" fill="#28E06F" opacity="0.9"/>
-      <circle cx="22" cy="-18" r="3" fill="#28E06F" opacity="0.9"/>
+      <rect x="-35" y="-35" width="70" height="70" rx="20" fill="#0F1318" stroke="#262C35" stroke-width="2"/>
+      <rect x="-28" y="-28" width="56" height="56" rx="16" fill="#12161C" stroke="#1D232B" stroke-width="1.5"/>
+      <circle r="20" fill="none" stroke="#28E06F" stroke-width="4"/>
+      <circle r="2.8" fill="#28E06F"/>
+      <path d="M-3 -15H3V-3H15V3H3V15H-3V3H-15V-3H-3Z" fill="#28E06F"/>
+      <path d="M0 -22C9 -22 16 -15 16 -6V-3" stroke="#28E06F" stroke-width="3" stroke-linecap="round"/>
+      <path d="M-11 13C-18 10 -21 3 -21 -5" stroke="#28E06F" stroke-width="3" stroke-linecap="round"/>
+      <path d="M11 -13C18 -10 21 -3 21 5" stroke="#28E06F" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="-18" cy="11" r="2.4" fill="#28E06F"/>
+      <circle cx="17" cy="-11" r="2.4" fill="#28E06F"/>
     </g>
   </g>
 
