@@ -3,6 +3,7 @@ package app.hydra.manager
 import android.content.ComponentName
 import android.content.Context
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import androidx.core.content.edit
@@ -69,6 +70,7 @@ object AppIconPreferences {
         val selected = if (choice in allowedIcons) choice else ICON_DEFAULT
         context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
             .edit { putString(KEY_ICON, selected) }
+        applyIcon(context, selected)
     }
 
     fun applySavedIcon(context: Context) {
@@ -78,42 +80,70 @@ object AppIconPreferences {
     fun applyIcon(context: Context, choice: String) {
         val packageManager = context.packageManager
         val selected = if (choice in allowedIcons) choice else ICON_DEFAULT
-        val mainHandler = Handler(Looper.getMainLooper())
 
         when (selected) {
-            ICON_DEFAULT -> {
-                setComponentEnabled(packageManager, defaultAlias(context), true)
-                mainHandler.postDelayed({
-                    setComponentEnabled(packageManager, alternativeAlias(context), false)
-                    setComponentEnabled(packageManager, legacyAlias(context), false)
-                    setComponentEnabled(packageManager, legacyGradientAlias(context), false)
-                }, ICON_SWITCH_DISABLE_DELAY_MS)
-            }
-            ICON_ALTERNATIVE -> {
-                setComponentEnabled(packageManager, alternativeAlias(context), true)
-                mainHandler.postDelayed({
-                    setComponentEnabled(packageManager, defaultAlias(context), false)
-                    setComponentEnabled(packageManager, legacyAlias(context), false)
-                    setComponentEnabled(packageManager, legacyGradientAlias(context), false)
-                }, ICON_SWITCH_DISABLE_DELAY_MS)
-            }
-            ICON_LEGACY -> {
-                setComponentEnabled(packageManager, legacyAlias(context), true)
-                mainHandler.postDelayed({
-                    setComponentEnabled(packageManager, defaultAlias(context), false)
-                    setComponentEnabled(packageManager, alternativeAlias(context), false)
-                    setComponentEnabled(packageManager, legacyGradientAlias(context), false)
-                }, ICON_SWITCH_DISABLE_DELAY_MS)
-            }
-            ICON_LEGACY_GRADIENT -> {
-                setComponentEnabled(packageManager, legacyGradientAlias(context), true)
-                mainHandler.postDelayed({
-                    setComponentEnabled(packageManager, defaultAlias(context), false)
-                    setComponentEnabled(packageManager, alternativeAlias(context), false)
-                    setComponentEnabled(packageManager, legacyAlias(context), false)
-                }, ICON_SWITCH_DISABLE_DELAY_MS)
-            }
+            ICON_DEFAULT -> applyComponentStateBatch(
+                packageManager,
+                listOf(defaultAlias(context)),
+                listOf(alternativeAlias(context), legacyAlias(context), legacyGradientAlias(context))
+            )
+            ICON_ALTERNATIVE -> applyComponentStateBatch(
+                packageManager,
+                listOf(alternativeAlias(context)),
+                listOf(defaultAlias(context), legacyAlias(context), legacyGradientAlias(context))
+            )
+            ICON_LEGACY -> applyComponentStateBatch(
+                packageManager,
+                listOf(legacyAlias(context)),
+                listOf(defaultAlias(context), alternativeAlias(context), legacyGradientAlias(context))
+            )
+            ICON_LEGACY_GRADIENT -> applyComponentStateBatch(
+                packageManager,
+                listOf(legacyGradientAlias(context)),
+                listOf(defaultAlias(context), alternativeAlias(context), legacyAlias(context))
+            )
         }
+    }
+
+    private fun applyComponentStateBatch(
+        packageManager: PackageManager,
+        enabled: List<ComponentName>,
+        disabled: List<ComponentName>
+    ) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            val settings = buildList {
+                enabled.forEach { component ->
+                    add(
+                        PackageManager.ComponentEnabledSetting(
+                            component,
+                            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                            PackageManager.DONT_KILL_APP
+                        )
+                    )
+                }
+                disabled.forEach { component ->
+                    add(
+                        PackageManager.ComponentEnabledSetting(
+                            component,
+                            PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                            PackageManager.DONT_KILL_APP
+                        )
+                    )
+                }
+            }
+            packageManager.setComponentEnabledSettings(settings)
+            return
+        }
+
+        val mainHandler = Handler(Looper.getMainLooper())
+        enabled.forEach { component ->
+            setComponentEnabled(packageManager, component, true)
+        }
+        mainHandler.postDelayed({
+            disabled.forEach { component ->
+                setComponentEnabled(packageManager, component, false)
+            }
+        }, ICON_SWITCH_DISABLE_DELAY_MS)
     }
 
     private fun setComponentEnabled(
@@ -134,5 +164,3 @@ object AppIconPreferences {
         )
     }
 }
-
-
