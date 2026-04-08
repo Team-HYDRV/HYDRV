@@ -196,6 +196,7 @@ class SettingsFragment : Fragment() {
     private lateinit var aboutSection: View
     private lateinit var aboutSectionTab: View
     private lateinit var aboutSectionIconBg: View
+    private lateinit var aboutAppIcon: ImageView
     private lateinit var aboutIssueDivider: View
     private lateinit var aboutContributorsDivider: View
     private lateinit var aboutLicensesDivider: View
@@ -265,6 +266,7 @@ class SettingsFragment : Fragment() {
         aboutSection = view.findViewById(R.id.aboutSection)
         aboutSectionTab = view.findViewById(R.id.aboutSectionTab)
         aboutSectionIconBg = view.findViewById(R.id.aboutSectionIconBg)
+        aboutAppIcon = view.findViewById(R.id.aboutAppIcon)
         aboutIssueDivider = view.findViewById(R.id.aboutIssueDivider)
         aboutContributorsDivider = view.findViewById(R.id.aboutContributorsDivider)
         aboutLicensesDivider = view.findViewById(R.id.aboutLicensesDivider)
@@ -351,6 +353,7 @@ class SettingsFragment : Fragment() {
         updateDownloadNetworkLabel()
         updateAppearanceSwitches()
         updateSettingsSectionTabs()
+        updateAboutAppIcon()
         updateSettingsCardSurfaces(view)
         batteryOptimizationValue = view.findViewById(R.id.batteryOptimizationValue)
         updateBackendUrlLabel()
@@ -879,6 +882,9 @@ class SettingsFragment : Fragment() {
             )
             optionViews.labelView.alpha = if (isSelected) 1f else 0.85f
         }
+        if (this::aboutAppIcon.isInitialized) {
+            updateAboutAppIcon()
+        }
     }
 
     private fun selectAppIcon(choice: String) {
@@ -897,6 +903,18 @@ class SettingsFragment : Fragment() {
             R.id.appIconFreedomOption -> AppIconPreferences.ICON_LEGACY_GRADIENT
             else -> AppIconPreferences.ICON_DEFAULT
         }
+    }
+
+    private fun updateAboutAppIcon() {
+        if (!this::aboutAppIcon.isInitialized) return
+        aboutAppIcon.setImageResource(
+            when (AppIconPreferences.currentIcon(requireContext())) {
+                AppIconPreferences.ICON_ALTERNATIVE -> R.mipmap.ic_launcher_alt
+                AppIconPreferences.ICON_LEGACY -> R.mipmap.ic_launcher_legacy
+                AppIconPreferences.ICON_LEGACY_GRADIENT -> R.mipmap.ic_launcher_legacy_gradient
+                else -> R.mipmap.ic_launcher_round
+            }
+        )
     }
 
     private fun showAppIconChangedSnackbar() {
