@@ -12,6 +12,15 @@ object AppIconPreferences {
 
     const val ICON_DEFAULT = "default"
     const val ICON_ALTERNATIVE = "alternative"
+    const val ICON_LEGACY = "legacy"
+    const val ICON_LEGACY_GRADIENT = "legacy_gradient"
+
+    private val allowedIcons = setOf(
+        ICON_DEFAULT,
+        ICON_ALTERNATIVE,
+        ICON_LEGACY,
+        ICON_LEGACY_GRADIENT
+    )
 
     private fun defaultAlias(context: Context): ComponentName {
         return ComponentName(
@@ -27,10 +36,24 @@ object AppIconPreferences {
         )
     }
 
+    private fun legacyAlias(context: Context): ComponentName {
+        return ComponentName(
+            context.packageName,
+            "${context.packageName}.LauncherLegacyAlias"
+        )
+    }
+
+    private fun legacyGradientAlias(context: Context): ComponentName {
+        return ComponentName(
+            context.packageName,
+            "${context.packageName}.LauncherLegacyGradientAlias"
+        )
+    }
+
     fun currentIcon(context: Context): String {
         return context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
             .getString(KEY_ICON, ICON_DEFAULT)
-            ?.takeIf { it == ICON_ALTERNATIVE }
+            ?.takeIf { it in allowedIcons }
             ?: ICON_DEFAULT
     }
 
@@ -39,7 +62,7 @@ object AppIconPreferences {
     }
 
     fun setIcon(context: Context, choice: String) {
-        val selected = if (choice == ICON_ALTERNATIVE) ICON_ALTERNATIVE else ICON_DEFAULT
+        val selected = if (choice in allowedIcons) choice else ICON_DEFAULT
         context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
             .edit { putString(KEY_ICON, selected) }
         applySavedIcon(context)
@@ -51,17 +74,27 @@ object AppIconPreferences {
 
     fun applyIcon(context: Context, choice: String) {
         val packageManager = context.packageManager
-        val useAlternative = choice == ICON_ALTERNATIVE
+        val selected = if (choice in allowedIcons) choice else ICON_DEFAULT
 
         setComponentEnabled(
             packageManager,
             defaultAlias(context),
-            !useAlternative
+            selected == ICON_DEFAULT
         )
         setComponentEnabled(
             packageManager,
             alternativeAlias(context),
-            useAlternative
+            selected == ICON_ALTERNATIVE
+        )
+        setComponentEnabled(
+            packageManager,
+            legacyAlias(context),
+            selected == ICON_LEGACY
+        )
+        setComponentEnabled(
+            packageManager,
+            legacyGradientAlias(context),
+            selected == ICON_LEGACY_GRADIENT
         )
     }
 

@@ -17,6 +17,10 @@
     <string name="app_icon_default_summary">Use the standard HYDRV icon set.</string>
     <string name="app_icon_alternative_title">Alternative icon</string>
     <string name="app_icon_alternative_summary">Use the alternate HYDRV icon set.</string>
+    <string name="app_icon_legacy_title">Legacy</string>
+    <string name="app_icon_legacy_summary">Use the classic HYDRV icon set.</string>
+    <string name="app_icon_legacy_gradient_title">Legacy Gradient</string>
+    <string name="app_icon_legacy_gradient_summary">Use the classic icon with a gradient look.</string>
     <string name="app_icon_active">Active</string>
     <string name="app_icon_set_active">Set active</string>
     <string name="app_icon_changed">App icon updated</string>

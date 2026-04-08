@@ -73,6 +73,34 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity-alias>
+        <activity-alias
+            android:name=".LauncherLegacyAlias"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_legacy"
+            android:label="@string/app_name"
+            android:roundIcon="@mipmap/ic_launcher_legacy"
+            android:targetActivity=".MainActivity"
+            android:theme="@style/Theme.HYDRV.Launch">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:name=".LauncherLegacyGradientAlias"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_legacy_gradient"
+            android:label="@string/app_name"
+            android:roundIcon="@mipmap/ic_launcher_legacy_gradient"
+            android:targetActivity=".MainActivity"
+            android:theme="@style/Theme.HYDRV.Launch">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
         <activity android:name=".AppDetailsActivity" />
         <activity android:name=".ContributorsActivity" />
         <activity android:name=".LanguageSelectionActivity" />

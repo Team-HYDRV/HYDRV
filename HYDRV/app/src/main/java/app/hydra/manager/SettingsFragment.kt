@@ -183,6 +183,10 @@ class SettingsFragment : Fragment() {
     private lateinit var appIconDefaultAction: Button
     private lateinit var appIconAltRow: View
     private lateinit var appIconAltAction: Button
+    private lateinit var appIconLegacyRow: View
+    private lateinit var appIconLegacyAction: Button
+    private lateinit var appIconLegacyGradientRow: View
+    private lateinit var appIconLegacyGradientAction: Button
     private lateinit var updatesSection: View
     private lateinit var updatesSectionTab: View
     private lateinit var updatesSectionIconBg: View
@@ -312,6 +316,10 @@ class SettingsFragment : Fragment() {
         appIconDefaultAction = view.findViewById(R.id.appIconDefaultAction)
         appIconAltRow = view.findViewById(R.id.appIconAltRow)
         appIconAltAction = view.findViewById(R.id.appIconAltAction)
+        appIconLegacyRow = view.findViewById(R.id.appIconLegacyRow)
+        appIconLegacyAction = view.findViewById(R.id.appIconLegacyAction)
+        appIconLegacyGradientRow = view.findViewById(R.id.appIconLegacyGradientRow)
+        appIconLegacyGradientAction = view.findViewById(R.id.appIconLegacyGradientAction)
         homeSortValue = view.findViewById(R.id.homeSortValue)
         favoritesSortValue = view.findViewById(R.id.favoritesSortValue)
         installedSortValue = view.findViewById(R.id.installedSortValue)
@@ -379,32 +387,14 @@ class SettingsFragment : Fragment() {
             }
         }
 
-        appIconDefaultRow.setOnClickListener {
-            if (!AppIconPreferences.isAlternativeSelected(requireContext())) return@setOnClickListener
-            AppIconPreferences.setIcon(requireContext(), AppIconPreferences.ICON_DEFAULT)
-            updateAppIconCards()
-            showAppIconChangedSnackbar()
-        }
-        appIconDefaultAction.setOnClickListener {
-            if (AppIconPreferences.isAlternativeSelected(requireContext())) {
-                AppIconPreferences.setIcon(requireContext(), AppIconPreferences.ICON_DEFAULT)
-                updateAppIconCards()
-                showAppIconChangedSnackbar()
-            }
-        }
-        appIconAltRow.setOnClickListener {
-            if (AppIconPreferences.isAlternativeSelected(requireContext())) return@setOnClickListener
-            AppIconPreferences.setIcon(requireContext(), AppIconPreferences.ICON_ALTERNATIVE)
-            updateAppIconCards()
-            showAppIconChangedSnackbar()
-        }
-        appIconAltAction.setOnClickListener {
-            if (!AppIconPreferences.isAlternativeSelected(requireContext())) {
-                AppIconPreferences.setIcon(requireContext(), AppIconPreferences.ICON_ALTERNATIVE)
-                updateAppIconCards()
-                showAppIconChangedSnackbar()
-            }
-        }
+        appIconDefaultRow.setOnClickListener { selectAppIcon(AppIconPreferences.ICON_DEFAULT) }
+        appIconDefaultAction.setOnClickListener { selectAppIcon(AppIconPreferences.ICON_DEFAULT) }
+        appIconAltRow.setOnClickListener { selectAppIcon(AppIconPreferences.ICON_ALTERNATIVE) }
+        appIconAltAction.setOnClickListener { selectAppIcon(AppIconPreferences.ICON_ALTERNATIVE) }
+        appIconLegacyRow.setOnClickListener { selectAppIcon(AppIconPreferences.ICON_LEGACY) }
+        appIconLegacyAction.setOnClickListener { selectAppIcon(AppIconPreferences.ICON_LEGACY) }
+        appIconLegacyGradientRow.setOnClickListener { selectAppIcon(AppIconPreferences.ICON_LEGACY_GRADIENT) }
+        appIconLegacyGradientAction.setOnClickListener { selectAppIcon(AppIconPreferences.ICON_LEGACY_GRADIENT) }
 
         view.findViewById<View>(R.id.homeSortRow).setOnClickListener {
             showAppSortDialog(
@@ -723,6 +713,8 @@ class SettingsFragment : Fragment() {
             R.id.themeOptionsCard,
             R.id.appIconDefaultRow,
             R.id.appIconAltRow,
+            R.id.appIconLegacyRow,
+            R.id.appIconLegacyGradientRow,
             R.id.dynamicColorRow,
             R.id.pureBlackRow,
             R.id.languageRow,
@@ -841,21 +833,41 @@ class SettingsFragment : Fragment() {
             AppearancePreferences.isPureBlackEnabled(context)
         )
         updatePureBlackSummary(context)
-        if (this::appIconDefaultAction.isInitialized && this::appIconAltAction.isInitialized) {
+        if (this::appIconDefaultAction.isInitialized &&
+            this::appIconAltAction.isInitialized &&
+            this::appIconLegacyAction.isInitialized &&
+            this::appIconLegacyGradientAction.isInitialized
+        ) {
             updateAppIconCards()
         }
     }
 
     private fun updateAppIconCards() {
-        val useAlternative = AppIconPreferences.isAlternativeSelected(requireContext())
+        val currentIcon = AppIconPreferences.currentIcon(requireContext())
         updateAppIconButton(
             appIconDefaultAction,
-            isActive = !useAlternative
+            isActive = currentIcon == AppIconPreferences.ICON_DEFAULT
         )
         updateAppIconButton(
             appIconAltAction,
-            isActive = useAlternative
+            isActive = currentIcon == AppIconPreferences.ICON_ALTERNATIVE
         )
+        updateAppIconButton(
+            appIconLegacyAction,
+            isActive = currentIcon == AppIconPreferences.ICON_LEGACY
+        )
+        updateAppIconButton(
+            appIconLegacyGradientAction,
+            isActive = currentIcon == AppIconPreferences.ICON_LEGACY_GRADIENT
+        )
+    }
+
+    private fun selectAppIcon(choice: String) {
+        val context = requireContext()
+        if (AppIconPreferences.currentIcon(context) == choice) return
+        AppIconPreferences.setIcon(context, choice)
+        updateAppIconCards()
+        showAppIconChangedSnackbar()
     }
 
     private fun updateAppIconButton(button: Button, isActive: Boolean) {
