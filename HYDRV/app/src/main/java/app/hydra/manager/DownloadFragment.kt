@@ -99,6 +99,7 @@ class DownloadFragment : Fragment() {
             if (!event.refreshInstalledState || !isAdded) return@observe
             AppStateCacheManager.forceRefreshInstalledPackages(requireContext()) {
                 if (!isAdded || view == null) return@forceRefreshInstalledPackages
+                DownloadRepository.syncInstalledState(requireContext())
                 refreshDownloads()
                 adapter.refreshRuntimeState()
             }
@@ -240,6 +241,7 @@ class DownloadFragment : Fragment() {
         if (!::adapter.isInitialized || !isAdded) return
         AppStateCacheManager.forceRefreshInstalledPackages(requireContext()) {
             if (!isAdded || view == null) return@forceRefreshInstalledPackages
+            DownloadRepository.syncInstalledState(requireContext())
             refreshDownloads()
             adapter.refreshRuntimeState()
         }
