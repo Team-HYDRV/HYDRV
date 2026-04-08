@@ -1,7 +1,7 @@
-{
+﻿{
   "name": "HYDRV",
   "short_name": "HYDRV",
-  "description": "HYDRV is a personalized store made just for you.",
+  "description": "Android release browsing, kept clean.",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#111015",
@@ -21,3 +21,4 @@
     }
   ]
 }
+

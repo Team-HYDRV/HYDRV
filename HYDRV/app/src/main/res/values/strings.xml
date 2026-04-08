@@ -371,7 +371,7 @@
     <string name="updates_check_live_generic">New release is available in HYDRV.</string>
     <string name="updates_check_up_to_date">You\'re up to date.</string>
     <string name="about_version_code_format">Version %1$s (%2$d)</string>
-    <string name="about_tagline">HYDRV is a personalized store made just for you.</string>
+    <string name="about_tagline">Android release browsing, kept clean.</string>
     <string name="about_link_website">Website</string>
     <string name="about_link_discord">Discord</string>
     <string name="about_link_donate">Donate</string>
@@ -422,4 +422,5 @@
         <item quantity="other">%d selected</item>
     </plurals>
 </resources>
+
 
