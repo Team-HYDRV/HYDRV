@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/readme-banner.svg" alt="HYDRV banner">
+  <img src="assets/readme-banner-v2.svg" alt="HYDRV banner">
 </p>
 
 <p align="center">

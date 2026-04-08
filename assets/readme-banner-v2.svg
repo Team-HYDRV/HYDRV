@@ -1,0 +1,43 @@
+﻿<svg width="1600" height="420" viewBox="0 0 1600 420" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">HYDRV</title>
+  <desc id="desc">Brand banner for the HYDRV repository</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1600" y2="420" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0D0E12"/>
+      <stop offset="1" stop-color="#15181F"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(420 180) rotate(20) scale(480 250)">
+      <stop stop-color="#22C55E" stop-opacity="0.24"/>
+      <stop offset="1" stop-color="#22C55E" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1600" height="420" rx="36" fill="url(#bg)"/>
+  <rect width="1600" height="420" rx="36" fill="url(#glow)"/>
+
+  <g opacity="0.14" stroke="#FFFFFF" stroke-width="1">
+    <path d="M90 90H1510"/>
+    <path d="M90 330H1510"/>
+    <path d="M90 90V330"/>
+    <path d="M1510 90V330"/>
+  </g>
+
+  <text x="112" y="166" fill="#F7F8FA" font-family="Segoe UI, Arial, sans-serif" font-size="72" font-weight="800" letter-spacing="-1.5">HYDRV</text>
+  <text x="112" y="220" fill="#B9BEC8" font-family="Segoe UI, Arial, sans-serif" font-size="30" font-weight="500">Android release browsing, kept clean.</text>
+  <text x="112" y="270" fill="#9EA3AD" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="400">Signed downloads • GitHub release awareness • Cloudflare-backed catalogue</text>
+
+  <g transform="translate(112 300)">
+    <rect width="172" height="46" rx="23" fill="#22C55E" fill-opacity="0.16"/>
+    <text x="22" y="31" fill="#28E06F" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="700">Release ready</text>
+  </g>
+
+  <g transform="translate(298 300)">
+    <rect width="170" height="46" rx="23" fill="#FFFFFF" fill-opacity="0.06"/>
+    <text x="22" y="31" fill="#E7EAF0" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="700">Signed flow</text>
+  </g>
+
+  <g transform="translate(482 300)">
+    <rect width="236" height="46" rx="23" fill="#FFFFFF" fill-opacity="0.06"/>
+    <text x="22" y="31" fill="#E7EAF0" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="700">GitHub release aware</text>
+  </g>
+</svg>
