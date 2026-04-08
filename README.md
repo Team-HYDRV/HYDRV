@@ -41,11 +41,11 @@
   <tr>
     <td width="25%" valign="top" align="center">
       <h3>Release browsing</h3>
-      <p>Open apps, scan releases, and move through versions without extra clutter.</p>
+      <p>Open apps, check their releases, and move through versions without extra clutter.</p>
     </td>
     <td width="25%" valign="top" align="center">
       <h3>Signed downloads</h3>
-      <p>The public catalogue stays simple while the Worker signs the real file path.</p>
+      <p>The public catalogue stays simple while the Worker takes care of the real download path.</p>
     </td>
     <td width="25%" valign="top" align="center">
       <h3>Flexible setup</h3>
@@ -165,7 +165,7 @@
 </ol>
 
 <p align="center">
-  <strong>Good to know:</strong> if a backend is broken or unreachable, HYDRV may not be able to load apps from it. For most people, the default backend is still the simplest choice.
+  <strong>Good to know:</strong> if a backend is broken or unreachable, HYDRV may not be able to load apps from it. For most people, the default backend is still the easiest choice.
 </p>
 
 <h2 align="center">How It Fits Together</h2>
