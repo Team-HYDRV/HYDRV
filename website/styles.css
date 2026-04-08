@@ -476,7 +476,7 @@ img {
 }
 
 .shot-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
 .feature-card,
@@ -705,11 +705,16 @@ img {
     .hero,
     .stats-strip,
     .feature-grid,
+    .shot-grid,
     .story-grid,
     .faq-list,
     .release-grid,
     .download-panel {
         grid-template-columns: 1fr;
+    }
+
+    .shot-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .hero {
@@ -861,6 +866,10 @@ img {
 
     .stats-strip {
         margin-bottom: 24px;
+    }
+
+    .shot-grid {
+        grid-template-columns: 1fr;
     }
 
     .footer-links {
