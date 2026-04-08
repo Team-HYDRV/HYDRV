@@ -83,6 +83,24 @@
   </tr>
 </table>
 
+<h2 align="center">How It Fits Together</h2>
+
+```mermaid
+flowchart LR
+    A["Android app"] --> B["Public catalogue.json"]
+    B --> C["Token endpoint"]
+    C --> D["Cloudflare Worker"]
+    D --> E["Private catalogue.private.json"]
+    D --> F["Signed download URL"]
+    F --> G["R2 file download"]
+    A --> H["GitHub latest release"]
+    H --> I["Release notes and changelog"]
+```
+
+<p align="center">
+  HYDRV keeps the public release flow simple: the app reads the visible catalogue, the Worker signs the real download path, and GitHub stays the source of truth for release notes.
+</p>
+
 <h2 align="center">Visual Identity</h2>
 
 <p align="center">
