@@ -68,11 +68,17 @@ object AppIconPreferences {
         val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         if (prefs.getBoolean(KEY_ICON_INITIALIZED, false)) return
 
-        prefs.edit {
-            putString(KEY_ICON, ICON_DEFAULT)
-            putBoolean(KEY_ICON_INITIALIZED, true)
-            putBoolean(KEY_ICON_SYNC_PENDING, true)
-        }
+        resetToDefault(context)
+    }
+
+    private fun resetToDefault(context: Context) {
+        context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+            .edit {
+                remove(KEY_ICON)
+                putString(KEY_ICON, ICON_DEFAULT)
+                putBoolean(KEY_ICON_INITIALIZED, true)
+                putBoolean(KEY_ICON_SYNC_PENDING, true)
+            }
     }
 
     fun hasPendingIconSync(context: Context): Boolean {
