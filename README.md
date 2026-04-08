@@ -33,10 +33,6 @@
   <a href="HYDRV/docs/index.md">Docs</a>
 </p>
 
-<p align="center">
-  <strong>HYDRV is a personalized store made just for you.</strong>
-</p>
-
 ---
 
 <h2 align="center">Screenshots</h2>
