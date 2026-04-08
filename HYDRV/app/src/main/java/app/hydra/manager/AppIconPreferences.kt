@@ -3,6 +3,8 @@ package app.hydra.manager
 import android.content.ComponentName
 import android.content.Context
 import android.content.pm.PackageManager
+import android.os.Handler
+import android.os.Looper
 import androidx.core.content.edit
 
 object AppIconPreferences {
@@ -75,31 +77,40 @@ object AppIconPreferences {
     fun applyIcon(context: Context, choice: String) {
         val packageManager = context.packageManager
         val selected = if (choice in allowedIcons) choice else ICON_DEFAULT
+        val mainHandler = Handler(Looper.getMainLooper())
 
         when (selected) {
             ICON_DEFAULT -> {
                 setComponentEnabled(packageManager, defaultAlias(context), true)
-                setComponentEnabled(packageManager, alternativeAlias(context), false)
-                setComponentEnabled(packageManager, legacyAlias(context), false)
-                setComponentEnabled(packageManager, legacyGradientAlias(context), false)
+                mainHandler.postDelayed({
+                    setComponentEnabled(packageManager, alternativeAlias(context), false)
+                    setComponentEnabled(packageManager, legacyAlias(context), false)
+                    setComponentEnabled(packageManager, legacyGradientAlias(context), false)
+                }, 250L)
             }
             ICON_ALTERNATIVE -> {
                 setComponentEnabled(packageManager, alternativeAlias(context), true)
-                setComponentEnabled(packageManager, defaultAlias(context), false)
-                setComponentEnabled(packageManager, legacyAlias(context), false)
-                setComponentEnabled(packageManager, legacyGradientAlias(context), false)
+                mainHandler.postDelayed({
+                    setComponentEnabled(packageManager, defaultAlias(context), false)
+                    setComponentEnabled(packageManager, legacyAlias(context), false)
+                    setComponentEnabled(packageManager, legacyGradientAlias(context), false)
+                }, 250L)
             }
             ICON_LEGACY -> {
                 setComponentEnabled(packageManager, legacyAlias(context), true)
-                setComponentEnabled(packageManager, defaultAlias(context), false)
-                setComponentEnabled(packageManager, alternativeAlias(context), false)
-                setComponentEnabled(packageManager, legacyGradientAlias(context), false)
+                mainHandler.postDelayed({
+                    setComponentEnabled(packageManager, defaultAlias(context), false)
+                    setComponentEnabled(packageManager, alternativeAlias(context), false)
+                    setComponentEnabled(packageManager, legacyGradientAlias(context), false)
+                }, 250L)
             }
             ICON_LEGACY_GRADIENT -> {
                 setComponentEnabled(packageManager, legacyGradientAlias(context), true)
-                setComponentEnabled(packageManager, defaultAlias(context), false)
-                setComponentEnabled(packageManager, alternativeAlias(context), false)
-                setComponentEnabled(packageManager, legacyAlias(context), false)
+                mainHandler.postDelayed({
+                    setComponentEnabled(packageManager, defaultAlias(context), false)
+                    setComponentEnabled(packageManager, alternativeAlias(context), false)
+                    setComponentEnabled(packageManager, legacyAlias(context), false)
+                }, 250L)
             }
         }
     }
