@@ -69,7 +69,6 @@ object AppIconPreferences {
         val selected = if (choice in allowedIcons) choice else ICON_DEFAULT
         context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
             .edit { putString(KEY_ICON, selected) }
-        applySavedIcon(context)
     }
 
     fun applySavedIcon(context: Context) {
@@ -135,4 +134,5 @@ object AppIconPreferences {
         )
     }
 }
+
 
