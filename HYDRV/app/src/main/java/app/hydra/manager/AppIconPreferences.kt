@@ -15,6 +15,7 @@ object AppIconPreferences {
     private const val PREFS_NAME = "app_icon_prefs"
     private const val KEY_ICON = "icon_choice"
     private const val KEY_ICON_INITIALIZED = "icon_initialized"
+    private const val KEY_ICON_SYNC_PENDING = "icon_sync_pending"
 
     const val ICON_DEFAULT = "default"
     const val ICON_ALTERNATIVE = "alternative"
@@ -70,8 +71,16 @@ object AppIconPreferences {
         prefs.edit {
             putString(KEY_ICON, ICON_DEFAULT)
             putBoolean(KEY_ICON_INITIALIZED, true)
+            putBoolean(KEY_ICON_SYNC_PENDING, true)
         }
-        applyIcon(context, ICON_DEFAULT)
+    }
+
+    fun consumePendingIconSync(context: Context): Boolean {
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        if (!prefs.getBoolean(KEY_ICON_SYNC_PENDING, false)) return false
+
+        prefs.edit { putBoolean(KEY_ICON_SYNC_PENDING, false) }
+        return true
     }
 
     fun isAlternativeSelected(context: Context): Boolean {
