@@ -68,17 +68,29 @@ object AppIconPreferences {
         val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         if (prefs.getBoolean(KEY_ICON_INITIALIZED, false)) return
 
-        resetToDefault(context)
-    }
-
-    private fun resetToDefault(context: Context) {
+        val detectedIcon = detectCurrentIcon(context)
         context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
             .edit {
-                remove(KEY_ICON)
-                putString(KEY_ICON, ICON_DEFAULT)
+                putString(KEY_ICON, detectedIcon)
                 putBoolean(KEY_ICON_INITIALIZED, true)
                 putBoolean(KEY_ICON_SYNC_PENDING, true)
             }
+    }
+
+    private fun detectCurrentIcon(context: Context): String {
+        val packageManager = context.packageManager
+        val states = listOf(
+            ICON_DEFAULT to defaultAlias(context),
+            ICON_ALTERNATIVE to alternativeAlias(context),
+            ICON_LEGACY to legacyAlias(context),
+            ICON_LEGACY_GRADIENT to legacyGradientAlias(context)
+        )
+
+        states.firstOrNull { (_, component) ->
+            packageManager.getComponentEnabledSetting(component) == PackageManager.COMPONENT_ENABLED_STATE_ENABLED
+        }?.first?.let { return it }
+
+        return ICON_DEFAULT
     }
 
     fun hasPendingIconSync(context: Context): Boolean {
