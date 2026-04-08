@@ -97,7 +97,7 @@
   <li><strong>Visit About.</strong> Use About for app info, report export, support links, and quick project details.</li>
 </ol>
 
-<h2 align="center">What Each Tab Does</h2>
+<h2 align="center">What Each Tab Is For</h2>
 
 <table>
   <tr>
@@ -142,7 +142,7 @@
       <h3 align="center">What it does</h3>
       <ul>
         <li>Points HYDRV at your own catalogue JSON.</li>
-        <li>Lets you keep private, test, or mirrored sources separate from the default backend.</li>
+        <li>Keeps private, test, or mirrored sources separate from the default backend.</li>
         <li>Gives you a way to organize apps by purpose, region, or release flow.</li>
       </ul>
     </td>
