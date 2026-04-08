@@ -10,7 +10,9 @@ The site root also includes `app-ads.txt` for ad verification.
 - `index.html` - main landing page
 - `styles.css` - site styling
 - `app.js` - release feed and small page updates
-- `assets/hydrv-icon.png` - app icon reused for web branding
+- `assets/icon-192.png` / `assets/icon-512.png` - web app icons
+- `assets/hydrv-icon.png` - web branding icon used across the page
+- `assets/favicon.ico` - browser favicon
 
 ## Preview locally
 
