@@ -869,13 +869,7 @@ class SettingsFragment : Fragment() {
                 }
             )
             optionViews.iconView.imageTintList =
-                android.content.res.ColorStateList.valueOf(
-                    ThemeColors.color(
-                        requireContext(),
-                        if (isSelected) androidx.appcompat.R.attr.colorPrimary else com.google.android.material.R.attr.colorOnSurfaceVariant,
-                        if (isSelected) R.color.accent else R.color.subtext
-                    )
-                )
+                null
             optionViews.labelView.setTextColor(
                 ThemeColors.color(
                     requireContext(),

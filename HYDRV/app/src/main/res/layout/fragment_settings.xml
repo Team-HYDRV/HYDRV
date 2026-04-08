@@ -518,10 +518,11 @@
 
                             <ImageView
                                 android:id="@+id/appIconDefaultIcon"
-                                android:layout_width="28dp"
-                                android:layout_height="28dp"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
                                 android:layout_gravity="center"
                                 android:contentDescription="@null"
+                                android:scaleType="centerInside"
                                 android:src="@mipmap/ic_launcher" />
                         </FrameLayout>
 
@@ -556,10 +557,11 @@
 
                             <ImageView
                                 android:id="@+id/appIconHydraIcon"
-                                android:layout_width="28dp"
-                                android:layout_height="28dp"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
                                 android:layout_gravity="center"
                                 android:contentDescription="@null"
+                                android:scaleType="centerInside"
                                 android:src="@mipmap/ic_launcher_alt" />
                         </FrameLayout>
 
@@ -594,10 +596,11 @@
 
                             <ImageView
                                 android:id="@+id/appIconLegacyIcon"
-                                android:layout_width="28dp"
-                                android:layout_height="28dp"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
                                 android:layout_gravity="center"
                                 android:contentDescription="@null"
+                                android:scaleType="centerInside"
                                 android:src="@mipmap/ic_launcher_legacy" />
                         </FrameLayout>
 
@@ -632,10 +635,11 @@
 
                             <ImageView
                                 android:id="@+id/appIconFreedomIcon"
-                                android:layout_width="28dp"
-                                android:layout_height="28dp"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
                                 android:layout_gravity="center"
                                 android:contentDescription="@null"
+                                android:scaleType="centerInside"
                                 android:src="@mipmap/ic_launcher_legacy_gradient" />
                         </FrameLayout>
 
