@@ -63,12 +63,85 @@
 <h2 align="center">How To Use</h2>
 
 <ol>
-  <li><strong>Open the app and allow permissions.</strong> HYDRV needs internet access and install permissions before it can handle downloads.</li>
-  <li><strong>Browse Home.</strong> Search for apps, open a release, and check the version list.</li>
-  <li><strong>Download or install.</strong> Tap a version to download it, then install it from the Downloads screen when it is ready.</li>
-  <li><strong>Adjust General.</strong> Use General to change theme, language, sorting, backend, and the launcher icon.</li>
-  <li><strong>Check About.</strong> Use About for app info, export reports, support links, and quick project details.</li>
+  <li><strong>Open the app and allow permissions.</strong> HYDRV needs internet access and install permissions before it can fetch or install APKs.</li>
+  <li><strong>Start on Home.</strong> This is where you browse apps, open a release, pick a version, and download the one you want.</li>
+  <li><strong>Save apps to Favorites.</strong> Tap the star on anything you want to come back to later without searching again.</li>
+  <li><strong>Check Installed.</strong> Use this tab to compare what is already on your device with what is available in HYDRV.</li>
+  <li><strong>Open Downloads when a file is ready.</strong> From there you can install APKs, retry failed downloads, or clear older items you no longer need.</li>
+  <li><strong>Adjust General.</strong> This is where you change theme, language, sorting, backend sources, and the launcher icon.</li>
+  <li><strong>Visit About.</strong> Use About for app info, report export, support links, and quick project details.</li>
 </ol>
+
+<h2 align="center">App Areas</h2>
+
+<table>
+  <tr>
+    <td width="33%" valign="top" align="center">
+      <h3>Home</h3>
+      <p>Home is where you browse the catalogue, open app pages, compare versions, and start downloads.</p>
+    </td>
+    <td width="33%" valign="top" align="center">
+      <h3>Favorites</h3>
+      <p>Favorites keeps the apps you care about close by, so you do not have to search every time.</p>
+    </td>
+    <td width="33%" valign="top" align="center">
+      <h3>Installed</h3>
+      <p>Installed shows what is already on your device and makes it easy to spot when a newer version is available.</p>
+    </td>
+  </tr>
+  <tr>
+    <td width="33%" valign="top" align="center">
+      <h3>Downloads</h3>
+      <p>Downloads is your queue. You can watch progress, install finished APKs, retry failures, or clear old entries.</p>
+    </td>
+    <td width="33%" valign="top" align="center">
+      <h3>General</h3>
+      <p>General is where you tune HYDRV itself with theme, language, sorting, backend, and launcher icon settings.</p>
+    </td>
+    <td width="33%" valign="top" align="center">
+      <h3>About</h3>
+      <p>About gives you the app version, support links, export tools, and the quick project details people usually need first.</p>
+    </td>
+  </tr>
+</table>
+
+<h2 align="center">Backend Tutorial</h2>
+
+<p align="center">
+  HYDRV also supports custom backends for people who want more control over where the catalogue comes from.
+</p>
+
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <h3 align="center">What it does</h3>
+      <ul>
+        <li>Points HYDRV at your own catalogue JSON.</li>
+        <li>Lets you keep private, test, or mirrored sources separate from the default backend.</li>
+        <li>Gives you a way to organize apps by purpose, region, or release flow.</li>
+      </ul>
+    </td>
+    <td width="50%" valign="top">
+      <h3 align="center">Why it helps</h3>
+      <ul>
+        <li>You can run a private app list.</li>
+        <li>You can test a staging backend before pushing it live.</li>
+        <li>You can switch back to the default HYDRV backend any time you want the built-in source again.</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+<ol>
+  <li>Open <strong>Settings</strong> and go to <strong>General &gt; Backend</strong>.</li>
+  <li>Add or select a custom backend URL.</li>
+  <li>Make sure the backend returns valid HYDRV catalogue data.</li>
+  <li>Switch back to <strong>Default</strong> whenever you want the built-in source again.</li>
+</ol>
+
+<p align="center">
+  <strong>Good to know:</strong> if a backend is broken or unreachable, HYDRV may not be able to load apps from it. For most people, the default backend is still the simplest choice.
+</p>
 
 <h2 align="center">Highlights</h2>
 
@@ -76,11 +149,11 @@
   <tr>
     <td width="25%" valign="top" align="center">
       <h3>Release browsing</h3>
-      <p>See apps, open releases, and move through versions without extra clutter.</p>
+      <p>Open apps, scan releases, and move through versions without extra clutter.</p>
     </td>
     <td width="25%" valign="top" align="center">
       <h3>Signed downloads</h3>
-      <p>The app keeps the public catalogue simple while the Worker signs the real file path.</p>
+      <p>The public catalogue stays simple while the Worker signs the real file path.</p>
     </td>
     <td width="25%" valign="top" align="center">
       <h3>Flexible setup</h3>
@@ -125,7 +198,7 @@ flowchart LR
 
 <h2 align="center">Build</h2>
 
-Use these commands from `HYDRV/`:
+Use these commands from `HYDRV/` if you want to build from the terminal:
 
 - `.\gradlew.bat assembleDebug` to build a debug APK
 - `.\gradlew.bat assembleRelease` to build a release APK
