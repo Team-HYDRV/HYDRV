@@ -30,6 +30,7 @@ import android.widget.ScrollView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.edit
 import androidx.core.net.toUri
@@ -375,8 +376,17 @@ class SettingsFragment : Fragment() {
         }
 
         backButton.setOnClickListener {
-            showOverview()
+            handleBackNavigation()
         }
+
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    handleBackNavigation()
+                }
+            }
+        )
 
         view.findViewById<View>(R.id.generalSectionTab).setOnClickListener {
             showSection(SettingsSection.GENERAL)
@@ -587,6 +597,19 @@ class SettingsFragment : Fragment() {
             }
             .start()
         transitionTo(sectionList, currentVisiblePanel, reverse = true)
+    }
+
+    private fun handleBackNavigation() {
+        if (currentSection != null) {
+            showOverview()
+            return
+        }
+        val homeTab = activity?.findViewById<View>(R.id.nav_home_tab)
+        if (homeTab != null) {
+            homeTab.performClick()
+            return
+        }
+        activity?.onBackPressedDispatcher?.onBackPressed()
     }
 
     private fun showSection(section: SettingsSection) {
