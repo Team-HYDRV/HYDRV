@@ -29,6 +29,7 @@ import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.edit
 import androidx.core.net.toUri
@@ -178,6 +179,10 @@ class SettingsFragment : Fragment() {
     private lateinit var generalSection: View
     private lateinit var generalSectionTab: View
     private lateinit var generalSectionIconBg: View
+    private lateinit var appIconDefaultRow: View
+    private lateinit var appIconDefaultAction: Button
+    private lateinit var appIconAltRow: View
+    private lateinit var appIconAltAction: Button
     private lateinit var updatesSection: View
     private lateinit var updatesSectionTab: View
     private lateinit var updatesSectionIconBg: View
@@ -303,6 +308,10 @@ class SettingsFragment : Fragment() {
                 labelView = view.findViewById(R.id.themeLabelDark)
             )
         )
+        appIconDefaultRow = view.findViewById(R.id.appIconDefaultRow)
+        appIconDefaultAction = view.findViewById(R.id.appIconDefaultAction)
+        appIconAltRow = view.findViewById(R.id.appIconAltRow)
+        appIconAltAction = view.findViewById(R.id.appIconAltAction)
         homeSortValue = view.findViewById(R.id.homeSortValue)
         favoritesSortValue = view.findViewById(R.id.favoritesSortValue)
         installedSortValue = view.findViewById(R.id.installedSortValue)
@@ -367,6 +376,33 @@ class SettingsFragment : Fragment() {
                 updateThemeSelection(optionId)
                 prefs.edit { putInt(ThemePreferences.KEY_THEME, mode) }
                 AppCompatDelegate.setDefaultNightMode(mode)
+            }
+        }
+
+        appIconDefaultRow.setOnClickListener {
+            if (!AppIconPreferences.isAlternativeSelected(requireContext())) return@setOnClickListener
+            AppIconPreferences.setIcon(requireContext(), AppIconPreferences.ICON_DEFAULT)
+            updateAppIconCards()
+            showAppIconChangedSnackbar()
+        }
+        appIconDefaultAction.setOnClickListener {
+            if (AppIconPreferences.isAlternativeSelected(requireContext())) {
+                AppIconPreferences.setIcon(requireContext(), AppIconPreferences.ICON_DEFAULT)
+                updateAppIconCards()
+                showAppIconChangedSnackbar()
+            }
+        }
+        appIconAltRow.setOnClickListener {
+            if (AppIconPreferences.isAlternativeSelected(requireContext())) return@setOnClickListener
+            AppIconPreferences.setIcon(requireContext(), AppIconPreferences.ICON_ALTERNATIVE)
+            updateAppIconCards()
+            showAppIconChangedSnackbar()
+        }
+        appIconAltAction.setOnClickListener {
+            if (!AppIconPreferences.isAlternativeSelected(requireContext())) {
+                AppIconPreferences.setIcon(requireContext(), AppIconPreferences.ICON_ALTERNATIVE)
+                updateAppIconCards()
+                showAppIconChangedSnackbar()
             }
         }
 
@@ -685,6 +721,8 @@ class SettingsFragment : Fragment() {
         if (!AppearancePreferences.isDynamicColorEnabled(requireContext())) return
         listOf(
             R.id.themeOptionsCard,
+            R.id.appIconDefaultRow,
+            R.id.appIconAltRow,
             R.id.dynamicColorRow,
             R.id.pureBlackRow,
             R.id.languageRow,
@@ -803,6 +841,46 @@ class SettingsFragment : Fragment() {
             AppearancePreferences.isPureBlackEnabled(context)
         )
         updatePureBlackSummary(context)
+        if (this::appIconDefaultAction.isInitialized && this::appIconAltAction.isInitialized) {
+            updateAppIconCards()
+        }
+    }
+
+    private fun updateAppIconCards() {
+        val useAlternative = AppIconPreferences.isAlternativeSelected(requireContext())
+        updateAppIconButton(
+            appIconDefaultAction,
+            isActive = !useAlternative
+        )
+        updateAppIconButton(
+            appIconAltAction,
+            isActive = useAlternative
+        )
+    }
+
+    private fun updateAppIconButton(button: Button, isActive: Boolean) {
+        button.text = if (isActive) {
+            getString(R.string.app_icon_active)
+        } else {
+            getString(R.string.app_icon_set_active)
+        }
+        button.isEnabled = !isActive
+        button.background = AppCompatResources.getDrawable(
+            requireContext(),
+            if (isActive) {
+                R.drawable.button_install
+            } else {
+                R.drawable.backend_button_neutral
+            }
+        )
+        button.alpha = if (isActive) 1f else 0.9f
+    }
+
+    private fun showAppIconChangedSnackbar() {
+        AppSnackbar.show(
+            requireActivity().findViewById(R.id.rootLayout),
+            getString(R.string.app_icon_changed)
+        )
     }
 
     private fun updatePureBlackSummary(context: android.content.Context) {

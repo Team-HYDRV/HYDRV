@@ -44,12 +44,35 @@
         <activity
             android:name=".MainActivity"
             android:theme="@style/Theme.HYDRV.Launch"
-            android:exported="true">
+            android:exported="true" />
+        <activity-alias
+            android:name=".LauncherDefaultAlias"
+            android:enabled="true"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/app_name"
+            android:roundIcon="@mipmap/ic_launcher_round"
+            android:targetActivity=".MainActivity"
+            android:theme="@style/Theme.HYDRV.Launch">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
+        </activity-alias>
+        <activity-alias
+            android:name=".LauncherAltAlias"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_alt"
+            android:label="@string/app_name"
+            android:roundIcon="@mipmap/ic_launcher_alt"
+            android:targetActivity=".MainActivity"
+            android:theme="@style/Theme.HYDRV.Launch">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
         <activity android:name=".AppDetailsActivity" />
         <activity android:name=".ContributorsActivity" />
         <activity android:name=".LanguageSelectionActivity" />

@@ -11,6 +11,15 @@
     <string name="settings_about_title">About</string>
     <string name="settings_about_subtitle">App info and support details</string>
     <string name="settings_section_appearance">Appearance</string>
+    <string name="app_icon_section_title">App icon</string>
+    <string name="app_icon_section_summary">Choose which launcher icon HYDRV uses.</string>
+    <string name="app_icon_default_title">Default icon</string>
+    <string name="app_icon_default_summary">Use the standard HYDRV icon set.</string>
+    <string name="app_icon_alternative_title">Alternative icon</string>
+    <string name="app_icon_alternative_summary">Use the alternate HYDRV icon set.</string>
+    <string name="app_icon_active">Active</string>
+    <string name="app_icon_set_active">Set active</string>
+    <string name="app_icon_changed">App icon updated</string>
     <string name="settings_section_lists">Lists</string>
 
     <string name="theme_system">System</string>
@@ -271,7 +280,7 @@
     <string name="debug_section_title">Tools</string>
     <string name="debug_export_logs_title">Export app report</string>
     <string name="settings_backup_export_title">Export settings backup</string>
-    <string name="settings_backup_export_summary">Save favorites, preferences, sorts, and custom backends to a file</string>
+    <string name="settings_backup_export_summary">Save favorites, preferences, sorts, app icon, and custom backends to a file</string>
     <string name="settings_backup_import_title">Import settings backup</string>
     <string name="settings_backup_import_summary">Restore a previous HYDRV backup file</string>
     <string name="settings_backup_export_done">Settings backup exported.</string>
