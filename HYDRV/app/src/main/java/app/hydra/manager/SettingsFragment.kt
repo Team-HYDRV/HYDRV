@@ -152,6 +152,13 @@ class SettingsFragment : Fragment() {
         val labelView: TextView
     )
 
+    private data class AppIconOptionViews(
+        val optionView: View,
+        val iconBackground: View,
+        val iconView: ImageView,
+        val labelView: TextView
+    )
+
     private data class BackendEditorDialogViews(
         val root: ScrollView,
         val defaultButton: Button,
@@ -179,14 +186,7 @@ class SettingsFragment : Fragment() {
     private lateinit var generalSection: View
     private lateinit var generalSectionTab: View
     private lateinit var generalSectionIconBg: View
-    private lateinit var appIconDefaultRow: View
-    private lateinit var appIconDefaultAction: Button
-    private lateinit var appIconAltRow: View
-    private lateinit var appIconAltAction: Button
-    private lateinit var appIconLegacyRow: View
-    private lateinit var appIconLegacyAction: Button
-    private lateinit var appIconLegacyGradientRow: View
-    private lateinit var appIconLegacyGradientAction: Button
+    private lateinit var appIconOptions: Map<Int, AppIconOptionViews>
     private lateinit var updatesSection: View
     private lateinit var updatesSectionTab: View
     private lateinit var updatesSectionIconBg: View
@@ -312,14 +312,32 @@ class SettingsFragment : Fragment() {
                 labelView = view.findViewById(R.id.themeLabelDark)
             )
         )
-        appIconDefaultRow = view.findViewById(R.id.appIconDefaultRow)
-        appIconDefaultAction = view.findViewById(R.id.appIconDefaultAction)
-        appIconAltRow = view.findViewById(R.id.appIconAltRow)
-        appIconAltAction = view.findViewById(R.id.appIconAltAction)
-        appIconLegacyRow = view.findViewById(R.id.appIconLegacyRow)
-        appIconLegacyAction = view.findViewById(R.id.appIconLegacyAction)
-        appIconLegacyGradientRow = view.findViewById(R.id.appIconLegacyGradientRow)
-        appIconLegacyGradientAction = view.findViewById(R.id.appIconLegacyGradientAction)
+        appIconOptions = mapOf(
+            R.id.appIconDefaultOption to AppIconOptionViews(
+                optionView = view.findViewById(R.id.appIconDefaultOption),
+                iconBackground = view.findViewById(R.id.appIconDefaultIconBg),
+                iconView = view.findViewById(R.id.appIconDefaultIcon),
+                labelView = view.findViewById(R.id.appIconDefaultLabel)
+            ),
+            R.id.appIconHydraOption to AppIconOptionViews(
+                optionView = view.findViewById(R.id.appIconHydraOption),
+                iconBackground = view.findViewById(R.id.appIconHydraIconBg),
+                iconView = view.findViewById(R.id.appIconHydraIcon),
+                labelView = view.findViewById(R.id.appIconHydraLabel)
+            ),
+            R.id.appIconLegacyOption to AppIconOptionViews(
+                optionView = view.findViewById(R.id.appIconLegacyOption),
+                iconBackground = view.findViewById(R.id.appIconLegacyIconBg),
+                iconView = view.findViewById(R.id.appIconLegacyIcon),
+                labelView = view.findViewById(R.id.appIconLegacyLabel)
+            ),
+            R.id.appIconFreedomOption to AppIconOptionViews(
+                optionView = view.findViewById(R.id.appIconFreedomOption),
+                iconBackground = view.findViewById(R.id.appIconFreedomIconBg),
+                iconView = view.findViewById(R.id.appIconFreedomIcon),
+                labelView = view.findViewById(R.id.appIconFreedomLabel)
+            )
+        )
         homeSortValue = view.findViewById(R.id.homeSortValue)
         favoritesSortValue = view.findViewById(R.id.favoritesSortValue)
         installedSortValue = view.findViewById(R.id.installedSortValue)
@@ -387,14 +405,9 @@ class SettingsFragment : Fragment() {
             }
         }
 
-        appIconDefaultRow.setOnClickListener { selectAppIcon(AppIconPreferences.ICON_DEFAULT) }
-        appIconDefaultAction.setOnClickListener { selectAppIcon(AppIconPreferences.ICON_DEFAULT) }
-        appIconAltRow.setOnClickListener { selectAppIcon(AppIconPreferences.ICON_ALTERNATIVE) }
-        appIconAltAction.setOnClickListener { selectAppIcon(AppIconPreferences.ICON_ALTERNATIVE) }
-        appIconLegacyRow.setOnClickListener { selectAppIcon(AppIconPreferences.ICON_LEGACY) }
-        appIconLegacyAction.setOnClickListener { selectAppIcon(AppIconPreferences.ICON_LEGACY) }
-        appIconLegacyGradientRow.setOnClickListener { selectAppIcon(AppIconPreferences.ICON_LEGACY_GRADIENT) }
-        appIconLegacyGradientAction.setOnClickListener { selectAppIcon(AppIconPreferences.ICON_LEGACY_GRADIENT) }
+        appIconOptions.forEach { (optionId, optionViews) ->
+            optionViews.optionView.setOnClickListener { selectAppIcon(optionIdToIcon(optionId)) }
+        }
 
         view.findViewById<View>(R.id.homeSortRow).setOnClickListener {
             showAppSortDialog(
@@ -711,10 +724,7 @@ class SettingsFragment : Fragment() {
         if (!AppearancePreferences.isDynamicColorEnabled(requireContext())) return
         listOf(
             R.id.themeOptionsCard,
-            R.id.appIconDefaultRow,
-            R.id.appIconAltRow,
-            R.id.appIconLegacyRow,
-            R.id.appIconLegacyGradientRow,
+            R.id.appIconOptionsCard,
             R.id.dynamicColorRow,
             R.id.pureBlackRow,
             R.id.languageRow,
@@ -833,33 +843,48 @@ class SettingsFragment : Fragment() {
             AppearancePreferences.isPureBlackEnabled(context)
         )
         updatePureBlackSummary(context)
-        if (this::appIconDefaultAction.isInitialized &&
-            this::appIconAltAction.isInitialized &&
-            this::appIconLegacyAction.isInitialized &&
-            this::appIconLegacyGradientAction.isInitialized
-        ) {
+        if (this::appIconOptions.isInitialized) {
             updateAppIconCards()
         }
     }
 
     private fun updateAppIconCards() {
         val currentIcon = AppIconPreferences.currentIcon(requireContext())
-        updateAppIconButton(
-            appIconDefaultAction,
-            isActive = currentIcon == AppIconPreferences.ICON_DEFAULT
-        )
-        updateAppIconButton(
-            appIconAltAction,
-            isActive = currentIcon == AppIconPreferences.ICON_ALTERNATIVE
-        )
-        updateAppIconButton(
-            appIconLegacyAction,
-            isActive = currentIcon == AppIconPreferences.ICON_LEGACY
-        )
-        updateAppIconButton(
-            appIconLegacyGradientAction,
-            isActive = currentIcon == AppIconPreferences.ICON_LEGACY_GRADIENT
-        )
+        appIconOptions.forEach { (optionId, optionViews) ->
+            val isSelected = currentIcon == optionIdToIcon(optionId)
+            optionViews.optionView.isSelected = isSelected
+            optionViews.iconBackground.setBackgroundResource(
+                if (AppearancePreferences.isDynamicColorEnabled(requireContext())) {
+                    if (isSelected) {
+                        R.drawable.theme_option_icon_bg_selected_material
+                    } else {
+                        R.drawable.theme_option_icon_bg_material
+                    }
+                } else {
+                    if (isSelected) {
+                        R.drawable.theme_option_icon_bg_selected
+                    } else {
+                        R.drawable.theme_option_icon_bg
+                    }
+                }
+            )
+            optionViews.iconView.imageTintList =
+                android.content.res.ColorStateList.valueOf(
+                    ThemeColors.color(
+                        requireContext(),
+                        if (isSelected) androidx.appcompat.R.attr.colorPrimary else com.google.android.material.R.attr.colorOnSurfaceVariant,
+                        if (isSelected) R.color.accent else R.color.subtext
+                    )
+                )
+            optionViews.labelView.setTextColor(
+                ThemeColors.color(
+                    requireContext(),
+                    if (isSelected) androidx.appcompat.R.attr.colorPrimary else com.google.android.material.R.attr.colorOnBackground,
+                    if (isSelected) R.color.accent else R.color.text
+                )
+            )
+            optionViews.labelView.alpha = if (isSelected) 1f else 0.85f
+        }
     }
 
     private fun selectAppIcon(choice: String) {
@@ -870,22 +895,14 @@ class SettingsFragment : Fragment() {
         showAppIconChangedSnackbar()
     }
 
-    private fun updateAppIconButton(button: Button, isActive: Boolean) {
-        button.text = if (isActive) {
-            getString(R.string.app_icon_active)
-        } else {
-            getString(R.string.app_icon_set_active)
+    private fun optionIdToIcon(optionId: Int): String {
+        return when (optionId) {
+            R.id.appIconDefaultOption -> AppIconPreferences.ICON_DEFAULT
+            R.id.appIconHydraOption -> AppIconPreferences.ICON_ALTERNATIVE
+            R.id.appIconLegacyOption -> AppIconPreferences.ICON_LEGACY
+            R.id.appIconFreedomOption -> AppIconPreferences.ICON_LEGACY_GRADIENT
+            else -> AppIconPreferences.ICON_DEFAULT
         }
-        button.isEnabled = !isActive
-        button.background = AppCompatResources.getDrawable(
-            requireContext(),
-            if (isActive) {
-                R.drawable.button_install
-            } else {
-                R.drawable.backend_button_neutral
-            }
-        )
-        button.alpha = if (isActive) 1f else 0.9f
     }
 
     private fun showAppIconChangedSnackbar() {
