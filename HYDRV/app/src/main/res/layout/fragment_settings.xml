@@ -523,7 +523,7 @@
                                 android:layout_gravity="center"
                                 android:contentDescription="@null"
                                 android:scaleType="centerInside"
-                                android:src="@mipmap/ic_launcher" />
+                                android:src="@mipmap/ic_launcher_hydra" />
                         </FrameLayout>
 
                         <TextView
@@ -562,7 +562,7 @@
                                 android:layout_gravity="center"
                                 android:contentDescription="@null"
                                 android:scaleType="centerInside"
-                                android:src="@mipmap/ic_launcher_alt" />
+                                android:src="@mipmap/ic_launcher_hydra_alt" />
                         </FrameLayout>
 
                         <TextView
@@ -640,7 +640,7 @@
                                 android:layout_gravity="center"
                                 android:contentDescription="@null"
                                 android:scaleType="centerInside"
-                                android:src="@mipmap/ic_launcher_legacy_gradient" />
+                                android:src="@mipmap/ic_launcher_legacy_alt" />
                         </FrameLayout>
 
                         <TextView
@@ -1793,7 +1793,7 @@
                                 android:layout_height="match_parent"
                                 android:layout_gravity="center"
                                 android:contentDescription="@null"
-                                android:src="@mipmap/ic_launcher_round" />
+                                android:src="@mipmap/ic_launcher_hydra" />
                         </FrameLayout>
 
                         <LinearLayout

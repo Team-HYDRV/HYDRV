@@ -909,10 +909,10 @@ class SettingsFragment : Fragment() {
         if (!this::aboutAppIcon.isInitialized) return
         aboutAppIcon.setImageResource(
             when (AppIconPreferences.currentIcon(requireContext())) {
-                AppIconPreferences.ICON_ALTERNATIVE -> R.mipmap.ic_launcher_alt
+                AppIconPreferences.ICON_ALTERNATIVE -> R.mipmap.ic_launcher_hydra_alt
                 AppIconPreferences.ICON_LEGACY -> R.mipmap.ic_launcher_legacy
-                AppIconPreferences.ICON_LEGACY_GRADIENT -> R.mipmap.ic_launcher_legacy_gradient
-                else -> R.mipmap.ic_launcher_round
+                AppIconPreferences.ICON_LEGACY_GRADIENT -> R.mipmap.ic_launcher_legacy_alt
+                else -> R.mipmap.ic_launcher_hydra
             }
         )
     }
