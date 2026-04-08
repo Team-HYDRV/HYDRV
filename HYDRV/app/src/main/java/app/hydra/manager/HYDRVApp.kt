@@ -11,6 +11,5 @@ class HYDRVApp : Application() {
         )
         androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode(mode)
         LanguagePreferences.applySavedLanguage(this)
-        AppIconPreferences.applySavedIcon(this)
     }
 }
