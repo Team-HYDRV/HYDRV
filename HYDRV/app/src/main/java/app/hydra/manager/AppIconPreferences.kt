@@ -112,7 +112,7 @@ object AppIconPreferences {
         packageManager.setComponentEnabledSetting(
             component,
             newState,
-            0
+            PackageManager.DONT_KILL_APP
         )
     }
 }
