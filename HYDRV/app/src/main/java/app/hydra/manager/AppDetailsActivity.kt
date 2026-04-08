@@ -83,7 +83,11 @@ class AppDetailsActivity : AppCompatActivity() {
         } else {
             getString(R.string.app_details_latest_unavailable)
         }
-        RewardedAdManager.preload(this)
+        if (AdsPreferences.areRewardedAdsEnabled(this)) {
+            RewardedAdManager.preload(this)
+        } else {
+            RewardedAdManager.clear()
+        }
 
         install.isEnabled = latestVersion != null
         install.alpha = if (latestVersion != null) 1f else 0.55f

@@ -331,7 +331,11 @@ class MainActivity : AppCompatActivity() {
             if (CatalogStateCenter.currentApps().isEmpty()) {
                 refreshCatalogInForeground()
             }
-            RewardedAdManager.initialize(appContext)
+            if (AdsPreferences.areRewardedAdsEnabled(appContext)) {
+                RewardedAdManager.initialize(appContext)
+            } else {
+                RewardedAdManager.clear()
+            }
         }
     }
 

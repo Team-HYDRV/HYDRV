@@ -1016,6 +1016,11 @@ class SettingsFragment : Fragment() {
         val context = requireContext()
         val enabled = !AdsPreferences.areRewardedAdsEnabled(context)
         AdsPreferences.setRewardedAdsEnabled(context, enabled)
+        if (enabled) {
+            RewardedAdManager.initialize(context)
+        } else {
+            RewardedAdManager.clear()
+        }
         updateAdsSupportLabel()
     }
 
