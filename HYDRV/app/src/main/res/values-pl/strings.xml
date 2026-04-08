@@ -310,13 +310,13 @@
   <string name="app_details_versions_title">Wersje</string>
   <string name="app_details_version_title">Wersja %1$s</string>
   <string name="app_details_download">Pobierz</string>
-  <string name="app_details_done">Done</string>
+  <string name="app_details_done">Gotowe</string>
   <string name="app_details_missing_versions">Brak jeszcze wersji dla tej aplikacji.</string>
   <string name="updates_summary_format">v%1$s  -  %2$s</string>
   <string name="updates_view_changelog">Zobacz dziennik zmian</string>
   <string name="updates_download_now">Pobierz teraz</string>
   <string name="updates_install_now">Zainstaluj teraz</string>
-  <string name="updates_downloading">Downloading…</string>
+  <string name="updates_downloading">Pobieranie…</string>
   <string name="updates_resume_download">Wznów pobieranie</string>
   <string name="updates_launch_check_title">Sprawdzaj aktualizacje przy uruchomieniu</string>
   <string name="updates_launch_check_summary">Automatycznie sprawdzaj najnowsze wydanie GitHub za każdym razem, gdy otwierasz HYDRV.</string>
@@ -328,7 +328,7 @@
   <string name="updates_changelog_body">HYDRV pokazuje tutaj najnowsze notatki wydania GitHub, aby wbudowany dziennik zmian pozostawał zgodny z wydaniem repozytorium.</string>
   <string name="updates_changelog_loading">Ładowanie najnowszych notatek wydania GitHub…</string>
   <string name="updates_release_unavailable">Najnowsza wersja jest tymczasowo niedostepna</string>
-  <string name="updates_check_failed">Nie mozna teraz sprawdzic aktualizacji.</string>
+  <string name="updates_check_failed">Nie można teraz sprawdzić aktualizacji.</string>
   <string name="updates_check_live_with_version">Dostępne jest nowe wydanie: %1$s %2$s.</string>
   <string name="updates_check_live_generic">Dostępne jest nowe wydanie w HYDRV.</string>
   <string name="updates_check_up_to_date">Masz najnowszą wersję.</string>
@@ -339,14 +339,14 @@
   <string name="about_link_donate">Wesprzyj</string>
   <string name="about_link_github">GitHub</string>
   <string name="about_link_website_caption">Oficjalna strona i aktualizacje projektu</string>
-  <string name="about_link_discord_caption">Czat spolecznosci i ogloszenia</string>
+  <string name="about_link_discord_caption">Czat społeczności i ogłoszenia</string>
   <string name="about_link_donate_caption">Wspieraj dalsze utrzymanie aplikacji</string>
-  <string name="about_link_github_caption">Kod zrodlowy, commity i historia issue</string>
+  <string name="about_link_github_caption">Kod źródłowy, commity i historia zgłoszeń</string>
   <string name="about_quick_label">Szybkie linki</string>
   <string name="about_description_title">O HYDRV</string>
   <string name="about_description_body">HYDRV trzyma wydania aplikacji, podpisane pobierania i instalacje pakietów w jednym spokojnym miejscu, dzięki czemu aktualizacje są łatwe do przeglądania i proste w obsłudze.</string>
   <string name="about_focus_label">Stworzone do czystego zarządzania pakietami</string>
-  <string name="about_issue_title">Zglos problem</string>
+  <string name="about_issue_title">Zgłoś problem</string>
   <string name="about_issue_summary">Wyślij błędy, niedoskonałości lub pomysły, które mogą ulepszyć HYDRV.</string>
   <string name="about_contributors_title">Ludzie za HYDRV</string>
   <string name="about_contributors_summary">Poznaj aktualnych współtwórców GitHub stojących za projektem.</string>
@@ -364,10 +364,10 @@
   <string name="contributors_loaded">%1$d współtwórców wczytanych z GitHuba.</string>
   <string name="contributors_failed">Współtwórcy GitHub są tymczasowo niedostępni.</string>
   <plurals name="contributor_role_contributions">
-    <item quantity="one">%d contribution</item>
-    <item quantity="few">%d contributions</item>
-    <item quantity="many">%d contributions</item>
-    <item quantity="other">%d contributions</item>
+    <item quantity="one">%d wkład</item>
+    <item quantity="few">%d wkłady</item>
+    <item quantity="many">%d wkładów</item>
+    <item quantity="other">%d wkładu</item>
   </plurals>
   <string name="about_licenses_dialog_title">Biblioteki open source</string>
   <string name="about_licenses_dialog_body">OkHttp 4.12.0\nRetrofit 2.9.0\nGson Converter 2.9.0\nPicasso 2.8\nWorkManager 2.9.1\nRecyclerView 1.3.2\nSwipeRefreshLayout 1.1.0\nFacebook Shimmer 0.5.0\nGoogle Mobile Ads 25.1.0\nMaterial Components\nAndroidX Core KTX\nAppCompat</string>
