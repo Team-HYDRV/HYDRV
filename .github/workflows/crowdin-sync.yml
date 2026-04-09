@@ -1,6 +1,9 @@
 name: Crowdin Sync
 
 on:
+  push:
+    paths:
+      - "HYDRV/app/src/main/res/values/strings.xml"
   workflow_dispatch:
     inputs:
       sync_mode:
@@ -28,7 +31,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Sync source strings to Crowdin
-        if: ${{ github.event.inputs.sync_mode == 'both' || github.event.inputs.sync_mode == 'upload' }}
+        if: ${{ github.event_name == 'push' || github.event.inputs.sync_mode == 'both' || github.event.inputs.sync_mode == 'upload' }}
         uses: crowdin/github-action@v2
         with:
           upload_sources: true
@@ -40,7 +43,7 @@ jobs:
           CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
 
       - name: Download translated strings from Crowdin
-        if: ${{ github.event.inputs.sync_mode == 'both' || github.event.inputs.sync_mode == 'download' }}
+        if: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.sync_mode == 'both' || github.event.inputs.sync_mode == 'download') }}
         uses: crowdin/github-action@v2
         with:
           upload_sources: false
@@ -52,7 +55,7 @@ jobs:
           CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
 
       - name: Commit synced translations
-        if: ${{ github.event.inputs.sync_mode == 'both' || github.event.inputs.sync_mode == 'download' }}
+        if: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.sync_mode == 'both' || github.event.inputs.sync_mode == 'download') }}
         run: |
           if git diff --quiet; then
             echo "No translation changes to commit."
