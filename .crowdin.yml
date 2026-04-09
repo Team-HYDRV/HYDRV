@@ -1,0 +1,12 @@
+project_id_env: CROWDIN_PROJECT_ID
+api_token_env: CROWDIN_PERSONAL_TOKEN
+preserve_hierarchy: true
+
+files:
+  - source: /HYDRV/app/src/main/res/values/strings.xml
+    translation: /HYDRV/app/src/main/res/values-%android_code%/strings.xml
+    languages_mapping:
+      android_code:
+        pt-BR: pt-rBR
+        zh-CN: zh-rCN
+    update_option: update_as_unapproved

@@ -240,3 +240,18 @@ Use these commands from `HYDRV/` if you want to build from the terminal:
     </td>
   </tr>
 </table>
+
+<h2 align="center">Translations</h2>
+
+HYDRV keeps its Android strings in `HYDRV/app/src/main/res/values/strings.xml`.  
+Translated files live in the matching `values-xx` folders, so Crowdin can round-trip Android resources cleanly.
+
+<ol>
+  <li>Add or edit the source strings in the default <code>values/strings.xml</code> file.</li>
+  <li>Sync the project with Crowdin.</li>
+  <li>Let Crowdin export translated <code>strings.xml</code> files back into the matching locale folders.</li>
+</ol>
+
+<p align="center">
+  The repo config already maps Android-specific folders like <code>pt-rBR</code> and <code>zh-rCN</code>, so the translated files land where HYDRV expects them.
+</p>
