@@ -68,6 +68,9 @@ jobs:
 
       - name: Commit synced translations
         if: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.sync_mode == 'both' || github.event.inputs.sync_mode == 'download') }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           if git diff --quiet; then
             echo "No translation changes to commit."
