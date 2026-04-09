@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">HYDRV</string>
     <string name="settings_title">Indstillinger</string>
@@ -438,4 +438,3 @@
         <item quantity="other">%d selected</item>
     </plurals>
 </resources>
-
