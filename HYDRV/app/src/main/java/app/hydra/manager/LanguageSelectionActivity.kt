@@ -36,14 +36,29 @@ class LanguageSelectionActivity : AppCompatActivity() {
             R.string.language_native_arabic_region
         ),
         LanguageItem(
+            LanguagePreferences.CATALAN,
+            R.string.language_catalan_region,
+            R.string.language_native_catalan_region
+        ),
+        LanguageItem(
             LanguagePreferences.CHINESE_SIMPLIFIED,
             R.string.language_chinese_simplified_region,
             R.string.language_native_chinese_simplified_region
         ),
         LanguageItem(
+            LanguagePreferences.CHINESE_TRADITIONAL,
+            R.string.language_chinese_traditional_region,
+            R.string.language_native_chinese_traditional_region
+        ),
+        LanguageItem(
             LanguagePreferences.CZECH,
             R.string.language_czech_region,
             R.string.language_native_czech_region
+        ),
+        LanguageItem(
+            LanguagePreferences.DANISH,
+            R.string.language_danish_region,
+            R.string.language_native_danish_region
         ),
         LanguageItem(
             LanguagePreferences.DUTCH,
@@ -71,9 +86,24 @@ class LanguageSelectionActivity : AppCompatActivity() {
             R.string.language_native_german_region
         ),
         LanguageItem(
+            LanguagePreferences.GREEK,
+            R.string.language_greek_region,
+            R.string.language_native_greek_region
+        ),
+        LanguageItem(
+            LanguagePreferences.HEBREW,
+            R.string.language_hebrew_region,
+            R.string.language_native_hebrew_region
+        ),
+        LanguageItem(
             LanguagePreferences.HINDI,
             R.string.language_hindi_region,
             R.string.language_native_hindi_region
+        ),
+        LanguageItem(
+            LanguagePreferences.HUNGARIAN,
+            R.string.language_hungarian_region,
+            R.string.language_native_hungarian_region
         ),
         LanguageItem(
             LanguagePreferences.INDONESIAN,
@@ -101,6 +131,11 @@ class LanguageSelectionActivity : AppCompatActivity() {
             R.string.language_native_malay_region
         ),
         LanguageItem(
+            LanguagePreferences.NORWEGIAN,
+            R.string.language_norwegian_region,
+            R.string.language_native_norwegian_region
+        ),
+        LanguageItem(
             LanguagePreferences.POLISH,
             R.string.language_polish_region,
             R.string.language_native_polish_region
@@ -109,6 +144,11 @@ class LanguageSelectionActivity : AppCompatActivity() {
             LanguagePreferences.PORTUGUESE_BRAZIL,
             R.string.language_portuguese_brazil_region,
             R.string.language_native_portuguese_brazil_region
+        ),
+        LanguageItem(
+            LanguagePreferences.PORTUGUESE_PORTUGAL,
+            R.string.language_portuguese_portugal_region,
+            R.string.language_native_portuguese_portugal_region
         ),
         LanguageItem(
             LanguagePreferences.ROMANIAN,
@@ -121,9 +161,19 @@ class LanguageSelectionActivity : AppCompatActivity() {
             R.string.language_native_russian_region
         ),
         LanguageItem(
+            LanguagePreferences.SERBIAN,
+            R.string.language_serbian_region,
+            R.string.language_native_serbian_region
+        ),
+        LanguageItem(
             LanguagePreferences.SPANISH,
             R.string.language_spanish_region,
             R.string.language_native_spanish_region
+        ),
+        LanguageItem(
+            LanguagePreferences.SWEDISH,
+            R.string.language_swedish_region,
+            R.string.language_native_swedish_region
         ),
         LanguageItem(
             LanguagePreferences.THAI,
