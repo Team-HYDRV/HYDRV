@@ -22,7 +22,6 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import android.text.format.DateUtils
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.tabs.TabLayout
 import com.google.gson.JsonParseException
@@ -52,7 +51,6 @@ class HomeFragment : Fragment() {
     private lateinit var tabs: TabLayout
     private lateinit var swipeRefresh: SwipeRefreshLayout
     private lateinit var lastUpdated: TextView
-    private lateinit var backendSyncStatus: TextView
     private lateinit var emptyView: TextView
     private lateinit var filterScroll: HorizontalScrollView
     private lateinit var filterChipContainer: LinearLayout
@@ -108,7 +106,6 @@ class HomeFragment : Fragment() {
             false
         }
         tabs = view.findViewById(R.id.tabs)
-        backendSyncStatus = view.findViewById(R.id.backendSyncStatus)
         emptyView = view.findViewById(R.id.emptyView)
         swipeRefresh = view.findViewById(R.id.swipeRefresh)
         lastUpdated = view.findViewById(R.id.lastUpdated)
@@ -166,7 +163,6 @@ class HomeFragment : Fragment() {
             cachedHash = newHash
             adapter.refreshRuntimeState()
             refreshFilterChips()
-            updateBackendSyncStatus()
             renderCurrentTab(animate = false)
         }
 
@@ -239,7 +235,6 @@ class HomeFragment : Fragment() {
         cachedHash = cachedAppsHash
         lastHomeSortMode = ListSortPreferences.getHomeSort(context)
         cachedHomeSortMode = lastHomeSortMode
-        updateBackendSyncStatus()
     }
 
     private fun renderStartupSnapshot() {
@@ -276,7 +271,6 @@ class HomeFragment : Fragment() {
                 if (isAdded && !isHidden) {
                     adapter.refreshRuntimeCaches()
                     renderCurrentTab()
-                    updateBackendSyncStatus()
                     signalHomeFirstRenderIfNeeded()
                 }
             }
@@ -292,7 +286,6 @@ class HomeFragment : Fragment() {
                 if (isAdded && !isHidden) {
                     adapter.refreshRuntimeCaches()
                     renderCurrentTab()
-                    updateBackendSyncStatus()
                 }
             }
             showPendingLastUpdatedIfNeeded()
@@ -443,28 +436,6 @@ class HomeFragment : Fragment() {
                 }
             }
         }
-    }
-
-    private fun updateBackendSyncStatus() {
-        if (!::backendSyncStatus.isInitialized) return
-        val context = context ?: return
-
-        val backendLabel = BackendPreferences.getActiveCustomBackendSource(context)?.name?.trim()
-            ?.takeIf { it.isNotEmpty() }
-            ?: getString(R.string.backend_default_label)
-        val checkedAt = AppUpdateState.getLastCheckedAt(context)
-
-        backendSyncStatus.text = if (checkedAt > 0L) {
-            val relative = DateUtils.getRelativeTimeSpanString(
-                checkedAt,
-                System.currentTimeMillis(),
-                DateUtils.MINUTE_IN_MILLIS
-            )
-            getString(R.string.home_backend_sync_format, relative, backendLabel)
-        } else {
-            getString(R.string.home_backend_sync_never, backendLabel)
-        }
-        backendSyncStatus.visibility = View.VISIBLE
     }
 
     private fun isCatalogParseError(error: Throwable): Boolean {
