@@ -7,6 +7,7 @@ files:
     translation: /HYDRV/app/src/main/res/values-%android_code%/strings.xml
     languages_mapping:
       android_code:
+        fil: fil
         pt-BR: pt-rBR
         zh-CN: zh-rCN
     update_option: update_as_unapproved
