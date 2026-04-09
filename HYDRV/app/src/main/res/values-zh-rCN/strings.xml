@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">HYDRV</string>
     <string name="settings_title">设置</string>
@@ -102,6 +102,8 @@
     <string name="language_swedish_region">瑞典语（瑞典）</string>
     <string name="language_japanese_region">日语（日本）</string>
     <string name="language_korean_region">韩语（韩国）</string>
+    <string name="language_native_system_default">使用设备语言</string>
+    <string name="language_native_english_region">英语（美国）</string>
     <string name="language_native_filipino_region">菲律宾语（菲律宾）</string>
     <string name="language_native_spanish_region">西班牙语（西班牙）</string>
     <string name="language_native_catalan_region">加泰罗尼亚语（西班牙）</string>
@@ -134,8 +136,6 @@
     <string name="language_native_swedish_region">瑞典语（瑞典）</string>
     <string name="language_native_japanese_region">日语（日本）</string>
     <string name="language_native_korean_region">韩语（韩国）</string>
-    <string name="language_native_system_default">使用设备语言</string>
-    <string name="language_native_english_region">英语（美国）</string>
     <string name="download_via_title">Download via</string>
     <string name="download_via_summary">Choose Wi-Fi only or allow mobile data</string>
     <string name="update_notifications_title">更新通知</string>
@@ -288,13 +288,13 @@
     <string name="file_not_found">未找到文件</string>
     <string name="downloads_wifi_only_blocked">下载已设置为仅限 Wi‑Fi</string>
     <string name="no_internet_connection">没有可用的网络连接</string>
-    <string name="rewarded_ad_required_message">观看激励广告即可开始下载。</string>
+    <string name="rewarded_ad_required_message">Watch the rewarded ad to start this download.</string>
     <string name="backend_title">后端</string>
     <string name="backend_summary">更改应用目录源链接</string>
     <string name="backend_help_title">这是做什么的</string>
     <string name="backend_help_body">这里决定应用数据、版本和后端更新的加载来源。留空即可继续使用内置默认后端。只有在信任自定义链接时才修改。</string>
     <string name="ads_support_title">广告支持</string>
-    <string name="ads_support_summary">保持广告开启有助于支持开发、修复和应用的持续维护。</string>
+    <string name="ads_support_summary">Keeping ads enabled helps support development, fixes, and the ongoing upkeep of the app.</string>
     <string name="battery_optimization_title">电池优化</string>
     <string name="battery_optimization_summary">可选。关闭优化有助于让后台更新检查更可靠地运行。</string>
     <string name="battery_optimization_unrestricted">不受限制</string>
@@ -355,7 +355,7 @@
     <string name="backend_source_name_hint">后端名称</string>
     <string name="backend_source_url_hint">https://example.com/catalogue.json</string>
     <string name="backend_example_url">示例：https://example.com/catalogue.json</string>
-    <string name="backend_validating_message">正在检查后端链接…</string>
+    <string name="backend_validating_message">正在检查后端链接...</string>
     <string name="backend_invalid_message">该链接看起来不是有效的 JSON 端点。</string>
     <string name="backend_set_active_failed">该后端当前无法使用。</string>
     <string name="backend_set_active_failed_detail">该后端当前无法使用：%1$s</string>
@@ -383,7 +383,7 @@
     <string name="updates_check_now">检查更新</string>
     <string name="updates_checking">正在检查…</string>
     <string name="updates_changelog_title">发布更新日志</string>
-    <string name="updates_changelog_body">HYDRV 在这里显示最新的 GitHub 发布说明，让应用内更新日志与仓库发布保持一致。</string>
+    <string name="updates_changelog_body">HYDRV shows the latest GitHub release notes here so the in-app changelog stays aligned with the repo release.</string>
     <string name="updates_changelog_loading">正在加载最新的 GitHub 发布说明…</string>
     <string name="updates_release_unavailable">最新版本暂时不可用</string>
     <string name="updates_check_failed">现在无法检查更新。</string>
@@ -391,7 +391,7 @@
     <string name="updates_check_live_generic">HYDRV 中有新版本可用。</string>
     <string name="updates_check_up_to_date">你已是最新版本。</string>
     <string name="about_version_code_format">版本 %1$s（%2$d）</string>
-    <string name="about_tagline">简洁地浏览发布、签名下载和安装包工具。</string>
+    <string name="about_tagline">Clean release browsing, signed downloads, and package tools, kept simple.</string>
     <string name="about_link_website">网站</string>
     <string name="about_link_discord">Discord</string>
     <string name="about_link_donate">捐助</string>
@@ -435,6 +435,3 @@
         <item quantity="other">%d 个已选</item>
     </plurals>
 </resources>
-
-
-
