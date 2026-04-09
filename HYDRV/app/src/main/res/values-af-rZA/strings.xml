@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">HYDRV</string>
-
     <string name="settings_title">Instellings</string>
     <string name="settings_general_title">Algemeen</string>
     <string name="settings_general_subtitle">Tema- en lysvoorkeure</string>
@@ -26,7 +25,6 @@
     <string name="app_icon_set_active">Stel aktief</string>
     <string name="app_icon_changed">App-ikoon opgedateer</string>
     <string name="settings_section_lists">Lyste</string>
-
     <string name="theme_system">Stelsel</string>
     <string name="theme_light">Lig</string>
     <string name="theme_dark">Donker</string>
@@ -35,7 +33,6 @@
     <string name="pure_black_title">Suiwer swart tema</string>
     <string name="pure_black_summary">Gebruik suiwer swart agtergronde vir donker tema</string>
     <string name="pure_black_summary_active">Suiwer swart is nou aktief</string>
-
     <string name="language_title">Taal</string>
     <string name="language_summary">Kies die appvertoontaal</string>
     <string name="language_system_default">Standaard van die stelsel</string>
@@ -109,7 +106,6 @@
     <string name="language_native_russian_region">Русский (Россия)</string>
     <string name="language_native_japanese_region">日本語 (日本)</string>
     <string name="language_native_korean_region">한국어 (대한민국)</string>
-
     <string name="download_via_title">Laai af via</string>
     <string name="download_via_summary">Kies slegs Wi-Fi of laat mobiele data toe</string>
     <string name="update_notifications_title">Opdateringskennisgewings</string>
@@ -124,7 +120,6 @@
     <string name="version_sort_summary">Kies hoe weergawes gerangskik word</string>
     <string name="download_sort_title">Aflaai-sortering</string>
     <string name="download_sort_summary">Kies hoe aflaaie gerangskik word</string>
-
     <string name="updates_never_checked">Nog nooit gekontroleer nie</string>
     <string name="updates_debug_last_checked_format">Laas gekontroleer: %1$s</string>
     <string name="updates_debug_last_seen_release_format">Laas gesien vrystelling: %1$s</string>
@@ -143,7 +138,6 @@
     <string name="tab_all">Alles</string>
     <string name="tab_favorites">Gunstelinge</string>
     <string name="tab_installed">Geïnstalleer</string>
-
     <string name="downloads_title">Aflaaie</string>
     <string name="downloads_select_title">Kies aflaaie</string>
     <string name="downloads_select_mode">Kies</string>
@@ -169,7 +163,6 @@
     <string name="sort_date_oldest">Datum oudste eerste</string>
     <string name="option_wifi_only">Slegs Wi-Fi</string>
     <string name="option_wifi_or_mobile">Wi-Fi of selfoon</string>
-
     <string name="version_format">Weergawe %1$s</string>
     <string name="badge_update">OPDATEER</string>
     <string name="badge_installed">GEïNSTALLEER</string>
@@ -180,10 +173,8 @@
     <string name="sample_app_name">Toepassingsnaam</string>
     <string name="sample_downloaded_now">Pas afgelaai</string>
     <string name="sample_download_speed">Spoed 0 KB/s</string>
-
     <string name="download_status_downloading">AAN DIE AFLAAI</string>
     <string name="download_status_done">KLAAR</string>
-    <string name="download_progress_format" translatable="false">%1$d%%</string>
     <string name="download_status_paused">GEPAUSEER</string>
     <string name="download_status_failed">MISLUK</string>
     <string name="download_error_invalid_link">Regstreekse APK-skakel vereis</string>
@@ -201,7 +192,6 @@
     <string name="download_eta_format">Tyd oor %1$s</string>
     <string name="download_paused_percent_format">Gepauseer %1$d%%</string>
     <string name="download_label">Aflaai</string>
-
     <string name="available_versions">Beskikbare weergawes</string>
     <string name="versions_summary_format">%1$d weergawes - %2$s</string>
     <string name="latest">Nuutste</string>
@@ -221,7 +211,6 @@
     <string name="version_downgrade_hint">Hierdie weergawe sal jou geïnstalleerde app afgradeer</string>
     <string name="version_package_mismatch_hint">Afgelaaide APK-pakket stem nie met hierdie app ooreen nie</string>
     <string name="version_signature_mismatch_hint">Afgelaaide APK kan \'n ander handtekening as die geïnstalleerde app hê</string>
-
     <string name="permission_setup_title">Stel toestemmings op</string>
     <string name="permission_setup_summary">Hersien die belangrikste toestemmings wat HYDRV gebruik voordat jy begin aflaai.</string>
     <string name="permission_internet_title">Internettoegang</string>
@@ -241,7 +230,6 @@
     <string name="permission_open_settings">Open instellings</string>
     <string name="continue_label">Gaan voort</string>
     <string name="skip_label">Slaan oor</string>
-
     <string name="new_changes_available">Nuwe opdaterings is beskikbaar in HYDRV.</string>
     <string name="notification_channel_name">App-opdaterings</string>
     <string name="notification_channel_description">Kennisgewings wanneer nuwe appveranderinge beskikbaar is.</string>
@@ -254,7 +242,6 @@
     <string name="notification_title_release_live_with_version">HYDRV %1$s</string>
     <string name="notification_text_release_live">Nuwe HYDRV-vrystelling is beskikbaar.</string>
     <string name="updates_open_release">Open vrystelling</string>
-
     <string name="install_failed">Installering het misluk</string>
     <string name="install_failed_file_not_found">Installering het misluk: lêer nie gevind nie</string>
     <string name="install_failed_cancelled">Installering gekanselleer</string>
