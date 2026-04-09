@@ -47,6 +47,18 @@
     app:tabSelectedTextColor="?attr/colorPrimary"
     app:tabRippleColor="@android:color/transparent"/>
 
+    <TextView
+        android:id="@+id/backendSyncStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/colorOnSurfaceVariant"
+        android:textSize="12sp"
+        android:gravity="center"
+        android:paddingHorizontal="16dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="2dp"
+        android:visibility="gone"/>
+
     <HorizontalScrollView
         android:id="@+id/filterScroll"
         android:layout_width="match_parent"

@@ -133,6 +133,8 @@
     <string name="home_search_hint">Search apps</string>
     <string name="home_filter_recent">Recent</string>
     <string name="home_updated_just_now">Updated just now</string>
+    <string name="home_backend_sync_format">Last synced %1$s • %2$s</string>
+    <string name="home_backend_sync_never">Not synced yet • %1$s</string>
     <string name="home_error_invalid_catalog">The app catalog is invalid. Check the backend JSON and try again.</string>
     <string name="home_empty_no_items">No items yet</string>
     <string name="home_empty_no_results">No results found</string>
