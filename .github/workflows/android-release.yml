@@ -77,6 +77,7 @@ jobs:
           release_version="${GITHUB_REF_NAME#v}"
           repo_root="$(git rev-parse --show-toplevel)"
           changelog="$repo_root/CHANGELOG.md"
+          previous_tag="$(git -C "$repo_root" describe --tags --abbrev=0 "${GITHUB_REF_NAME}^" 2>/dev/null || true)"
 
           crowdin_contributors="$(
             python3 "$repo_root/.github/scripts/crowdin_contributors.py"
@@ -118,13 +119,24 @@ jobs:
             echo
           }
 
+          release_contributors() {
+            local range
+            if [ -n "$previous_tag" ]; then
+              range="${previous_tag}..${GITHUB_REF_NAME}"
+            else
+              range="${GITHUB_REF_NAME}"
+            fi
+
+            git -C "$repo_root" shortlog -s --no-merges "$range" | awk '{ $1=""; sub(/^ /, ""); print "- " $0 }'
+          }
+
           {
             write_section Added
             write_section Changed
             write_section Fixed
             echo "## Contributors"
             echo
-            git -C "$repo_root" shortlog -s --all --no-merges | awk '{ $1=""; sub(/^ /, ""); print "- " $0 }'
+            release_contributors
             echo
             echo "### Crowdin Contributors"
             echo

@@ -10,6 +10,7 @@ def fetch_contributors() -> list[str]:
     token = os.environ.get("CROWDIN_PERSONAL_TOKEN")
 
     if not project_id or not token:
+        print("Crowdin credentials are missing; skipping Crowdin contributor lookup.", file=sys.stderr)
         return []
 
     names: list[str] = []
@@ -31,7 +32,8 @@ def fetch_contributors() -> list[str]:
             with urllib.request.urlopen(request) as response:
                 payload = json.load(response)
         except Exception:
-            break
+            print("Crowdin contributor lookup failed; skipping Crowdin contributor credits.", file=sys.stderr)
+            return []
 
         items = payload.get("data") or payload.get("items") or []
         if not items:
