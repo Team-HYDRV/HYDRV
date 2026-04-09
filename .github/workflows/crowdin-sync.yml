@@ -42,6 +42,18 @@ jobs:
           CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }}
           CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
 
+      - name: Sync translated strings to Crowdin
+        if: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.sync_mode == 'both' || github.event.inputs.sync_mode == 'upload') }}
+        uses: crowdin/github-action@v2
+        with:
+          upload_sources: false
+          upload_translations: true
+          download_translations: false
+          config: .crowdin.yml
+        env:
+          CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }}
+          CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
+
       - name: Download translated strings from Crowdin
         if: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.sync_mode == 'both' || github.event.inputs.sync_mode == 'download') }}
         uses: crowdin/github-action@v2

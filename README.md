@@ -257,5 +257,5 @@ Translated files live in the matching `values-xx` folders, so Crowdin can round-
 </p>
 
 <p align="center">
-  The <code>crowdin-sync</code> GitHub Action uploads source strings to Crowdin automatically when <code>values/strings.xml</code> changes, and it can also pull translated files back into the repo when you run it manually. It needs the <code>CROWDIN_PROJECT_ID</code> and <code>CROWDIN_PERSONAL_TOKEN</code> secrets set in GitHub.
+  The <code>crowdin-sync</code> GitHub Action uploads source strings to Crowdin automatically when <code>values/strings.xml</code> changes, and on manual runs it can also send the current translated locale files to Crowdin or pull translated files back into the repo. It needs the <code>CROWDIN_PROJECT_ID</code> and <code>CROWDIN_PERSONAL_TOKEN</code> secrets set in GitHub.
 </p>
