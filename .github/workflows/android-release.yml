@@ -70,10 +70,82 @@ jobs:
         run: cp "${{ steps.find_apk.outputs.apk_path }}" HYDRV.apk
 
       - name: Generate release notes
+        env:
+          CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }}
+          CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
         run: |
           release_version="${GITHUB_REF_NAME#v}"
           repo_root="$(git rev-parse --show-toplevel)"
           changelog="$repo_root/CHANGELOG.md"
+
+          crowdin_contributors="$(
+            python3 - <<'PY'
+import json
+import os
+import sys
+import urllib.parse
+import urllib.request
+
+project_id = os.environ.get("CROWDIN_PROJECT_ID")
+token = os.environ.get("CROWDIN_PERSONAL_TOKEN")
+
+if not project_id or not token:
+    sys.exit(0)
+
+names = []
+offset = 0
+limit = 500
+
+while True:
+    query = urllib.parse.urlencode({"limit": limit, "offset": offset})
+    url = f"https://api.crowdin.com/api/v2/projects/{project_id}/members?{query}"
+    request = urllib.request.Request(
+        url,
+        headers={
+            "Authorization": f"Bearer {token}",
+            "Accept": "application/json",
+        },
+    )
+
+    try:
+        with urllib.request.urlopen(request) as response:
+            payload = json.load(response)
+    except Exception:
+        break
+
+    items = payload.get("data") or payload.get("items") or []
+    if not items:
+        break
+
+    for item in items:
+        if not isinstance(item, dict):
+            continue
+
+        name = item.get("name")
+        user = item.get("user")
+        if not name and isinstance(user, dict):
+            name = (
+                user.get("name")
+                or user.get("username")
+                or user.get("login")
+                or user.get("fullName")
+            )
+
+        if not name:
+            name = item.get("username") or item.get("login") or item.get("email")
+
+        if name and name not in names:
+            names.append(name)
+
+    if len(items) < limit:
+        break
+
+    offset += limit
+
+for name in sorted(names, key=str.lower):
+    print(f"- {name}")
+PY
+          )"
 
           extract_section() {
             local section="$1"
@@ -118,6 +190,14 @@ jobs:
             echo "## Contributors"
             echo
             git -C "$repo_root" shortlog -s --all --no-merges | awk '{ $1=""; sub(/^ /, ""); print "- " $0 }'
+            echo
+            echo "### Crowdin Contributors"
+            echo
+            if [ -n "$crowdin_contributors" ]; then
+              printf '%s\n' "$crowdin_contributors"
+            else
+              echo "- None"
+            fi
           } > "$GITHUB_WORKSPACE/release-notes.md"
 
       - name: Upload APK artifact
