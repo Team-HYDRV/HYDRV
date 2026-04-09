@@ -127,7 +127,13 @@ jobs:
               range="${GITHUB_REF_NAME}"
             fi
 
-            git -C "$repo_root" shortlog -s --no-merges "$range" | awk '{ $1=""; sub(/^ /, ""); print "- " $0 }'
+            local contributors
+            contributors="$(git -C "$repo_root" shortlog -s --no-merges "$range" | awk '{ $1=""; sub(/^ /, ""); print "- " $0 }')"
+            if [ -n "$contributors" ]; then
+              printf '%s\n' "$contributors"
+            else
+              echo "- No GitHub contributors"
+            fi
           }
 
           {
@@ -143,7 +149,7 @@ jobs:
             if [ -n "$crowdin_contributors" ]; then
               printf '%s\n' "$crowdin_contributors"
             else
-              echo "- None"
+              echo "- No Crowdin contributors"
             fi
           } > "$GITHUB_WORKSPACE/release-notes.md"
 
