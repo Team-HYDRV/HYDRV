@@ -255,3 +255,7 @@ Translated files live in the matching `values-xx` folders, so Crowdin can round-
 <p align="center">
   The repo config already maps Android-specific folders like <code>pt-rBR</code> and <code>zh-rCN</code>, so the translated files land where HYDRV expects them.
 </p>
+
+<p align="center">
+  The <code>crowdin-sync</code> GitHub Action can upload source strings or pull translated files back into the repo. It needs the <code>CROWDIN_PROJECT_ID</code> and <code>CROWDIN_PERSONAL_TOKEN</code> secrets set in GitHub.
+</p>

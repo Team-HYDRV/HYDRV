@@ -1,0 +1,66 @@
+name: Crowdin Sync
+
+on:
+  workflow_dispatch:
+    inputs:
+      sync_mode:
+        description: "Choose what to sync"
+        required: true
+        default: "both"
+        type: choice
+        options:
+          - both
+          - upload
+          - download
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: HYDRV
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Sync source strings to Crowdin
+        if: ${{ github.event.inputs.sync_mode == 'both' || github.event.inputs.sync_mode == 'upload' }}
+        uses: crowdin/github-action@v2
+        with:
+          upload_sources: true
+          upload_translations: false
+          download_translations: false
+          config: .crowdin.yml
+        env:
+          CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }}
+          CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
+
+      - name: Download translated strings from Crowdin
+        if: ${{ github.event.inputs.sync_mode == 'both' || github.event.inputs.sync_mode == 'download' }}
+        uses: crowdin/github-action@v2
+        with:
+          upload_sources: false
+          upload_translations: false
+          download_translations: true
+          config: .crowdin.yml
+        env:
+          CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }}
+          CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
+
+      - name: Commit synced translations
+        if: ${{ github.event.inputs.sync_mode == 'both' || github.event.inputs.sync_mode == 'download' }}
+        run: |
+          if git diff --quiet; then
+            echo "No translation changes to commit."
+            exit 0
+          fi
+
+          git config user.name "xC3FFF0E"
+          git config user.email "xC3FFF0E@users.noreply.github.com"
+          git add HYDRV/app/src/main/res
+          git commit -m "Sync Crowdin translations"
+          git push
