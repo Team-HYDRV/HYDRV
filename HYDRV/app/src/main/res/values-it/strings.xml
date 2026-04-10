@@ -1,4 +1,4 @@
-﻿<?xml version='1.0' encoding='utf-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">HYDRV</string>
   <string name="settings_title">Impostazioni</string>
@@ -11,6 +11,19 @@
   <string name="settings_about_title">Informazioni</string>
   <string name="settings_about_subtitle">Informazioni sull’app e supporto</string>
   <string name="settings_section_appearance">Aspetto</string>
+  <string name="app_icon_section_title">App icon</string>
+  <string name="app_icon_section_summary">Choose which launcher icon HYDRV uses.</string>
+  <string name="app_icon_default_title">Default</string>
+  <string name="app_icon_default_summary">Use the standard HYDRV icon set.</string>
+  <string name="app_icon_hydra_title">Hydra</string>
+  <string name="app_icon_alternative_summary">Use the alternate HYDRV icon set.</string>
+  <string name="app_icon_legacy_title">Legacy</string>
+  <string name="app_icon_legacy_summary">Use the classic HYDRV icon set.</string>
+  <string name="app_icon_freedom_title">Freedom</string>
+  <string name="app_icon_legacy_gradient_summary">Use the classic icon with a gradient look.</string>
+  <string name="app_icon_active">Active</string>
+  <string name="app_icon_set_active">Set active</string>
+  <string name="app_icon_changed">App icon updated</string>
   <string name="settings_section_lists">Elenchi</string>
   <string name="theme_system">Sistema</string>
   <string name="theme_light">Chiaro</string>
@@ -26,71 +39,101 @@
   <string name="language_english">Inglese</string>
   <string name="language_filipino">Filippino</string>
   <string name="language_spanish">Spagnolo</string>
+  <string name="language_catalan">Catalan</string>
   <string name="language_indonesian">Indonesiano</string>
   <string name="language_french">Francese</string>
   <string name="language_german">Tedesco</string>
+  <string name="language_greek">Greek</string>
+  <string name="language_hebrew">Hebrew</string>
+  <string name="language_hungarian">Hungarian</string>
   <string name="language_portuguese_brazil">Portoghese (Brasile)</string>
+  <string name="language_portuguese_portugal">Portuguese (Portugal)</string>
   <string name="language_italian">Italiano</string>
   <string name="language_turkish">Turkish</string>
   <string name="language_vietnamese">Vietnamese</string>
   <string name="language_thai">Thai</string>
   <string name="language_polish">Polish</string>
   <string name="language_dutch">Dutch</string>
+  <string name="language_danish">Danish</string>
+  <string name="language_norwegian">Norwegian</string>
   <string name="language_malay">Malay</string>
   <string name="language_ukrainian">Ukrainian</string>
   <string name="language_czech">Czech</string>
   <string name="language_romanian">Rumeno</string>
   <string name="language_chinese_simplified">Cinese semplificato</string>
+  <string name="language_chinese_traditional">Chinese (Traditional)</string>
   <string name="language_hindi">Hindi</string>
   <string name="language_arabic">Arabo</string>
   <string name="language_russian">Russo</string>
+  <string name="language_serbian">Serbian</string>
+  <string name="language_swedish">Swedish</string>
   <string name="language_japanese">Giapponese</string>
   <string name="language_korean">Coreano</string>
   <string name="language_english_region">Inglese (Stati Uniti)</string>
   <string name="language_filipino_region">Filippino (Filippine)</string>
   <string name="language_spanish_region">Spagnolo (Spagna)</string>
+  <string name="language_catalan_region">Catalan (Spain)</string>
   <string name="language_indonesian_region">Indonesiano (Indonesia)</string>
   <string name="language_french_region">Francese (Francia)</string>
   <string name="language_german_region">Tedesco (Germania)</string>
+  <string name="language_greek_region">Greek (Greece)</string>
+  <string name="language_hebrew_region">Hebrew (Israel)</string>
+  <string name="language_hungarian_region">Hungarian (Hungary)</string>
   <string name="language_portuguese_brazil_region">Portoghese (Brasile)</string>
+  <string name="language_portuguese_portugal_region">Portuguese (Portugal)</string>
   <string name="language_italian_region">Italiano (Italia)</string>
   <string name="language_turkish_region">Turkish</string>
   <string name="language_vietnamese_region">Vietnamese</string>
   <string name="language_thai_region">Thai</string>
   <string name="language_polish_region">Polish</string>
   <string name="language_dutch_region">Dutch</string>
+  <string name="language_danish_region">Danish (Denmark)</string>
+  <string name="language_norwegian_region">Norwegian (Norway)</string>
   <string name="language_malay_region">Malay</string>
   <string name="language_ukrainian_region">Ukrainian</string>
   <string name="language_czech_region">Czech</string>
   <string name="language_romanian_region">Rumeno</string>
   <string name="language_chinese_simplified_region">Cinese (Cina)</string>
+  <string name="language_chinese_traditional_region">Chinese (Traditional)</string>
   <string name="language_hindi_region">Hindi (India)</string>
   <string name="language_arabic_region">Arabo</string>
   <string name="language_russian_region">Russo (Russia)</string>
+  <string name="language_serbian_region">Serbian (Serbia)</string>
+  <string name="language_swedish_region">Swedish (Sweden)</string>
   <string name="language_japanese_region">Giapponese (Giappone)</string>
   <string name="language_korean_region">Coreano (Corea del Sud)</string>
   <string name="language_native_system_default">Usa la lingua del dispositivo</string>
   <string name="language_native_english_region">Inglese (Stati Uniti)</string>
   <string name="language_native_filipino_region">Filippino (Pilipinas)</string>
   <string name="language_native_spanish_region">Español (España)</string>
+  <string name="language_native_catalan_region">Català (Espanya)</string>
   <string name="language_native_indonesian_region">Bahasa Indonesia (Indonesia)</string>
   <string name="language_native_french_region">Francese (Francia)</string>
   <string name="language_native_german_region">Tedesco (Germania)</string>
+  <string name="language_native_greek_region">Ελληνικά (Ελλάδα)</string>
+  <string name="language_native_hebrew_region">עברית (ישראל)</string>
+  <string name="language_native_hungarian_region">Magyar (Magyarország)</string>
   <string name="language_native_portuguese_brazil_region">Portoghese (Brasile)</string>
+  <string name="language_native_portuguese_portugal_region">Português (Portugal)</string>
   <string name="language_native_italian_region">Italiano (Italia)</string>
   <string name="language_native_turkish_region">Türkçe (Türkiye)</string>
   <string name="language_native_vietnamese_region">Tiáº¿ng Viá»‡t (Viá»‡t Nam)</string>
   <string name="language_native_thai_region">ไทย (ไทย)</string>
   <string name="language_native_polish_region">Polski (Polska)</string>
   <string name="language_native_dutch_region">Nederlands (Nederland)</string>
+  <string name="language_native_danish_region">Dansk (Danmark)</string>
+  <string name="language_native_norwegian_region">Norsk (Norge)</string>
   <string name="language_native_malay_region">Bahasa Melayu (Malaysia)</string>
   <string name="language_native_ukrainian_region">Українська (Україна)</string>
   <string name="language_native_czech_region">Čeština (Česko)</string>
   <string name="language_native_romanian_region">Română (România)</string>
   <string name="language_native_chinese_simplified_region">中文 (中国)</string>
+  <string name="language_native_chinese_traditional_region">繁體中文 (台灣)</string>
   <string name="language_native_hindi_region">हिन्दी (भारत)</string>
   <string name="language_native_arabic_region">العربية</string>
   <string name="language_native_russian_region">Русский (Россия)</string>
+  <string name="language_native_serbian_region">Српски (Србија)</string>
+  <string name="language_native_swedish_region">Svenska (Sverige)</string>
   <string name="language_native_japanese_region">日本語 (日本)</string>
   <string name="language_native_korean_region">한국어 (대한민국)</string>
   <string name="download_via_title">Scarica tramite</string>
@@ -162,6 +205,7 @@
   <string name="sample_download_speed">Speed 0 KB/s</string>
   <string name="download_status_downloading">SCARICAMENTO</string>
   <string name="download_status_done">FATTO</string>
+  <string name="download_progress_format" translatable="false">%1$d%%</string>
   <string name="download_status_paused">PAUSED</string>
   <string name="download_status_failed">FALLITO</string>
   <string name="download_error_invalid_link">Direct APK link required</string>
@@ -222,6 +266,9 @@
   <string name="notification_channel_description">Notifications when new app changes are available.</string>
   <string name="notification_title_updates_live">Nuove modifiche disponibili</string>
   <string name="notification_text_updates_live">Ci sono nuovi aggiornamenti in HYDRV. Scopri le novita.</string>
+  <string name="notification_title_backend_update_format">%1$s backend updated</string>
+  <string name="notification_text_backend_update">Fresh updates are available in HYDRV. Open the app to see what changed.</string>
+  <string name="backend_update_snackbar_format">%1$s backend updated.</string>
   <string name="notification_title_release_live">Nuova versione disponibile</string>
   <string name="notification_title_release_live_with_version">HYDRV %1$s</string>
   <string name="notification_text_release_live">E disponibile una nuova versione di HYDRV.</string>
@@ -298,9 +345,21 @@
   <string name="backend_custom_label">Personalizzato</string>
   <string name="backend_dialog_title">Cambia backend</string>
   <string name="backend_dialog_message">Paste a direct JSON endpoint, not a normal web page link. If you leave it empty, the built-in backend will be used.</string>
+  <string name="backend_manager_hint">You can add, rename, and remove extra backend sources here. The built-in HYDRV backend stays available separately.</string>
+  <string name="backend_manager_empty">No custom backends yet. Tap Add backend to create one.</string>
+  <string name="backend_add_source">Add backend</string>
+  <string name="backend_remove_source">Remove</string>
+  <string name="backend_set_active_source">Set active</string>
+  <string name="backend_active_source">Active backend</string>
+  <string name="backend_active_source_short">Active</string>
+  <string name="backend_edit_source">Edit</string>
+  <string name="backend_source_name_hint">Backend name</string>
+  <string name="backend_source_url_hint">https://example.com/catalogue.json</string>
   <string name="backend_example_url">Esempio: https://example.com/catalogue.json</string>
   <string name="backend_validating_message">Controllo del link backend...</string>
   <string name="backend_invalid_message">Quel link non sembra un endpoint JSON valido.</string>
+  <string name="backend_set_active_failed">That backend is not working right now.</string>
+  <string name="backend_set_active_failed_detail">That backend is not working right now: %1$s</string>
   <string name="backend_saved_message">Link backend aggiornato.</string>
   <string name="backend_reset_message">Backend ripristinato al valore predefinito.</string>
   <string name="save_label">Save</string>
@@ -371,6 +430,8 @@
   <string name="about_licenses_dialog_body">OkHttp 4.12.0\nRetrofit 2.9.0\nGson Converter 2.9.0\nPicasso 2.8\nWorkManager 2.9.1\nRecyclerView 1.3.2\nSwipeRefreshLayout 1.1.0\nFacebook Shimmer 0.5.0\nGoogle Mobile Ads 25.1.0\nMaterial Components\nAndroidX Core KTX\nAppCompat</string>
   <string name="about_dialog_close">Chiudi</string>
   <string name="back_label">Back</string>
+  <string name="favorite_toggle_add" translatable="false">Add to favorites</string>
+  <string name="favorite_toggle_remove" translatable="false">Remove from favorites</string>
   <plurals name="download_items_count">
     <item quantity="one">%d Item</item>
     <item quantity="other">%d Items</item>
@@ -380,6 +441,3 @@
     <item quantity="other">%d selected</item>
   </plurals>
 </resources>
-
-
-
