@@ -19,7 +19,7 @@
   <string name="app_icon_alternative_summary">Fes servir el conjunt dâ€™icones alternatiu de HYDRV.</string>
   <string name="app_icon_legacy_title">Llegat</string>
   <string name="app_icon_legacy_summary">Fes servir el conjunt dâ€™icones clÃ ssic de HYDRV.</string>
-  <string name="app_icon_freedom_title">Freedom</string>
+  <string name="app_icon_freedom_title">Llibertat</string>
   <string name="app_icon_legacy_gradient_summary">Fes servir la icona clÃ ssica amb un aspecte degradat.</string>
   <string name="app_icon_active">Activa</string>
   <string name="app_icon_set_active">Estableix com a activa</string>
@@ -110,9 +110,9 @@
   <string name="language_native_indonesian_region">Bahasa Indonesia (Indonèsia)</string>
   <string name="language_native_french_region">FrancÃ¨s (FranÃ§a)</string>
   <string name="language_native_german_region">Alemany (Alemanya)</string>
-  <string name="language_native_greek_region">Ελληνικά (Ελλάδα)</string>
-  <string name="language_native_hebrew_region">עברית (ישראל)</string>
-  <string name="language_native_hungarian_region">Magyar (Magyarország)</string>
+  <string name="language_native_greek_region">Grec (Grècia)</string>
+  <string name="language_native_hebrew_region">Hebreu (Israel)</string>
+  <string name="language_native_hungarian_region">Hongarès (Hongria)</string>
   <string name="language_native_portuguese_brazil_region">PortuguÃ¨s (Brasil)</string>
   <string name="language_native_portuguese_portugal_region">PortuguÃ¨s (Portugal)</string>
   <string name="language_native_italian_region">ItaliÃ  (ItÃ lia)</string>
@@ -121,8 +121,8 @@
   <string name="language_native_thai_region">TailandÃ¨s (TailÃ ndia)</string>
   <string name="language_native_polish_region">PolonÃ¨s (PolÃ²nia)</string>
   <string name="language_native_dutch_region">NeerlandÃ¨s (PaÃ¯sos Baixos)</string>
-  <string name="language_native_danish_region">Dansk (Danmark)</string>
-  <string name="language_native_norwegian_region">Norsk (Norge)</string>
+  <string name="language_native_danish_region">Danès (Dinamarca)</string>
+  <string name="language_native_norwegian_region">Noruec (Noruega)</string>
   <string name="language_native_malay_region">Malai (MalÃ isia)</string>
   <string name="language_native_ukrainian_region">UcraÃ¯nÃ¨s (UcraÃ¯na)</string>
   <string name="language_native_czech_region">Txec (TxÃ¨quia)</string>
@@ -289,7 +289,7 @@
   <string name="downloads_wifi_only_blocked">Les baixades estan configurades només per Wi‑Fi</string>
   <string name="no_internet_connection">No hi ha connexió a Internet disponible</string>
   <string name="rewarded_ad_required_message">Mira l'anunci recompensat per iniciar aquesta baixada, o espera si els anuncis no estan disponibles.</string>
-  <string name="backend_title">Backend</string>
+  <string name="backend_title">Servidor</string>
   <string name="backend_summary">Canvia lâ€™enllaÃ§ de la font del catÃ leg de lâ€™app</string>
   <string name="backend_help_title">Per a quÃ¨ serveix</string>
   <string name="backend_help_body">AixÃ² controla des dâ€™on es carreguen les dades de lâ€™app, les versions i les actualitzacions de la backend. Deixa-ho buit per continuar fent servir la backend predeterminada integrada.</string>
@@ -370,7 +370,7 @@
   <string name="app_details_download">Baixa</string>
   <string name="app_details_done">Fet</string>
   <string name="app_details_missing_versions">Encara no hi ha versions disponibles per a aquesta app.</string>
-  <string name="updates_summary_format">v%1$s  -  %2$s</string>
+  <string name="updates_summary_format">v%1$s - %2$s</string>
   <string name="updates_view_changelog">Mostra el registre de canvis</string>
   <string name="updates_download_now">Baixa</string>
   <string name="updates_install_now">Instal·la</string>
