@@ -37,7 +37,7 @@
   <string name="language_summary">WÃ¤hle die Anzeigesprache der App</string>
   <string name="language_system_default">Systemstandard</string>
   <string name="language_english">Englisch</string>
-  <string name="language_filipino">Filipino</string>
+  <string name="language_filipino">Philippinisch</string>
   <string name="language_spanish">Spanisch</string>
   <string name="language_catalan">Katalanisch</string>
   <string name="language_indonesian">Indonesisch</string>
@@ -70,7 +70,7 @@
   <string name="language_japanese">Japanisch</string>
   <string name="language_korean">Koreanisch</string>
   <string name="language_english_region">Englisch (Vereinigte Staaten)</string>
-  <string name="language_filipino_region">Filipino</string>
+  <string name="language_filipino_region">Philippinisch</string>
   <string name="language_spanish_region">Spanisch (Spanien)</string>
   <string name="language_catalan_region">Katalanisch</string>
   <string name="language_indonesian_region">Indonesisch (Indonesien)</string>
@@ -366,7 +366,7 @@
   <string name="app_details_latest_version">Neueste Version: %1$s</string>
   <string name="app_details_latest_unavailable">Die neueste Version ist voruebergehend nicht verfuegbar</string>
   <string name="app_details_versions_title">Versionen</string>
-  <string name="app_details_version_title">Version %1$s</string>
+  <string name="app_details_version_title">App-Version %1$s</string>
   <string name="app_details_download">Herunterladen</string>
   <string name="app_details_done">Fertig</string>
   <string name="app_details_missing_versions">Fuer diese App sind noch keine Versionen verfuegbar.</string>
