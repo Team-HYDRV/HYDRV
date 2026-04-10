@@ -107,9 +107,9 @@
     <string name="language_native_filipino_region">Filippiini (Pilipinas)</string>
     <string name="language_native_spanish_region">EspaÃƒÂ±ol (EspaÃƒÂ±a)</string>
     <string name="language_native_catalan_region">CatalÃƒÂ  (Espanya)</string>
-    <string name="language_native_indonesian_region">Bahasa Indonesia (Indonesia)</string>
+    <string name="language_native_indonesian_region">Indonesia (Indonesia)</string>
     <string name="language_native_french_region">FranÃƒÂ§ais (France)</string>
-    <string name="language_native_german_region">Deutsch (Deutschland)</string>
+    <string name="language_native_german_region">Saksa (Saksa)</string>
     <string name="language_native_greek_region">ÃŽâ€¢ÃŽÂ»ÃŽÂ»ÃŽÂ·ÃŽÂ½ÃŽÂ¹ÃŽÂºÃŽÂ¬ (ÃŽâ€¢ÃŽÂ»ÃŽÂ»ÃŽÂ¬ÃŽÂ´ÃŽÂ±)</string>
     <string name="language_native_hebrew_region">Ã—Â¢Ã—â€˜Ã—Â¨Ã—â„¢Ã—Âª (Ã—â„¢Ã—Â©Ã—Â¨Ã—ÂÃ—Å“)</string>
     <string name="language_native_hungarian_region">Magyar (MagyarorszÃƒÂ¡g)</string>
@@ -119,10 +119,10 @@
     <string name="language_native_turkish_region">TÃƒÂ¼rkÃƒÂ§e (TÃƒÂ¼rkiye)</string>
     <string name="language_native_vietnamese_region">TiÃ¡ÂºÂ¿ng ViÃ¡Â»â€¡t (ViÃ¡Â»â€¡t Nam)</string>
     <string name="language_native_thai_region">Ã Â¹â€žÃ Â¸â€”Ã Â¸Â¢ (Ã Â¹â€žÃ Â¸â€”Ã Â¸Â¢)</string>
-    <string name="language_native_polish_region">Polski (Polska)</string>
-    <string name="language_native_dutch_region">Nederlands (Nederland)</string>
-    <string name="language_native_danish_region">Dansk (Danmark)</string>
-    <string name="language_native_norwegian_region">Norsk (Norge)</string>
+    <string name="language_native_polish_region">Puola (Puola)</string>
+    <string name="language_native_dutch_region">Hollanti (Alankomaat)</string>
+    <string name="language_native_danish_region">Tanska (Tanska)</string>
+    <string name="language_native_norwegian_region">Norja (Norja)</string>
     <string name="language_native_malay_region">Bahasa Melayu (Malesia)</string>
     <string name="language_native_ukrainian_region">ÃÂ£ÃÂºÃ‘â‚¬ÃÂ°Ã‘â€”ÃÂ½Ã‘ÂÃ‘Å’ÃÂºÃÂ° (ÃÂ£ÃÂºÃ‘â‚¬ÃÂ°Ã‘â€”ÃÂ½ÃÂ°)</string>
     <string name="language_native_czech_region">Ã„Å’eÃ…Â¡tina (Ã„Å’esko)</string>
@@ -133,7 +133,7 @@
     <string name="language_native_arabic_region">Ã˜Â§Ã™â€žÃ˜Â¹Ã˜Â±Ã˜Â¨Ã™Å Ã˜Â©</string>
     <string name="language_native_russian_region">ÃÂ Ã‘Æ’Ã‘ÂÃ‘ÂÃÂºÃÂ¸ÃÂ¹ (ÃÂ ÃÂ¾Ã‘ÂÃ‘ÂÃÂ¸Ã‘Â)</string>
     <string name="language_native_serbian_region">ÃÂ¡Ã‘â‚¬ÃÂ¿Ã‘ÂÃÂºÃÂ¸ (ÃÂ¡Ã‘â‚¬ÃÂ±ÃÂ¸Ã‘ËœÃÂ°)</string>
-    <string name="language_native_swedish_region">Svenska (Sverige)</string>
+    <string name="language_native_swedish_region">Ruotsi (Ruotsi)</string>
     <string name="language_native_japanese_region">Ã¦â€”Â¥Ã¦Å“Â¬Ã¨ÂªÅ¾ (Ã¦â€”Â¥Ã¦Å“Â¬)</string>
     <string name="language_native_korean_region">Ã­â€¢Å“ÃªÂµÂ­Ã¬â€“Â´ (Ã«Å’â‚¬Ã­â€¢Å“Ã«Â¯Â¼ÃªÂµÂ­)</string>
     <string name="download_via_title">Lataa kautta</string>
@@ -250,8 +250,8 @@
     <string name="permission_notifications_title">Ilmoitukset</string>
     <string name="permission_notifications_summary">Käytetään ilmoittamaan, kun uusia backend-muutoksia on saatavilla.</string>
     <string name="permission_connected">Yhdistetty</string>
-    <string name="permission_online">Online</string>
-    <string name="permission_offline">Offline</string>
+    <string name="permission_online">Yhdistetty</string>
+    <string name="permission_offline">Ei yhteyttä</string>
     <string name="permission_allowed">Sallittu</string>
     <string name="permission_not_allowed">Ei sallittu</string>
     <string name="permission_allow">Salli</string>
@@ -370,7 +370,7 @@
     <string name="app_details_download">Lataa</string>
     <string name="app_details_done">Valmis</string>
     <string name="app_details_missing_versions">Tälle sovellukselle ei ole vielä saatavilla versioita.</string>
-    <string name="updates_summary_format">v%1$s  -  %2$s</string>
+    <string name="updates_summary_format">v%1$s - %2$s</string>
     <string name="updates_view_changelog">Näytä muutosloki</string>
     <string name="updates_download_now">Lataa</string>
     <string name="updates_install_now">Asenna</string>
@@ -426,7 +426,7 @@
         <item quantity="other">%d contributions</item>
     </plurals>
     <string name="about_licenses_dialog_title">Avoimen lähdekoodin kirjastot</string>
-    <string name="about_licenses_dialog_body">OkHttp 4.12.0\nRetrofit 2.9.0\nGson Converter 2.9.0\nPicasso 2.8\nWorkManager 2.9.1\nRecyclerView 1.3.2\nSwipeRefreshLayout 1.1.0\nFacebook Shimmer 0.5.0\nGoogle Mobile Ads 25.1.0\nMaterial Components\nAndroidX Core KTX\nAppCompat</string>
+    <string name="about_licenses_dialog_body">Käytetyt kirjastot:\nOkHttp 4.12.0\nRetrofit 2.9.0\nGson Converter 2.9.0\nPicasso 2.8\nWorkManager 2.9.1\nRecyclerView 1.3.2\nSwipeRefreshLayout 1.1.0\nFacebook Shimmer 0.5.0\nGoogle Mobile Ads 25.1.0\nMaterial Components\nAndroidX Core KTX\nAppCompat</string>
     <string name="about_dialog_close">Sulje</string>
     <string name="back_label">Takaisin</string>
     <plurals name="download_items_count">
