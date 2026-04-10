@@ -51,7 +51,7 @@
     <string name="language_italian">olasz</string>
     <string name="language_turkish">török</string>
     <string name="language_vietnamese">vietnámi</string>
-    <string name="language_thai">thai</string>
+    <string name="language_thai">thai nyelv</string>
     <string name="language_polish">lengyel</string>
     <string name="language_dutch">holland</string>
     <string name="language_danish">dán</string>
@@ -62,7 +62,7 @@
     <string name="language_romanian">román</string>
     <string name="language_chinese_simplified">EgyszerÅ±sÃ­tett kÃ­nai</string>
     <string name="language_chinese_traditional">hagyományos kínai</string>
-    <string name="language_hindi">hindi</string>
+    <string name="language_hindi">hindi nyelv</string>
     <string name="language_arabic">Arab</string>
     <string name="language_russian">Orosz</string>
     <string name="language_serbian">szerb</string>
@@ -84,7 +84,7 @@
     <string name="language_italian_region">olasz</string>
     <string name="language_turkish_region">török</string>
     <string name="language_vietnamese_region">vietnámi</string>
-    <string name="language_thai_region">thai</string>
+    <string name="language_thai_region">thai nyelv</string>
     <string name="language_polish_region">lengyel</string>
     <string name="language_dutch_region">holland</string>
     <string name="language_danish_region">dán</string>
@@ -95,7 +95,7 @@
     <string name="language_romanian_region">román</string>
     <string name="language_chinese_simplified_region">Kínai (Kína)</string>
     <string name="language_chinese_traditional_region">hagyományos kínai</string>
-    <string name="language_hindi_region">hindi</string>
+    <string name="language_hindi_region">hindi nyelv</string>
     <string name="language_arabic_region">arab</string>
     <string name="language_russian_region">orosz</string>
     <string name="language_serbian_region">szerb</string>
