@@ -289,7 +289,7 @@
     <string name="downloads_wifi_only_blocked">Naka-set sa Wi-Fi lang ang downloads</string>
     <string name="no_internet_connection">Walang available na internet connection</string>
     <string name="rewarded_ad_required_message">Panoorin ang rewarded ad para masimulan ang download na ito.</string>
-    <string name="backend_title">Backend</string>
+    <string name="backend_title">Bumalikend</string>
     <string name="backend_summary">Palitan ang source link ng app catalog</string>
     <string name="backend_help_title">Para saan ito</string>
     <string name="backend_help_body">Ito ang kumokontrol kung saan kinukuha ang app data, versions, at backend updates. Iwanang walang laman para manatili sa built-in default backend. Palitan lang ito kung pinagkakatiwalaan mo ang custom link.</string>
@@ -314,8 +314,8 @@
     <string name="backend_health_title">Kalagayan ng backend</string>
     <string name="backend_health_summary">Tingnan ang live na backend, cache, notification, at worker status</string>
     <string name="backend_health_loading">Niloload ang kalagayan ng backend...</string>
-    <string name="backend_health_backend_mode_format">Backend mode: %1$s</string>
-    <string name="backend_health_last_checked_format">Huling sinuri: %1$s</string>
+    <string name="backend_health_backend_mode_format">Bumalikend mode: %1$s</string>
+    <string name="backend_health_last_checked_format">Huling nasuri: %1$s</string>
     <string name="backend_health_last_seen_hash_format">Huling nakitang hash: %1$d</string>
     <string name="backend_health_last_notified_hash_format">Huling naabisuhang hash: %1$d</string>
     <string name="backend_health_cache_format">Cache: %1$s</string>
