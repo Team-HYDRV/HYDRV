@@ -329,7 +329,7 @@
     <string name="device_info_title">Sobre el dispositiu</string>
     <string name="device_info_version_format">VersiÃ³: %1$s (%2$d)</string>
     <string name="device_info_build_type_format">Tipus de compilaciÃ³: %1$s</string>
-    <string name="device_info_model_format">Model: %1$s</string>
+    <string name="device_info_model_format">Model del dispositiu: %1$s</string>
     <string name="device_info_android_version_format">VersiÃ³ dâ€™Android: %1$s (%2$d)</string>
     <string name="device_info_archs_format">Arquitectures compatibles: %1$s</string>
     <string name="device_info_memory_format">LÃ­mit de memÃ²ria: %1$dMB (normal) - %2$dMB (gran)</string>
