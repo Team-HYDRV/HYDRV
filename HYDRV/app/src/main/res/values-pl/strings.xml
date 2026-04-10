@@ -207,8 +207,8 @@
   <string name="permission_notifications_title">Powiadomienia</string>
   <string name="permission_notifications_summary">SÃ…â€šuÃ…Â¼y do powiadamiania o nowych zmianach backendu.</string>
   <string name="permission_connected">PoÃ…â€šÃ„â€¦czono</string>
-  <string name="permission_online">online</string>
-  <string name="permission_offline">offline</string>
+    <string name="permission_online">w sieci</string>
+    <string name="permission_offline">poza siecią</string>
   <string name="permission_allowed">Dozwolone</string>
   <string name="permission_not_allowed">Niedozwolone</string>
   <string name="permission_allow">ZezwÃƒÂ³l</string>
