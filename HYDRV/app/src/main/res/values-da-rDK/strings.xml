@@ -136,7 +136,7 @@
     <string name="language_native_swedish_region">Svensk (Sverige)</string>
     <string name="language_native_japanese_region">ÃƒÂ¦Ã¢â‚¬â€Ã‚Â¥ÃƒÂ¦Ã…â€œÃ‚Â¬ÃƒÂ¨Ã‚ÂªÃ…Â¾ (ÃƒÂ¦Ã¢â‚¬â€Ã‚Â¥ÃƒÂ¦Ã…â€œÃ‚Â¬)</string>
     <string name="language_native_korean_region">ÃƒÂ­Ã¢â‚¬Â¢Ã…â€œÃƒÂªÃ‚ÂµÃ‚Â­ÃƒÂ¬Ã¢â‚¬â€œÃ‚Â´ (ÃƒÂ«Ã…â€™Ã¢â€šÂ¬ÃƒÂ­Ã¢â‚¬Â¢Ã…â€œÃƒÂ«Ã‚Â¯Ã‚Â¼ÃƒÂªÃ‚ÂµÃ‚Â­)</string>
-    <string name="download_via_title">Download via</string>
+    <string name="download_via_title">Hent via</string>
     <string name="download_via_summary">VÃ¦lg kun Wi-Fi eller tillad mobildata</string>
     <string name="update_notifications_title">Opdateringsnotifikationer</string>
     <string name="update_notifications_summary">FÃƒÂ¥ besked, nÃƒÂ¥r nye ÃƒÂ¦ndringer dukker op i appen</string>
@@ -221,7 +221,7 @@
     <string name="download_speed_format">Hastighed %1$s</string>
     <string name="download_eta_format">Tid tilbage %1$s</string>
     <string name="download_paused_percent_format">Sat pÃ¥ pause %1$d%%</string>
-    <string name="download_label">Download</string>
+    <string name="download_label">Hent</string>
     <string name="available_versions">TilgÃƒÂ¦ngelige versioner</string>
     <string name="versions_summary_format">%1$d versioner - %2$s</string>
     <string name="latest">Seneste</string>
@@ -367,7 +367,7 @@
     <string name="app_details_latest_unavailable">Seneste version er midlertidigt utilgÃ¦ngelig</string>
     <string name="app_details_versions_title">Versioner</string>
     <string name="app_details_version_title">Version %1$s</string>
-    <string name="app_details_download">Download</string>
+    <string name="app_details_download">Hent</string>
     <string name="app_details_done">Færdig</string>
     <string name="app_details_missing_versions">Der er endnu ingen versioner tilgÃ¦ngelige for denne app.</string>
     <string name="updates_summary_format">v%1$s - %2$s</string>
