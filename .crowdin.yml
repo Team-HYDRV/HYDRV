@@ -8,7 +8,71 @@ files:
     translation: HYDRV/app/src/main/res/values-%android_code%/strings.xml
     languages_mapping:
       android_code:
+        af-ZA: af-rZA
+        ar: ar
+        ar-SA: ar-rSA
+        ca-ES: ca-rES
+        cs: cs
+        cs-CZ: cs-rCZ
+        da-DK: da-rDK
+        de: de
+        de-DE: de-rDE
+        el-GR: el-rGR
+        en: en-rUS
+        en-US: en-rUS
         fil: fil
+        fi: fi-rFI
+        fi-FI: fi-rFI
+        fr: fr
+        fr-FR: fr-rFR
+        he: iw-rIL
+        he-IL: iw-rIL
+        hi: hi
+        hi-IN: hi-rIN
+        hu: hu-rHU
+        hu-HU: hu-rHU
+        id: id
+        id-ID: in-rID
+        in: in-rID
+        in-ID: in-rID
+        it: it
+        it-IT: it-rIT
+        ja: ja
+        ja-JP: ja-rJP
+        ko: ko
+        ko-KR: ko-rKR
+        ms: ms
+        ms-MY: ms-rMY
+        nl: nl
+        nl-NL: nl-rNL
+        no: no-rNO
+        no-NO: no-rNO
+        pl: pl
+        pl-PL: pl-rPL
         pt-BR: pt-rBR
+        pt: pt-rPT
         zh-CN: zh-rCN
+        pt-PT: pt-rPT
+        ro: ro
+        ro-RO: ro-rRO
+        ru: ru
+        ru-RU: ru-rRU
+        sr: sr-rSP
+        sr-Cyrl: sr-rSP
+        sr-Cyrl-SP: sr-rSP
+        sv: sv-rSE
+        sv-SE: sv-rSE
+        th: th
+        th-TH: th-rTH
+        tr: tr
+        tr-TR: tr-rTR
+        uk: uk
+        uk-UA: uk-rUA
+        vi: vi
+        vi-VN: vi-rVN
+        zh: zh-rCN
+        zh-CN: zh-rCN
+        zh-Hans-CN: zh-rCN
+        zh-TW: zh-rTW
+        zh-Hant-TW: zh-rTW
     update_option: update_as_unapproved
