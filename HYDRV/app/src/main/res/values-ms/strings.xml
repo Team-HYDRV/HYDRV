@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">HYDRV</string>
   <string name="settings_title">Tetapan</string>
@@ -105,37 +105,37 @@
   <string name="language_native_system_default">Use your device language</string>
   <string name="language_native_english_region">English (United States)</string>
   <string name="language_native_filipino_region">Filipino (Pilipinas)</string>
-  <string name="language_native_spanish_region">EspaÃ±ol (EspaÃ±a)</string>
-  <string name="language_native_catalan_region">CatalÃ  (Espanya)</string>
+  <string name="language_native_spanish_region">EspaÃƒÂ±ol (EspaÃƒÂ±a)</string>
+  <string name="language_native_catalan_region">CatalÃƒÂ  (Espanya)</string>
   <string name="language_native_indonesian_region">Bahasa Indonesia (Indonesia)</string>
-  <string name="language_native_french_region">FranÃ§ais (France)</string>
+  <string name="language_native_french_region">FranÃƒÂ§ais (France)</string>
   <string name="language_native_german_region">Deutsch (Deutschland)</string>
-  <string name="language_native_greek_region">Î•Î»Î»Î·Î½Î¹ÎºÎ¬ (Î•Î»Î»Î¬Î´Î±)</string>
-  <string name="language_native_hebrew_region">×¢×‘×¨×™×ª (×™×©×¨××œ)</string>
-  <string name="language_native_hungarian_region">Magyar (MagyarorszÃ¡g)</string>
-  <string name="language_native_portuguese_brazil_region">PortuguÃªs (Brasil)</string>
-  <string name="language_native_portuguese_portugal_region">PortuguÃªs (Portugal)</string>
+  <string name="language_native_greek_region">ÃŽâ€¢ÃŽÂ»ÃŽÂ»ÃŽÂ·ÃŽÂ½ÃŽÂ¹ÃŽÂºÃŽÂ¬ (ÃŽâ€¢ÃŽÂ»ÃŽÂ»ÃŽÂ¬ÃŽÂ´ÃŽÂ±)</string>
+  <string name="language_native_hebrew_region">Ã—Â¢Ã—â€˜Ã—Â¨Ã—â„¢Ã—Âª (Ã—â„¢Ã—Â©Ã—Â¨Ã—ÂÃ—Å“)</string>
+  <string name="language_native_hungarian_region">Magyar (MagyarorszÃƒÂ¡g)</string>
+  <string name="language_native_portuguese_brazil_region">PortuguÃƒÂªs (Brasil)</string>
+  <string name="language_native_portuguese_portugal_region">PortuguÃƒÂªs (Portugal)</string>
   <string name="language_native_italian_region">Italiano (Italia)</string>
-  <string name="language_native_turkish_region">TÃ¼rkÃ§e (TÃ¼rkiye)</string>
-  <string name="language_native_vietnamese_region">Tiáº¿ng Viá»‡t (Viá»‡t Nam)</string>
-  <string name="language_native_thai_region">à¹„à¸—à¸¢ (à¹„à¸—à¸¢)</string>
+  <string name="language_native_turkish_region">TÃƒÂ¼rkÃƒÂ§e (TÃƒÂ¼rkiye)</string>
+  <string name="language_native_vietnamese_region">TiÃ¡ÂºÂ¿ng ViÃ¡Â»â€¡t (ViÃ¡Â»â€¡t Nam)</string>
+  <string name="language_native_thai_region">Ã Â¹â€žÃ Â¸â€”Ã Â¸Â¢ (Ã Â¹â€žÃ Â¸â€”Ã Â¸Â¢)</string>
   <string name="language_native_polish_region">Polski (Polska)</string>
   <string name="language_native_dutch_region">Nederlands (Nederland)</string>
   <string name="language_native_danish_region">Dansk (Danmark)</string>
   <string name="language_native_norwegian_region">Norsk (Norge)</string>
   <string name="language_native_malay_region">Bahasa Melayu (Malaysia)</string>
-  <string name="language_native_ukrainian_region">Ð£ÐºÑ€Ð°Ñ—Ð½ÑÑŒÐºÐ° (Ð£ÐºÑ€Ð°Ñ—Ð½Ð°)</string>
-  <string name="language_native_czech_region">ÄŒeÅ¡tina (ÄŒesko)</string>
-  <string name="language_native_romanian_region">RomÃ¢nÄƒ (RomÃ¢nia)</string>
-  <string name="language_native_chinese_simplified_region">ä¸­æ–‡ (ä¸­å›½)</string>
-  <string name="language_native_chinese_traditional_region">ç¹é«”ä¸­æ–‡ (å°ç£)</string>
-  <string name="language_native_hindi_region">à¤¹à¤¿à¤¨à¥à¤¦à¥€ (à¤­à¤¾à¤°à¤¤)</string>
-  <string name="language_native_arabic_region">Ø§Ù„Ø¹Ø±Ø¨ÙŠØ©</string>
-  <string name="language_native_russian_region">Ð ÑƒÑÑÐºÐ¸Ð¹ (Ð Ð¾ÑÑÐ¸Ñ)</string>
-  <string name="language_native_serbian_region">Ð¡Ñ€Ð¿ÑÐºÐ¸ (Ð¡Ñ€Ð±Ð¸Ñ˜Ð°)</string>
+  <string name="language_native_ukrainian_region">ÃÂ£ÃÂºÃ‘â‚¬ÃÂ°Ã‘â€”ÃÂ½Ã‘ÂÃ‘Å’ÃÂºÃÂ° (ÃÂ£ÃÂºÃ‘â‚¬ÃÂ°Ã‘â€”ÃÂ½ÃÂ°)</string>
+  <string name="language_native_czech_region">Ã„Å’eÃ…Â¡tina (Ã„Å’esko)</string>
+  <string name="language_native_romanian_region">RomÃƒÂ¢nÃ„Æ’ (RomÃƒÂ¢nia)</string>
+  <string name="language_native_chinese_simplified_region">Ã¤Â¸Â­Ã¦â€“â€¡ (Ã¤Â¸Â­Ã¥â€ºÂ½)</string>
+  <string name="language_native_chinese_traditional_region">Ã§Â¹ÂÃ©Â«â€Ã¤Â¸Â­Ã¦â€“â€¡ (Ã¥ÂÂ°Ã§ÂÂ£)</string>
+  <string name="language_native_hindi_region">Ã Â¤Â¹Ã Â¤Â¿Ã Â¤Â¨Ã Â¥ÂÃ Â¤Â¦Ã Â¥â‚¬ (Ã Â¤Â­Ã Â¤Â¾Ã Â¤Â°Ã Â¤Â¤)</string>
+  <string name="language_native_arabic_region">Ã˜Â§Ã™â€žÃ˜Â¹Ã˜Â±Ã˜Â¨Ã™Å Ã˜Â©</string>
+  <string name="language_native_russian_region">ÃÂ Ã‘Æ’Ã‘ÂÃ‘ÂÃÂºÃÂ¸ÃÂ¹ (ÃÂ ÃÂ¾Ã‘ÂÃ‘ÂÃÂ¸Ã‘Â)</string>
+  <string name="language_native_serbian_region">ÃÂ¡Ã‘â‚¬ÃÂ¿Ã‘ÂÃÂºÃÂ¸ (ÃÂ¡Ã‘â‚¬ÃÂ±ÃÂ¸Ã‘ËœÃÂ°)</string>
   <string name="language_native_swedish_region">Svenska (Sverige)</string>
-  <string name="language_native_japanese_region">æ—¥æœ¬èªž (æ—¥æœ¬)</string>
-  <string name="language_native_korean_region">í•œêµ­ì–´ (ëŒ€í•œë¯¼êµ­)</string>
+  <string name="language_native_japanese_region">Ã¦â€”Â¥Ã¦Å“Â¬Ã¨ÂªÅ¾ (Ã¦â€”Â¥Ã¦Å“Â¬)</string>
+  <string name="language_native_korean_region">Ã­â€¢Å“ÃªÂµÂ­Ã¬â€“Â´ (Ã«Å’â‚¬Ã­â€¢Å“Ã«Â¯Â¼ÃªÂµÂ­)</string>
   <string name="download_via_title">Muat turun melalui</string>
   <string name="download_via_summary">Pilih Wi-Fi sahaja atau benarkan data mudah alih</string>
   <string name="update_notifications_title">Notifikasi kemaskini</string>
@@ -205,7 +205,6 @@
   <string name="sample_download_speed">Speed 0 KB/s</string>
   <string name="download_status_downloading">DOWNLOADING</string>
   <string name="download_status_done">DONE</string>
-  <string name="download_progress_format" translatable="false">%1$d%%</string>
   <string name="download_status_paused">PAUSED</string>
   <string name="download_status_failed">FAILED</string>
   <string name="download_error_invalid_link">Direct APK link required</string>
@@ -314,7 +313,7 @@
   <string name="settings_backup_import_failed">Tidak dapat mengimport sandaran tetapan.</string>
   <string name="backend_health_title">Status apl</string>
   <string name="backend_health_summary">Lihat status backend, cache, notifikasi, dan kemas kini</string>
-  <string name="backend_health_loading">Memuatkan status apl…</string>
+  <string name="backend_health_loading">Memuatkan status aplâ€¦</string>
   <string name="backend_health_backend_mode_format">Mod sumber: %1$s</string>
   <string name="backend_health_last_checked_format">Terakhir disemak: %1$s</string>
   <string name="backend_health_last_seen_hash_format">Hash terakhir dilihat: %1$d</string>
@@ -375,17 +374,17 @@
   <string name="updates_view_changelog">Lihat log perubahan</string>
   <string name="updates_download_now">Muat turun</string>
   <string name="updates_install_now">Pasang</string>
-  <string name="updates_downloading">Memuat turun…</string>
+  <string name="updates_downloading">Memuat turunâ€¦</string>
   <string name="updates_resume_download">Sambung semula</string>
   <string name="updates_launch_check_title">Semak kemas kini semasa dilancarkan</string>
   <string name="updates_launch_check_summary">Semak secara automatik keluaran GitHub terbaharu setiap kali anda membuka HYDRV.</string>
   <string name="updates_launch_message_title">Tunjuk mesej kemas kini semasa dilancarkan</string>
   <string name="updates_launch_message_summary">Paparkan mesej dalam apl apabila keluaran repositori terbaharu berubah.</string>
   <string name="updates_check_now">Semak kemas kini</string>
-  <string name="updates_checking">Menyemak…</string>
+  <string name="updates_checking">Menyemakâ€¦</string>
   <string name="updates_changelog_title">Log perubahan keluaran</string>
   <string name="updates_changelog_body">HYDRV memaparkan nota keluaran GitHub terbaharu di sini supaya log perubahan dalam apl kekal selaras dengan keluaran repositori.</string>
-  <string name="updates_changelog_loading">Memuatkan nota keluaran GitHub terbaharu…</string>
+  <string name="updates_changelog_loading">Memuatkan nota keluaran GitHub terbaharuâ€¦</string>
   <string name="updates_release_unavailable">Belum ada keluaran dimuatkan</string>
   <string name="updates_check_failed">Tidak dapat menyemak kemas kini sekarang.</string>
   <string name="updates_check_live_with_version">Keluaran baharu tersedia: %1$s %2$s.</string>
@@ -419,26 +418,14 @@
   <string name="about_contributors_dialog_title">Penyumbang</string>
   <string name="about_contributors_dialog_body">Skrin ini memaparkan senarai penyumbang langsung daripada repositori GitHub HYDRV.</string>
   <string name="contributors_group_summary">Terima kasih kerana membantu HYDRV terus maju.</string>
-  <string name="contributors_loading">Memuatkan penyumbang GitHub…</string>
+  <string name="contributors_loading">Memuatkan penyumbang GitHubâ€¦</string>
   <string name="contributors_loaded">%1$d penyumbang dimuatkan daripada GitHub.</string>
   <string name="contributors_failed">Penyumbang GitHub buat sementara tidak tersedia.</string>
-  <plurals name="contributor_role_contributions">
-    <item quantity="one">%d sumbangan</item>
-    <item quantity="other">%d sumbangan</item>
-  </plurals>
   <string name="about_licenses_dialog_title">Pustaka sumber terbuka</string>
   <string name="about_licenses_dialog_body">OkHttp 4.12.0\nRetrofit 2.9.0\nGson Converter 2.9.0\nPicasso 2.8\nWorkManager 2.9.1\nRecyclerView 1.3.2\nSwipeRefreshLayout 1.1.0\nFacebook Shimmer 0.5.0\nGoogle Mobile Ads 25.1.0\nMaterial Components\nAndroidX Core KTX\nAppCompat</string>
   <string name="about_dialog_close">Tutup</string>
   <string name="back_label">Kembali</string>
-  <string name="favorite_toggle_add" translatable="false">Tambah ke kegemaran</string>
-  <string name="favorite_toggle_remove" translatable="false">Buang daripada kegemaran</string>
-  <plurals name="download_items_count">
-    <item quantity="one">%d item</item>
-    <item quantity="other">%d item</item>
-  </plurals>
-  <plurals name="download_selected_count">
-    <item quantity="one">%d dipilih</item>
-    <item quantity="other">%d dipilih</item>
-  </plurals>
+  <string name="download_progress_format"></string>
+  <string name="favorite_toggle_add">Tambah ke kegemaran</string>
+  <string name="favorite_toggle_remove">Buang daripada kegemaran</string>
 </resources>
-

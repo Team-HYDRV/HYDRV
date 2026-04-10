@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">HYDRV</string>
   <string name="settings_title">設定</string>
@@ -108,12 +108,12 @@
   <string name="language_native_spanish_region">Espa?ol (Espa?a)</string>
   <string name="language_native_catalan_region">CatalÃƒÂ  (Espanya)</string>
   <string name="language_native_indonesian_region">Bahasa Indonesia (Indonesia)</string>
-  <string name="language_native_french_region">Français (France)</string>
+  <string name="language_native_french_region">FranÃ§ais (France)</string>
   <string name="language_native_german_region">Deutsch (Deutschland)</string>
   <string name="language_native_greek_region">ÃŽâ€¢ÃŽÂ»ÃŽÂ»ÃŽÂ·ÃŽÂ½ÃŽÂ¹ÃŽÂºÃŽÂ¬ (ÃŽâ€¢ÃŽÂ»ÃŽÂ»ÃŽÂ¬ÃŽÂ´ÃŽÂ±)</string>
   <string name="language_native_hebrew_region">Ã—Â¢Ã—â€˜Ã—Â¨Ã—â„¢Ã—Âª (Ã—â„¢Ã—Â©Ã—Â¨Ã—ÂÃ—Å“)</string>
   <string name="language_native_hungarian_region">Magyar (MagyarorszÃƒÂ¡g)</string>
-  <string name="language_native_portuguese_brazil_region">Português (Brasil)</string>
+  <string name="language_native_portuguese_brazil_region">PortuguÃªs (Brasil)</string>
   <string name="language_native_portuguese_portugal_region">PortuguÃƒÂªs (Portugal)</string>
   <string name="language_native_italian_region">Italiano (Italia)</string>
   <string name="language_native_turkish_region">TÃƒÂ¼rkÃƒÂ§e (TÃƒÂ¼rkiye)</string>
@@ -127,15 +127,15 @@
   <string name="language_native_ukrainian_region">ÃÂ£ÃÂºÃ‘â‚¬ÃÂ°Ã‘â€”ÃÂ½Ã‘ÂÃ‘Å’ÃÂºÃÂ° (ÃÂ£ÃÂºÃ‘â‚¬ÃÂ°Ã‘â€”ÃÂ½ÃÂ°)</string>
   <string name="language_native_czech_region">Ã„Å’eÃ…Â¡tina (Ã„Å’esko)</string>
   <string name="language_native_romanian_region">RomÃƒÂ¢nÃ„Æ’ (RomÃƒÂ¢nia)</string>
-  <string name="language_native_chinese_simplified_region">中文 (中国)</string>
+  <string name="language_native_chinese_simplified_region">ä¸­æ–‡ (ä¸­å›½)</string>
   <string name="language_native_chinese_traditional_region">Ã§Â¹ÂÃ©Â«â€Ã¤Â¸Â­Ã¦â€“â€¡ (Ã¥ÂÂ°Ã§ÂÂ£)</string>
   <string name="language_native_hindi_region">à¤¹à¤¿à¤¨à¥à¤¦à¥€ (à¤­à¤¾à¤°à¤¤)</string>
-  <string name="language_native_arabic_region">العربية</string>
-  <string name="language_native_russian_region">Русский (Россия)</string>
+  <string name="language_native_arabic_region">Ø§Ù„Ø¹Ø±Ø¨ÙŠØ©</string>
+  <string name="language_native_russian_region">Ð ÑƒÑÑÐºÐ¸Ð¹ (Ð Ð¾ÑÑÐ¸Ñ)</string>
   <string name="language_native_serbian_region">ÃÂ¡Ã‘â‚¬ÃÂ¿Ã‘ÂÃÂºÃÂ¸ (ÃÂ¡Ã‘â‚¬ÃÂ±ÃÂ¸Ã‘ËœÃÂ°)</string>
   <string name="language_native_swedish_region">Svenska (Sverige)</string>
-  <string name="language_native_japanese_region">日本語 (日本)</string>
-  <string name="language_native_korean_region">한국어 (대한민국)</string>
+  <string name="language_native_japanese_region">æ—¥æœ¬èªž (æ—¥æœ¬)</string>
+  <string name="language_native_korean_region">í•œêµ­ì–´ (ëŒ€í•œë¯¼êµ­)</string>
   <string name="download_via_title">Download via</string>
   <string name="download_via_summary">Choose Wi-Fi only or allow mobile data</string>
   <string name="update_notifications_title">Update notifications</string>
@@ -205,7 +205,7 @@
   <string name="sample_download_speed">Speed 0 KB/s</string>
   <string name="download_status_downloading">DOWNLOADING</string>
   <string name="download_status_done">DONE</string>
-  <string name="download_progress_format" translatable="false">%1$d%%</string>
+  <string name="download_progress_format">%1$d%%</string>
   <string name="download_status_paused">一時停止</string>
   <string name="download_status_failed">失敗</string>
   <string name="download_error_invalid_link">Direct APK link required</string>
@@ -375,17 +375,17 @@
   <string name="updates_view_changelog">変更ログを表示</string>
   <string name="updates_download_now">Download</string>
   <string name="updates_install_now">Install</string>
-  <string name="updates_downloading">Downloading…</string>
+  <string name="updates_downloading">Downloadingâ€¦</string>
   <string name="updates_resume_download">再開</string>
   <string name="updates_launch_check_title">Check for updates on launch</string>
   <string name="updates_launch_check_summary">Automatically check the latest GitHub release whenever you open HYDRV.</string>
   <string name="updates_launch_message_title">起動時に更新メッセージを表示</string>
   <string name="updates_launch_message_summary">リポジトリの最新リリースが変わったとき、アプリ内メッセージを表示します。</string>
   <string name="updates_check_now">更新を確認</string>
-  <string name="updates_checking">Checking…</string>
+  <string name="updates_checking">Checkingâ€¦</string>
   <string name="updates_changelog_title">Release changelog</string>
   <string name="updates_changelog_body">HYDRV shows the latest GitHub release notes here so the in-app changelog stays aligned with the repo release.</string>
-  <string name="updates_changelog_loading">Loading the latest GitHub release notes…</string>
+  <string name="updates_changelog_loading">Loading the latest GitHub release notesâ€¦</string>
   <string name="updates_release_unavailable">最新リリースは一時的に利用できません</string>
   <string name="updates_check_failed">今は更新を確認できません。</string>
   <string name="updates_check_live_with_version">New release is live: %1$s %2$s.</string>
@@ -422,23 +422,10 @@
   <string name="contributors_loading">GitHub コントリビューターを読み込み中…</string>
   <string name="contributors_loaded">%1$d contributors loaded from GitHub.</string>
   <string name="contributors_failed">GitHub コントリビューターは一時的に利用できません。</string>
-  <plurals name="contributor_role_contributions">
-    <item quantity="one">%d contribution</item>
-    <item quantity="other">%d contributions</item>
-  </plurals>
   <string name="about_licenses_dialog_title">オープンソースライブラリ</string>
   <string name="about_licenses_dialog_body">OkHttp 4.12.0\nRetrofit 2.9.0\nGson Converter 2.9.0\nPicasso 2.8\nWorkManager 2.9.1\nRecyclerView 1.3.2\nSwipeRefreshLayout 1.1.0\nFacebook Shimmer 0.5.0\nGoogle Mobile Ads 25.1.0\nMaterial Components\nAndroidX Core KTX\nAppCompat</string>
   <string name="about_dialog_close">Close</string>
   <string name="back_label">Back</string>
-  <string name="favorite_toggle_add" translatable="false">Add to favorites</string>
-  <string name="favorite_toggle_remove" translatable="false">Remove from favorites</string>
-  <plurals name="download_items_count">
-    <item quantity="one">%d Item</item>
-    <item quantity="other">%d Items</item>
-  </plurals>
-  <plurals name="download_selected_count">
-    <item quantity="one">%d selected</item>
-    <item quantity="other">%d selected</item>
-  </plurals>
+  <string name="favorite_toggle_add">Add to favorites</string>
+  <string name="favorite_toggle_remove">Remove from favorites</string>
 </resources>
-
