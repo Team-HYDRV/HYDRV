@@ -250,8 +250,8 @@
     <string name="permission_notifications_title">Notifiche</string>
     <string name="permission_notifications_summary">Mostra notifiche per download e aggiornamenti.</string>
     <string name="permission_connected">Connesso</string>
-    <string name="permission_online">Online</string>
-    <string name="permission_offline">Offline</string>
+    <string name="permission_online">In linea</string>
+    <string name="permission_offline">Non in linea</string>
     <string name="permission_allowed">Consentito</string>
     <string name="permission_not_allowed">Non consentito</string>
     <string name="permission_allow">Consenti</string>
