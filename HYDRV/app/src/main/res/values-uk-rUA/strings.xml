@@ -1,3 +1,4 @@
+<resources>
   <string name="app_name">HYDRV</string>
   <string name="settings_title">Налаштування</string>
   <string name="settings_general_title">Загальні</string>
@@ -438,4 +439,4 @@
     <item quantity="one">%d selected</item>
     <item quantity="other">%d selected</item>
   </plurals>
-</resources>
+</resources>
