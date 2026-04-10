@@ -9,6 +9,8 @@ files:
     languages_mapping:
       android_code:
         ar: ar
+        cs: cs
+        cs-CZ: cs
         fil: fil
         pt-BR: pt-rBR
         zh-CN: zh-rCN
