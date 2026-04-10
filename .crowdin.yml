@@ -8,6 +8,7 @@ files:
     translation: HYDRV/app/src/main/res/values-%android_code%/strings.xml
     languages_mapping:
       android_code:
+        ar: ar-rSA
         fil: fil
         pt-BR: pt-rBR
         zh-CN: zh-rCN
