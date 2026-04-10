@@ -17,9 +17,9 @@
     <string name="app_icon_default_summary">Bruk det originale HYDRV-ikonet.</string>
     <string name="app_icon_hydra_title">Hydra</string>
     <string name="app_icon_alternative_summary">Et rent og moderne alternativ.</string>
-    <string name="app_icon_legacy_title">Legacy</string>
+    <string name="app_icon_legacy_title">Klassisk</string>
     <string name="app_icon_legacy_summary">Bruk det klassiske HYDRV-ikonet.</string>
-    <string name="app_icon_freedom_title">Freedom</string>
+    <string name="app_icon_freedom_title">Frihet</string>
     <string name="app_icon_legacy_gradient_summary">Klassisk ikon med gradient.</string>
     <string name="app_icon_active">Aktiv</string>
     <string name="app_icon_set_active">Sett aktiv</string>
