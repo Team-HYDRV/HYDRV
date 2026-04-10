@@ -341,7 +341,7 @@
   <string name="debug_disabled">Nonaktif</string>
   <string name="debug_share_subject">Laporan diagnostik HYDRV</string>
   <string name="debug_share_chooser">Ekspor laporan diagnostik</string>
-  <string name="backend_default_label">Default</string>
+  <string name="backend_default_label">Bawaan</string>
   <string name="backend_custom_label">Kustom</string>
   <string name="backend_dialog_title">Ubah backend</string>
   <string name="backend_dialog_message">Tempel endpoint JSON langsung. Jika dibiarkan kosong, backend bawaan saat ini akan digunakan.</string>
