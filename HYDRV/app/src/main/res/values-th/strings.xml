@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">HYDRV</string>
   <string name="settings_title">การตั้งค่า</string>
@@ -11,18 +11,18 @@
   <string name="settings_about_title">เกี่ยวกับ</string>
   <string name="settings_about_subtitle">ข้อมูลแอปและรายละเอียดการสนับสนุน</string>
   <string name="settings_section_appearance">ลักษณะ</string>
-  <string name="app_icon_section_title">App icon</string>
-  <string name="app_icon_section_summary">Choose which launcher icon HYDRV uses.</string>
-  <string name="app_icon_default_title">Default</string>
-  <string name="app_icon_default_summary">Use the standard HYDRV icon set.</string>
+  <string name="app_icon_section_title">ไอคอนแอป</string>
+  <string name="app_icon_section_summary">เลือกไอคอนตัวเปิดใช้ที่ HYDRV จะใช้</string>
+  <string name="app_icon_default_title">ค่าเริ่มต้น</string>
+  <string name="app_icon_default_summary">ใช้ชุดไอคอน HYDRV มาตรฐาน</string>
   <string name="app_icon_hydra_title">Hydra</string>
   <string name="app_icon_alternative_summary">Use the alternate HYDRV icon set.</string>
-  <string name="app_icon_legacy_title">Legacy</string>
-  <string name="app_icon_legacy_summary">Use the classic HYDRV icon set.</string>
-  <string name="app_icon_freedom_title">Freedom</string>
-  <string name="app_icon_legacy_gradient_summary">Use the classic icon with a gradient look.</string>
-  <string name="app_icon_active">Active</string>
-  <string name="app_icon_set_active">Set active</string>
+  <string name="app_icon_legacy_title">แบบเดิม</string>
+  <string name="app_icon_legacy_summary">ใช้ชุดไอคอน HYDRV แบบคลาสสิก</string>
+  <string name="app_icon_freedom_title">อิสระ</string>
+  <string name="app_icon_legacy_gradient_summary">ใช้ไอคอนแบบคลาสสิกพร้อมเอฟเฟกต์ไล่สี</string>
+  <string name="app_icon_active">กำลังใช้งาน</string>
+  <string name="app_icon_set_active">ตั้งเป็นกำลังใช้งาน</string>
   <string name="app_icon_changed">App icon updated</string>
   <string name="settings_section_lists">รายการ</string>
   <string name="theme_system">ระบบ</string>

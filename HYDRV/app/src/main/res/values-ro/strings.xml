@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">HYDRV</string>
   <string name="settings_title">Setări</string>
@@ -11,18 +11,18 @@
   <string name="settings_about_title">Despre</string>
   <string name="settings_about_subtitle">Informații despre aplicație și detalii de suport</string>
   <string name="settings_section_appearance">Aspect</string>
-  <string name="app_icon_section_title">App icon</string>
-  <string name="app_icon_section_summary">Choose which launcher icon HYDRV uses.</string>
-  <string name="app_icon_default_title">Default</string>
-  <string name="app_icon_default_summary">Use the standard HYDRV icon set.</string>
+  <string name="app_icon_section_title">Iconița aplicației</string>
+  <string name="app_icon_section_summary">Alege ce iconiță de lansare folosește HYDRV.</string>
+  <string name="app_icon_default_title">Implicit</string>
+  <string name="app_icon_default_summary">Folosește setul standard de pictograme HYDRV.</string>
   <string name="app_icon_hydra_title">Hydra</string>
-  <string name="app_icon_alternative_summary">Use the alternate HYDRV icon set.</string>
-  <string name="app_icon_legacy_title">Legacy</string>
-  <string name="app_icon_legacy_summary">Use the classic HYDRV icon set.</string>
-  <string name="app_icon_freedom_title">Freedom</string>
-  <string name="app_icon_legacy_gradient_summary">Use the classic icon with a gradient look.</string>
-  <string name="app_icon_active">Active</string>
-  <string name="app_icon_set_active">Set active</string>
+  <string name="app_icon_alternative_summary">Folosește setul alternativ de pictograme HYDRV.</string>
+  <string name="app_icon_legacy_title">Clasic</string>
+  <string name="app_icon_legacy_summary">Folosește setul clasic de pictograme HYDRV.</string>
+  <string name="app_icon_freedom_title">Libertate</string>
+  <string name="app_icon_legacy_gradient_summary">Folosește pictograma clasică cu aspect gradient.</string>
+  <string name="app_icon_active">Activă</string>
+  <string name="app_icon_set_active">Setează ca activă</string>
   <string name="app_icon_changed">App icon updated</string>
   <string name="settings_section_lists">Liste</string>
   <string name="theme_system">Sistem</string>
@@ -441,3 +441,4 @@
     <item quantity="other">%d selected</item>
   </plurals>
 </resources>
+

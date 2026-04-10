@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">HYDRV</string>
   <string name="settings_title">Einstellungen</string>
@@ -8,21 +8,21 @@
   <string name="settings_updates_subtitle">Update-Einstellungen und Änderungsprotokoll</string>
   <string name="settings_advance_title">Erweitert</string>
   <string name="settings_advance_subtitle">Diagnose, Konnektivität und Energieoptionen</string>
-  <string name="settings_about_title">Über</string>
-  <string name="settings_about_subtitle">App-Infos und Supportdetails</string>
+  <string name="settings_about_title">Info</string>
+  <string name="settings_about_subtitle">App-Infos und Support</string>
   <string name="settings_section_appearance">Aussehen</string>
-  <string name="app_icon_section_title">App icon</string>
-  <string name="app_icon_section_summary">Choose which launcher icon HYDRV uses.</string>
-  <string name="app_icon_default_title">Default</string>
-  <string name="app_icon_default_summary">Use the standard HYDRV icon set.</string>
+  <string name="app_icon_section_title">App-Symbol</string>
+  <string name="app_icon_section_summary">Wähle, welches Startsymbol HYDRV verwendet.</string>
+  <string name="app_icon_default_title">Standard</string>
+  <string name="app_icon_default_summary">Das Standard-Symbolset von HYDRV verwenden.</string>
   <string name="app_icon_hydra_title">Hydra</string>
   <string name="app_icon_alternative_summary">Use the alternate HYDRV icon set.</string>
-  <string name="app_icon_legacy_title">Legacy</string>
-  <string name="app_icon_legacy_summary">Use the classic HYDRV icon set.</string>
-  <string name="app_icon_freedom_title">Freedom</string>
-  <string name="app_icon_legacy_gradient_summary">Use the classic icon with a gradient look.</string>
-  <string name="app_icon_active">Active</string>
-  <string name="app_icon_set_active">Set active</string>
+  <string name="app_icon_legacy_title">Klassisch</string>
+  <string name="app_icon_legacy_summary">Das klassische HYDRV-Symbolset verwenden.</string>
+  <string name="app_icon_freedom_title">Freiheit</string>
+  <string name="app_icon_legacy_gradient_summary">Das klassische Symbol mit Farbverlauf verwenden.</string>
+  <string name="app_icon_active">Aktiv</string>
+  <string name="app_icon_set_active">Als aktiv festlegen</string>
   <string name="app_icon_changed">App icon updated</string>
   <string name="settings_section_lists">Listen</string>
   <string name="theme_system">System</string>

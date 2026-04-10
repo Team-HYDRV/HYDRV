@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">HYDRV</string>
   <string name="settings_title">Cai dat</string>
@@ -11,18 +11,18 @@
   <string name="settings_about_title">Gioi thieu</string>
   <string name="settings_about_subtitle">Thong tin ung dung va chi tiet ho tro</string>
   <string name="settings_section_appearance">Giao dien</string>
-  <string name="app_icon_section_title">App icon</string>
-  <string name="app_icon_section_summary">Choose which launcher icon HYDRV uses.</string>
-  <string name="app_icon_default_title">Default</string>
-  <string name="app_icon_default_summary">Use the standard HYDRV icon set.</string>
-  <string name="app_icon_hydra_title">Hydra</string>
-  <string name="app_icon_alternative_summary">Use the alternate HYDRV icon set.</string>
-  <string name="app_icon_legacy_title">Legacy</string>
-  <string name="app_icon_legacy_summary">Use the classic HYDRV icon set.</string>
-  <string name="app_icon_freedom_title">Freedom</string>
-  <string name="app_icon_legacy_gradient_summary">Use the classic icon with a gradient look.</string>
-  <string name="app_icon_active">Active</string>
-  <string name="app_icon_set_active">Set active</string>
+  <string name="app_icon_section_title">Biểu tượng ứng dụng</string>
+  <string name="app_icon_section_summary">Chọn biểu tượng khởi chạy mà HYDRV sử dụng.</string>
+  <string name="app_icon_default_title">Mặc định</string>
+  <string name="app_icon_default_summary">Dùng bộ biểu tượng HYDRV tiêu chuẩn.</string>
+  <string name="app_icon_hydra_title">Thủy thần</string>
+  <string name="app_icon_alternative_summary">Dùng bộ biểu tượng HYDRV thay thế.</string>
+  <string name="app_icon_legacy_title">Cổ điển</string>
+  <string name="app_icon_legacy_summary">Dùng bộ biểu tượng HYDRV cổ điển.</string>
+  <string name="app_icon_freedom_title">Tự do</string>
+  <string name="app_icon_legacy_gradient_summary">Dùng biểu tượng cổ điển với hiệu ứng chuyển sắc.</string>
+  <string name="app_icon_active">Đang hoạt động</string>
+  <string name="app_icon_set_active">Đặt làm đang hoạt động</string>
   <string name="app_icon_changed">App icon updated</string>
   <string name="settings_section_lists">Danh sach</string>
   <string name="theme_system">He thong</string>
@@ -441,3 +441,5 @@
     <item quantity="other">%d selected</item>
   </plurals>
 </resources>
+
+

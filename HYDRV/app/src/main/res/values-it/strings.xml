@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">HYDRV</string>
   <string name="settings_title">Impostazioni</string>
@@ -7,22 +7,22 @@
   <string name="settings_updates_title">Aggiornamenti</string>
   <string name="settings_updates_subtitle">Impostazioni aggiornamento e registro modifiche</string>
   <string name="settings_advance_title">Avanzate</string>
-  <string name="settings_advance_subtitle">Diagnostica, connettività e opzioni di alimentazione</string>
+  <string name="settings_advance_subtitle">Diagnostica, connettivita e opzioni di alimentazione</string>
   <string name="settings_about_title">Informazioni</string>
-  <string name="settings_about_subtitle">Informazioni sull’app e supporto</string>
+  <string name="settings_about_subtitle">Informazioni sull app e supporto</string>
   <string name="settings_section_appearance">Aspetto</string>
-  <string name="app_icon_section_title">App icon</string>
-  <string name="app_icon_section_summary">Choose which launcher icon HYDRV uses.</string>
-  <string name="app_icon_default_title">Default</string>
-  <string name="app_icon_default_summary">Use the standard HYDRV icon set.</string>
+  <string name="app_icon_section_title">Icona app</string>
+  <string name="app_icon_section_summary">Scegli quale icona di avvio usa HYDRV.</string>
+  <string name="app_icon_default_title">Predefinita</string>
+  <string name="app_icon_default_summary">Usa il set di icone standard di HYDRV.</string>
   <string name="app_icon_hydra_title">Hydra</string>
   <string name="app_icon_alternative_summary">Use the alternate HYDRV icon set.</string>
-  <string name="app_icon_legacy_title">Legacy</string>
-  <string name="app_icon_legacy_summary">Use the classic HYDRV icon set.</string>
-  <string name="app_icon_freedom_title">Freedom</string>
-  <string name="app_icon_legacy_gradient_summary">Use the classic icon with a gradient look.</string>
-  <string name="app_icon_active">Active</string>
-  <string name="app_icon_set_active">Set active</string>
+  <string name="app_icon_legacy_title">Classica</string>
+  <string name="app_icon_legacy_summary">Usa il set di icone classico di HYDRV.</string>
+  <string name="app_icon_freedom_title">Liberta</string>
+  <string name="app_icon_legacy_gradient_summary">Usa l icona classica con un aspetto sfumato.</string>
+  <string name="app_icon_active">Attiva</string>
+  <string name="app_icon_set_active">Imposta come attiva</string>
   <string name="app_icon_changed">App icon updated</string>
   <string name="settings_section_lists">Elenchi</string>
   <string name="theme_system">Sistema</string>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">HYDRV</string>
   <string name="settings_title">Ayarlar</string>
@@ -10,19 +10,19 @@
   <string name="settings_advance_subtitle">Tanılama, bağlantı ve güç seçenekleri</string>
   <string name="settings_about_title">Hakkında</string>
   <string name="settings_about_subtitle">Uygulama bilgileri ve destek</string>
-  <string name="settings_section_appearance">Gorunum</string>
-  <string name="app_icon_section_title">App icon</string>
-  <string name="app_icon_section_summary">Choose which launcher icon HYDRV uses.</string>
-  <string name="app_icon_default_title">Default</string>
-  <string name="app_icon_default_summary">Use the standard HYDRV icon set.</string>
+  <string name="settings_section_appearance">Görünüm</string>
+  <string name="app_icon_section_title">Uygulama simgesi</string>
+  <string name="app_icon_section_summary">HYDRV'nin hangi başlatma simgesini kullanacağını seçin.</string>
+  <string name="app_icon_default_title">Varsayılan</string>
+  <string name="app_icon_default_summary">Standart HYDRV simge setini kullanın.</string>
   <string name="app_icon_hydra_title">Hydra</string>
-  <string name="app_icon_alternative_summary">Use the alternate HYDRV icon set.</string>
-  <string name="app_icon_legacy_title">Legacy</string>
-  <string name="app_icon_legacy_summary">Use the classic HYDRV icon set.</string>
-  <string name="app_icon_freedom_title">Freedom</string>
-  <string name="app_icon_legacy_gradient_summary">Use the classic icon with a gradient look.</string>
-  <string name="app_icon_active">Active</string>
-  <string name="app_icon_set_active">Set active</string>
+  <string name="app_icon_alternative_summary">Alternatif HYDRV simge setini kullanın.</string>
+  <string name="app_icon_legacy_title">Klasik</string>
+  <string name="app_icon_legacy_summary">Klasik HYDRV simge setini kullanın.</string>
+  <string name="app_icon_freedom_title">Özgürlük</string>
+  <string name="app_icon_legacy_gradient_summary">Klasik simgeyi degrade görünümüyle kullanın.</string>
+  <string name="app_icon_active">Etkin</string>
+  <string name="app_icon_set_active">Etkin olarak ayarla</string>
   <string name="app_icon_changed">App icon updated</string>
   <string name="settings_section_lists">Listeler</string>
   <string name="theme_system">Sistem</string>
@@ -441,3 +441,4 @@
     <item quantity="other">%d seÃƒÂ§ildi</item>
   </plurals>
 </resources>
+

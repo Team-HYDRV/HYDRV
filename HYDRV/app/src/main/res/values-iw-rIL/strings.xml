@@ -15,11 +15,11 @@
     <string name="app_icon_section_summary">בחר איזה סמל מפעיל HYDRV משתמש בו.</string>
     <string name="app_icon_default_title">ברירת מחדל</string>
     <string name="app_icon_default_summary">השתמש בערכת הסמלים הסטנדרטית של HYDRV.</string>
-    <string name="app_icon_hydra_title">Hydra</string>
-    <string name="app_icon_alternative_summary">Use the alternate HYDRV icon set.</string>
+    <string name="app_icon_hydra_title">הידרה</string>
+    <string name="app_icon_alternative_summary">השתמש בערכת הסמלים החלופית של HYDRV.</string>
     <string name="app_icon_legacy_title">קלאסי</string>
     <string name="app_icon_legacy_summary">השתמש בערכת הסמלים הקלאסית של HYDRV.</string>
-    <string name="app_icon_freedom_title">Freedom</string>
+    <string name="app_icon_freedom_title">חירות</string>
     <string name="app_icon_legacy_gradient_summary">השתמש בסמל הקלאסי עם מראה הדרגתי.</string>
     <string name="app_icon_active">פעיל</string>
     <string name="app_icon_set_active">הגדר כפעיל</string>
@@ -327,12 +327,12 @@
     <string name="backend_health_cache_ready_count">מוכן (%1$d אפליקציות)</string>
     <string name="backend_health_worker_status_title">עובד עדכונים</string>
     <string name="device_info_title">אודות המכשיר</string>
-    <string name="device_info_version_format">Version: %1$s (%2$d)</string>
-    <string name="device_info_build_type_format">Build type: %1$s</string>
-    <string name="device_info_model_format">Model: %1$s</string>
-    <string name="device_info_android_version_format">Android version: %1$s (%2$d)</string>
-    <string name="device_info_archs_format">Supported Archs: %1$s</string>
-    <string name="device_info_memory_format">Memory limit: %1$dMB (Normal) - %2$dMB (Large)</string>
+    <string name="device_info_version_format">גרסה: %1$s (%2$d)</string>
+    <string name="device_info_build_type_format">סוג build: %1$s</string>
+    <string name="device_info_model_format">דגם: %1$s</string>
+    <string name="device_info_android_version_format">גרסת Android: %1$s (%2$d)</string>
+    <string name="device_info_archs_format">ארכיטקטורות נתמכות: %1$s</string>
+    <string name="device_info_memory_format">מגבלת זיכרון: %1$dMB (רגיל) - %2$dMB (גדול)</string>
     <string name="device_info_unknown">Unknown</string>
     <string name="debug_report_title">Diagnostic report</string>
     <string name="debug_recent_diagnostics">Recent diagnostics</string>
@@ -422,25 +422,25 @@
     <string name="contributors_loaded">%1$d תורמים נטענו מ-GitHub.</string>
     <string name="contributors_failed">תורמי GitHub אינם זמינים כרגע.</string>
     <plurals name="contributor_role_contributions">
-        <item quantity="one">%d Ã—ÂªÃ—Â¨Ã—â€¢Ã—Å¾Ã—â€</item>
-        <item quantity="two">%d Ã—ÂªÃ—Â¨Ã—â€¢Ã—Å¾Ã—â€¢Ã—Âª</item>
-        <item quantity="many">%d Ã—ÂªÃ—Â¨Ã—â€¢Ã—Å¾Ã—â€¢Ã—Âª</item>
-        <item quantity="other">%d Ã—ÂªÃ—Â¨Ã—â€¢Ã—Å¾Ã—â€¢Ã—Âª</item>
+        <item quantity="one">%d תרומה</item>
+        <item quantity="two">%d תרומות</item>
+        <item quantity="many">%d תרומות</item>
+        <item quantity="other">%d תרומות</item>
     </plurals>
     <string name="about_licenses_dialog_title">Open source libraries</string>
     <string name="about_licenses_dialog_body">OkHttp 4.12.0\nRetrofit 2.9.0\nGson Converter 2.9.0\nPicasso 2.8\nWorkManager 2.9.1\nRecyclerView 1.3.2\nSwipeRefreshLayout 1.1.0\nFacebook Shimmer 0.5.0\nGoogle Mobile Ads 25.1.0\nMaterial Components\nAndroidX Core KTX\nAppCompat</string>
     <string name="about_dialog_close">סגור</string>
     <string name="back_label">Back</string>
     <plurals name="download_items_count">
-        <item quantity="one">%d Ã—Â¤Ã—Â¨Ã—â„¢Ã—Ëœ</item>
-        <item quantity="two">%d Ã—Â¤Ã—Â¨Ã—â„¢Ã—ËœÃ—â„¢Ã—Â</item>
-        <item quantity="many">%d Ã—Â¤Ã—Â¨Ã—â„¢Ã—ËœÃ—â„¢Ã—Â</item>
-        <item quantity="other">%d Ã—Â¤Ã—Â¨Ã—â„¢Ã—ËœÃ—â„¢Ã—Â</item>
+        <item quantity="one">%d פריט</item>
+        <item quantity="two">%d פריטים</item>
+        <item quantity="many">%d פריטים</item>
+        <item quantity="other">%d פריטים</item>
     </plurals>
     <plurals name="download_selected_count">
-        <item quantity="one">%d Ã—Â Ã—â€˜Ã—â€”Ã—Â¨</item>
-        <item quantity="two">%d Ã—Â Ã—â€˜Ã—â€”Ã—Â¨Ã—â€¢</item>
-        <item quantity="many">%d Ã—Â Ã—â€˜Ã—â€”Ã—Â¨Ã—â€¢</item>
-        <item quantity="other">%d Ã—Â Ã—â€˜Ã—â€”Ã—Â¨Ã—â€¢</item>
+        <item quantity="one">%d נבחר</item>
+        <item quantity="two">%d נבחרו</item>
+        <item quantity="many">%d נבחרו</item>
+        <item quantity="other">%d נבחרו</item>
     </plurals>
 </resources>

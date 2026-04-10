@@ -1,28 +1,28 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">HYDRV</string>
   <string name="settings_title">Настройки</string>
   <string name="settings_general_title">Общие</string>
-  <string name="settings_general_subtitle">Theme and list preferences</string>
+  <string name="settings_general_subtitle">Настройки темы и списков</string>
   <string name="settings_updates_title">Обновления</string>
   <string name="settings_updates_subtitle">Update settings and changelog</string>
-  <string name="settings_advance_title">Advanced</string>
-  <string name="settings_advance_subtitle">Diagnostics, connectivity, and power options</string>
+  <string name="settings_advance_title">Дополнительно</string>
+  <string name="settings_advance_subtitle">Диагностика, подключение и параметры питания</string>
   <string name="settings_about_title">О приложении</string>
-  <string name="settings_about_subtitle">App info and support details</string>
-  <string name="settings_section_appearance">Appearance</string>
-  <string name="app_icon_section_title">App icon</string>
-  <string name="app_icon_section_summary">Choose which launcher icon HYDRV uses.</string>
-  <string name="app_icon_default_title">Default</string>
-  <string name="app_icon_default_summary">Use the standard HYDRV icon set.</string>
-  <string name="app_icon_hydra_title">Hydra</string>
-  <string name="app_icon_alternative_summary">Use the alternate HYDRV icon set.</string>
-  <string name="app_icon_legacy_title">Legacy</string>
-  <string name="app_icon_legacy_summary">Use the classic HYDRV icon set.</string>
-  <string name="app_icon_freedom_title">Freedom</string>
-  <string name="app_icon_legacy_gradient_summary">Use the classic icon with a gradient look.</string>
-  <string name="app_icon_active">Active</string>
-  <string name="app_icon_set_active">Set active</string>
+  <string name="settings_about_subtitle">Информация о приложении и поддержка</string>
+  <string name="settings_section_appearance">Оформление</string>
+  <string name="app_icon_section_title">Иконка приложения</string>
+  <string name="app_icon_section_summary">Выберите, какой значок запуска использует HYDRV.</string>
+  <string name="app_icon_default_title">По умолчанию</string>
+  <string name="app_icon_default_summary">Использовать стандартный набор иконок HYDRV.</string>
+  <string name="app_icon_hydra_title">Хидра</string>
+  <string name="app_icon_alternative_summary">Использовать альтернативный набор иконок HYDRV.</string>
+  <string name="app_icon_legacy_title">Классическая</string>
+  <string name="app_icon_legacy_summary">Использовать классический набор иконок HYDRV.</string>
+  <string name="app_icon_freedom_title">Свобода</string>
+  <string name="app_icon_legacy_gradient_summary">Использовать классическую иконку с градиентом.</string>
+  <string name="app_icon_active">Активно</string>
+  <string name="app_icon_set_active">Сделать активной</string>
   <string name="app_icon_changed">App icon updated</string>
   <string name="settings_section_lists">Lists</string>
   <string name="theme_system">System</string>
@@ -441,3 +441,4 @@
     <item quantity="other">%d selected</item>
   </plurals>
 </resources>
+

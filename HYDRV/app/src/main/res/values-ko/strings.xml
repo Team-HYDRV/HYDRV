@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">HYDRV</string>
   <string name="settings_title">설정</string>
@@ -11,18 +11,18 @@
   <string name="settings_about_title">정보</string>
   <string name="settings_about_subtitle">앱 정보 및 지원</string>
   <string name="settings_section_appearance">디자인</string>
-  <string name="app_icon_section_title">App icon</string>
-  <string name="app_icon_section_summary">Choose which launcher icon HYDRV uses.</string>
-  <string name="app_icon_default_title">Default</string>
-  <string name="app_icon_default_summary">Use the standard HYDRV icon set.</string>
-  <string name="app_icon_hydra_title">Hydra</string>
-  <string name="app_icon_alternative_summary">Use the alternate HYDRV icon set.</string>
-  <string name="app_icon_legacy_title">Legacy</string>
-  <string name="app_icon_legacy_summary">Use the classic HYDRV icon set.</string>
-  <string name="app_icon_freedom_title">Freedom</string>
-  <string name="app_icon_legacy_gradient_summary">Use the classic icon with a gradient look.</string>
-  <string name="app_icon_active">Active</string>
-  <string name="app_icon_set_active">Set active</string>
+  <string name="app_icon_section_title">앱 아이콘</string>
+  <string name="app_icon_section_summary">HYDRV가 사용할 시작 아이콘을 선택하세요.</string>
+  <string name="app_icon_default_title">기본</string>
+  <string name="app_icon_default_summary">표준 HYDRV 아이콘 세트를 사용합니다.</string>
+  <string name="app_icon_hydra_title">하이드라</string>
+  <string name="app_icon_alternative_summary">대체 HYDRV 아이콘 세트를 사용합니다.</string>
+  <string name="app_icon_legacy_title">클래식</string>
+  <string name="app_icon_legacy_summary">클래식 HYDRV 아이콘 세트를 사용합니다.</string>
+  <string name="app_icon_freedom_title">자유</string>
+  <string name="app_icon_legacy_gradient_summary">그라데이션 느낌의 클래식 아이콘을 사용합니다.</string>
+  <string name="app_icon_active">활성</string>
+  <string name="app_icon_set_active">활성으로 설정</string>
   <string name="app_icon_changed">App icon updated</string>
   <string name="settings_section_lists">목록</string>
   <string name="theme_system">시스템</string>
@@ -441,3 +441,4 @@
     <item quantity="other">%d selected</item>
   </plurals>
 </resources>
+
