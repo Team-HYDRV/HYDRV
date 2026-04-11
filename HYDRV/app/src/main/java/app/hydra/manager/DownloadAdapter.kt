@@ -379,7 +379,7 @@ class DownloadAdapter(
                 holder.delete.setOnClickListener {
                     if (!tryBeginControlAction(holder, itemKey)) return@setOnClickListener
                     val target = repositoryItem(item) ?: item
-                    DownloadRepository.delete(context, target)
+                    DownloadRepository.stop(context, target)
 
                     val pos = holder.bindingAdapterPosition
                     if (pos != RecyclerView.NO_POSITION) {

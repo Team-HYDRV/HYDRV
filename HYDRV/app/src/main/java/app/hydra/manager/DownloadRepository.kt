@@ -313,6 +313,10 @@ object DownloadRepository {
         }
     }
 
+    fun stop(context: Context, item: DownloadItem) {
+        delete(context, item)
+    }
+
     fun deleteMany(context: Context, items: Collection<DownloadItem>) {
         if (items.isEmpty()) return
 
