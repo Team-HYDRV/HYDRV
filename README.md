@@ -14,19 +14,24 @@
   <a href="https://hydrv.app">
     <img src="https://img.shields.io/badge/Website-hydrv.app-111111?style=flat-square" alt="HYDRV website">
   </a>
+  <a href="https://translate.hydrv.app">
+    <img src="https://img.shields.io/badge/Translate-Crowdin-2c80fb?style=flat-square" alt="HYDRV Crowdin">
+  </a>
   <a href="https://ko-fi.com/xc3fff0e">
     <img src="https://img.shields.io/badge/Support-Ko--fi-ff5f5f?style=flat-square" alt="Support on Ko-fi">
   </a>
 </p>
 
-<p align="center">
-  <a href="https://github.com/Team-HYDRV/HYDRV/releases/latest">Latest release</a>
-  &middot;
-  <a href="https://hydrv.app">Website</a>
-  &middot;
-  <a href="HYDRV/docs/backend-example.md">Backend guide</a>
-  &middot;
-  <a href="HYDRV/docs/samples/catalogue.json">Sample catalogue</a>
+  <p align="center">
+    <a href="https://github.com/Team-HYDRV/HYDRV/releases/latest">Latest release</a>
+    &middot;
+    <a href="https://hydrv.app">Website</a>
+    &middot;
+    <a href="https://translate.hydrv.app">Crowdin</a>
+    &middot;
+    <a href="HYDRV/docs/backend-example.md">Backend guide</a>
+    &middot;
+    <a href="HYDRV/docs/samples/catalogue.json">Sample catalogue</a>
   &middot;
   <a href="RELEASES.md">Release checklist</a>
   &middot;
