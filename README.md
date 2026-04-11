@@ -27,9 +27,8 @@
     &middot;
     <a href="https://hydrv.app">Website</a>
     &middot;
-    <a href="https://translate.hydrv.app">Crowdin</a>
-    &middot;
-    <a href="HYDRV/docs/backend-example.md">Backend guide</a>
+  &middot;
+  <a href="HYDRV/docs/backend-example.md">Backend guide</a>
     &middot;
     <a href="HYDRV/docs/samples/catalogue.json">Sample catalogue</a>
   &middot;
@@ -249,7 +248,7 @@ Use these commands from `HYDRV/` if you want to build from the terminal:
 <h2 align="center">Translations</h2>
 
 HYDRV keeps its Android strings in `HYDRV/app/src/main/res/values/strings.xml`.  
-Translated files live in the matching `values-xx` folders, so Crowdin can round-trip Android resources cleanly.
+Translations live on Crowdin at `translate.hydrv.app`, and the matching `values-xx` folders in this repo stay in sync with the app.
 
 <ol>
   <li>Add or edit the source strings in the default <code>values/strings.xml</code> file.</li>
@@ -258,9 +257,5 @@ Translated files live in the matching `values-xx` folders, so Crowdin can round-
 </ol>
 
 <p align="center">
-  The repo config already maps Android-specific folders like <code>pt-rBR</code> and <code>zh-rCN</code>, so the translated files land where HYDRV expects them.
-</p>
-
-<p align="center">
-  The <code>crowdin-sync</code> GitHub Action uploads source strings to Crowdin automatically when <code>values/strings.xml</code> changes, and on manual runs it can also send the current translated locale files to Crowdin or pull translated files back into the repo. The release workflow also pulls Crowdin contributor names into the next release notes. It needs the <code>CROWDIN_PROJECT_ID</code> and <code>CROWDIN_PERSONAL_TOKEN</code> secrets set in GitHub.
+  The repo keeps Android locale folders like <code>pt-rBR</code> and <code>zh-rCN</code> aligned with the app, so translated files land where HYDRV expects them.
 </p>
