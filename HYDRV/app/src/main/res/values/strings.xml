@@ -217,6 +217,7 @@
   <string name="download_action_resume">RESUME</string>
   <string name="download_action_retry">RETRY</string>
   <string name="download_action_pause">PAUSE</string>
+  <string name="download_action_stop">STOP</string>
   <string name="download_action_apk">APK</string>
   <string name="download_speed_format">Speed %1$s</string>
   <string name="download_eta_format">ETA %1$s</string>

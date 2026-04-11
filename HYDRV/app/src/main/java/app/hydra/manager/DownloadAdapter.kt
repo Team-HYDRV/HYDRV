@@ -347,7 +347,46 @@ class DownloadAdapter(
                     }
                     return
                 }
-                // fall through to the normal downloading UI
+                holder.status.text = context.getString(R.string.download_status_downloading)
+                holder.status.setTextColor(
+                    ThemeColors.color(
+                        context,
+                        androidx.appcompat.R.attr.colorPrimary,
+                        R.color.accent
+                    )
+                )
+                holder.percent.setTextColor(
+                    ThemeColors.color(
+                        context,
+                        com.google.android.material.R.attr.colorOnSurfaceVariant,
+                        R.color.subtext
+                    )
+                )
+
+                holder.action.text = context.getString(R.string.download_action_pause)
+                holder.delete.visibility = View.VISIBLE
+                holder.delete.text = context.getString(R.string.download_action_stop)
+
+                holder.action.setOnClickListener {
+                    if (!tryBeginControlAction(holder, itemKey)) return@setOnClickListener
+                    val target = repositoryItem(item) ?: item
+                    DownloadRepository.pause(context, target)
+                    val pos = holder.bindingAdapterPosition
+                    if (pos != RecyclerView.NO_POSITION) {
+                        notifyItemChanged(pos)
+                    }
+                }
+                holder.delete.setOnClickListener {
+                    if (!tryBeginControlAction(holder, itemKey)) return@setOnClickListener
+                    val target = repositoryItem(item) ?: item
+                    DownloadRepository.delete(context, target)
+
+                    val pos = holder.bindingAdapterPosition
+                    if (pos != RecyclerView.NO_POSITION) {
+                        list.removeAt(pos)
+                        notifyItemRemoved(pos)
+                    }
+                }
             }
 
             "Done" -> {
