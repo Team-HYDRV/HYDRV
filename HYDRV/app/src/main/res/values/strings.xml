@@ -9,7 +9,6 @@
   <string name="settings_advance_subtitle">Extra tools, connection, and power options</string>
   <string name="settings_about_title">About</string>
   <string name="settings_about_subtitle">App info and support details</string>
-  <string name="settings_active_users_label">Active users</string>
   <string name="settings_section_appearance">Appearance</string>
   <string name="app_icon_section_title">App icon</string>
   <string name="app_icon_section_summary">Choose which launcher icon HYDRV uses.</string>
