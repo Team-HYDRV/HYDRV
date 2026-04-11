@@ -292,7 +292,7 @@
   <string name="rewarded_ad_required_message">Se en belønningsannonse for å fortsette.</string>
   <string name="backend_title">Bahagian belakang</string>
   <string name="backend_summary">Velg kilden som brukes til å hente appinnhold.</string>
-  <string name="backend_help_title">Hva er en backend?</string>
+  <string name="backend_help_title">Hva backenden brukes til</string>
   <string name="backend_help_body">Bahagian belakang er JSON-kilden Hidra bruker for å hente applister og detaljer.</string>
   <string name="ads_support_title">Annonse-støtte</string>
   <string name="ads_support_summary">Aktivering av annonser hjelper med å støtte Hidra-utviklingen.</string>
@@ -375,7 +375,7 @@
   <string name="updates_view_changelog">Se endringslogg</string>
   <string name="updates_download_now">Last ned nå</string>
   <string name="updates_install_now">Installerer nå</string>
-  <string name="updates_downloading">Muat turuning…</string>
+  <string name="updates_downloading">Laster ned…</string>
   <string name="updates_resume_download">Fortsett nedlasting</string>
   <string name="updates_launch_check_title">Sjekk oppdateringer ved start</string>
   <string name="updates_launch_check_summary">Se etter oppdateringer når appen åpnes.</string>
@@ -385,7 +385,7 @@
   <string name="updates_checking">Kontrollerer...</string>
   <string name="updates_changelog_title">Endringslogg</string>
   <string name="updates_changelog_body">Se hva som er nytt i denne utgivelsen.</string>
-  <string name="updates_changelog_loading">Loading the latest GitHab release notes…</string>
+  <string name="updates_changelog_loading">Laster inn de nyeste GitHub-versjonsnotatene…</string>
   <string name="updates_release_unavailable">Utgivelsen er ikke tilgjengelig</string>
   <string name="updates_check_failed">Kontroll mislyktes</string>
   <string name="updates_check_live_with_version">Ny utgivelse er tilgjengelig: %1$s %2$s.</string>
@@ -419,7 +419,7 @@
   <string name="about_contributors_dialog_title">Bidragsytere</string>
   <string name="about_contributors_dialog_body">Personene som har bidratt til Hidra.</string>
   <string name="contributors_group_summary">Hidra-bidragsytere</string>
-  <string name="contributors_loading">Loading GitHab contributors…</string>
+  <string name="contributors_loading">Laster inn GitHub-bidragsytere…</string>
   <string name="contributors_loaded">%1$d bidragsytere lastet inn fra GitHub.</string>
   <string name="contributors_failed">Kunne ikke laste bidragsytere</string>
   <plurals name="contributor_role_contributions">

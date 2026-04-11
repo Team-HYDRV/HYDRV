@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">Hidra</string>
   <string name="settings_title">×”×’×“×¨×•×ª</string>
@@ -292,7 +291,7 @@
   <string name="rewarded_ad_required_message">×™×© ×œ×¦×¤×•×ª ×‘×¤×¨×¡×•×ž×ª ×›×“×™ ×œ×”×ž×©×™×š.</string>
   <string name="backend_title">×ž×§×•×¨</string>
   <string name="backend_summary">×©×™× ×•×™ ×§×™×©×•×¨ ×ž×§×•×¨ ×§×˜×œ×•×’ ×”××¤×œ×™×§×¦×™×•×ª</string>
-  <string name="backend_help_title">×œ×ž×” ×–×” ×ž×©×ž×©</string>
+  <string name="backend_help_title">למה זה משמש</string>
   <string name="backend_help_body">×›××Ÿ ×§×•×‘×¢×™× ×ž××™×¤×” × ×˜×¢× ×™× × ×ª×•× ×™ ×”××¤×œ×™×§×¦×™×•×ª, ×”×’×¨×¡××•×ª ×•×¢×“×›×•× ×™ ×”×ž×§×•×¨. ×”×©××™×¨×• ×¨×™×§ ×›×“×™ ×œ×”×ž×©×™×š ×œ×”×©×ª×ž×© ×‘-backend ×”×ž×•×‘× ×” ×©×œ HYDRV. ×©× ×• ×–××ª ×¨×§ ×× ××ª× ×¡×•×ž×›×™× ×¢×œ ×”×§×™×©×•×¨ ×”×ž×•×ª××.</string>
   <string name="ads_support_title">×ª×ž×™×›×” ×‘×¤×¨×¡×•×ž×•×ª</string>
   <string name="ads_support_summary">×”×¤×¢×œ×ª ×¤×¨×¡×•×ž×•×ª ×ž×¡×™×™×¢×ª ×œ×ª×ž×•×š ×‘×¤×™×ª×•×— HYDRV.</string>
@@ -314,7 +313,7 @@
   <string name="settings_backup_import_failed">×œ× × ×™×ª×Ÿ ×œ×™×™×‘× ××ª ×’×™×‘×•×™ ×”×”×’×“×¨×•×ª.</string>
   <string name="backend_health_title">×ž×¦×‘ ×”××¤×œ×™×§×¦×™×”</string>
   <string name="backend_health_summary">×¦×¤×” ×‘×ž×¦×‘ ×”-backend, ×”×ž×˜×ž×•×Ÿ, ×”×”×ª×¨××•×ª ×•×”×¢×“×›×•× ×™×</string>
-  <string name="backend_health_loading">×˜×•×¢×Ÿ ×ž×¦×‘ ×”××¤×œ×™×§×¦×™×”?</string>
+  <string name="backend_health_loading">טוען מצב האפליקציה…</string>
   <string name="backend_health_backend_mode_format">×ž×¦×‘ ×ž×§×•×¨: %1$s</string>
   <string name="backend_health_last_checked_format">× ×‘×“×§ ×œ××—×¨×•× ×”: %1$s</string>
   <string name="backend_health_last_seen_hash_format">×”-hash ×”××—×¨×•×Ÿ ×©× ×¨××”: %1$d</string>
@@ -375,17 +374,17 @@
   <string name="updates_view_changelog">×”×¦×’ ×™×•×ž×Ÿ ×©×™× ×•×™×™×</string>
   <string name="updates_download_now">×”×•×¨×“ ×›×¢×ª</string>
   <string name="updates_install_now">×”×ª×§×Ÿ ×›×¢×ª</string>
-  <string name="updates_downloading">×ž×•×¨×™×“?</string>
+  <string name="updates_downloading">מוריד…</string>
   <string name="updates_resume_download">×”×ž×©×š ×”×•×¨×“×”</string>
   <string name="updates_launch_check_title">×‘×“×•×§ ×¢×“×›×•× ×™× ×‘×”×¤×¢×œ×”</string>
   <string name="updates_launch_check_summary">×‘×“×•×§ ××•×˜×•×ž×˜×™×ª ××ª ×’×¨×¡×ª GitHub ×”××—×¨×•× ×” ×‘×›×œ ×¤×¢× ×©×¤×•×ª×—×™× ××ª HYDRV.</string>
   <string name="updates_launch_message_title">×”×¦×’ ×”×•×“×¢×ª ×¢×“×›×•×Ÿ ×‘×”×¤×¢×œ×”</string>
   <string name="updates_launch_message_summary">×”×¦×’ ×”×•×“×¢×” ×‘××¤×œ×™×§×¦×™×” ×›××©×¨ ×’×¨×¡×ª ×”×ž××’×¨ ×”××—×¨×•× ×” ×ž×©×ª× ×”.</string>
   <string name="updates_check_now">×‘×“×•×§ ×¢×“×›×•× ×™×</string>
-  <string name="updates_checking">×‘×•×“×§?</string>
+  <string name="updates_checking">בודק…</string>
   <string name="updates_changelog_title">×™×•×ž×Ÿ ×©×™× ×•×™×™× ×©×œ ×”×’×¨×¡×”</string>
   <string name="updates_changelog_body">HYDRV ×©×•×ž×¨×ª ×¢×œ ×™×•×ž×Ÿ ×”×©×™× ×•×™×™× ×‘××¤×œ×™×§×¦×™×” ×ž×¡×•× ×›×¨×Ÿ ×¢× ×”×¢×¨×•×ª ×”×’×¨×¡×” ×”××—×¨×•× ×•×ª ×‘-GitHub.</string>
-  <string name="updates_changelog_loading">×˜×•×¢×Ÿ ××ª ×”×¢×¨×•×ª ×”×’×¨×¡×” ×”××—×¨×•× ×•×ª ×ž-GitHub?</string>
+  <string name="updates_changelog_loading">טוען את הערות הגרסה האחרונות מ-GitHub…</string>
   <string name="updates_release_unavailable">×¢×“×™×™×Ÿ ×œ× × ×˜×¢× ×” ×’×¨×¡×”</string>
   <string name="updates_check_failed">×œ× × ×™×ª×Ÿ ×œ×‘×“×•×§ ×¢×“×›×•× ×™× ×›×¨×’×¢.</string>
   <string name="updates_check_live_with_version">×’×¨×¡×” ×—×“×©×” ×–×ž×™× ×”: %1$s %2$s.</string>
@@ -419,7 +418,7 @@
   <string name="about_contributors_dialog_title">×ª×•×¨×ž×™×</string>
   <string name="about_contributors_dialog_body">×”×ž×¡×š ×”×–×” ×ž×¦×™×’ ××ª ×¨×©×™×ž×ª ×”×ª×•×¨×ž×™× ×”×—×™×™× ×ž×ž××’×¨ HYDRV ×‘-GitHub.</string>
   <string name="contributors_group_summary">×ª×•×“×” ×©×¢×•×–×¨×™× ×œ-HYDRV ×œ×”×ž×©×™×š ×§×“×™×ž×”.</string>
-  <string name="contributors_loading">×˜×•×¢×Ÿ ×ª×•×¨×ž×™ GitHub?</string>
+  <string name="contributors_loading">טוען תורמי GitHub…</string>
   <string name="contributors_loaded">%1$d ×ª×•×¨×ž×™× × ×˜×¢× ×• ×ž-GitHub.</string>
   <string name="contributors_failed">×ª×•×¨×ž×™ GitHub ××™× × ×–×ž×™× ×™× ×›×¨×’×¢.</string>
   <plurals name="contributor_role_contributions">

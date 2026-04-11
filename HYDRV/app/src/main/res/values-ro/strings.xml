@@ -139,7 +139,7 @@
   <string name="download_via_title">DescarcÄƒ prin</string>
   <string name="download_via_summary">Alege doar Wi-Fi sau permite datele mobile</string>
   <string name="update_notifications_title">NotificÄƒri de actualizare</string>
-  <string name="update_notifications_summary">Prime?te notificari c?nd apar schimbari noi ?n aplica?ie</string>
+  <string name="update_notifications_summary">Primește notificări când apar schimbări noi în aplicație</string>
   <string name="home_sort_title">Sortare pe Home</string>
   <string name="home_sort_summary">Alege cum sunt ordonate aplicaÈ›iile pe Home</string>
   <string name="favorites_sort_title">Sortare favorite</string>
@@ -247,7 +247,7 @@
   <string name="permission_internet_title">Acces la internet</string>
   <string name="permission_internet_summary">Necesar pentru a prelua cataloagele, versiunile È™i actualizÄƒrile.</string>
   <string name="permission_install_title">Instalare aplicaÈ›ii necunoscute</string>
-  <string name="permission_install_summary">Necesar cï¿½nd vrei sa instalezi fi?ierele APK descarcate de HYDRV.</string>
+  <string name="permission_install_summary">Necesar când vrei să instalezi fișierele APK descărcate de HYDRV.</string>
   <string name="permission_notifications_title">NotificÄƒri</string>
   <string name="permission_notifications_summary">Permite HYDRV sÄƒ afiÈ™eze alertele de actualizare.</string>
   <string name="permission_connected">Conectat</string>
@@ -263,7 +263,7 @@
   <string name="skip_label">Omite</string>
   <string name="new_changes_available">Sunt disponibile actualizări noi în HYDRV.</string>
   <string name="notification_channel_name">ActualizÄƒri HYDRV</string>
-  <string name="notification_channel_description">Notificari atunci cï¿½nd sunt disponibile modificari noi ale aplica?iei.</string>
+  <string name="notification_channel_description">Notificări atunci când sunt disponibile modificări noi ale aplicației.</string>
   <string name="notification_title_updates_live">ActualizÄƒrile HYDRV sunt live</string>
   <string name="notification_text_updates_live">Sunt disponibile actualizări noi în HYDRV. Hai să vezi ce e nou.</string>
   <string name="notification_title_backend_update_format">[%1$s] actualizarea sursei este disponibilÄƒ</string>
@@ -380,7 +380,7 @@
   <string name="updates_launch_check_title">VerificÄƒ actualizÄƒrile la pornire</string>
   <string name="updates_launch_check_summary">Verifica automat cea mai recenta versiune GitHub de fiecare data cï¿½nd deschizi HYDRV.</string>
   <string name="updates_launch_message_title">AfiÈ™eazÄƒ mesajul de actualizare la pornire</string>
-  <string name="updates_launch_message_summary">Afi?eaza un mesaj ï¿½n aplica?ie cï¿½nd se schimba cea mai recenta versiune din repo.</string>
+  <string name="updates_launch_message_summary">Afișează un mesaj în aplicație când se schimbă cea mai recentă versiune din repo.</string>
   <string name="updates_check_now">VerificÄƒ actualizÄƒrile</string>
   <string name="updates_checking">Se verifică…</string>
   <string name="updates_changelog_title">Jurnalul modificÄƒrilor versiunii</string>
@@ -415,7 +415,7 @@
   <string name="about_link_placeholder">Acest link nu este disponibil acum.</string>
   <string name="about_issue_placeholder">Raportarea problemelor nu este disponibilÄƒ momentan.</string>
   <string name="about_issue_email_subject">Feedback HYDRV</string>
-  <string name="about_issue_email_body">Spune ce s-a ï¿½ntï¿½mplat, ce te a?teptai sa se ï¿½ntï¿½mple ?i orice pa?i care ajuta la reproducere.</string>
+  <string name="about_issue_email_body">Spune ce s-a întâmplat, ce te așteptai să se întâmple și orice pași care ajută la reproducere.</string>
   <string name="about_contributors_dialog_title">Colaboratori</string>
   <string name="about_contributors_dialog_body">Acest ecran afiÈ™eazÄƒ lista live a contributorilor din depozitul GitHub HYDRV.</string>
   <string name="contributors_group_summary">Mulțumim că ajuți HYDRV să meargă înainte.</string>

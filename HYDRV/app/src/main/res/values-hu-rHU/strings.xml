@@ -292,7 +292,7 @@
   <string name="rewarded_ad_required_message">A folytatáshoz egy jutalmazott hirdetés megtekintése szükséges.</string>
   <string name="backend_title">Háttérforrás</string>
   <string name="backend_summary">Változtasd meg az app katalógusának forrását</string>
-  <string name="backend_help_title">Mi az a backend?</string>
+  <string name="backend_help_title">Mire való a backend</string>
   <string name="backend_help_body">Ez szabályozza, honnan töltődnek be az alkalmazásadatok, a verziók és a backend-frissítések.</string>
   <string name="ads_support_title">Hirdetések támogatása</string>
   <string name="ads_support_summary">A hirdetések bekapcsolva hagyása segít támogatni a fejlesztést, a javításokat és az app karbantartását.</string>

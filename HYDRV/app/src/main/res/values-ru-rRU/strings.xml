@@ -292,7 +292,7 @@
   <string name="rewarded_ad_required_message">Watch the rewarded ad to start this download.</string>
   <string name="backend_title">Бэкенд</string>
   <string name="backend_summary">Добавьте и выберите источник для списка APK.</string>
-  <string name="backend_help_title">Что такое backend?</string>
+  <string name="backend_help_title">Для чего нужен backend</string>
   <string name="backend_help_body">Backend — это JSON-источник, который сообщает HYDRV, какие приложения показывать.</string>
   <string name="ads_support_title">Ads support</string>
   <string name="ads_support_summary">Keeping ads enabled helps support development, fixes, and the ongoing upkeep of the app.</string>

@@ -274,10 +274,10 @@
   <string name="language_japanese">Japonés</string>
   <string name="backend_health_cache_missing">Falta</string>
   <string name="version_downloaded_hint">APK ya descargado en este dispositivo</string>
-  <string name="language_native_spanish_region">castellano (Espaï¿½a)</string>
+  <string name="language_native_spanish_region">castellano (España)</string>
   <string name="notification_title_release_live_with_version">HYDRV versión %1$s</string>
   <string name="language_native_arabic_region">Árabe</string>
-  <string name="updates_changelog_loading">Cargando las notas de la última release de GitHub?</string>
+  <string name="updates_changelog_loading">Cargando las notas de la última release de GitHub…</string>
   <string name="language_french_region">Francés (Francia)</string>
   <string name="language_french">Francés</string>
   <string name="language_native_german_region">Alemán (Alemania)</string>
