@@ -130,6 +130,7 @@ object Downloader {
                 return isStale() ||
                     call.isCanceled() ||
                     item.status == "Paused" ||
+                    item.status == "Stopped" ||
                     (error is SocketException &&
                         error.message?.contains("socket closed", ignoreCase = true) == true)
             }
@@ -245,7 +246,7 @@ object Downloader {
                         "Response ready for ${item.name} ${item.versionName} token=$requestToken code=${response.code} partial=$isPartialResponse total=${item.totalBytes}"
                     )
 
-                    if (isStale() || call.isCanceled() || item.status == "Paused") {
+                    if (isStale() || call.isCanceled() || item.status == "Paused" || item.status == "Stopped") {
                         return
                     }
 
@@ -263,10 +264,13 @@ object Downloader {
                             var speedKb = 0f
                             var etaSeconds = 0L
 
+                            if (item.status == "Paused" || item.status == "Stopped") {
+                                return
+                            }
                             item.status = "Downloading"
 
                             while (input.read(buffer).also { bytes = it } != -1) {
-                                if (isStale() || call.isCanceled() || item.status == "Paused") {
+                                if (isStale() || call.isCanceled() || item.status == "Paused" || item.status == "Stopped") {
                                     return
                                 }
 
@@ -320,7 +324,7 @@ object Downloader {
                         }
                     }
 
-                    if (isStale() || call.isCanceled() || item.status == "Paused") {
+                    if (isStale() || call.isCanceled() || item.status == "Paused" || item.status == "Stopped") {
                         return
                     }
 
@@ -384,6 +388,7 @@ object Downloader {
                     return isStale() ||
                         call.isCanceled() ||
                         item.status == "Paused" ||
+                        item.status == "Stopped" ||
                         (error is SocketException &&
                             error.message?.contains("socket closed", ignoreCase = true) == true)
                 }

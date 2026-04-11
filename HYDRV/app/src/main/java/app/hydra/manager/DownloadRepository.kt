@@ -392,7 +392,7 @@ object DownloadRepository {
         etaSeconds: Long
     ) {
         synchronized(startLock) {
-            if (item.status == "Paused") return
+            if (item.status == "Paused" || item.status == "Stopped") return
 
             val previousProgress = item.progress
             val previousSpeed = item.speed
@@ -417,6 +417,14 @@ object DownloadRepository {
 
     fun markDone(context: Context, item: DownloadItem) {
         synchronized(startLock) {
+            if (item.status == "Stopped") {
+                AppDiagnostics.log(
+                    context,
+                    "DOWNLOAD",
+                    "Ignored done for stopped download ${item.name} ${item.versionName} token=${item.requestToken}"
+                )
+                return
+            }
             item.status = "Done"
             item.progress = 100
             item.errorMessage = ""
