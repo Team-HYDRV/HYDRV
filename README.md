@@ -27,16 +27,15 @@
     &middot;
     <a href="https://hydrv.app">Website</a>
     &middot;
-  &middot;
-  <a href="HYDRV/docs/backend-example.md">Backend guide</a>
+    <a href="HYDRV/docs/backend-example.md">Backend guide</a>
     &middot;
     <a href="HYDRV/docs/samples/catalogue.json">Sample catalogue</a>
-  &middot;
-  <a href="RELEASES.md">Release checklist</a>
-  &middot;
-  <a href="CHANGELOG.md">Changelog</a>
-  &middot;
-  <a href="HYDRV/docs/index.md">Docs</a>
+    &middot;
+    <a href="RELEASES.md">Release checklist</a>
+    &middot;
+    <a href="CHANGELOG.md">Changelog</a>
+    &middot;
+    <a href="HYDRV/docs/index.md">Docs</a>
 </p>
 
 ---
