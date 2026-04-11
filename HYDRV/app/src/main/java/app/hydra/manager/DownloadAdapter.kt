@@ -404,6 +404,8 @@ class DownloadAdapter(
                 holder.eta.visibility = View.GONE
 
                 holder.action.visibility = View.GONE
+                holder.delete.visibility = View.VISIBLE
+                holder.delete.text = context.getString(R.string.downloads_delete)
                 holder.delete.setOnClickListener {
                     if (!tryBeginControlAction(holder, itemKey)) return@setOnClickListener
                     val target = repositoryItem(item) ?: item
