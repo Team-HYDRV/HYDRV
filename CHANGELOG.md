@@ -16,6 +16,23 @@ All notable changes to HYDRV are recorded here.
 
 - Bug fixes continue to roll in with each release.
 
+## [1.0.8] - 2026-04-11
+
+### Added
+
+- Cleaner download state handling so active rows stay focused on pause and stop actions.
+- A small settings footer area that can be reused for lightweight status text.
+
+### Changed
+
+- The download row now separates active, stopped, and installed states more clearly.
+- The app version metadata now matches the next tagged release.
+
+### Fixed
+
+- Stopped downloads no longer leak stale install actions while they are still in progress.
+- Late download callbacks are ignored once a transfer has been stopped.
+
 ## [1.0.6] - 2026-04-06
 
 ### Added
