@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">Hidra</string>
   <string name="settings_title">सेटिंग्स</string>
@@ -129,7 +129,7 @@
   <string name="language_native_romanian_region">रोमानियाई (रोमानिया)</string>
   <string name="language_native_chinese_simplified_region">सरलीकृत चीनी (चीन)</string>
   <string name="language_native_chinese_traditional_region">पारंपरिक चीनी (ताइवान)</string>
-  <string name="language_native_hindi_region">हिन्दी (भारत)</string>
+  <string name="language_native_hindi_region">हिंदी भाषा</string>
   <string name="language_native_arabic_region">अरबी</string>
   <string name="language_native_russian_region">रूसी (रूस)</string>
   <string name="language_native_serbian_region">सर्बियाई (सर्बिया)</string>

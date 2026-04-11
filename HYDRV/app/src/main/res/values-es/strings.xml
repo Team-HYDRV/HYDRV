@@ -23,7 +23,7 @@
   <string name="language_summary">Elige el idioma de la aplicación</string>
   <string name="language_system_default">Predeterminado del sistema</string>
   <string name="language_english">Inglés</string>
-  <string name="language_filipino">Filipino</string>
+    <string name="language_filipino">filipino (Filipinas)</string>
   <string name="language_spanish">Español</string>
   <string name="language_indonesian">Indonesio</string>
   <string name="download_via_title">Descargar mediante</string>
@@ -272,7 +272,7 @@
   <string name="language_japanese">Japonés</string>
   <string name="backend_health_cache_missing">Falta</string>
   <string name="version_downloaded_hint">APK ya descargado en este dispositivo</string>
-  <string name="language_native_spanish_region">Español (España)</string>
+    <string name="language_native_spanish_region">castellano (España)</string>
   <string name="notification_title_release_live_with_version">HYDRV versión %1$s</string>
   <string name="language_native_arabic_region">Árabe</string>
   <string name="updates_changelog_loading">Cargando las notas de la última release de GitHub?</string>
@@ -287,7 +287,7 @@
   <string name="home_filter_recent">Recientes</string>
   <string name="updates_debug_cache_status_format">Caché: %1$s</string>
   <string name="updates_open_release">Abrir release</string>
-  <string name="language_hindi_region">Hindi (India)</string>
+    <string name="language_hindi_region">idioma hindi (India)</string>
   <string name="language_japanese_region">Japonés (Japón)</string>
   <string name="install_failed_blocked">Instalación bloqueada por la política del sistema</string>
   <string name="language_portuguese_brazil">Portugués (Brasil)</string>
@@ -312,7 +312,7 @@
   <string name="about_issue_placeholder">El reporte de incidencias no está disponible ahora mismo.</string>
   <string name="backend_health_last_notified_hash_format">Último hash notificado: %1$d</string>
   <string name="language_native_indonesian_region">Indonesio (Indonesia)</string>
-  <string name="language_hindi">Hindi</string>
+    <string name="language_hindi">idioma hindi</string>
   <string name="version_installed_newer_than_catalog_hint">La versión instalada podría ser más reciente que este catálogo</string>
   <string name="updates_debug_last_notified_release_format">Última release notificada: %1$s</string>
   <string name="backend_health_worker_status_title">Estado del worker</string>

@@ -121,8 +121,8 @@
   <string name="language_native_thai_region">Thai (Thailand)</string>
   <string name="language_native_polish_region">Polsk (Polen)</string>
   <string name="language_native_dutch_region">Hollandsk (Nederlandene)</string>
-  <string name="language_native_danish_region">Dansk (Danmark)</string>
-  <string name="language_native_norwegian_region">Norsk (Norge)</string>
+  <string name="language_native_danish_region">dansk sprog (Danmark)</string>
+  <string name="language_native_norwegian_region">norsk sprog (Norge)</string>
   <string name="language_native_malay_region">Malay (Malaysia)</string>
   <string name="language_native_ukrainian_region">Ukrainsk (Ukraine)</string>
   <string name="language_native_czech_region">Tjekkisk (Tjekkiet)</string>

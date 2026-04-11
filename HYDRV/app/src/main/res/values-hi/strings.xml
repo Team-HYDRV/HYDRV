@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">HYDRV</string>
   <string name="settings_title">सेटिंग्स</string>
@@ -129,7 +129,7 @@
   <string name="language_native_romanian_region">रोमानियाई (रोमानिया)</string>
   <string name="language_native_chinese_simplified_region">सरलीकृत चीनी (चीन)</string>
   <string name="language_native_chinese_traditional_region">पारंपरिक चीनी (ताइवान)</string>
-  <string name="language_native_hindi_region">हिन्दी (भारत)</string>
+  <string name="language_native_hindi_region">हिंदी (भारत)</string>
   <string name="language_native_arabic_region">अरबी</string>
   <string name="language_native_russian_region">रूसी (रूस)</string>
   <string name="language_native_serbian_region">सर्बियाई (सर्बिया)</string>
@@ -205,7 +205,7 @@
   <string name="sample_download_speed">औसत गति</string>
   <string name="download_status_downloading">डाउनलोड हो रहा है</string>
   <string name="download_status_done">पूरा</string>
-  <string name="download_progress_format">%1$d%% पूरा</string>
+  <string name="download_progress_format">प्रगति: %1$d%%</string>
   <string name="download_status_paused">रुका हुआ</string>
   <string name="download_status_failed">विफल</string>
   <string name="download_error_invalid_link">अमान्य डाउनलोड लिंक</string>

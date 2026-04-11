@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">HYDRV</string>
   <string name="settings_title">Ayarlar</string>
@@ -70,29 +70,29 @@
   <string name="language_japanese_region">Japonca (Japonya)</string>
   <string name="language_korean_region">Korece (Güney Kore)</string>
   <string name="language_native_system_default">Cihaz dilinizi kullanın</string>
-  <string name="language_native_english_region">English (United States)</string>
-  <string name="language_native_filipino_region">Filipino (Pilipinas)</string>
-  <string name="language_native_spanish_region">Español (España)</string>
-  <string name="language_native_indonesian_region">Bahasa Indonesia (Indonesia)</string>
-  <string name="language_native_french_region">Français (France)</string>
-  <string name="language_native_german_region">Deutsch (Deutschland)</string>
-  <string name="language_native_portuguese_brazil_region">Português (Brasil)</string>
-  <string name="language_native_italian_region">Italiano (Italia)</string>
-  <string name="language_native_turkish_region">Türkçe (Türkiye)</string>
-  <string name="language_native_vietnamese_region">Tiếng Việt (Việt Nam)</string>
-  <string name="language_native_thai_region">ไทย (ไทย)</string>
-  <string name="language_native_polish_region">Polski (Polska)</string>
-  <string name="language_native_dutch_region">Nederlands (Nederland)</string>
-  <string name="language_native_malay_region">Bahasa Melayu (Malaysia)</string>
-  <string name="language_native_ukrainian_region">Українська (Україна)</string>
-  <string name="language_native_czech_region">Čeština (Česko)</string>
-  <string name="language_native_romanian_region">Română (România)</string>
-  <string name="language_native_chinese_simplified_region">中文 (中国)</string>
-  <string name="language_native_hindi_region">हिन्दी (भारत)</string>
-  <string name="language_native_arabic_region">العربية</string>
-  <string name="language_native_russian_region">Русский (Россия)</string>
-  <string name="language_native_japanese_region">日本語 (日本)</string>
-  <string name="language_native_korean_region">한국어 (대한민국)</string>
+  <string name="language_native_english_region">İngilizce (ABD)</string>
+  <string name="language_native_filipino_region">Filipince (Filipinler)</string>
+  <string name="language_native_spanish_region">İspanyolca (İspanya)</string>
+  <string name="language_native_indonesian_region">Endonezce (Endonezya)</string>
+  <string name="language_native_french_region">Fransızca (Fransa)</string>
+  <string name="language_native_german_region">Almanca (Almanya)</string>
+  <string name="language_native_portuguese_brazil_region">Portekizce (Brezilya)</string>
+  <string name="language_native_italian_region">İtalyanca (İtalya)</string>
+  <string name="language_native_turkish_region">Türkiye Türkçesi (Türkiye)</string>
+  <string name="language_native_vietnamese_region">Vietnamca (Vietnam)</string>
+  <string name="language_native_thai_region">Tayca (Tayland)</string>
+  <string name="language_native_polish_region">Lehçe (Polonya)</string>
+  <string name="language_native_dutch_region">Felemenkçe (Hollanda)</string>
+  <string name="language_native_malay_region">Malayca (Malezya)</string>
+  <string name="language_native_ukrainian_region">Ukraynaca (Ukrayna)</string>
+  <string name="language_native_czech_region">Çekçe (Çekya)</string>
+  <string name="language_native_romanian_region">Rumence (Romanya)</string>
+  <string name="language_native_chinese_simplified_region">Basitleştirilmiş Çince (Çin)</string>
+  <string name="language_native_hindi_region">Hintçe (Hindistan)</string>
+  <string name="language_native_arabic_region">Arapça</string>
+  <string name="language_native_russian_region">Rusça (Rusya)</string>
+  <string name="language_native_japanese_region">Japonca (Japonya)</string>
+  <string name="language_native_korean_region">Korece (Güney Kore)</string>
   <string name="download_via_title">İndirme yöntemi</string>
   <string name="download_via_summary">Yalnızca Wi-Fi seçin veya mobil veriye izin verin</string>
   <string name="update_notifications_title">Güncelleme bildirimleri</string>
@@ -223,7 +223,7 @@
   <string name="notification_title_updates_live">Yeni değişiklikler yayında</string>
   <string name="notification_text_updates_live">HYDRV için yeni güncellemeler var. Yeniliklere bakın.</string>
   <string name="notification_title_release_live">Yeni sürüm yayında</string>
-  <string name="notification_title_release_live_with_version">HYDRV %1$s</string>
+  <string name="notification_title_release_live_with_version">HYDRV sürüm %1$s</string>
   <string name="notification_text_release_live">HYDRV için yeni bir sürüm var.</string>
   <string name="updates_open_release">Yayını aç</string>
   <string name="install_failed">Kurulum başarısız</string>
@@ -283,7 +283,7 @@
   <string name="device_info_title">Cihaz hakkında</string>
   <string name="device_info_version_format">Sürüm: %1$s (%2$d)</string>
   <string name="device_info_build_type_format">Derleme türü: %1$s</string>
-  <string name="device_info_model_format">Model: %1$s</string>
+  <string name="device_info_model_format">Cihaz modeli: %1$s</string>
   <string name="device_info_android_version_format">Android sürümü: %1$s (%2$d)</string>
   <string name="device_info_archs_format">Desteklenen mimariler: %1$s</string>
   <string name="device_info_memory_format">Bellek sınırı: %1$dMB (Normal) - %2$dMB (Büyük)</string>
@@ -380,3 +380,5 @@
     <item quantity="other">%d seçildi</item>
   </plurals>
 </resources>
+
+

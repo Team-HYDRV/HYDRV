@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">Hidra</string>
   <string name="settings_title">Ρυθμίσεις</string>
@@ -110,7 +110,7 @@
   <string name="language_native_indonesian_region">Ινδονησιακά (Ινδονησία)</string>
   <string name="language_native_french_region">Γαλλικά (Γαλλία)</string>
   <string name="language_native_german_region">Γερμανικά (Γερμανία)</string>
-  <string name="language_native_greek_region">Ελληνικά (Ελλάδα)</string>
+  <string name="language_native_greek_region">ελληνική γλώσσα</string>
   <string name="language_native_hebrew_region">Εβραϊκά (Ισραήλ)</string>
   <string name="language_native_hungarian_region">Ουγγρικά (Ουγγαρία)</string>
   <string name="language_native_portuguese_brazil_region">Πορτογαλικά (Βραζιλία)</string>

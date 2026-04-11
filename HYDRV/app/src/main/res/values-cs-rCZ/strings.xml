@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">HYDRV CZ</string>
   <string name="settings_title">Nastavení</string>
@@ -125,7 +125,7 @@
   <string name="language_native_norwegian_region">Norština (Norsko)</string>
   <string name="language_native_malay_region">Malajština (Malajsie)</string>
   <string name="language_native_ukrainian_region">Ukrajinština (Ukrajina)</string>
-  <string name="language_native_czech_region">Čeština (Česko)</string>
+  <string name="language_native_czech_region">Čeština - Česko</string>
   <string name="language_native_romanian_region">Rumunština (Rumunsko)</string>
   <string name="language_native_chinese_simplified_region">Zjednodušená čínština (Čína)</string>
   <string name="language_native_chinese_traditional_region">Tradiční čínština (Tchaj-wan)</string>
@@ -374,17 +374,17 @@
   <string name="updates_view_changelog">Zobrazit changelog</string>
   <string name="updates_download_now">Stáhnout</string>
   <string name="updates_install_now">Instalovat</string>
-  <string name="updates_downloading">Downloading…</string>
+  <string name="updates_downloading">Stahování…</string>
   <string name="updates_resume_download">Pokračovat</string>
   <string name="updates_launch_check_title">Při spuštění kontrolovat aktualizace</string>
   <string name="updates_launch_check_summary">Při každém otevření HYDRV automaticky zkontrolovat nejnovější vydání na GitHubu.</string>
   <string name="updates_launch_message_title">Při spuštění zobrazit zprávu o aktualizaci</string>
   <string name="updates_launch_message_summary">Zobrazit v aplikaci zprávu, když se změní nejnovější vydání repozitáře.</string>
   <string name="updates_check_now">Zkontrolovat aktualizace</string>
-  <string name="updates_checking">Checking…</string>
+  <string name="updates_checking">Kontrolování…</string>
   <string name="updates_changelog_title">Seznam změn vydání</string>
   <string name="updates_changelog_body">HYDRV udržuje interní seznam změn sladěný s nejnovějšími poznámkami k vydání na GitHubu.</string>
-  <string name="updates_changelog_loading">Loading the latest GitHub release notes…</string>
+  <string name="updates_changelog_loading">Načítání nejnovějších poznámek k vydání na GitHubu…</string>
   <string name="updates_release_unavailable">Zatím nebylo načteno žádné vydání</string>
   <string name="updates_check_failed">Aktualizace se nyní nepodařilo zkontrolovat.</string>
   <string name="updates_check_live_with_version">Nové vydání je dostupné: %1$s %2$s.</string>
@@ -418,7 +418,7 @@
   <string name="about_contributors_dialog_title">Přispěvatelé</string>
   <string name="about_contributors_dialog_body">Tato obrazovka zobrazuje živý seznam přispěvatelů z GitHub repozitáře HYDRV.</string>
   <string name="contributors_group_summary">Děkujeme, že pomáháte HYDRV posouvat dál.</string>
-  <string name="contributors_loading">Loading GitHub contributors…</string>
+  <string name="contributors_loading">Načítání přispěvatelů na GitHubu…</string>
   <string name="contributors_loaded">%1$d přispěvatelů načteno z GitHubu.</string>
   <string name="contributors_failed">GitHub přispěvatelé jsou dočasně nedostupní.</string>
   <plurals name="contributor_role_contributions">

@@ -78,7 +78,7 @@
   <string name="language_native_german_region">Almanca (Almanya)</string>
   <string name="language_native_portuguese_brazil_region">Portekizce (Brezilya)</string>
   <string name="language_native_italian_region">İtalyanca (İtalya)</string>
-  <string name="language_native_turkish_region">Türkçe (Türkiye)</string>
+    <string name="language_native_turkish_region">Türkçe dili (Türkiye)</string>
   <string name="language_native_vietnamese_region">Vietnamca (Vietnam)</string>
   <string name="language_native_thai_region">Tayca (Tayland)</string>
   <string name="language_native_polish_region">Lehçe (Polonya)</string>
@@ -283,7 +283,7 @@
   <string name="device_info_title">Cihaz hakkında</string>
   <string name="device_info_version_format">Sürüm: %1$s (%2$d)</string>
   <string name="device_info_build_type_format">Derleme türü: %1$s</string>
-  <string name="device_info_model_format">Model: %1$s</string>
+    <string name="device_info_model_format">Cihaz modeli: %1$s</string>
   <string name="device_info_android_version_format">Android sürümü: %1$s (%2$d)</string>
   <string name="device_info_archs_format">Desteklenen mimariler: %1$s</string>
   <string name="device_info_memory_format">Bellek sınırı: %1$dMB (Normal) - %2$dMB (Büyük)</string>

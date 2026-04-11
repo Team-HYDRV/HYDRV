@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">HYDRV</string>
   <string name="settings_title">설정</string>
@@ -135,7 +135,7 @@
   <string name="language_native_serbian_region">세르비아어 (세르비아)</string>
   <string name="language_native_swedish_region">스웨덴어 (스웨덴)</string>
   <string name="language_native_japanese_region">일본어 (일본)</string>
-  <string name="language_native_korean_region">한국어 (대한민국)</string>
+  <string name="language_native_korean_region">한국어 - 대한민국</string>
   <string name="download_via_title">다운로드 방법</string>
   <string name="download_via_summary">APK를 받는 방법을 선택하세요.</string>
   <string name="update_notifications_title">업데이트 알림</string>
@@ -375,7 +375,7 @@
   <string name="updates_view_changelog">변경 로그 보기</string>
   <string name="updates_download_now">지금 다운로드</string>
   <string name="updates_install_now">지금 설치</string>
-  <string name="updates_downloading">Downloading…</string>
+  <string name="updates_downloading">다운로드 중…</string>
   <string name="updates_resume_download">다운로드 다시 시작</string>
   <string name="updates_launch_check_title">시작 시 업데이트 확인</string>
   <string name="updates_launch_check_summary">앱 시작 시 업데이트를 확인합니다.</string>
@@ -385,7 +385,7 @@
   <string name="updates_checking">확인 중…</string>
   <string name="updates_changelog_title">변경 기록</string>
   <string name="updates_changelog_body">HYDRV shows the latest GitHub release notes here so the in-app changelog stays aligned with the repo release.</string>
-  <string name="updates_changelog_loading">Loading the latest GitHub release notes…</string>
+  <string name="updates_changelog_loading">GitHub 최신 릴리스 노트를 불러오는 중…</string>
   <string name="updates_release_unavailable">최신 릴리스는 일시적으로 사용할 수 없습니다</string>
   <string name="updates_check_failed">지금은 업데이트를 확인할 수 없습니다.</string>
   <string name="updates_check_live_with_version">%1$s 업데이트 확인</string>
@@ -396,7 +396,7 @@
   <string name="about_link_website">웹사이트</string>
   <string name="about_link_discord">디스코드</string>
   <string name="about_link_donate">후원</string>
-  <string name="about_link_github">GitHub</string>
+  <string name="about_link_github">GitHub 저장소</string>
   <string name="about_link_website_caption">공식 사이트 및 프로젝트 업데이트</string>
   <string name="about_link_discord_caption">커뮤니티 채팅과 공지</string>
   <string name="about_link_donate_caption">앱의 지속적인 운영을 지원합니다</string>

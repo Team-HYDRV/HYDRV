@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">HYDRV CZ</string>
   <string name="settings_title">Nastavení</string>
@@ -125,7 +125,7 @@
   <string name="language_native_norwegian_region">Norština (Norsko)</string>
   <string name="language_native_malay_region">Malajština (Malajsie)</string>
   <string name="language_native_ukrainian_region">Ukrajinština (Ukrajina)</string>
-  <string name="language_native_czech_region">Čeština (Česko)</string>
+  <string name="language_native_czech_region">český jazyk</string>
   <string name="language_native_romanian_region">Rumunština (Rumunsko)</string>
   <string name="language_native_chinese_simplified_region">Zjednodušená čínština (Čína)</string>
   <string name="language_native_chinese_traditional_region">Tradiční čínština (Tchaj-wan)</string>

@@ -161,7 +161,7 @@
   <string name="home_empty_no_apps">Keine Apps gefunden</string>
   <string name="started_date_format">Gestartet am %1$s</string>
   <string name="debug_section_title">Fehlerbehebung</string>
-  <string name="language_native_german_region">Deutsch (Deutschland)</string>
+  <string name="language_native_german_region">deutsche Sprache (Deutschland)</string>
   <string name="backend_health_last_checked_format">Zuletzt geprüft: %1$s</string>
   <string name="contributors_failed">GitHub-Mitwirkende sind vorübergehend nicht verfügbar.</string>
   <string name="permission_not_allowed">Nicht erlaubt</string>

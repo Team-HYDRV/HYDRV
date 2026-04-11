@@ -104,7 +104,7 @@
   <string name="language_korean_region">coreano</string>
   <string name="language_native_system_default">Usar o idioma do dispositivo</string>
   <string name="language_native_english_region">Inglês (Estados Unidos)</string>
-  <string name="language_native_filipino_region">Filipino (Pilipinas)</string>
+  <string name="language_native_filipino_region">Filipino - Filipinas</string>
   <string name="language_native_spanish_region">Espanhol (Espanha)</string>
   <string name="language_native_catalan_region">Catalão (Espanha)</string>
   <string name="language_native_indonesian_region">Indonésio (Indonésia)</string>
@@ -113,8 +113,8 @@
   <string name="language_native_greek_region">Grego (Grécia)</string>
   <string name="language_native_hebrew_region">Hebraico (Israel)</string>
   <string name="language_native_hungarian_region">Húngaro (Hungria)</string>
-  <string name="language_native_portuguese_brazil_region">Português (Brasil)</string>
-  <string name="language_native_portuguese_portugal_region">Português (Portugal)</string>
+  <string name="language_native_portuguese_brazil_region">Português - Brasil</string>
+  <string name="language_native_portuguese_portugal_region">Português - Portugal</string>
   <string name="language_native_italian_region">Italiano (Itália)</string>
   <string name="language_native_turkish_region">Turco (Turquia)</string>
   <string name="language_native_vietnamese_region">Vietnamita (Vietnã)</string>

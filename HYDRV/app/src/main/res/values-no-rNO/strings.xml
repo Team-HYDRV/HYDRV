@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">Hidra</string>
   <string name="settings_title">Innstillinger</string>
@@ -121,8 +121,8 @@
   <string name="language_native_thai_region">Thai (Thailand)</string>
   <string name="language_native_polish_region">Polsk (Polen)</string>
   <string name="language_native_dutch_region">Nederlandsk (Nederland)</string>
-  <string name="language_native_danish_region">Dansk (Danmark)</string>
-  <string name="language_native_norwegian_region">Norsk (Norge)</string>
+  <string name="language_native_danish_region">dansk språk (Danmark)</string>
+  <string name="language_native_norwegian_region">norsk språk (Norge)</string>
   <string name="language_native_malay_region">Malayisk (Malaysia)</string>
   <string name="language_native_ukrainian_region">Ukrainsk (Ukraina)</string>
   <string name="language_native_czech_region">Tsjekkisk (Tsjekkia)</string>

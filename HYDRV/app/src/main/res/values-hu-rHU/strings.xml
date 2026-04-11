@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">HYDRV-alkalmazás</string>
   <string name="settings_title">Beállítások</string>
@@ -112,7 +112,7 @@
   <string name="language_native_german_region">Német (Németország)</string>
   <string name="language_native_greek_region">Görög (Görögország)</string>
   <string name="language_native_hebrew_region">Héber (Izrael)</string>
-  <string name="language_native_hungarian_region">Magyar (Magyarország)</string>
+  <string name="language_native_hungarian_region">magyar nyelv (Magyarország)</string>
   <string name="language_native_portuguese_brazil_region">Portugál (Brazília)</string>
   <string name="language_native_portuguese_portugal_region">Portugál (Portugália)</string>
   <string name="language_native_italian_region">Olasz (Olaszország)</string>
@@ -313,7 +313,7 @@
   <string name="settings_backup_import_failed">Nem sikerült importálni a beállítások biztonsági mentését</string>
   <string name="backend_health_title">Backend állapota</string>
   <string name="backend_health_summary">Nézd meg a backend, a gyorsítótár, az értesítések és a frissítések állapotát</string>
-  <string name="backend_health_loading">Loading app status…</string>
+  <string name="backend_health_loading">Az alkalmazás állapotának betöltése…</string>
   <string name="backend_health_backend_mode_format">Forrásmód: %1$s</string>
   <string name="backend_health_last_checked_format">Utolsó ellenőrzés: %1$s</string>
   <string name="backend_health_last_seen_hash_format">Utolsó látott hash: %1$d</string>
@@ -374,17 +374,17 @@
   <string name="updates_view_changelog">Változásnapló megtekintése</string>
   <string name="updates_download_now">Letöltés most</string>
   <string name="updates_install_now">Telepítés most</string>
-  <string name="updates_downloading">Downloading…</string>
+  <string name="updates_downloading">Letöltés…</string>
   <string name="updates_resume_download">Letöltés folytatása</string>
   <string name="updates_launch_check_title">Frissítés ellenőrzése indításkor</string>
   <string name="updates_launch_check_summary">Automatikusan ellenőrzi a legfrissebb GitHub-kiadást, amikor megnyitod a HYDRV-t.</string>
   <string name="updates_launch_message_title">Frissítési üzenet megjelenítése indításkor</string>
   <string name="updates_launch_message_summary">In-app üzenetet jelenít meg, amikor a repo legfrissebb kiadása megváltozik.</string>
   <string name="updates_check_now">Ellenőrzés most</string>
-  <string name="updates_checking">Checking…</string>
+  <string name="updates_checking">Ellenőrzés…</string>
   <string name="updates_changelog_title">Kiadás változásnaplója</string>
   <string name="updates_changelog_body">Itt láthatók a legutóbbi GitHub kiadás megjegyzései.</string>
-  <string name="updates_changelog_loading">Loading the latest GitHub release notes…</string>
+  <string name="updates_changelog_loading">A legfrissebb GitHub kiadási megjegyzések betöltése…</string>
   <string name="updates_release_unavailable">A kiadás átmenetileg nem elérhető</string>
   <string name="updates_check_failed">Most nem sikerült ellenőrizni a frissítéseket.</string>
   <string name="updates_check_live_with_version">Új kiadás elérhető: %1$s %2$s.</string>
@@ -418,7 +418,7 @@
   <string name="about_contributors_dialog_title">Közreműködők</string>
   <string name="about_contributors_dialog_body">Ez a képernyő a HYDRV GitHub-tárházának élő közreműködői listáját mutatja.</string>
   <string name="contributors_group_summary">Köszönjük, hogy segítesz előrevinni a HYDRV-t.</string>
-  <string name="contributors_loading">Loading GitHub contributors…</string>
+  <string name="contributors_loading">GitHub közreműködők betöltése…</string>
   <string name="contributors_loaded">%1$d közreműködő betöltve a GitHubról.</string>
   <string name="contributors_failed">A közreműködők nem tölthetők be.</string>
   <plurals name="contributor_role_contributions">

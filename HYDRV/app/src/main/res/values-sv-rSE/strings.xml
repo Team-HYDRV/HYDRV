@@ -15,7 +15,7 @@
   <string name="app_icon_section_summary">Välj vilken startikon HYDRV ska använda.</string>
   <string name="app_icon_default_title">Standard</string>
   <string name="app_icon_default_summary">Använd HYDRV:s standardikonset.</string>
-  <string name="app_icon_hydra_title">Hydra</string>
+  <string name="app_icon_hydra_title">Hydra-ikon</string>
   <string name="app_icon_alternative_summary">Använd HYDRV:s alternativa ikonset.</string>
   <string name="app_icon_legacy_title">Klassisk</string>
   <string name="app_icon_legacy_summary">Använd HYDRV:s klassiska ikonset.</string>
@@ -133,7 +133,7 @@
   <string name="language_native_arabic_region">Arabiska</string>
   <string name="language_native_russian_region">Ryska (Ryssland)</string>
   <string name="language_native_serbian_region">Serbiska (Serbien)</string>
-  <string name="language_native_swedish_region">Svenska (Sverige)</string>
+    <string name="language_native_swedish_region">svenska i Sverige</string>
   <string name="language_native_japanese_region">Japanska (Japan)</string>
   <string name="language_native_korean_region">Koreanska (Sydkorea)</string>
   <string name="download_via_title">Ladda ner via</string>
@@ -313,7 +313,7 @@
   <string name="settings_backup_import_failed">Det gick inte att importera inställningsbackupen.</string>
   <string name="backend_health_title">Appstatus</string>
   <string name="backend_health_summary">Visa status för backend, cache, notifieringar och uppdateringar</string>
-  <string name="backend_health_loading">Loading app status…</string>
+  <string name="backend_health_loading">Läser in appstatus…</string>
   <string name="backend_health_backend_mode_format">Källläge: %1$s</string>
   <string name="backend_health_last_checked_format">Senast kontrollerad: %1$s</string>
   <string name="backend_health_last_seen_hash_format">Senast sedda hash: %1$d</string>
@@ -374,17 +374,17 @@
   <string name="updates_view_changelog">Visa ändringslogg</string>
   <string name="updates_download_now">Ladda ner</string>
   <string name="updates_install_now">Installera</string>
-  <string name="updates_downloading">Downloading…</string>
+  <string name="updates_downloading">Hämtar…</string>
   <string name="updates_resume_download">Fortsätt</string>
   <string name="updates_launch_check_title">Kontrollera uppdateringar vid start</string>
   <string name="updates_launch_check_summary">Kontrollera automatiskt den senaste GitHub-releasen varje gång du öppnar HYDRV.</string>
   <string name="updates_launch_message_title">Visa uppdateringsmeddelande vid start</string>
   <string name="updates_launch_message_summary">Visa ett meddelande i appen när den senaste repo-releasen ändras.</string>
   <string name="updates_check_now">Kontrollera uppdateringar</string>
-  <string name="updates_checking">Checking…</string>
+  <string name="updates_checking">Kontrollerar…</string>
   <string name="updates_changelog_title">Release-ändringslogg</string>
   <string name="updates_changelog_body">HYDRV håller den inbyggda ändringsloggen i takt med de senaste GitHub-release-anteckningarna.</string>
-  <string name="updates_changelog_loading">Loading the latest GitHub release notes…</string>
+  <string name="updates_changelog_loading">Läser in de senaste GitHub versionsanteckningarna…</string>
   <string name="updates_release_unavailable">Ingen release är laddad ännu</string>
   <string name="updates_check_failed">Det gick inte att kontrollera uppdateringar just nu.</string>
   <string name="updates_check_live_with_version">Ny release är live: %1$s %2$s.</string>
@@ -418,7 +418,7 @@
   <string name="about_contributors_dialog_title">Bidragsgivare</string>
   <string name="about_contributors_dialog_body">Den här skärmen visar den aktuella bidragsgivarlistan från HYDRV:s GitHub-repo.</string>
   <string name="contributors_group_summary">Tack för att du hjälper HYDRV att fortsätta framåt.</string>
-  <string name="contributors_loading">Loading GitHub contributors…</string>
+  <string name="contributors_loading">Läser in GitHub-bidragsgivare…</string>
   <string name="contributors_loaded">%1$d bidragsgivare laddade från GitHub.</string>
   <string name="contributors_failed">GitHub-bidragsgivare är tillfälligt otillgängliga.</string>
   <plurals name="contributor_role_contributions">
@@ -438,3 +438,4 @@
     <item quantity="other">%d selected</item>
   </plurals>
 </resources>
+
