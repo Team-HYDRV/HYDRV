@@ -6,19 +6,19 @@
 
 <p align="center">
   <a href="https://github.com/Team-HYDRV/HYDRV/actions/workflows/android-ci.yml">
-    <img src="https://github.com/Team-HYDRV/HYDRV/actions/workflows/android-ci.yml/badge.svg" alt="Android CI">
+    <img src="https://img.shields.io/github/actions/workflow/status/Team-HYDRV/HYDRV/android-ci.yml?branch=develop&style=for-the-badge&logo=githubactions&label=Android%20CI" alt="Android CI">
   </a>
   <a href="https://github.com/Team-HYDRV/HYDRV/releases/latest">
-    <img src="https://img.shields.io/badge/Latest%20release-GitHub-181717?style=flat-square&logo=github" alt="Latest release">
+    <img src="https://img.shields.io/github/v/release/Team-HYDRV/HYDRV?display_name=tag&style=for-the-badge&logo=github&label=Latest%20release" alt="Latest release">
   </a>
   <a href="https://hydrv.app">
-    <img src="https://img.shields.io/badge/Website-hydrv.app-111111?style=flat-square" alt="HYDRV website">
+    <img src="https://img.shields.io/badge/Website-hydrv.app-111111?style=for-the-badge&logo=googlechrome&logoColor=white" alt="HYDRV website">
   </a>
   <a href="https://translate.hydrv.app">
-    <img src="https://img.shields.io/badge/Translate-Crowdin-2c80fb?style=flat-square" alt="HYDRV Crowdin">
+    <img src="https://img.shields.io/badge/Translate-Crowdin-2c80fb?style=for-the-badge&logo=crowdin&logoColor=white" alt="HYDRV Crowdin">
   </a>
   <a href="https://ko-fi.com/xc3fff0e">
-    <img src="https://img.shields.io/badge/Support-Ko--fi-ff5f5f?style=flat-square" alt="Support on Ko-fi">
+    <img src="https://img.shields.io/badge/Support-Ko--fi-ff5f5f?style=for-the-badge&logo=ko-fi&logoColor=white" alt="Support on Ko-fi">
   </a>
 </p>
 
