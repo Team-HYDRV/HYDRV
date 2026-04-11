@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">HYDRV</string>
   <string name="settings_title">設置</string>
@@ -206,7 +206,8 @@
   <string name="download_status_downloading">下載中</string>
   <string name="download_status_done">完成</string>
   <string name="download_progress_format" translatable="false">進度：%1$d%%</string>
-  <string name="download_status_paused">已暫停</string>
+  <string name="download_status_paused">已暫停</string>  <string name="download_status_stopped">已停止</string>
+
   <string name="download_status_failed">失敗</string>
   <string name="download_error_invalid_link">需要直接的 APK 鏈接</string>
   <string name="download_error_network">網絡錯誤中斷了下載</string>

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">HYDRV</string>
   <string name="settings_title">Paramètres</string>
@@ -91,7 +91,8 @@
   <string name="backend_health_cache_ready_count">Prêt (%1$d applications)</string>
   <string name="download_action_resume">REPRENDRE</string>
   <string name="ads_support_title">Support via annonces</string>
-  <string name="download_status_paused">EN PAUSE</string>
+  <string name="download_status_paused">EN PAUSE</string>  <string name="download_status_stopped">ARRÊTÉ</string>
+
   <string name="about_description_body">HYDRV regroupe les versions des applications, les telechargements signes et les installations de paquets dans un endroit calme, pour que les mises a jour restent faciles a parcourir et simples a gerer.</string>
   <string name="language_portuguese_brazil_region">Portugais (Brésil)</string>
   <string name="permission_allowed">Autorisé</string>

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">HYDRV</string>
   <string name="settings_title">Setări</string>
@@ -205,7 +205,8 @@
   <string name="sample_download_speed">Viteză de descărcare: %1$s</string>
   <string name="download_status_downloading">SE DESCARCĂ</string>
   <string name="download_status_done">GATA</string>
-  <string name="download_status_paused">ÎN PAUZĂ</string>
+  <string name="download_status_paused">ÎN PAUZĂ</string>  <string name="download_status_stopped">OPRIT</string>
+
   <string name="download_status_failed">EȘUAT</string>
   <string name="download_error_invalid_link">Este necesar un link APK direct</string>
   <string name="download_error_network">Eroarea de rețea a întrerupt descărcarea</string>

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">HYDRV</string>
   <string name="settings_title">Cai dat</string>
@@ -205,7 +205,8 @@
   <string name="sample_download_speed">Tốc độ 0 KB/s</string>
   <string name="download_status_downloading">DANG TAI</string>
   <string name="download_status_done">HOAN TAT</string>
-  <string name="download_status_paused">Đã tạm dừng</string>
+  <string name="download_status_paused">Đã tạm dừng</string>  <string name="download_status_stopped">ĐÃ DỪNG</string>
+
   <string name="download_status_failed">THAT BAI</string>
   <string name="download_error_invalid_link">Cần liên kết APK trực tiếp</string>
   <string name="download_error_network">L?i m?ng d? l?m gi?n do?n qu? tr?nh t?i xu?ng</string>

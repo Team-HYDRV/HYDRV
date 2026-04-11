@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">HYDRV</string>
   <string name="settings_title">Ustawienia</string>
@@ -162,7 +162,8 @@
   <string name="sample_download_speed">Średnia prędkość</string>
   <string name="download_status_downloading">POBIERANIE</string>
   <string name="download_status_done">GOTOWE</string>
-  <string name="download_status_paused">Wstrzymano</string>
+  <string name="download_status_paused">Wstrzymano</string>  <string name="download_status_stopped">ZATRZYMANO</string>
+
   <string name="download_status_failed">BLAD</string>
   <string name="download_error_invalid_link">Nieprawidłowy link pobierania</string>
   <string name="download_error_network">Błąd sieci</string>

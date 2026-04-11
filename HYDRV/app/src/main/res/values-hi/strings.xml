@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">HYDRV</string>
   <string name="settings_title">सेटिंग्स</string>
@@ -206,7 +206,8 @@
   <string name="download_status_downloading">डाउनलोड हो रहा है</string>
   <string name="download_status_done">पूरा</string>
   <string name="download_progress_format">प्रगति: %1$d%%</string>
-  <string name="download_status_paused">रुका हुआ</string>
+  <string name="download_status_paused">रुका हुआ</string>  <string name="download_status_stopped">रुका हुआ</string>
+
   <string name="download_status_failed">विफल</string>
   <string name="download_error_invalid_link">अमान्य डाउनलोड लिंक</string>
   <string name="download_error_network">नेटवर्क त्रुटि</string>

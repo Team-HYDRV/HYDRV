@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">Hidra</string>
   <string name="settings_title">Innstillinger</string>
@@ -205,7 +205,8 @@
   <string name="sample_download_speed">12,3 MB/s</string>
   <string name="download_status_downloading">Laster ned</string>
   <string name="download_status_done">Ferdig</string>
-  <string name="download_status_paused">Satt på pause</string>
+  <string name="download_status_paused">Satt på pause</string>  <string name="download_status_stopped">STOPPET</string>
+
   <string name="download_status_failed">Mislyktes</string>
   <string name="download_error_invalid_link">Ugyldig nedlastingslenke</string>
   <string name="download_error_network">Nettverksfeil</string>

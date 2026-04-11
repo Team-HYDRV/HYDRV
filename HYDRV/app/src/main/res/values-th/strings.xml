@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">HYDRV</string>
   <string name="settings_title">à¸à¸²à¸£à¸•à¸±à¹‰à¸‡à¸„à¹ˆà¸²</string>
@@ -205,7 +205,8 @@
   <string name="sample_download_speed">à¸„à¸§à¸²à¸¡à¹€à¸£à¹‡à¸§ 0 KB/s</string>
   <string name="download_status_downloading">à¸à¸³à¸¥à¸±à¸‡à¸”à¸²à¸§à¸™à¹Œà¹‚à¸«à¸¥à¸”</string>
   <string name="download_status_done">à¹€à¸ªà¸£à¹‡à¸ˆà¸ªà¸´à¹‰à¸™</string>
-  <string name="download_status_paused">à¸«à¸¢à¸¸à¸”à¸Šà¸±à¹ˆà¸§à¸„à¸£à¸²à¸§</string>
+  <string name="download_status_paused">à¸«à¸¢à¸¸à¸”à¸Šà¸±à¹ˆà¸§à¸„à¸£à¸²à¸§</string>  <string name="download_status_stopped">หยุดแล้ว</string>
+
   <string name="download_status_failed">à¸¥à¹‰à¸¡à¹€à¸«à¸¥à¸§</string>
   <string name="download_error_invalid_link">à¸•à¹‰à¸­à¸‡à¹ƒà¸Šà¹‰à¸¥à¸´à¸‡à¸à¹Œ APK à¹‚à¸”à¸¢à¸•à¸£à¸‡</string>
   <string name="download_error_network">à¸‚à¹‰à¸­à¸œà¸´à¸”à¸žà¸¥à¸²à¸”à¹€à¸„à¸£à¸·à¸­à¸‚à¹ˆà¸²à¸¢à¸—à¸³à¹ƒà¸«à¹‰à¸à¸²à¸£à¸”à¸²à¸§à¸™à¹Œà¹‚à¸«à¸¥à¸”à¸«à¸¢à¸¸à¸”à¸¥à¸‡</string>

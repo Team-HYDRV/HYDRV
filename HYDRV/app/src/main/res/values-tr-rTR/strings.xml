@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">HYDRV</string>
   <string name="settings_title">Ayarlar</string>
@@ -162,7 +162,8 @@
   <string name="sample_download_speed">Hız 0 KB/s</string>
   <string name="download_status_downloading">INDIRILIYOR</string>
   <string name="download_status_done">TAMAMLANDI</string>
-  <string name="download_status_paused">DURAKLATILDI</string>
+  <string name="download_status_paused">DURAKLATILDI</string>  <string name="download_status_stopped">DURDURULDU</string>
+
   <string name="download_status_failed">BASARISIZ</string>
   <string name="download_error_invalid_link">Doğrudan APK bağlantısı gerekli</string>
   <string name="download_error_network">Ağ hatası indirmeyi durdurdu</string>

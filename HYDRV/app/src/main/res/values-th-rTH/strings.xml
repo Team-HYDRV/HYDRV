@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">HYDRV</string>
   <string name="settings_title">การตั้งค่า</string>
@@ -205,7 +205,8 @@
   <string name="sample_download_speed">ความเร็ว 0 KB/s</string>
   <string name="download_status_downloading">กำลังดาวน์โหลด</string>
   <string name="download_status_done">เสร็จสิ้น</string>
-  <string name="download_status_paused">หยุดชั่วคราว</string>
+  <string name="download_status_paused">หยุดชั่วคราว</string>  <string name="download_status_stopped">หยุดแล้ว</string>
+
   <string name="download_status_failed">ล้มเหลว</string>
   <string name="download_error_invalid_link">ต้องใช้ลิงก์ APK โดยตรง</string>
   <string name="download_error_network">ข้อผิดพลาดเครือข่ายทำให้การดาวน์โหลดหยุดลง</string>

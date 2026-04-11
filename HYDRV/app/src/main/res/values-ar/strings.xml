@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">هايدريف</string>
   <string name="settings_title">الإعدادات</string>
@@ -205,7 +205,8 @@
   <string name="sample_download_speed">السرعة 0 ك.ب/ث</string>
   <string name="download_status_downloading">جارٍ التنزيل</string>
   <string name="download_status_done">مكتمل</string>
-  <string name="download_status_paused">متوقف مؤقتًا</string>
+  <string name="download_status_paused">متوقف مؤقتًا</string>  <string name="download_status_stopped">متوقف</string>
+
   <string name="download_status_failed">فشل</string>
   <string name="download_error_invalid_link">مطلوب رابط APK مباشر</string>
   <string name="download_error_network">خطأ في الشبكة أوقف التنزيل</string>

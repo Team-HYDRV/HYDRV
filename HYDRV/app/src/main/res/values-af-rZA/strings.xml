@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">HYDRV-toep</string>
   <string name="settings_title">Instellings</string>
@@ -176,7 +176,8 @@
   <string name="download_status_downloading">AAN DIE AFLAAI</string>
   <string name="download_status_done">KLAAR</string>
   <string name="download_progress_format" translatable="false">%1$d%%</string>
-  <string name="download_status_paused">GEPAUSEER</string>
+  <string name="download_status_paused">GEPAUSEER</string>  <string name="download_status_stopped">GESTOP</string>
+
   <string name="download_status_failed">MISLUK</string>
   <string name="download_error_invalid_link">Regstreekse APK-skakel vereis</string>
   <string name="download_error_network">Netwerkfout het die aflaai onderbreek</string>
