@@ -205,6 +205,7 @@ class DownloadAdapter(
         holder.downloadedTime.text = formatDownloadTime(context, item)
         holder.action.isEnabled = !controlsCoolingDown && !pauseLocked
         holder.delete.isEnabled = !controlsCoolingDown
+        holder.action.visibility = View.VISIBLE
         holder.action.alpha = when {
             controlsCoolingDown -> 0.72f
             pauseLocked -> 0.62f
@@ -397,27 +398,12 @@ class DownloadAdapter(
                         R.color.accent
                     )
                 )
+                holder.progress.visibility = View.GONE
+                holder.percent.visibility = View.GONE
+                holder.speed.visibility = View.GONE
+                holder.eta.visibility = View.GONE
 
-                holder.action.text = context.getString(R.string.download_action_resume)
-                holder.delete.visibility = View.VISIBLE
-                holder.delete.text = context.getString(R.string.downloads_delete)
-
-                holder.action.setOnClickListener {
-                    if (!tryBeginControlAction(holder, itemKey)) return@setOnClickListener
-                    val target = repositoryItem(item) ?: item
-                    armPauseLockIfNeeded(itemKey, target)
-                    val result = DownloadRepository.resume(context, target)
-                    if (result != DownloadRepository.StartResult.STARTED) {
-                        pauseLockedProgress.remove(itemKey)
-                        pauseLockedUntil.remove(itemKey)
-                        Toast.makeText(
-                            context,
-                            DownloadRepository.startResultMessage(context, result)
-                                ?: DownloadNetworkPolicy.blockedMessage(context),
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
+                holder.action.visibility = View.GONE
                 holder.delete.setOnClickListener {
                     if (!tryBeginControlAction(holder, itemKey)) return@setOnClickListener
                     val target = repositoryItem(item) ?: item
