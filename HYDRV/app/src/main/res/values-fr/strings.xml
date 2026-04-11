@@ -88,7 +88,7 @@
   <string name="backend_health_ads_enabled_format">Publicités activées : %1$s</string>
   <string name="backend_dialog_title">Modifier le backend</string>
   <string name="about_link_website">Site web</string>
-  <string name="backend_health_cache_ready_count">Cache prêt : %1$d/%2$d</string>
+  <string name="backend_health_cache_ready_count">Prêt (%1$d applications)</string>
   <string name="download_action_resume">REPRENDRE</string>
   <string name="ads_support_title">Support via annonces</string>
   <string name="download_status_paused">EN PAUSE</string>
@@ -105,7 +105,7 @@
   <string name="download_status_failed">Échec</string>
   <string name="pure_black_summary_active">Le noir pur est maintenant actif</string>
   <string name="updates_launch_message_title">Afficher le message de mise à jour au lancement</string>
-  <string name="about_version_code_format">Code de version %s</string>
+  <string name="about_version_code_format">Code de version %1$s (%2$d)</string>
   <string name="version_source_prefix">Source : %1$s</string>
   <string name="language_native_hindi_region">hindi (Inde)</string>
   <string name="version_installed_hint">Installée sur cet appareil</string>
@@ -148,7 +148,7 @@
   <string name="sort_name_desc">Nom Z-A</string>
   <string name="about_contact_email">support@hydrv.app</string>
   <string name="about_contributors_dialog_body">Cet écran affiche la liste des contributeurs du projet HYDRV depuis GitHub.</string>
-  <string name="added_to_downloads_format">%1$s ajouté aux téléchargements</string>
+  <string name="added_to_downloads_format">%1$s %2$s ajouté aux téléchargements</string>
   <string name="notification_title_release_live_with_version">Nouvelle version publique %s</string>
   <string name="language_native_arabic_region">arabe</string>
   <string name="release_details_unavailable">Détails de la version indisponibles</string>
@@ -188,7 +188,7 @@
   <string name="language_japanese_region">Japonais (Japon)</string>
   <string name="install_failed_blocked">Installation bloquée par la politique du système</string>
   <string name="added_date_unavailable">Date d’ajout indisponible</string>
-  <string name="updates_summary_format">%s mises à jour</string>
+  <string name="updates_summary_format">v%1$s  -  %2$s</string>
   <string name="sort_downloads_dialog_title">Trier les téléchargements</string>
   <string name="version_sort_title">Tri des versions</string>
   <string name="language_arabic">Arabe</string>
@@ -198,12 +198,12 @@
   <string name="settings_section_lists">Listes</string>
   <string name="contributors_loading">Chargement des contributeurs GitHub…</string>
   <string name="debug_export_logs_title">Exporter le rapport de diagnostic</string>
-  <string name="device_info_version_format">Version %s</string>
+  <string name="device_info_version_format">Version : %1$s (%2$d)</string>
   <string name="installed_sort_summary">Choisissez l’ordre des applications installées</string>
   <string name="backend_health_title">État du backend</string>
   <string name="download_error_http_format">Le serveur a renvoyé HTTP %1$d</string>
   <string name="language_native_system_default">Utiliser la langue de votre appareil</string>
-  <string name="app_details_version_title">Version de l’application</string>
+  <string name="app_details_version_title">Version %1$s</string>
   <string name="home_updated_just_now">Mis à jour à l’instant</string>
   <string name="settings_section_appearance">Apparence</string>
   <string name="device_info_unknown">Inconnu</string>
@@ -302,7 +302,7 @@
   <string name="settings_backup_export_done">Sauvegarde des paramètres exportée.</string>
   <string name="about_issue_email_body">Décrivez ce qui s’est passé, ce que vous attendiez et les étapes utiles pour reproduire le problème.</string>
   <string name="backend_dialog_message">Collez un point de terminaison JSON direct, pas un lien de page web normal. Si vous le laissez vide, le backend intégré sera utilisé.</string>
-  <string name="versions_summary_format">%s versions</string>
+  <string name="versions_summary_format">%1$d versions - %2$s</string>
   <string name="updates_install_now">Installer maintenant</string>
   <string name="settings_backup_import_done">Sauvegarde des paramètres restaurée.</string>
   <string name="download_label">Téléchargement</string>

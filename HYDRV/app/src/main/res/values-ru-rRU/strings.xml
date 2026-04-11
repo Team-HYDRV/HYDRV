@@ -316,8 +316,8 @@
   <string name="backend_health_loading">Загрузка состояния приложения…</string>
   <string name="backend_health_backend_mode_format">Режим источника: %1$s</string>
   <string name="backend_health_last_checked_format">Последняя проверка: %1$s</string>
-  <string name="backend_health_last_seen_hash_format">Последний увиденный хэш: %1$s</string>
-  <string name="backend_health_last_notified_hash_format">Последний уведомлённый хэш: %1$s</string>
+  <string name="backend_health_last_seen_hash_format">Последний увиденный хэш: %1$d</string>
+  <string name="backend_health_last_notified_hash_format">Последний уведомлённый хэш: %1$d</string>
   <string name="backend_health_cache_format">Кэш: %1$s</string>
   <string name="backend_health_notifications_format">Уведомления: %1$s</string>
   <string name="backend_health_ads_enabled_format">Реклама: %1$s</string>
@@ -358,7 +358,7 @@
   <string name="backend_validating_message">Проверка источника…</string>
   <string name="backend_invalid_message">Этот источник недействителен.</string>
   <string name="backend_set_active_failed">Не удалось сделать активным</string>
-  <string name="backend_set_active_failed_detail">Произошла ошибка при активации источника.</string>
+  <string name="backend_set_active_failed_detail">Сейчас этот backend не работает: %1$s</string>
   <string name="backend_saved_message">Backend сохранён</string>
   <string name="backend_reset_message">Backend сброшен</string>
   <string name="save_label">Сохранить</string>
@@ -366,11 +366,11 @@
   <string name="app_details_latest_version">Последняя версия: %1$s</string>
   <string name="app_details_latest_unavailable">Последняя версия временно недоступна</string>
   <string name="app_details_versions_title">Версии</string>
-  <string name="app_details_version_title">Сведения о версии</string>
+  <string name="app_details_version_title">Версия %1$s</string>
   <string name="app_details_download">Скачать</string>
   <string name="app_details_done">Готово</string>
   <string name="app_details_missing_versions">Нет доступных версий.</string>
-  <string name="updates_summary_format">Обновление: %1$s</string>
+  <string name="updates_summary_format">v%1$s  -  %2$s</string>
   <string name="updates_view_changelog">Показать список изменений</string>
   <string name="updates_download_now">Скачать сейчас</string>
   <string name="updates_install_now">Установить сейчас</string>
@@ -419,7 +419,7 @@
   <string name="about_contributors_dialog_body">Список людей, которые помогают улучшать HYDRV.</string>
   <string name="contributors_group_summary">Спасибо за помощь в развитии HYDRV.</string>
   <string name="contributors_loading">Загрузка участников…</string>
-  <string name="contributors_loaded">Участники загружены</string>
+  <string name="contributors_loaded">Загружено %1$d участников из GitHub.</string>
   <string name="contributors_failed">Не удалось загрузить участников</string>
   <string name="about_licenses_dialog_title">Лицензии</string>
   <string name="about_licenses_dialog_body">Используемые библиотеки:\nOkHttp 4.12.0\nRetrofit 2.9.0\nGson Converter 2.9.0\nPicasso 2.8\nWorkManager 2.9.1\nRecyclerView 1.3.2\nSwipeRefreshLayout 1.1.0\nFacebook Shimmer 0.5.0\nGoogle Mobile Ads 25.1.0\nMaterial Components\nAndroidX Core KTX\nAppCompat</string>

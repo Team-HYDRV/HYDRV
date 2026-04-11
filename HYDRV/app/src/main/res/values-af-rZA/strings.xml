@@ -175,7 +175,7 @@
   <string name="sample_download_speed">Spoed 0 KB/s</string>
   <string name="download_status_downloading">AAN DIE AFLAAI</string>
   <string name="download_status_done">KLAAR</string>
-  <string name="download_progress_format" translatable="false">%1$d% </string>
+  <string name="download_progress_format" translatable="false">%1$d%%</string>
   <string name="download_status_paused">GEPAUSEER</string>
   <string name="download_status_failed">MISLUK</string>
   <string name="download_error_invalid_link">Regstreekse APK-skakel vereis</string>

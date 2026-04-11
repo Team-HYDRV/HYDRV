@@ -223,7 +223,7 @@
   <string name="download_paused_percent_format">În pauză %1$d%%</string>
   <string name="download_label">Descarcă</string>
   <string name="available_versions">Versiuni disponibile</string>
-  <string name="versions_summary_format">%1$d versiuni</string>
+  <string name="versions_summary_format">%1$d versiuni - %2$s</string>
   <string name="latest">Ultima</string>
   <string name="release_details_unavailable">Detaliile release-ului sunt temporar indisponibile</string>
   <string name="added_date_unavailable">Data adăugării nu este disponibilă</string>
@@ -316,7 +316,7 @@
   <string name="backend_health_loading">Se încarcă starea aplicației…</string>
   <string name="backend_health_backend_mode_format">Mod sursă: %1$s</string>
   <string name="backend_health_last_checked_format">Ultima verificare: %1$s</string>
-  <string name="backend_health_last_seen_hash_format">Ultimul hash văzut: %1$s</string>
+  <string name="backend_health_last_seen_hash_format">Ultimul hash văzut: %1$d</string>
   <string name="backend_health_last_notified_hash_format">Ultimul hash notificat: %1$d</string>
   <string name="backend_health_cache_format">Cache local: %1$s</string>
   <string name="backend_health_notifications_format">Notificări: %1$s</string>
@@ -332,7 +332,7 @@
   <string name="device_info_model_format">Model dispozitiv: %1$s</string>
   <string name="device_info_android_version_format">Versiune Android: %1$s (%2$d)</string>
   <string name="device_info_archs_format">Arhitecturi acceptate: %1$s</string>
-  <string name="device_info_memory_format">Memorie: %1$s</string>
+  <string name="device_info_memory_format">Memorie: %1$dMB (Normal) - %2$dMB (Mare)</string>
   <string name="device_info_unknown">Necunoscut</string>
   <string name="debug_report_title">Raport de depanare</string>
   <string name="debug_recent_diagnostics">Diagnosticare recentă</string>
@@ -358,19 +358,19 @@
   <string name="backend_validating_message">Se verifică linkul backend-ului...</string>
   <string name="backend_invalid_message">Acest link nu pare a fi un endpoint JSON valid.</string>
   <string name="backend_set_active_failed">Nu s-a putut seta sursa activă</string>
-  <string name="backend_set_active_failed_detail">Verifică dacă sursa este validă și disponibilă.</string>
+  <string name="backend_set_active_failed_detail">Această sursă nu funcționează acum: %1$s</string>
   <string name="backend_saved_message">Sursa a fost salvată</string>
   <string name="backend_reset_message">Sursa a fost resetată</string>
   <string name="save_label">Salvează</string>
   <string name="reset_label">Resetează</string>
-  <string name="app_details_latest_version">Ultima versiune</string>
+  <string name="app_details_latest_version">Ultima versiune: %1$s</string>
   <string name="app_details_latest_unavailable">Ultima versiune nu este disponibilă</string>
   <string name="app_details_versions_title">Versiuni</string>
   <string name="app_details_version_title">Versiunea %1$s</string>
   <string name="app_details_download">Descarcă</string>
   <string name="app_details_done">Gata</string>
   <string name="app_details_missing_versions">Nu sunt disponibile încă versiuni pentru această aplicație.</string>
-  <string name="updates_summary_format">Afișează starea curentă a versiunii și a actualizărilor.</string>
+  <string name="updates_summary_format">v%1$s  -  %2$s</string>
   <string name="updates_view_changelog">Vezi jurnalul modificărilor</string>
   <string name="updates_download_now">Descarcă acum</string>
   <string name="updates_install_now">Instalează acum</string>
@@ -425,7 +425,8 @@
   <string name="about_licenses_dialog_body">Instrumente și componente open source folosite de HYDRV:\nOkHttp 4.12.0\nRetrofit 2.9.0\nGson Converter 2.9.0\nPicasso 2.8\nWorkManager 2.9.1\nRecyclerView 1.3.2\nSwipeRefreshLayout 1.1.0\nFacebook Shimmer 0.5.0\nGoogle Mobile Ads 25.1.0\nMaterial Components\nAndroidX Core KTX\nAppCompat</string>
   <string name="about_dialog_close">Închide</string>
   <string name="back_label">Înapoi</string>
-  <string name="download_progress_format">Progres: %1$d%%</string>
+  <string name="download_progress_format">%1$d%%</string>
   <string name="favorite_toggle_add">Adaugă la favorite</string>
   <string name="favorite_toggle_remove">Elimină din favorite</string>
 </resources>
+

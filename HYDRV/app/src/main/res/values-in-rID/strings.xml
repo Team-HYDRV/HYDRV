@@ -232,7 +232,7 @@
   <string name="version_share_notes">Bagikan catatan perubahan</string>
   <string name="version_notes_copied">Catatan perubahan disalin</string>
   <string name="version_source_unknown">Sumber tidak dikenal</string>
-  <string name="version_source_prefix">Sumber versi:</string>
+  <string name="version_source_prefix">Sumber versi: %1$s</string>
   <string name="version_installed_hint">Pasanged on this device</string>
   <string name="version_new_since_installed">Lebih baru dari yang terpasang</string>
   <string name="version_installed_unknown_catalog_hint">Pasanged version differs from this catalog</string>

@@ -223,7 +223,7 @@
   <string name="download_paused_percent_format">Szünetelve %1$d%%</string>
   <string name="download_label">Letöltés</string>
   <string name="available_versions">Elérhető verziók</string>
-  <string name="versions_summary_format">%1$d verzió</string>
+  <string name="versions_summary_format">%1$d verzió - %2$s</string>
   <string name="latest">Legújabb</string>
   <string name="release_details_unavailable">A kiadás részletei nem érhetők el</string>
   <string name="added_date_unavailable">Hozzáadási dátum nem elérhető</string>
@@ -332,7 +332,7 @@
   <string name="device_info_model_format">Modell: %1$s</string>
   <string name="device_info_android_version_format">Android-verzió: %1$s (%2$d)</string>
   <string name="device_info_archs_format">Támogatott architektúrák: %1$s</string>
-  <string name="device_info_memory_format">Memória: %1$s</string>
+  <string name="device_info_memory_format">Memória: %1$dMB (Normál) - %2$dMB (Nagy)</string>
   <string name="device_info_unknown">Ismeretlen</string>
   <string name="debug_report_title">Diagnosztikai jelentés</string>
   <string name="debug_recent_diagnostics">Legutóbbi diagnosztika</string>

@@ -184,12 +184,12 @@
   <string name="latest">Najnowsze</string>
   <string name="release_details_unavailable">Szczegóły wydania są tymczasowo niedostępne</string>
   <string name="added_date_unavailable">Data dodania niedostępna</string>
-  <string name="added_to_downloads_format">Dodano do pobrań: %1$s</string>
+  <string name="added_to_downloads_format">Dodano do pobrań: %1$s %2$s</string>
   <string name="version_copy_notes">Skopiuj notatki</string>
   <string name="version_share_notes">Udostępnij notatki</string>
   <string name="version_notes_copied">Notatki wydania skopiowane.</string>
   <string name="version_source_unknown">Źródło niedostępne</string>
-  <string name="version_source_prefix">Źródło wersji:</string>
+  <string name="version_source_prefix">Źródło wersji: %1$s</string>
   <string name="version_installed_hint">Zainstalowano na tym urządzeniu</string>
   <string name="version_new_since_installed">Nowe od twojej zainstalowanej wersji</string>
   <string name="version_installed_unknown_catalog_hint">Zainstalowana wersja różni się od tej w katalogu</string>
@@ -312,7 +312,7 @@
   <string name="app_details_download">Pobierz</string>
   <string name="app_details_done">Gotowe</string>
   <string name="app_details_missing_versions">Brak jeszcze wersji dla tej aplikacji.</string>
-  <string name="updates_summary_format">Aktualizacja: %1$s</string>
+  <string name="updates_summary_format">v%1$s  -  %2$s</string>
   <string name="updates_view_changelog">Zobacz dziennik zmian</string>
   <string name="updates_download_now">Pobierz teraz</string>
   <string name="updates_install_now">Zainstaluj teraz</string>
