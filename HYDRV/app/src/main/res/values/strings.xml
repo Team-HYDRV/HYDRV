@@ -206,6 +206,7 @@
   <string name="download_status_done">DONE</string>
   <string name="download_progress_format" translatable="false">%1$d%%</string>
   <string name="download_status_paused">PAUSED</string>
+  <string name="download_status_stopped">STOPPED</string>
   <string name="download_status_failed">FAILED</string>
   <string name="download_error_invalid_link">Direct APK link required</string>
   <string name="download_error_network">Network error interrupted the download</string>

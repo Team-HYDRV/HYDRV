@@ -314,7 +314,20 @@ object DownloadRepository {
     }
 
     fun stop(context: Context, item: DownloadItem) {
-        delete(context, item)
+        synchronized(startLock) {
+            item.requestToken = System.currentTimeMillis()
+            item.status = "Stopped"
+            item.speed = 0f
+            item.eta = 0
+            AppDiagnostics.log(
+                context,
+                "DOWNLOAD",
+                "Stop requested for ${item.name} ${item.versionName} token=${item.requestToken} progress=${item.progress}"
+            )
+            Downloader.cancel(item)
+            scheduleSave(context)
+            notifyChange()
+        }
     }
 
     fun deleteMany(context: Context, items: Collection<DownloadItem>) {

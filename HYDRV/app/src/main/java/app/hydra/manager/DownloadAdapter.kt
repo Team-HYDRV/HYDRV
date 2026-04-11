@@ -383,6 +383,48 @@ class DownloadAdapter(
 
                     val pos = holder.bindingAdapterPosition
                     if (pos != RecyclerView.NO_POSITION) {
+                        notifyItemChanged(pos)
+                    }
+                }
+            }
+
+            "Stopped" -> {
+                holder.status.text = context.getString(R.string.download_status_stopped)
+                holder.status.setTextColor(
+                    ThemeColors.color(
+                        context,
+                        com.google.android.material.R.attr.colorOnSurfaceVariant,
+                        R.color.accent
+                    )
+                )
+
+                holder.action.text = context.getString(R.string.download_action_resume)
+                holder.delete.visibility = View.VISIBLE
+                holder.delete.text = context.getString(R.string.downloads_delete)
+
+                holder.action.setOnClickListener {
+                    if (!tryBeginControlAction(holder, itemKey)) return@setOnClickListener
+                    val target = repositoryItem(item) ?: item
+                    armPauseLockIfNeeded(itemKey, target)
+                    val result = DownloadRepository.resume(context, target)
+                    if (result != DownloadRepository.StartResult.STARTED) {
+                        pauseLockedProgress.remove(itemKey)
+                        pauseLockedUntil.remove(itemKey)
+                        Toast.makeText(
+                            context,
+                            DownloadRepository.startResultMessage(context, result)
+                                ?: DownloadNetworkPolicy.blockedMessage(context),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+                holder.delete.setOnClickListener {
+                    if (!tryBeginControlAction(holder, itemKey)) return@setOnClickListener
+                    val target = repositoryItem(item) ?: item
+                    DownloadRepository.delete(context, target)
+
+                    val pos = holder.bindingAdapterPosition
+                    if (pos != RecyclerView.NO_POSITION) {
                         list.removeAt(pos)
                         notifyItemRemoved(pos)
                     }
