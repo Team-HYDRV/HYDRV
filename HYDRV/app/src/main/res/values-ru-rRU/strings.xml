@@ -205,8 +205,8 @@
   <string name="sample_download_speed">Скорость 0 КБ/с</string>
   <string name="download_status_downloading">ЗАГРУЗКА</string>
   <string name="download_status_done">ГОТОВО</string>
-  <string name="download_status_paused">ПРИОСТАНОВЛЕНО</string>  <string name="download_status_stopped">ОСТАНОВЛЕНО</string>
-
+  <string name="download_status_paused">ПРИОСТАНОВЛЕНО</string>
+  <string name="download_status_stopped">ОСТАНОВЛЕНО</string>
   <string name="download_status_failed">ОШИБКА</string>
   <string name="download_error_invalid_link">Требуется прямая ссылка на APK</string>
   <string name="download_error_network">Сетевая ошибка прервала загрузку</string>
@@ -427,6 +427,3 @@
   <string name="about_dialog_close">Закрыть</string>
   <string name="back_label">Назад</string>
 </resources>
-
-
-

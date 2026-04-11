@@ -205,8 +205,8 @@
   <string name="sample_download_speed">12.3 MB/s</string>
   <string name="download_status_downloading">Sedang memuat turun</string>
   <string name="download_status_done">Selesai</string>
-  <string name="download_status_paused">Dijeda</string>  <string name="download_status_stopped">DIHENTIKAN</string>
-
+  <string name="download_status_paused">Dijeda</string>
+  <string name="download_status_stopped">DIHENTIKAN</string>
   <string name="download_status_failed">Gagal</string>
   <string name="download_error_invalid_link">Pautan tidak sah</string>
   <string name="download_error_network">Ralat rangkaian</string>
@@ -221,7 +221,7 @@
   <string name="download_action_apk">Muat turun Fail pakej</string>
   <string name="download_speed_format">%1$s/s</string>
   <string name="download_eta_format">Baki %1$s</string>
-  <string name="download_paused_percent_format">Dijeda (%1$d％)</string>
+  <string name="download_paused_percent_format">Dijeda (%1$dï¼…)</string>
   <string name="download_label">Muat turun</string>
   <string name="available_versions">Versi tersedia</string>
   <string name="versions_summary_format">%1$d versi - %2$s</string>

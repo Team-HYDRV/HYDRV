@@ -91,8 +91,8 @@
   <string name="backend_health_cache_ready_count">Bereit (%1$d Apps)</string>
   <string name="download_action_resume">FORTSETZEN</string>
   <string name="ads_support_title">Anzeigen-Unterstützung</string>
-  <string name="download_status_paused">PAUSIERT</string>  <string name="download_status_stopped">ANGEHALTEN</string>
-
+  <string name="download_status_paused">PAUSIERT</string>
+  <string name="download_status_stopped">ANGEHALTEN</string>
   <string name="about_description_body">HYDRV haelt App-Releases, signierte Downloads und Paketinstallationen an einem ruhigen Ort zusammen, damit sich Updates leicht durchsuchen und einfach verwalten lassen.</string>
   <string name="language_portuguese_brazil_region">Portugiesisch - Brasilien</string>
   <string name="permission_allowed">Erlaubt</string>

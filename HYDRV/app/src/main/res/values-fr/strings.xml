@@ -91,8 +91,8 @@
   <string name="backend_health_cache_ready_count">Prêt (%1$d applications)</string>
   <string name="download_action_resume">REPRENDRE</string>
   <string name="ads_support_title">Support via annonces</string>
-  <string name="download_status_paused">EN PAUSE</string>  <string name="download_status_stopped">ARRÊTÉ</string>
-
+  <string name="download_status_paused">EN PAUSE</string>
+  <string name="download_status_stopped">ARRÊTÉ</string>
   <string name="about_description_body">HYDRV regroupe les versions des applications, les telechargements signes et les installations de paquets dans un endroit calme, pour que les mises a jour restent faciles a parcourir et simples a gerer.</string>
   <string name="language_portuguese_brazil_region">Portugais (Brésil)</string>
   <string name="permission_allowed">Autorisé</string>
@@ -222,7 +222,7 @@
   <string name="notification_title_release_live">Nouvelle version disponible</string>
   <string name="settings_backup_import_title">Importer une sauvegarde</string>
   <string name="about_link_discord">Discord communautaire</string>
-    <string name="language_native_french_region">français de France</string>
+  <string name="language_native_french_region">français de France</string>
   <string name="updates_never_checked">Jamais vérifié</string>
   <string name="update_notifications_title">Notifications de mise à jour</string>
   <string name="home_empty_no_installed">Aucune application installée</string>

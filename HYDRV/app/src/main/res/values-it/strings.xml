@@ -206,8 +206,8 @@
   <string name="download_status_downloading">SCARICAMENTO</string>
   <string name="download_status_done">FATTO</string>
   <string name="download_progress_format" translatable="false">Avanzamento: %1$d%%</string>
-  <string name="download_status_paused">IN PAUSA</string>  <string name="download_status_stopped">INTERROTTO</string>
-
+  <string name="download_status_paused">IN PAUSA</string>
+  <string name="download_status_stopped">INTERROTTO</string>
   <string name="download_status_failed">FALLITO</string>
   <string name="download_error_invalid_link">Serve un link APK diretto</string>
   <string name="download_error_network">Errore di rete durante il download</string>

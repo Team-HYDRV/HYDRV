@@ -205,8 +205,8 @@
   <string name="sample_download_speed">Bilis 0 KB/s</string>
   <string name="download_status_downloading">DINADA-DOWNLOAD</string>
   <string name="download_status_done">TAPOS</string>
-  <string name="download_status_paused">NAKA-PAUSE</string>  <string name="download_status_stopped">HININTO</string>
-
+  <string name="download_status_paused">NAKA-PAUSE</string>
+  <string name="download_status_stopped">HININTO</string>
   <string name="download_status_failed">BIGO</string>
   <string name="download_error_invalid_link">Kailangan ng direktang APK link</string>
   <string name="download_error_network">Naputol ng error sa network ang pag-download</string>

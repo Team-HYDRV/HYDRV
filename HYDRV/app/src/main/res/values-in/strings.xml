@@ -206,8 +206,8 @@
   <string name="download_status_downloading">MENGUNDUH</string>
   <string name="download_status_done">SELESAI</string>
   <string name="download_progress_format">%1$d%% selesai</string>
-  <string name="download_status_paused">DIJEDA</string>  <string name="download_status_stopped">DIHENTIKAN</string>
-
+  <string name="download_status_paused">DIJEDA</string>
+  <string name="download_status_stopped">DIHENTIKAN</string>
   <string name="download_status_failed">GAGAL</string>
   <string name="download_error_invalid_link">Diperlukan tautan APK langsung</string>
   <string name="download_error_network">Error jaringan menghentikan unduhan</string>

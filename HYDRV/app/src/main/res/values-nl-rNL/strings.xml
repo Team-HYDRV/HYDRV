@@ -206,8 +206,8 @@
   <string name="download_status_downloading">BEZIG MET DOWNLOADEN</string>
   <string name="download_status_done">KLAAR</string>
   <string name="download_progress_format">Voortgang %1$d%%</string>
-  <string name="download_status_paused">GEPAUSEERD</string>  <string name="download_status_stopped">GESTOPT</string>
-
+  <string name="download_status_paused">GEPAUSEERD</string>
+  <string name="download_status_stopped">GESTOPT</string>
   <string name="download_status_failed">MISLUKT</string>
   <string name="download_error_invalid_link">Directe APK-link vereist</string>
   <string name="download_error_network">Netwerkfout onderbrak de download</string>

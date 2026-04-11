@@ -137,7 +137,7 @@
   <string name="language_native_japanese_region">à¸ à¸²à¸©à¸²à¸à¸µà¹ˆà¸›à¸¸à¹ˆà¸™ (à¸à¸µà¹ˆà¸›à¸¸à¹ˆà¸™)</string>
   <string name="language_native_korean_region">à¸ à¸²à¸©à¸²à¹€à¸à¸²à¸«à¸¥à¸µ (à¹€à¸à¸²à¸«à¸¥à¸µà¹ƒà¸•à¹‰)</string>
   <string name="download_via_title">à¸”à¸²à¸§à¸™à¹Œà¹‚à¸«à¸¥à¸”à¸œà¹ˆà¸²à¸™</string>
-  <string name="download_via_summary">à¹€à¸¥à¸·à¸­à¸à¹ƒà¸Šà¹‰ Wiâ€‘Fi à¹€à¸—à¹ˆà¸²à¸™à¸±à¹‰à¸™à¸«à¸£à¸·à¸­à¸­à¸™à¸¸à¸à¸²à¸•à¹ƒà¸«à¹‰à¹ƒà¸Šà¹‰à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸¡à¸·à¸­à¸–à¸·à¸­</string>
+  <string name="download_via_summary">เลือกใช้ Wi‑Fi เท่านั้นหรืออนุญาตให้ใช้ข้อมูลมือถือ</string>
   <string name="update_notifications_title">à¸à¸²à¸£à¹à¸ˆà¹‰à¸‡à¹€à¸•à¸·à¸­à¸™à¸­à¸±à¸›à¹€à¸”à¸•</string>
   <string name="update_notifications_summary">à¸£à¸±à¸šà¸à¸²à¸£à¹à¸ˆà¹‰à¸‡à¹€à¸•à¸·à¸­à¸™à¹€à¸¡à¸·à¹ˆà¸­à¸¡à¸µà¸à¸²à¸£à¹€à¸›à¸¥à¸µà¹ˆà¸¢à¸™à¹à¸›à¸¥à¸‡à¹ƒà¸«à¸¡à¹ˆà¹ƒà¸™à¹à¸­à¸›</string>
   <string name="home_sort_title">à¹€à¸£à¸µà¸¢à¸‡à¸¥à¸³à¸”à¸±à¸šà¸«à¸™à¹‰à¸²à¹à¸£à¸</string>
@@ -191,8 +191,8 @@
   <string name="sort_oldest_first">à¹€à¸à¹ˆà¸²à¸ªà¸¸à¸”à¸à¹ˆà¸­à¸™</string>
   <string name="sort_date_newest">à¸§à¸±à¸™à¸—à¸µà¹ˆà¹ƒà¸«à¸¡à¹ˆà¸ªà¸¸à¸”à¸à¹ˆà¸­à¸™</string>
   <string name="sort_date_oldest">à¸§à¸±à¸™à¸—à¸µà¹ˆà¹€à¸à¹ˆà¸²à¸ªà¸¸à¸”à¸à¹ˆà¸­à¸™</string>
-  <string name="option_wifi_only">à¹€à¸‰à¸žà¸²à¸° Wiâ€‘Fi</string>
-  <string name="option_wifi_or_mobile">Wiâ€‘Fi à¸«à¸£à¸·à¸­à¸¡à¸·à¸­à¸–à¸·à¸­</string>
+  <string name="option_wifi_only">เฉพาะ Wi‑Fi</string>
+  <string name="option_wifi_or_mobile">Wi‑Fi หรือมือถือ</string>
   <string name="version_format">à¹€à¸§à¸­à¸£à¹Œà¸Šà¸±à¸™ %1$s</string>
   <string name="badge_update">à¸­à¸±à¸›à¹€à¸”à¸•</string>
   <string name="badge_installed">à¸•à¸´à¸”à¸•à¸±à¹‰à¸‡à¹à¸¥à¹‰à¸§</string>
@@ -205,8 +205,8 @@
   <string name="sample_download_speed">à¸„à¸§à¸²à¸¡à¹€à¸£à¹‡à¸§ 0 KB/s</string>
   <string name="download_status_downloading">à¸à¸³à¸¥à¸±à¸‡à¸”à¸²à¸§à¸™à¹Œà¹‚à¸«à¸¥à¸”</string>
   <string name="download_status_done">à¹€à¸ªà¸£à¹‡à¸ˆà¸ªà¸´à¹‰à¸™</string>
-  <string name="download_status_paused">à¸«à¸¢à¸¸à¸”à¸Šà¸±à¹ˆà¸§à¸„à¸£à¸²à¸§</string>  <string name="download_status_stopped">หยุดแล้ว</string>
-
+  <string name="download_status_paused">à¸«à¸¢à¸¸à¸”à¸Šà¸±à¹ˆà¸§à¸„à¸£à¸²à¸§</string>
+  <string name="download_status_stopped">à¸«à¸¢à¸¸à¸”à¹à¸¥à¹‰à¸§</string>
   <string name="download_status_failed">à¸¥à¹‰à¸¡à¹€à¸«à¸¥à¸§</string>
   <string name="download_error_invalid_link">à¸•à¹‰à¸­à¸‡à¹ƒà¸Šà¹‰à¸¥à¸´à¸‡à¸à¹Œ APK à¹‚à¸”à¸¢à¸•à¸£à¸‡</string>
   <string name="download_error_network">à¸‚à¹‰à¸­à¸œà¸´à¸”à¸žà¸¥à¸²à¸”à¹€à¸„à¸£à¸·à¸­à¸‚à¹ˆà¸²à¸¢à¸—à¸³à¹ƒà¸«à¹‰à¸à¸²à¸£à¸”à¸²à¸§à¸™à¹Œà¹‚à¸«à¸¥à¸”à¸«à¸¢à¸¸à¸”à¸¥à¸‡</string>
@@ -287,7 +287,7 @@
   <string name="install_failed_error_format">à¸•à¸´à¸”à¸•à¸±à¹‰à¸‡à¹„à¸¡à¹ˆà¸ªà¸³à¹€à¸£à¹‡à¸ˆ: %1$s</string>
   <string name="unknown_error">à¸‚à¹‰à¸­à¸œà¸´à¸”à¸žà¸¥à¸²à¸”à¸—à¸µà¹ˆà¹„à¸¡à¹ˆà¸£à¸¹à¹‰à¸ˆà¸±à¸</string>
   <string name="file_not_found">à¹„à¸¡à¹ˆà¸žà¸šà¹„à¸Ÿà¸¥à¹Œ</string>
-  <string name="downloads_wifi_only_blocked">à¸•à¸±à¹‰à¸‡à¸à¸²à¸£à¸”à¸²à¸§à¸™à¹Œà¹‚à¸«à¸¥à¸”à¹„à¸§à¹‰à¸—à¸µà¹ˆ Wiâ€‘Fi à¹€à¸—à¹ˆà¸²à¸™à¸±à¹‰à¸™</string>
+  <string name="downloads_wifi_only_blocked">ตั้งการดาวน์โหลดไว้ที่ Wi‑Fi เท่านั้น</string>
   <string name="no_internet_connection">à¹„à¸¡à¹ˆà¸¡à¸µà¸à¸²à¸£à¹€à¸Šà¸·à¹ˆà¸­à¸¡à¸•à¹ˆà¸­à¸­à¸´à¸™à¹€à¸—à¸­à¸£à¹Œà¹€à¸™à¹‡à¸•</string>
   <string name="rewarded_ad_required_message">à¸”à¸¹à¹‚à¸†à¸©à¸“à¸²à¸—à¸µà¹ˆà¸¡à¸µà¸£à¸²à¸‡à¸§à¸±à¸¥à¹€à¸žà¸·à¹ˆà¸­à¹€à¸£à¸´à¹ˆà¸¡à¸à¸²à¸£à¸”à¸²à¸§à¸™à¹Œà¹‚à¸«à¸¥à¸”à¸™à¸µà¹‰ à¸«à¸£à¸·à¸­à¸£à¸­à¸–à¹‰à¸²à¹‚à¸†à¸©à¸“à¸²à¹„à¸¡à¹ˆà¸žà¸£à¹‰à¸­à¸¡à¹ƒà¸Šà¹‰à¸‡à¸²à¸™</string>
   <string name="backend_title">à¹à¸šà¹‡à¸à¹€à¸­à¸™à¸”à¹Œ</string>
@@ -314,7 +314,7 @@
   <string name="settings_backup_import_failed">à¹„à¸¡à¹ˆà¸ªà¸²à¸¡à¸²à¸£à¸–à¸™à¸³à¹€à¸‚à¹‰à¸²à¸ªà¸³à¸£à¸­à¸‡à¸à¸²à¸£à¸•à¸±à¹‰à¸‡à¸„à¹ˆà¸²à¹„à¸”à¹‰</string>
   <string name="backend_health_title">à¸ªà¸–à¸²à¸™à¸°à¹à¸­à¸›</string>
   <string name="backend_health_summary">à¸”à¸¹à¸ªà¸–à¸²à¸™à¸°à¹à¸šà¹‡à¸à¹€à¸­à¸™à¸”à¹Œ à¹à¸„à¸Š à¸à¸²à¸£à¹à¸ˆà¹‰à¸‡à¹€à¸•à¸·à¸­à¸™ à¹à¸¥à¸°à¸à¸²à¸£à¸­à¸±à¸›à¹€à¸”à¸•</string>
-  <string name="backend_health_loading">Loading backend healthâ€¦</string>
+  <string name="backend_health_loading">Loading backend health…</string>
   <string name="backend_health_backend_mode_format">à¹‚à¸«à¸¡à¸”à¹à¸«à¸¥à¹ˆà¸‡à¸—à¸µà¹ˆà¸¡à¸²: %1$s</string>
   <string name="backend_health_last_checked_format">à¸•à¸£à¸§à¸ˆà¸ªà¸­à¸šà¸¥à¹ˆà¸²à¸ªà¸¸à¸”: %1$s</string>
   <string name="backend_health_last_seen_hash_format">à¹à¸®à¸Šà¸—à¸µà¹ˆà¸žà¸šà¸¥à¹ˆà¸²à¸ªà¸¸à¸”: %1$d</string>
@@ -371,21 +371,21 @@
   <string name="app_details_download">à¸”à¸²à¸§à¸™à¹Œà¹‚à¸«à¸¥à¸”</string>
   <string name="app_details_done">à¹€à¸ªà¸£à¹‡à¸ˆà¸ªà¸´à¹‰à¸™</string>
   <string name="app_details_missing_versions">à¸¢à¸±à¸‡à¹„à¸¡à¹ˆà¸¡à¸µà¹€à¸§à¸­à¸£à¹Œà¸Šà¸±à¸™à¸ªà¸³à¸«à¸£à¸±à¸šà¹à¸­à¸›à¸™à¸µà¹‰</string>
-  <string name="updates_summary_format">à¹€à¸§à¸­à¸£à¹Œà¸Šà¸±à¸™ %1$s â€” %2$s</string>
+  <string name="updates_summary_format">เวอร์ชัน %1$s — %2$s</string>
   <string name="updates_view_changelog">à¸”à¸¹à¸šà¸±à¸™à¸—à¸¶à¸à¸à¸²à¸£à¹€à¸›à¸¥à¸µà¹ˆà¸¢à¸™à¹à¸›à¸¥à¸‡</string>
   <string name="updates_download_now">à¸”à¸²à¸§à¸™à¹Œà¹‚à¸«à¸¥à¸”</string>
   <string name="updates_install_now">à¸•à¸´à¸”à¸•à¸±à¹‰à¸‡</string>
-  <string name="updates_downloading">à¸à¸³à¸¥à¸±à¸‡à¸”à¸²à¸§à¸™à¹Œà¹‚à¸«à¸¥à¸”â€¦</string>
+  <string name="updates_downloading">กำลังดาวน์โหลด…</string>
   <string name="updates_resume_download">à¸”à¸³à¹€à¸™à¸´à¸™à¸à¸²à¸£à¸”à¸²à¸§à¸™à¹Œà¹‚à¸«à¸¥à¸”à¸•à¹ˆà¸­</string>
   <string name="updates_launch_check_title">à¸•à¸£à¸§à¸ˆà¸«à¸²à¸­à¸±à¸›à¹€à¸”à¸•à¹€à¸¡à¸·à¹ˆà¸­à¹€à¸›à¸´à¸”à¹à¸­à¸›</string>
   <string name="updates_launch_check_summary">à¸•à¸£à¸§à¸ˆà¸ªà¸­à¸šà¸£à¸µà¸¥à¸µà¸ª GitHub à¸¥à¹ˆà¸²à¸ªà¸¸à¸”à¹‚à¸”à¸¢à¸­à¸±à¸•à¹‚à¸™à¸¡à¸±à¸•à¸´à¸—à¸¸à¸à¸„à¸£à¸±à¹‰à¸‡à¸—à¸µà¹ˆà¸„à¸¸à¸“à¹€à¸›à¸´à¸” HYDRV</string>
   <string name="updates_launch_message_title">à¹à¸ªà¸”à¸‡à¸‚à¹‰à¸­à¸„à¸§à¸²à¸¡à¸­à¸±à¸›à¹€à¸”à¸•à¹€à¸¡à¸·à¹ˆà¸­à¹€à¸›à¸´à¸”à¹à¸­à¸›</string>
   <string name="updates_launch_message_summary">à¹à¸ªà¸”à¸‡à¸‚à¹‰à¸­à¸„à¸§à¸²à¸¡à¹ƒà¸™à¹à¸­à¸›à¹€à¸¡à¸·à¹ˆà¸­à¸£à¸µà¸¥à¸µà¸ªà¸¥à¹ˆà¸²à¸ªà¸¸à¸”à¸‚à¸­à¸‡ repo à¹€à¸›à¸¥à¸µà¹ˆà¸¢à¸™à¹„à¸›</string>
   <string name="updates_check_now">à¸•à¸£à¸§à¸ˆà¸«à¸²à¸­à¸±à¸›à¹€à¸”à¸•</string>
-  <string name="updates_checking">à¸à¸³à¸¥à¸±à¸‡à¸•à¸£à¸§à¸ˆà¸ªà¸­à¸šâ€¦</string>
+  <string name="updates_checking">กำลังตรวจสอบ…</string>
   <string name="updates_changelog_title">à¸šà¸±à¸™à¸—à¸¶à¸à¸à¸²à¸£à¹€à¸›à¸¥à¸µà¹ˆà¸¢à¸™à¹à¸›à¸¥à¸‡à¸‚à¸­à¸‡à¸£à¸µà¸¥à¸µà¸ª</string>
   <string name="updates_changelog_body">HYDRV à¸ˆà¸°à¸—à¸³à¹ƒà¸«à¹‰à¸šà¸±à¸™à¸—à¸¶à¸à¸à¸²à¸£à¹€à¸›à¸¥à¸µà¹ˆà¸¢à¸™à¹à¸›à¸¥à¸‡à¹ƒà¸™à¹à¸­à¸›à¸ªà¸­à¸”à¸„à¸¥à¹‰à¸­à¸‡à¸à¸±à¸šà¸«à¸¡à¸²à¸¢à¹€à¸«à¸•à¸¸à¸£à¸µà¸¥à¸µà¸ª GitHub à¸¥à¹ˆà¸²à¸ªà¸¸à¸”</string>
-  <string name="updates_changelog_loading">à¸à¸³à¸¥à¸±à¸‡à¹‚à¸«à¸¥à¸”à¸šà¸±à¸™à¸—à¸¶à¸à¸à¸²à¸£à¸­à¸±à¸›à¹€à¸”à¸• GitHub à¸¥à¹ˆà¸²à¸ªà¸¸à¸”â€¦</string>
+  <string name="updates_changelog_loading">กำลังโหลดบันทึกการอัปเดต GitHub ล่าสุด…</string>
   <string name="updates_release_unavailable">à¸¢à¸±à¸‡à¹„à¸¡à¹ˆà¸¡à¸µà¸£à¸µà¸¥à¸µà¸ªà¸–à¸¹à¸à¹‚à¸«à¸¥à¸”</string>
   <string name="updates_check_failed">à¹„à¸¡à¹ˆà¸ªà¸²à¸¡à¸²à¸£à¸–à¸•à¸£à¸§à¸ˆà¸«à¸²à¸­à¸±à¸›à¹€à¸”à¸•à¹„à¸”à¹‰à¹ƒà¸™à¸•à¸­à¸™à¸™à¸µà¹‰</string>
   <string name="updates_check_live_with_version">à¸£à¸µà¸¥à¸µà¸ªà¹ƒà¸«à¸¡à¹ˆà¸žà¸£à¹‰à¸­à¸¡à¹ƒà¸Šà¹‰à¸‡à¸²à¸™à¹à¸¥à¹‰à¸§: %1$s %2$s</string>
@@ -419,7 +419,7 @@
   <string name="about_contributors_dialog_title">à¸œà¸¹à¹‰à¸¡à¸µà¸ªà¹ˆà¸§à¸™à¸£à¹ˆà¸§à¸¡</string>
   <string name="about_contributors_dialog_body">à¸«à¸™à¹‰à¸²à¸™à¸µà¹‰à¹à¸ªà¸”à¸‡à¸£à¸²à¸¢à¸Šà¸·à¹ˆà¸­à¸œà¸¹à¹‰à¸¡à¸µà¸ªà¹ˆà¸§à¸™à¸£à¹ˆà¸§à¸¡à¹à¸šà¸šà¸ªà¸”à¸ˆà¸²à¸à¸—à¸µà¹ˆà¹€à¸à¹‡à¸š GitHub à¸‚à¸­à¸‡ HYDRV</string>
   <string name="contributors_group_summary">à¸‚à¸­à¸šà¸„à¸¸à¸“à¸—à¸µà¹ˆà¸Šà¹ˆà¸§à¸¢à¹ƒà¸«à¹‰ HYDRV à¹€à¸”à¸´à¸™à¸«à¸™à¹‰à¸²à¸•à¹ˆà¸­à¹„à¸›</string>
-  <string name="contributors_loading">à¸à¸³à¸¥à¸±à¸‡à¹‚à¸«à¸¥à¸”à¸œà¸¹à¹‰à¸¡à¸µà¸ªà¹ˆà¸§à¸™à¸£à¹ˆà¸§à¸¡à¸šà¸™ GitHubâ€¦</string>
+  <string name="contributors_loading">กำลังโหลดผู้มีส่วนร่วมบน GitHub…</string>
   <string name="contributors_loaded">à¹‚à¸«à¸¥à¸”à¸œà¸¹à¹‰à¸¡à¸µà¸ªà¹ˆà¸§à¸™à¸£à¹ˆà¸§à¸¡ %1$d à¸„à¸™à¸ˆà¸²à¸ GitHub à¹à¸¥à¹‰à¸§</string>
   <string name="contributors_failed">à¸œà¸¹à¹‰à¸¡à¸µà¸ªà¹ˆà¸§à¸™à¸£à¹ˆà¸§à¸¡ GitHub à¹„à¸¡à¹ˆà¸žà¸£à¹‰à¸­à¸¡à¹ƒà¸Šà¹‰à¸‡à¸²à¸™à¸Šà¸±à¹ˆà¸§à¸„à¸£à¸²à¸§</string>
   <string name="about_licenses_dialog_title">à¹„à¸¥à¸šà¸£à¸²à¸£à¸µà¹‚à¸­à¹€à¸žà¸™à¸‹à¸­à¸£à¹Œà¸ª</string>
@@ -429,5 +429,17 @@
   <string name="download_progress_format">%1$d%%</string>
   <string name="favorite_toggle_add">à¹€à¸žà¸´à¹ˆà¸¡à¹ƒà¸™à¸£à¸²à¸¢à¸à¸²à¸£à¹‚à¸›à¸£à¸”</string>
   <string name="favorite_toggle_remove">à¸™à¸³à¸­à¸­à¸à¸ˆà¸²à¸à¸£à¸²à¸¢à¸à¸²à¸£à¹‚à¸›à¸£à¸”</string>
+  <string name="download_action_stop">à¸«à¸¢à¸¸à¸”</string>
+  <plurals name="contributor_role_contributions">
+    <item quantity="one">%d à¸à¸²à¸£à¸¡à¸µà¸ªà¹ˆà¸§à¸™à¸£à¹ˆà¸§à¸¡</item>
+    <item quantity="other">%d à¸à¸²à¸£à¸¡à¸µà¸ªà¹ˆà¸§à¸™à¸£à¹ˆà¸§à¸¡</item>
+  </plurals>
+  <plurals name="download_items_count">
+    <item quantity="one">%d à¸£à¸²à¸¢à¸à¸²à¸£</item>
+    <item quantity="other">%d à¸£à¸²à¸¢à¸à¸²à¸£</item>
+  </plurals>
+  <plurals name="download_selected_count">
+    <item quantity="one">%d à¸£à¸²à¸¢à¸à¸²à¸£à¸—à¸µà¹ˆà¹€à¸¥à¸·à¸­à¸</item>
+    <item quantity="other">%d à¸£à¸²à¸¢à¸à¸²à¸£à¸—à¸µà¹ˆà¹€à¸¥à¸·à¸­à¸</item>
+  </plurals>
 </resources>
-

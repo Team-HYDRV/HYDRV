@@ -133,7 +133,7 @@
   <string name="language_native_arabic_region">Arabiska</string>
   <string name="language_native_russian_region">Ryska (Ryssland)</string>
   <string name="language_native_serbian_region">Serbiska (Serbien)</string>
-    <string name="language_native_swedish_region">svenska i Sverige</string>
+  <string name="language_native_swedish_region">svenska i Sverige</string>
   <string name="language_native_japanese_region">Japanska (Japan)</string>
   <string name="language_native_korean_region">Koreanska (Sydkorea)</string>
   <string name="download_via_title">Ladda ner via</string>
@@ -205,8 +205,8 @@
   <string name="sample_download_speed">Hastighet 0 KB/s</string>
   <string name="download_status_downloading">LADDAR NER</string>
   <string name="download_status_done">KLART</string>
-  <string name="download_status_paused">PAUSAD</string>  <string name="download_status_stopped">STOPPAD</string>
-
+  <string name="download_status_paused">PAUSAD</string>
+  <string name="download_status_stopped">STOPPAD</string>
   <string name="download_status_failed">MISSLYCKADES</string>
   <string name="download_error_invalid_link">Direkt APK-länk krävs</string>
   <string name="download_error_network">Nätverksfel avbröt nedladdningen</string>
@@ -439,4 +439,3 @@
     <item quantity="other">%d selected</item>
   </plurals>
 </resources>
-

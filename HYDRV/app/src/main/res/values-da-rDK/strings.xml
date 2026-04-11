@@ -205,8 +205,8 @@
   <string name="sample_download_speed">Hastighed 0 KB/s</string>
   <string name="download_status_downloading">DOWLOADING</string>
   <string name="download_status_done">FÆRDIG</string>
-  <string name="download_status_paused">SAT PÅ PAUSE</string>  <string name="download_status_stopped">STOPPET</string>
-
+  <string name="download_status_paused">SAT PÅ PAUSE</string>
+  <string name="download_status_stopped">STOPPET</string>
   <string name="download_status_failed">FEJLET</string>
   <string name="download_error_invalid_link">Direkte APK-link kræves</string>
   <string name="download_error_network">Netværksfejl afbrød downloadet</string>

@@ -205,8 +205,8 @@
   <string name="sample_download_speed">Швидкість 0 KB/s</string>
   <string name="download_status_downloading">ЗАВАНТАЖУЄТЬСЯ</string>
   <string name="download_status_done">ГОТОВО</string>
-  <string name="download_status_paused">ПРИЗУПИНЕНО</string>  <string name="download_status_stopped">ЗУПИНЕНО</string>
-
+  <string name="download_status_paused">ПРИЗУПИНЕНО</string>
+  <string name="download_status_stopped">ЗУПИНЕНО</string>
   <string name="download_status_failed">ПОМИЛКА</string>
   <string name="download_error_invalid_link">Потрібне пряме посилання на APK</string>
   <string name="download_error_network">Помилка мережі перервала завантаження</string>

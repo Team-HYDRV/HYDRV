@@ -205,8 +205,8 @@
   <string name="sample_download_speed">Letöltési sebesség: %1$s</string>
   <string name="download_status_downloading">Letöltés folyamatban</string>
   <string name="download_status_done">Kész</string>
-  <string name="download_status_paused">Szüneteltetve</string>  <string name="download_status_stopped">LEÁLLÍTVA</string>
-
+  <string name="download_status_paused">Szüneteltetve</string>
+  <string name="download_status_stopped">LEÁLLÍTVA</string>
   <string name="download_status_failed">Sikertelen</string>
   <string name="download_error_invalid_link">Érvénytelen letöltési link</string>
   <string name="download_error_network">Hálózati hiba</string>
