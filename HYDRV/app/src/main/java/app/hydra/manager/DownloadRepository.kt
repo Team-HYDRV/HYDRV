@@ -313,6 +313,23 @@ object DownloadRepository {
         }
     }
 
+    fun stop(context: Context, item: DownloadItem) {
+        synchronized(startLock) {
+            item.requestToken = System.currentTimeMillis()
+            item.status = "Stopped"
+            item.speed = 0f
+            item.eta = 0
+            AppDiagnostics.log(
+                context,
+                "DOWNLOAD",
+                "Stop requested for ${item.name} ${item.versionName} token=${item.requestToken} progress=${item.progress}"
+            )
+            Downloader.cancel(item)
+            scheduleSave(context)
+            notifyChange()
+        }
+    }
+
     fun deleteMany(context: Context, items: Collection<DownloadItem>) {
         if (items.isEmpty()) return
 
@@ -375,7 +392,7 @@ object DownloadRepository {
         etaSeconds: Long
     ) {
         synchronized(startLock) {
-            if (item.status == "Paused") return
+            if (item.status == "Paused" || item.status == "Stopped") return
 
             val previousProgress = item.progress
             val previousSpeed = item.speed
@@ -400,6 +417,14 @@ object DownloadRepository {
 
     fun markDone(context: Context, item: DownloadItem) {
         synchronized(startLock) {
+            if (item.status == "Stopped") {
+                AppDiagnostics.log(
+                    context,
+                    "DOWNLOAD",
+                    "Ignored done for stopped download ${item.name} ${item.versionName} token=${item.requestToken}"
+                )
+                return
+            }
             item.status = "Done"
             item.progress = 100
             item.errorMessage = ""

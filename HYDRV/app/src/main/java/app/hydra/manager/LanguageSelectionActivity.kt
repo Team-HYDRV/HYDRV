@@ -31,6 +31,41 @@ class LanguageSelectionActivity : AppCompatActivity() {
             R.string.language_native_system_default
         ),
         LanguageItem(
+            LanguagePreferences.ARABIC,
+            R.string.language_arabic_region,
+            R.string.language_native_arabic_region
+        ),
+        LanguageItem(
+            LanguagePreferences.CATALAN,
+            R.string.language_catalan_region,
+            R.string.language_native_catalan_region
+        ),
+        LanguageItem(
+            LanguagePreferences.CHINESE_SIMPLIFIED,
+            R.string.language_chinese_simplified_region,
+            R.string.language_native_chinese_simplified_region
+        ),
+        LanguageItem(
+            LanguagePreferences.CHINESE_TRADITIONAL,
+            R.string.language_chinese_traditional_region,
+            R.string.language_native_chinese_traditional_region
+        ),
+        LanguageItem(
+            LanguagePreferences.CZECH,
+            R.string.language_czech_region,
+            R.string.language_native_czech_region
+        ),
+        LanguageItem(
+            LanguagePreferences.DANISH,
+            R.string.language_danish_region,
+            R.string.language_native_danish_region
+        ),
+        LanguageItem(
+            LanguagePreferences.DUTCH,
+            R.string.language_dutch_region,
+            R.string.language_native_dutch_region
+        ),
+        LanguageItem(
             LanguagePreferences.ENGLISH,
             R.string.language_english_region,
             R.string.language_native_english_region
@@ -39,16 +74,6 @@ class LanguageSelectionActivity : AppCompatActivity() {
             LanguagePreferences.FILIPINO,
             R.string.language_filipino_region,
             R.string.language_native_filipino_region
-        ),
-        LanguageItem(
-            LanguagePreferences.SPANISH,
-            R.string.language_spanish_region,
-            R.string.language_native_spanish_region
-        ),
-        LanguageItem(
-            LanguagePreferences.INDONESIAN,
-            R.string.language_indonesian_region,
-            R.string.language_native_indonesian_region
         ),
         LanguageItem(
             LanguagePreferences.FRENCH,
@@ -61,64 +86,14 @@ class LanguageSelectionActivity : AppCompatActivity() {
             R.string.language_native_german_region
         ),
         LanguageItem(
-            LanguagePreferences.PORTUGUESE_BRAZIL,
-            R.string.language_portuguese_brazil_region,
-            R.string.language_native_portuguese_brazil_region
+            LanguagePreferences.GREEK,
+            R.string.language_greek_region,
+            R.string.language_native_greek_region
         ),
         LanguageItem(
-            LanguagePreferences.ITALIAN,
-            R.string.language_italian_region,
-            R.string.language_native_italian_region
-        ),
-        LanguageItem(
-            LanguagePreferences.TURKISH,
-            R.string.language_turkish_region,
-            R.string.language_native_turkish_region
-        ),
-        LanguageItem(
-            LanguagePreferences.VIETNAMESE,
-            R.string.language_vietnamese_region,
-            R.string.language_native_vietnamese_region
-        ),
-        LanguageItem(
-            LanguagePreferences.THAI,
-            R.string.language_thai_region,
-            R.string.language_native_thai_region
-        ),
-        LanguageItem(
-            LanguagePreferences.POLISH,
-            R.string.language_polish_region,
-            R.string.language_native_polish_region
-        ),
-        LanguageItem(
-            LanguagePreferences.DUTCH,
-            R.string.language_dutch_region,
-            R.string.language_native_dutch_region
-        ),
-        LanguageItem(
-            LanguagePreferences.MALAY,
-            R.string.language_malay_region,
-            R.string.language_native_malay_region
-        ),
-        LanguageItem(
-            LanguagePreferences.UKRAINIAN,
-            R.string.language_ukrainian_region,
-            R.string.language_native_ukrainian_region
-        ),
-        LanguageItem(
-            LanguagePreferences.CZECH,
-            R.string.language_czech_region,
-            R.string.language_native_czech_region
-        ),
-        LanguageItem(
-            LanguagePreferences.ROMANIAN,
-            R.string.language_romanian_region,
-            R.string.language_native_romanian_region
-        ),
-        LanguageItem(
-            LanguagePreferences.CHINESE_SIMPLIFIED,
-            R.string.language_chinese_simplified_region,
-            R.string.language_native_chinese_simplified_region
+            LanguagePreferences.HEBREW,
+            R.string.language_hebrew_region,
+            R.string.language_native_hebrew_region
         ),
         LanguageItem(
             LanguagePreferences.HINDI,
@@ -126,14 +101,19 @@ class LanguageSelectionActivity : AppCompatActivity() {
             R.string.language_native_hindi_region
         ),
         LanguageItem(
-            LanguagePreferences.ARABIC,
-            R.string.language_arabic_region,
-            R.string.language_native_arabic_region
+            LanguagePreferences.HUNGARIAN,
+            R.string.language_hungarian_region,
+            R.string.language_native_hungarian_region
         ),
         LanguageItem(
-            LanguagePreferences.RUSSIAN,
-            R.string.language_russian_region,
-            R.string.language_native_russian_region
+            LanguagePreferences.INDONESIAN,
+            R.string.language_indonesian_region,
+            R.string.language_native_indonesian_region
+        ),
+        LanguageItem(
+            LanguagePreferences.ITALIAN,
+            R.string.language_italian_region,
+            R.string.language_native_italian_region
         ),
         LanguageItem(
             LanguagePreferences.JAPANESE,
@@ -144,6 +124,76 @@ class LanguageSelectionActivity : AppCompatActivity() {
             LanguagePreferences.KOREAN,
             R.string.language_korean_region,
             R.string.language_native_korean_region
+        ),
+        LanguageItem(
+            LanguagePreferences.MALAY,
+            R.string.language_malay_region,
+            R.string.language_native_malay_region
+        ),
+        LanguageItem(
+            LanguagePreferences.NORWEGIAN,
+            R.string.language_norwegian_region,
+            R.string.language_native_norwegian_region
+        ),
+        LanguageItem(
+            LanguagePreferences.POLISH,
+            R.string.language_polish_region,
+            R.string.language_native_polish_region
+        ),
+        LanguageItem(
+            LanguagePreferences.PORTUGUESE_BRAZIL,
+            R.string.language_portuguese_brazil_region,
+            R.string.language_native_portuguese_brazil_region
+        ),
+        LanguageItem(
+            LanguagePreferences.PORTUGUESE_PORTUGAL,
+            R.string.language_portuguese_portugal_region,
+            R.string.language_native_portuguese_portugal_region
+        ),
+        LanguageItem(
+            LanguagePreferences.ROMANIAN,
+            R.string.language_romanian_region,
+            R.string.language_native_romanian_region
+        ),
+        LanguageItem(
+            LanguagePreferences.RUSSIAN,
+            R.string.language_russian_region,
+            R.string.language_native_russian_region
+        ),
+        LanguageItem(
+            LanguagePreferences.SERBIAN,
+            R.string.language_serbian_region,
+            R.string.language_native_serbian_region
+        ),
+        LanguageItem(
+            LanguagePreferences.SPANISH,
+            R.string.language_spanish_region,
+            R.string.language_native_spanish_region
+        ),
+        LanguageItem(
+            LanguagePreferences.SWEDISH,
+            R.string.language_swedish_region,
+            R.string.language_native_swedish_region
+        ),
+        LanguageItem(
+            LanguagePreferences.THAI,
+            R.string.language_thai_region,
+            R.string.language_native_thai_region
+        ),
+        LanguageItem(
+            LanguagePreferences.TURKISH,
+            R.string.language_turkish_region,
+            R.string.language_native_turkish_region
+        ),
+        LanguageItem(
+            LanguagePreferences.UKRAINIAN,
+            R.string.language_ukrainian_region,
+            R.string.language_native_ukrainian_region
+        ),
+        LanguageItem(
+            LanguagePreferences.VIETNAMESE,
+            R.string.language_vietnamese_region,
+            R.string.language_native_vietnamese_region
         )
     )
 

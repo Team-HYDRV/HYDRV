@@ -42,6 +42,18 @@ jobs:
           CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }}
           CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
 
+      - name: Sync translated strings to Crowdin
+        if: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.sync_mode == 'both' || github.event.inputs.sync_mode == 'upload') }}
+        uses: crowdin/github-action@v2
+        with:
+          upload_sources: false
+          upload_translations: true
+          download_translations: false
+          config: .crowdin.yml
+        env:
+          CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }}
+          CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
+
       - name: Download translated strings from Crowdin
         if: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.sync_mode == 'both' || github.event.inputs.sync_mode == 'download') }}
         uses: crowdin/github-action@v2
@@ -49,6 +61,8 @@ jobs:
           upload_sources: false
           upload_translations: false
           download_translations: true
+          push_translations: false
+          create_pull_request: false
           config: .crowdin.yml
         env:
           CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }}
@@ -56,6 +70,9 @@ jobs:
 
       - name: Commit synced translations
         if: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.sync_mode == 'both' || github.event.inputs.sync_mode == 'download') }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           if git diff --quiet; then
             echo "No translation changes to commit."
@@ -64,6 +81,6 @@ jobs:
 
           git config user.name "xC3FFF0E"
           git config user.email "xC3FFF0E@users.noreply.github.com"
-          git add HYDRV/app/src/main/res
+          git add app/src/main/res
           git commit -m "Sync Crowdin translations"
           git push

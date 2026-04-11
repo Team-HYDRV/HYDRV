@@ -52,8 +52,7 @@
             android:icon="@mipmap/ic_launcher_hydra"
             android:label="@string/app_name"
             android:roundIcon="@mipmap/ic_launcher_hydra"
-            android:targetActivity=".MainActivity"
-            android:theme="@style/Theme.HYDRV.Launch">
+            android:targetActivity=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -66,8 +65,7 @@
             android:icon="@mipmap/ic_launcher_hydra_alt"
             android:label="@string/app_name"
             android:roundIcon="@mipmap/ic_launcher_hydra_alt"
-            android:targetActivity=".MainActivity"
-            android:theme="@style/Theme.HYDRV.Launch">
+            android:targetActivity=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -80,8 +78,7 @@
             android:icon="@mipmap/ic_launcher_legacy"
             android:label="@string/app_name"
             android:roundIcon="@mipmap/ic_launcher_legacy"
-            android:targetActivity=".MainActivity"
-            android:theme="@style/Theme.HYDRV.Launch">
+            android:targetActivity=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -94,8 +91,7 @@
             android:icon="@mipmap/ic_launcher_legacy_alt"
             android:label="@string/app_name"
             android:roundIcon="@mipmap/ic_launcher_legacy_alt"
-            android:targetActivity=".MainActivity"
-            android:theme="@style/Theme.HYDRV.Launch">
+            android:targetActivity=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

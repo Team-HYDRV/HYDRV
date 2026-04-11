@@ -6,33 +6,36 @@
 
 <p align="center">
   <a href="https://github.com/Team-HYDRV/HYDRV/actions/workflows/android-ci.yml">
-    <img src="https://github.com/Team-HYDRV/HYDRV/actions/workflows/android-ci.yml/badge.svg" alt="Android CI">
+    <img src="https://img.shields.io/github/actions/workflow/status/Team-HYDRV/HYDRV/android-ci.yml?branch=develop&style=for-the-badge&logo=githubactions&label=Android%20CI" alt="Android CI">
   </a>
   <a href="https://github.com/Team-HYDRV/HYDRV/releases/latest">
-    <img src="https://img.shields.io/badge/Latest%20release-GitHub-181717?style=flat-square&logo=github" alt="Latest release">
+    <img src="https://img.shields.io/github/v/release/Team-HYDRV/HYDRV?display_name=tag&style=for-the-badge&logo=github&label=Latest%20release" alt="Latest release">
   </a>
   <a href="https://hydrv.app">
-    <img src="https://img.shields.io/badge/Website-hydrv.app-111111?style=flat-square" alt="HYDRV website">
+    <img src="https://img.shields.io/badge/Website-hydrv.app-111111?style=for-the-badge&logo=googlechrome&logoColor=white" alt="HYDRV website">
+  </a>
+  <a href="https://translate.hydrv.app">
+    <img src="https://img.shields.io/badge/Translate-Crowdin-2c80fb?style=for-the-badge&logo=crowdin&logoColor=white" alt="HYDRV Crowdin">
   </a>
   <a href="https://ko-fi.com/xc3fff0e">
-    <img src="https://img.shields.io/badge/Support-Ko--fi-ff5f5f?style=flat-square" alt="Support on Ko-fi">
+    <img src="https://img.shields.io/badge/Support-Ko--fi-ff5f5f?style=for-the-badge&logo=ko-fi&logoColor=white" alt="Support on Ko-fi">
   </a>
 </p>
 
-<p align="center">
-  <a href="https://github.com/Team-HYDRV/HYDRV/releases/latest">Latest release</a>
-  &middot;
-  <a href="https://hydrv.app">Website</a>
-  &middot;
-  <a href="HYDRV/docs/backend-example.md">Backend guide</a>
-  &middot;
-  <a href="HYDRV/docs/samples/catalogue.json">Sample catalogue</a>
-  &middot;
-  <a href="RELEASES.md">Release checklist</a>
-  &middot;
-  <a href="CHANGELOG.md">Changelog</a>
-  &middot;
-  <a href="HYDRV/docs/index.md">Docs</a>
+  <p align="center">
+    <a href="https://github.com/Team-HYDRV/HYDRV/releases/latest">Latest release</a>
+    &middot;
+    <a href="https://hydrv.app">Website</a>
+    &middot;
+    <a href="HYDRV/docs/backend-example.md">Backend guide</a>
+    &middot;
+    <a href="HYDRV/docs/samples/catalogue.json">Sample catalogue</a>
+    &middot;
+    <a href="RELEASES.md">Release checklist</a>
+    &middot;
+    <a href="CHANGELOG.md">Changelog</a>
+    &middot;
+    <a href="HYDRV/docs/index.md">Docs</a>
 </p>
 
 ---
@@ -244,7 +247,7 @@ Use these commands from `HYDRV/` if you want to build from the terminal:
 <h2 align="center">Translations</h2>
 
 HYDRV keeps its Android strings in `HYDRV/app/src/main/res/values/strings.xml`.  
-Translated files live in the matching `values-xx` folders, so Crowdin can round-trip Android resources cleanly.
+Translations live on Crowdin at `translate.hydrv.app`, and the matching `values-xx` folders in this repo stay in sync with the app.
 
 <ol>
   <li>Add or edit the source strings in the default <code>values/strings.xml</code> file.</li>
@@ -253,9 +256,5 @@ Translated files live in the matching `values-xx` folders, so Crowdin can round-
 </ol>
 
 <p align="center">
-  The repo config already maps Android-specific folders like <code>pt-rBR</code> and <code>zh-rCN</code>, so the translated files land where HYDRV expects them.
-</p>
-
-<p align="center">
-  The <code>crowdin-sync</code> GitHub Action uploads source strings to Crowdin automatically when <code>values/strings.xml</code> changes, and it can also pull translated files back into the repo when you run it manually. It needs the <code>CROWDIN_PROJECT_ID</code> and <code>CROWDIN_PERSONAL_TOKEN</code> secrets set in GitHub.
+  The repo keeps Android locale folders like <code>pt-rBR</code> and <code>zh-rCN</code> aligned with the app, so translated files land where HYDRV expects them.
 </p>

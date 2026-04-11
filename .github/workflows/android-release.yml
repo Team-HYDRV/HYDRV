@@ -70,10 +70,18 @@ jobs:
         run: cp "${{ steps.find_apk.outputs.apk_path }}" HYDRV.apk
 
       - name: Generate release notes
+        env:
+          CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }}
+          CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
         run: |
           release_version="${GITHUB_REF_NAME#v}"
           repo_root="$(git rev-parse --show-toplevel)"
           changelog="$repo_root/CHANGELOG.md"
+          previous_tag="$(git -C "$repo_root" describe --tags --abbrev=0 "${GITHUB_REF_NAME}^" 2>/dev/null || true)"
+
+          crowdin_contributors="$(
+            python3 "$repo_root/.github/scripts/crowdin_contributors.py"
+          )"
 
           extract_section() {
             local section="$1"
@@ -111,13 +119,38 @@ jobs:
             echo
           }
 
+          release_contributors() {
+            local range
+            if [ -n "$previous_tag" ]; then
+              range="${previous_tag}..${GITHUB_REF_NAME}"
+            else
+              range="${GITHUB_REF_NAME}"
+            fi
+
+            local contributors
+            contributors="$(git -C "$repo_root" shortlog -s --no-merges "$range" | awk '{ $1=""; sub(/^ /, ""); print "- " $0 }')"
+            if [ -n "$contributors" ]; then
+              printf '%s\n' "$contributors"
+            else
+              echo "- No GitHub contributors"
+            fi
+          }
+
           {
             write_section Added
             write_section Changed
             write_section Fixed
             echo "## Contributors"
             echo
-            git -C "$repo_root" shortlog -s --all --no-merges | awk '{ $1=""; sub(/^ /, ""); print "- " $0 }'
+            release_contributors
+            echo
+            echo "### Crowdin Contributors"
+            echo
+            if [ -n "$crowdin_contributors" ]; then
+              printf '%s\n' "$crowdin_contributors"
+            else
+              echo "- No Crowdin contributors"
+            fi
           } > "$GITHUB_WORKSPACE/release-notes.md"
 
       - name: Upload APK artifact

@@ -731,7 +731,7 @@ class VersionSheet(
                     val lastStatus = lastKnownStatuses[key].orEmpty()
                     val shouldPreserveVisualState =
                         hasActiveVisualState(key) &&
-                            (lastStatus == "Downloading" || lastStatus == "Paused")
+                            (lastStatus == "Downloading" || lastStatus == "Paused" || lastStatus == "Stopped")
                     if (shouldPreserveVisualState) {
                         applyProgressState(
                             views,
@@ -808,6 +808,21 @@ class VersionSheet(
                         getString(R.string.download_paused_percent_format, progress)
                     } else {
                         getString(R.string.download_status_paused)
+                    }
+                    applyProgressState(views, progress, label)
+                    lastKnownStatuses[key] = item.status
+                }
+                item.status == "Stopped" -> {
+                    failedKeys.remove(key)
+                    completedKeys.remove(key)
+                    doneHandledKeys.remove(key)
+                    cancelReset(key)
+                    activeSessionKeys.add(key)
+                    val progress = maxVisualProgress(key, item.progress)
+                    val label = if (progress > 0) {
+                        getString(R.string.download_status_stopped)
+                    } else {
+                        getString(R.string.download_status_stopped)
                     }
                     applyProgressState(views, progress, label)
                     lastKnownStatuses[key] = item.status
@@ -966,7 +981,10 @@ class VersionSheet(
         views.label.translationY = 0f
         views.label.setTextColor(Color.BLACK)
         val clamped = progress.coerceIn(0, 100)
-        if (label.startsWith(getString(R.string.download_status_paused))) {
+        if (
+            label.startsWith(getString(R.string.download_status_paused)) ||
+            label.startsWith(getString(R.string.download_status_stopped))
+        ) {
             views.label.text = label
             animateFillTo(views.fill, clamped)
         } else {
