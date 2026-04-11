@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">HYDRV</string>
   <string name="settings_title">Ayarlar</string>
@@ -69,9 +69,9 @@
   <string name="language_russian_region">Rusça (Rusya)</string>
   <string name="language_japanese_region">Japonca (Japonya)</string>
   <string name="language_korean_region">Korece (Güney Kore)</string>
-  <string name="language_native_system_default">Cihaz dilinizi kullanın</string>
-  <string name="language_native_english_region">İngilizce (Amerika Birleşik Devletleri)</string>
-  <string name="language_native_filipino_region">Filipince (Pilipinler)</string>
+  <string name="language_native_system_default">Sistem dilini kullanın</string>
+  <string name="language_native_english_region">İngilizce (ABD)</string>
+  <string name="language_native_filipino_region">Filipince (Filipinler)</string>
   <string name="language_native_spanish_region">İspanyolca (İspanya)</string>
   <string name="language_native_indonesian_region">Endonezce (Endonezya)</string>
   <string name="language_native_french_region">Fransızca (Fransa)</string>
@@ -223,7 +223,7 @@
   <string name="notification_title_updates_live">Yeni değişiklikler yayında</string>
   <string name="notification_text_updates_live">HYDRV için yeni güncellemeler var. Yeniliklere bakın.</string>
   <string name="notification_title_release_live">Yeni sürüm yayında</string>
-  <string name="notification_title_release_live_with_version">HYDRV %1$s</string>
+  <string name="notification_title_release_live_with_version">Yeni sürüm yayınlandı: %1$s</string>
   <string name="notification_text_release_live">HYDRV için yeni bir sürüm var.</string>
   <string name="updates_open_release">Yayını aç</string>
   <string name="install_failed">Kurulum başarısız</string>
@@ -337,7 +337,7 @@
   <string name="about_link_website">Web sitesi</string>
   <string name="about_link_discord">Discord topluluğu</string>
   <string name="about_link_donate">Bağış yap</string>
-  <string name="about_link_github">GitHub kaynak</string>
+  <string name="about_link_github">GitHub deposu</string>
   <string name="about_link_website_caption">Resmi site ve proje güncellemeleri</string>
   <string name="about_link_discord_caption">Topluluk sohbeti ve duyurular</string>
   <string name="about_link_donate_caption">Uygulamanın sürekli bakımını destekle</string>
@@ -380,6 +380,3 @@
     <item quantity="other">%d seçildi</item>
   </plurals>
 </resources>
-
-
-

@@ -150,7 +150,7 @@
   <string name="about_contributors_dialog_body">Dieser Bildschirm zeigt die Live-Mitwirkendenliste aus dem HYDRV-GitHub-Repository.</string>
   <string name="added_to_downloads_format">%1$s %2$s zu den Downloads hinzugefügt</string>
   <string name="notification_title_release_live_with_version">HYDRV-Version %1$s verfügbar</string>
-  <string name="language_native_arabic_region">Arabisch (Saudi-Arabien)</string>
+  <string name="language_native_arabic_region">Arabisch</string>
   <string name="release_details_unavailable">Release-Details sind vorübergehend nicht verfügbar</string>
   <string name="device_info_archs_format">Unterstützte Architekturen: %1$s</string>
   <string name="added_date_format">Hinzugefügt am %1$s</string>
@@ -161,7 +161,7 @@
   <string name="home_empty_no_apps">Keine Apps gefunden</string>
   <string name="started_date_format">Gestartet am %1$s</string>
   <string name="debug_section_title">Fehlerbehebung</string>
-  <string name="language_native_german_region">Deutsch - Deutschland</string>
+  <string name="language_native_german_region">Deutsch (Deutschland)</string>
   <string name="backend_health_last_checked_format">Zuletzt geprüft: %1$s</string>
   <string name="contributors_failed">GitHub-Mitwirkende sind vorübergehend nicht verfügbar.</string>
   <string name="permission_not_allowed">Nicht erlaubt</string>
