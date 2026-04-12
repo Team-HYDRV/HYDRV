@@ -31,6 +31,11 @@ class LanguageSelectionActivity : AppCompatActivity() {
             R.string.language_native_system_default
         ),
         LanguageItem(
+            LanguagePreferences.AFRIKAANS,
+            R.string.language_afrikaans_region,
+            R.string.language_native_afrikaans_region
+        ),
+        LanguageItem(
             LanguagePreferences.ARABIC,
             R.string.language_arabic_region,
             R.string.language_native_arabic_region

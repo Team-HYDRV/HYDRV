@@ -10,6 +10,7 @@ object LanguagePreferences {
     private const val KEY_LANGUAGE = "app_language"
 
     const val SYSTEM = "system"
+    const val AFRIKAANS = "af"
     const val ENGLISH = "en"
     const val FILIPINO = "fil"
     const val SPANISH = "es"
@@ -63,6 +64,7 @@ object LanguagePreferences {
 
     fun label(context: Context, language: String): String {
         return when (language) {
+            AFRIKAANS -> context.getString(R.string.language_afrikaans)
             ENGLISH -> context.getString(R.string.language_english)
             FILIPINO -> context.getString(R.string.language_filipino)
             SPANISH -> context.getString(R.string.language_spanish)

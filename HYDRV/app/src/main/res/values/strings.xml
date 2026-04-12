@@ -36,6 +36,7 @@
   <string name="language_title">Language</string>
   <string name="language_summary">Choose the app display language</string>
   <string name="language_system_default">System default</string>
+  <string name="language_afrikaans">Afrikaans</string>
   <string name="language_english">English</string>
   <string name="language_filipino">Filipino</string>
   <string name="language_spanish">Spanish</string>
@@ -69,6 +70,7 @@
   <string name="language_swedish">Swedish</string>
   <string name="language_japanese">Japanese</string>
   <string name="language_korean">Korean</string>
+  <string name="language_afrikaans_region">Afrikaans (South Africa)</string>
   <string name="language_english_region">English (United States)</string>
   <string name="language_filipino_region">Filipino (Philippines)</string>
   <string name="language_spanish_region">Spanish (Spain)</string>
@@ -103,6 +105,7 @@
   <string name="language_japanese_region">Japanese (Japan)</string>
   <string name="language_korean_region">Korean (South Korea)</string>
   <string name="language_native_system_default">Use your device language</string>
+  <string name="language_native_afrikaans_region">Afrikaans (Suid-Afrika)</string>
   <string name="language_native_english_region">English (United States)</string>
   <string name="language_native_filipino_region">Filipino (Pilipinas)</string>
   <string name="language_native_spanish_region">Español (España)</string>
