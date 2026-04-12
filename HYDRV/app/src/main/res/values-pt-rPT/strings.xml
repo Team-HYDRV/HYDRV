@@ -285,7 +285,7 @@
     <string name="install_waiting_confirmation_format">Aguardando a confirmação da instalação%1$s</string>
     <string name="install_success_format">%1$sinstalado com sucesso</string>
     <string name="uninstall_success_format">%1$sdesinstalado com sucesso</string>
-    <string name="install_preparing_format">Preparação%1$spara instalar?</string>
+    <string name="install_preparing_format">Preparação %1$s para instalar…</string>
     <string name="install_failed_error_format">A instalação falhou:%1$s</string>
     <string name="unknown_error">erro desconhecido</string>
     <string name="file_not_found">Ficheiro não encontrado</string>
@@ -316,7 +316,7 @@
     <string name="settings_backup_import_failed">Não foi possível importar o backup de configurações.</string>
     <string name="backend_health_title">Estado da aplicação</string>
     <string name="backend_health_summary">Exibir backend, cache, notificação e status de atualização</string>
-    <string name="backend_health_loading">A carregar o estado da aplicação?</string>
+    <string name="backend_health_loading">A carregar o estado da aplicação…</string>
     <string name="backend_health_backend_mode_format">Modo de origem:%1$s</string>
     <string name="backend_health_last_checked_format">Última opção:%1$s</string>
     <string name="backend_health_last_seen_hash_format">Último hash visto:%1$d</string>
@@ -358,7 +358,7 @@
     <string name="backend_source_name_hint">Nome da infra- estrutura</string>
     <string name="backend_source_url_hint">https://example.com/catalogue.json</string>
     <string name="backend_example_url">Exemplo: https://example.com/catalogue.json</string>
-    <string name="backend_validating_message">Verificando o link da infraestrutura?</string>
+    <string name="backend_validating_message">A verificar a ligação do backend…</string>
     <string name="backend_invalid_message">Esse link não se parece com um endpoint JSON válido.</string>
     <string name="backend_set_active_failed">A infra-estrutura não está a funcionar agora.</string>
     <string name="backend_set_active_failed_detail">Essa infra-estrutura não está a funcionar agora.%1$s</string>
@@ -377,17 +377,17 @@
     <string name="updates_view_changelog">Ver o changelog</string>
     <string name="updates_download_now">Baixar</string>
     <string name="updates_install_now">Instalar</string>
-    <string name="updates_downloading">Baixando?</string>
+    <string name="updates_downloading">A transferir…</string>
     <string name="updates_resume_download">Continuar</string>
     <string name="updates_launch_check_title">Verificar as atualizações no lançamento</string>
     <string name="updates_launch_check_summary">Verifique automaticamente a última versão do GitHub sempre que abrir HYDRV.</string>
     <string name="updates_launch_message_title">Mostrar a mensagem de atualização no lançamento</string>
     <string name="updates_launch_message_summary">Mostrar uma mensagem no aplicativo quando a última versão do repo mudar.</string>
     <string name="updates_check_now">Verificar as actualizações</string>
-    <string name="updates_checking">A verificar?</string>
+    <string name="updates_checking">A verificar…</string>
     <string name="updates_changelog_title">Registo de alterações da versão</string>
     <string name="updates_changelog_body">HYDRV mantém o changelog no aplicativo alinhado com as últimas notas de lançamento do GitHub.</string>
-    <string name="updates_changelog_loading">Carregando as últimas notas de lançamento do GitHub?</string>
+    <string name="updates_changelog_loading">A carregar as notas de lançamento mais recentes do GitHub…</string>
     <string name="updates_release_unavailable">Nenhuma versão carregada ainda</string>
     <string name="updates_check_failed">Não foi possível verificar as atualizações agora.</string>
     <string name="updates_check_live_with_version">Nova versão está ao vivo:%1$s%2$s.</string>
@@ -421,7 +421,7 @@
     <string name="about_contributors_dialog_title">Contribuidores</string>
     <string name="about_contributors_dialog_body">Esta tela mostra a lista de contribuidores ao vivo do repositório HYDRV GitHub.</string>
     <string name="contributors_group_summary">Obrigado por ajudares a manter o HYDRV em frente.</string>
-    <string name="contributors_loading">A carregar os contribuidores do GitHub?</string>
+    <string name="contributors_loading">A carregar os contribuidores do GitHub…</string>
     <string name="contributors_loaded">%1$dcontribuidores carregados do GitHub.</string>
     <string name="contributors_failed">Os contribuidores do GitHub estão temporariamente indisponível.</string>
     <plurals name="contributor_role_contributions">
