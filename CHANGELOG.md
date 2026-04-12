@@ -56,6 +56,12 @@ All notable changes to HYDRV are recorded here.
 - Stopped downloads no longer leak stale install actions while they are still in progress.
 - Late download callbacks are ignored once a transfer has been stopped.
 
+### Recent work
+
+- Tightened the downloads experience so active rows, stopped rows, and installed states stay easier to read.
+- Added a lightweight reusable settings footer for small status text without changing the overall screen structure.
+- Cleaned up the release metadata path so the tagged build, in-app versioning, and notes stay aligned.
+
 ## [1.0.6] - 2026-04-06
 
 ### Added
