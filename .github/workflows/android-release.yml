@@ -73,6 +73,7 @@ jobs:
         env:
           CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }}
           CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
+          CROWDIN_REQUIRE_RELEASE_LOOKUP: ${{ startsWith(github.ref, 'refs/tags/v') }}
         run: |
           release_version="${GITHUB_REF_NAME#v}"
           repo_root="$(git rev-parse --show-toplevel)"
