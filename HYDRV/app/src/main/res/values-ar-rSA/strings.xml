@@ -425,8 +425,8 @@
     <string name="contributors_loaded">%1$dمساهمون محملون من (جيت هوب)</string>
     <string name="contributors_failed">المساهمون في شركة جيت هوب غير متاحين مؤقتاً.</string>
     <plurals name="contributor_role_contributions">
-        <item quantity="one">%dالمساهمة</item>
-        <item quantity="other">%dالمساهمات</item>
+        <item quantity="zero">%d</item><item quantity="one">%dالمساهمة</item>
+        <item quantity="two">%d</item><item quantity="few">%d</item><item quantity="many">%d</item><item quantity="other">%dالمساهمات</item>
     </plurals>
     <string name="about_licenses_dialog_title">مكتبات المصدر المفتوح</string>
     <string name="about_licenses_dialog_body">OkHtp 4.12.0/nRetrofit 2.9.0/nGson Converter 2.9.0/nPicasso 2.8\\nWorkManager 2.9.1\\nRecyclerView 1.3.2\\nSwipeRefreshLayout 1.1.0/nFacebook Shimmer 0.50\\nGoogreal Adbile</string>
@@ -435,11 +435,11 @@
     <string name="favorite_toggle_add" translatable="false">إضافة إلى المفضّلات</string>
     <string name="favorite_toggle_remove" translatable="false">إزالة من المفضّلات</string>
     <plurals name="download_items_count">
-        <item quantity="one">%dالبند</item>
-        <item quantity="other">%dالبنود</item>
+        <item quantity="zero">%d</item><item quantity="one">%dالبند</item>
+        <item quantity="two">%d</item><item quantity="few">%d</item><item quantity="many">%d</item><item quantity="other">%dالبنود</item>
     </plurals>
     <plurals name="download_selected_count">
-        <item quantity="one">%dمختارة</item>
-        <item quantity="other">%dمختارة</item>
+        <item quantity="zero">%d</item><item quantity="one">%dمختارة</item>
+        <item quantity="two">%d</item><item quantity="few">%d</item><item quantity="many">%d</item><item quantity="other">%dمختارة</item>
     </plurals>
 </resources>

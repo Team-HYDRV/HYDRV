@@ -426,7 +426,7 @@
     <string name="contributors_failed">GitHub тимчасово недоступні.</string>
     <plurals name="contributor_role_contributions">
         <item quantity="one">%dВступ</item>
-        <item quantity="other">%dВнески</item>
+        <item quantity="few">%d</item><item quantity="many">%d</item><item quantity="other">%dВнески</item>
     </plurals>
     <string name="about_licenses_dialog_title">Бібліотека відкритих джерел</string>
     <string name="about_licenses_dialog_body">English, Українська, Français...</string>
@@ -436,10 +436,10 @@
     <string name="favorite_toggle_remove" translatable="false">Видалити з улюблених</string>
     <plurals name="download_items_count">
         <item quantity="one">%dПункт</item>
-        <item quantity="other">%dТовари</item>
+        <item quantity="few">%d</item><item quantity="many">%d</item><item quantity="other">%dТовари</item>
     </plurals>
     <plurals name="download_selected_count">
         <item quantity="one">%dвибір</item>
-        <item quantity="other">%dвибір</item>
+        <item quantity="few">%d</item><item quantity="many">%d</item><item quantity="other">%dвибір</item>
     </plurals>
 </resources>
