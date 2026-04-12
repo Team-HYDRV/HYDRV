@@ -36,6 +36,7 @@ import androidx.core.content.edit
 import androidx.core.net.toUri
 import androidx.core.text.htmlEncode
 import androidx.core.text.HtmlCompat
+import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.work.WorkManager
 import androidx.core.view.ViewCompat
@@ -1866,8 +1867,7 @@ class SettingsFragment : Fragment() {
 
     private fun toggleBackendManagerInline() {
         if (!::backendManagerContainer.isInitialized) return
-        backendManagerContainer.visibility =
-            if (backendManagerContainer.visibility == View.VISIBLE) View.GONE else View.VISIBLE
+        backendManagerContainer.isVisible = !backendManagerContainer.isVisible
     }
 
     private fun renderBackendManagerInline() {
@@ -2337,7 +2337,7 @@ class SettingsFragment : Fragment() {
     }
 
     private fun updateBackendEmptyState(emptyView: TextView, list: LinearLayout) {
-        emptyView.visibility = if (list.childCount == 0) View.VISIBLE else View.GONE
+        emptyView.isVisible = list.childCount == 0
     }
 
     private fun refreshCatalogAfterBackendChange() {

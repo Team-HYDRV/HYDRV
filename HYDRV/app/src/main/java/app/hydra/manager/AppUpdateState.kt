@@ -1,6 +1,7 @@
 package app.hydra.manager
 
 import android.content.Context
+import androidx.core.content.edit
 import java.security.MessageDigest
 
 object AppUpdateState {
@@ -19,9 +20,9 @@ object AppUpdateState {
 
     fun setLastSeenHash(context: Context, hash: Int) {
         context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-            .edit()
-            .putInt(KEY_LAST_SEEN_HASH, hash)
-            .apply()
+            .edit {
+                putInt(KEY_LAST_SEEN_HASH, hash)
+            }
     }
 
     fun getLastNotifiedHash(context: Context): Int {
@@ -31,9 +32,9 @@ object AppUpdateState {
 
     fun setLastNotifiedHash(context: Context, hash: Int) {
         context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-            .edit()
-            .putInt(KEY_LAST_NOTIFIED_HASH, hash)
-            .apply()
+            .edit {
+                putInt(KEY_LAST_NOTIFIED_HASH, hash)
+            }
     }
 
     fun getLastCheckedAt(context: Context): Long {
@@ -43,9 +44,9 @@ object AppUpdateState {
 
     fun setLastCheckedAt(context: Context, timestamp: Long) {
         context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-            .edit()
-            .putLong(KEY_LAST_CHECKED_AT, timestamp)
-            .apply()
+            .edit {
+                putLong(KEY_LAST_CHECKED_AT, timestamp)
+            }
     }
 
     fun getBackendLastSeenHash(context: Context, backendUrl: String): Int {
@@ -55,9 +56,9 @@ object AppUpdateState {
 
     fun setBackendLastSeenHash(context: Context, backendUrl: String, hash: Int) {
         context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-            .edit()
-            .putInt(backendKey(KEY_BACKEND_LAST_SEEN_HASH_PREFIX, backendUrl), hash)
-            .apply()
+            .edit {
+                putInt(backendKey(KEY_BACKEND_LAST_SEEN_HASH_PREFIX, backendUrl), hash)
+            }
     }
 
     fun getBackendLastNotifiedHash(context: Context, backendUrl: String): Int {
@@ -67,9 +68,9 @@ object AppUpdateState {
 
     fun setBackendLastNotifiedHash(context: Context, backendUrl: String, hash: Int) {
         context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-            .edit()
-            .putInt(backendKey(KEY_BACKEND_LAST_NOTIFIED_HASH_PREFIX, backendUrl), hash)
-            .apply()
+            .edit {
+                putInt(backendKey(KEY_BACKEND_LAST_NOTIFIED_HASH_PREFIX, backendUrl), hash)
+            }
     }
 
     private fun backendKey(prefix: String, backendUrl: String): String {

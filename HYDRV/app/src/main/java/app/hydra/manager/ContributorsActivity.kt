@@ -3,7 +3,6 @@ package app.hydra.manager
 import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +14,7 @@ import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -131,7 +131,7 @@ class ContributorsActivity : AppCompatActivity() {
     private fun openProfile(profileUrl: String) {
         if (profileUrl.isBlank()) return
         try {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(profileUrl)))
+            startActivity(Intent(Intent.ACTION_VIEW, profileUrl.toUri()))
         } catch (_: ActivityNotFoundException) {
             AppSnackbar.show(findViewById(R.id.rootLayout), getString(R.string.about_link_placeholder))
         }

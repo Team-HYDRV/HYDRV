@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.widget.Button
@@ -12,6 +11,8 @@ import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.edit
+import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -85,9 +86,9 @@ class QuickStartActivity : AppCompatActivity() {
         }
         continueButton.setOnClickListener {
             getSharedPreferences(PREFS_ONBOARDING, MODE_PRIVATE)
-                .edit()
-                .putBoolean(KEY_QUICK_START_SHOWN, true)
-                .apply()
+                .edit {
+                    putBoolean(KEY_QUICK_START_SHOWN, true)
+                }
             openMainApp()
         }
 
@@ -174,7 +175,7 @@ class QuickStartActivity : AppCompatActivity() {
         startActivity(
             Intent(
                 android.provider.Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES,
-                Uri.parse("package:$packageName")
+                "package:$packageName".toUri()
             )
         )
     }

@@ -18,6 +18,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -578,7 +579,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun animateFilteredContentSwap(filteredList: List<AppModel>) {
-        val currentTarget = if (recyclerView.visibility == View.VISIBLE) recyclerView else emptyView
+        val currentTarget = if (recyclerView.isVisible) recyclerView else emptyView
         currentTarget.animate().cancel()
 
         currentTarget.animate()
@@ -595,7 +596,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun animateContentSwap() {
-        val target = if (recyclerView.visibility == View.VISIBLE) recyclerView else emptyView
+        val target = if (recyclerView.isVisible) recyclerView else emptyView
         target.animate().cancel()
         target.alpha = 0f
         target.translationY = 10f

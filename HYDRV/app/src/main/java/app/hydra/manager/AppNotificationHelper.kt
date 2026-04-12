@@ -8,11 +8,11 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import java.security.MessageDigest
 
 object AppNotificationHelper {
@@ -130,7 +130,7 @@ object AppNotificationHelper {
         if (!canPostNotifications(context)) return
 
         val intent = if (!releaseUrl.isNullOrBlank()) {
-            Intent(Intent.ACTION_VIEW, Uri.parse(releaseUrl)).apply {
+            Intent(Intent.ACTION_VIEW, releaseUrl.toUri()).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
             }
         } else {
