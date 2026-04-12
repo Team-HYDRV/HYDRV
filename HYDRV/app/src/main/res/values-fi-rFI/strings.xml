@@ -6,8 +6,8 @@
     <string name="settings_general_subtitle">Teeman ja luettelon asetukset</string>
     <string name="settings_updates_title">Päivitykset</string>
     <string name="settings_updates_subtitle">Päivitä asetukset ja muutosloki</string>
-    <string name="settings_advance_title">Lis?asetukset</string>
-    <string name="settings_advance_subtitle">Lis?ty?kalut, yhteydet ja virta-asetukset</string>
+    <string name="settings_advance_title">Lisäasetukset</string>
+    <string name="settings_advance_subtitle">Lisätyökalut, yhteydet ja virta-asetukset</string>
     <string name="settings_about_title">Tietoja</string>
     <string name="settings_about_subtitle">Sovelluksen tiedot ja tukitiedot</string>
     <string name="settings_section_appearance">Ulkonäkö</string>
@@ -102,7 +102,7 @@
     <string name="language_swedish_region">ruotsi (Ruotsi)</string>
     <string name="language_japanese_region">japani (Japani)</string>
     <string name="language_korean_region">korea (Etelä-Korea)</string>
-    <string name="language_native_system_default">K?yt? laitteen kielt?</string>
+    <string name="language_native_system_default">Käytä laitteen kieltä</string>
     <string name="language_native_english_region">English (United States)</string>
     <string name="language_native_filipino_region">Filipino (Pilipinas)</string>
     <string name="language_native_spanish_region">Español (España)</string>

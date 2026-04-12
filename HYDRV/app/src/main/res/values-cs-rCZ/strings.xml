@@ -102,7 +102,7 @@
     <string name="language_swedish_region">Švédsko</string>
     <string name="language_japanese_region">Japonské (Japonsko)</string>
     <string name="language_korean_region">Korejské (Jižní Korea)</string>
-    <string name="language_native_system_default">Pou??t jazyk za??zen?</string>
+    <string name="language_native_system_default">Použít jazyk zařízení</string>
     <string name="language_native_english_region">English (United States)</string>
     <string name="language_native_filipino_region">Filipino (Pilipinas)</string>
     <string name="language_native_spanish_region">Español (España)</string>
@@ -208,7 +208,7 @@
     <string name="download_progress_format" translatable="false">%1$d%%</string>
     <string name="download_status_paused">POZASTAVENO</string>
     <string name="download_status_stopped">ZASTAVENÍ</string>
-    <string name="download_status_failed">NEZDA?ILO SE</string>
+    <string name="download_status_failed">NEZDAŘILO SE</string>
     <string name="download_error_invalid_link">Požadované přímé spojení APK</string>
     <string name="download_error_network">Chyba sítě přerušila stahování</string>
     <string name="download_error_http_format">Server vrátil HTTP%1$d</string>
@@ -405,14 +405,14 @@
     <string name="about_link_github_caption">Zdroj, závazky a vydání historie</string>
     <string name="about_quick_label">Rychlé odkazy</string>
     <string name="about_description_title">O HYDRV</string>
-    <string name="about_description_body">Proch?zej vyd?n?, spravuj podepsan? sta?en? a m?j instalace p?ehledn? na jednom m?st?.</string>
+    <string name="about_description_body">Procházej vydání, spravuj podepsaná stažení a měj instalace přehledně na jednom místě.</string>
     <string name="about_focus_label">Postaven pro osobní prohlížení vydání</string>
     <string name="about_issue_title">Nahlásit problém</string>
-    <string name="about_issue_summary">Po?li chyby, hrub?? m?sta nebo n?pady, kter? mohou HYDRV je?t? zlep?it.</string>
+    <string name="about_issue_summary">Pošli chyby, hrubší místa nebo nápady, které mohou HYDRV ještě zlepšit.</string>
     <string name="about_contributors_title">Lidé za HYDRV</string>
-    <string name="about_contributors_summary">Seznam se s aktivn?mi p?isp?vateli GitHubu, kte?? stoj? za t?mto projektem.</string>
+    <string name="about_contributors_summary">Seznam se s aktivními přispěvateli GitHubu, kteří stojí za tímto projektem.</string>
     <string name="about_licenses_title">Knihovny a úvěry</string>
-    <string name="about_licenses_summary">Prohl?dni si open source n?stroje a komponenty, kter? poh?n?j? HYDRV.</string>
+    <string name="about_licenses_summary">Prohlédni si open source nástroje a komponenty, které pohánějí HYDRV.</string>
     <string name="about_contact_email">support@hydrv.app</string>
     <string name="about_link_placeholder">Tohle spojení je nedostupné.</string>
     <string name="about_issue_placeholder">Hlášení je nedostupné.</string>

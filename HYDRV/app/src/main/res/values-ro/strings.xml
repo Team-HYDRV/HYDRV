@@ -102,7 +102,7 @@
     <string name="language_swedish_region">Suedeză (Suedia)</string>
     <string name="language_japanese_region">Japoneză (Japonia)</string>
     <string name="language_korean_region">Coreeană (Coreea de Sud)</string>
-    <string name="language_native_system_default">Folose?te limba dispozitivului t?u</string>
+    <string name="language_native_system_default">Folosește limba dispozitivului tău</string>
     <string name="language_native_english_region">English (United States)</string>
     <string name="language_native_filipino_region">Filipino (Pilipinas)</string>
     <string name="language_native_spanish_region">Español (España)</string>
@@ -215,7 +215,7 @@
     <string name="download_error_write_failed">Nu am putut scrie fișierul descărcat</string>
     <string name="download_already_exists">Această versiune este deja în descărcări</string>
     <string name="download_action_open">Deschide</string>
-    <string name="download_action_install">INSTALEAZA</string>
+    <string name="download_action_install">INSTALEAZĂ</string>
     <string name="download_action_resume">REIA</string>
     <string name="download_action_retry">REÎNCEARCĂ</string>
     <string name="download_action_pause">PAUZĂ</string>
@@ -292,7 +292,7 @@
     <string name="downloads_wifi_only_blocked">Descărcările sunt setate doar la Wi-Fi</string>
     <string name="no_internet_connection">Nicio conexiune la internet disponibilă</string>
     <string name="rewarded_ad_required_message">Urmăriți anunțul recompensat pentru a începe această descărcare, sau așteptați dacă anunțurile nu sunt disponibile.</string>
-    <string name="backend_title">Surs? backend</string>
+    <string name="backend_title">Sursă backend</string>
     <string name="backend_summary">Schimbă link-ul sursă al catalogului aplicației</string>
     <string name="backend_help_title">Pentru ce e asta?</string>
     <string name="backend_help_body">Acest lucru controlează în cazul în care datele aplicației, versiunile și actualizările backend sunt încărcate de la. Lăsați-l gol pentru a păstra folosind backend-ul încorporat implicit.</string>
@@ -405,14 +405,14 @@
     <string name="about_link_github_caption">Sursa, comite, și să emită istorie</string>
     <string name="about_quick_label">Legături rapide</string>
     <string name="about_description_title">Despre HYDRV</string>
-    <string name="about_description_body">R?sfoie?te lans?rile, gestioneaz? desc?rc?rile semnate ?i p?streaz? instal?rile ordonate ?ntr-un singur loc.</string>
+    <string name="about_description_body">Răsfoiește lansările, gestionează descărcările semnate și păstrează instalările ordonate într-un singur loc.</string>
     <string name="about_focus_label">Construit pentru navigare cu eliberare personală</string>
     <string name="about_issue_title">Raportează o problemă</string>
-    <string name="about_issue_summary">Trimite buguri, col?uri nefinisate sau idei care ar putea face HYDRV mai bun.</string>
+    <string name="about_issue_summary">Trimite buguri, colțuri nefinisate sau idei care ar putea face HYDRV mai bun.</string>
     <string name="about_contributors_title">Oamenii din spatele HYDRV</string>
-    <string name="about_contributors_summary">F? cuno?tin?? cu contributorii GitHub activi din spatele acestui proiect.</string>
+    <string name="about_contributors_summary">Fă cunoștință cu contributorii GitHub activi din spatele acestui proiect.</string>
     <string name="about_licenses_title">Biblioteci și credite</string>
-    <string name="about_licenses_summary">R?sfoie?te uneltele ?i componentele open source care sus?in HYDRV.</string>
+    <string name="about_licenses_summary">Răsfoiește uneltele și componentele open source care susțin HYDRV.</string>
     <string name="about_contact_email">support@hydrv.app</string>
     <string name="about_link_placeholder">Acest link nu este disponibil acum.</string>
     <string name="about_issue_placeholder">Raportarea emisiunii nu este disponibilă acum.</string>

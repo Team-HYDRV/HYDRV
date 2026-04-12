@@ -5,7 +5,7 @@
     <string name="settings_general_title">Generales</string>
     <string name="settings_general_subtitle">Preferencias de tema y lista</string>
     <string name="settings_updates_title">Actualizaciones</string>
-    <string name="settings_updates_subtitle">Configuraci?n de actualizaciones y registro de cambios</string>
+    <string name="settings_updates_subtitle">Configuración de actualizaciones y registro de cambios</string>
     <string name="settings_advance_title">Avanzado</string>
     <string name="settings_advance_subtitle">Herramientas adicionales, conexión y opciones de energía.</string>
     <string name="settings_about_title">Acerca de</string>
@@ -272,7 +272,7 @@
     <string name="notification_text_backend_update">Nuevas actualizaciones están disponibles en HYDRV. Abra la aplicación para ver qué cambió.</string>
     <string name="backend_update_snackbar_format">%1$s backend actualizado.</string>
     <string name="notification_title_release_live">El nuevo lanzamiento está en vivo.</string>
-    <string name="notification_title_release_live_with_version">HYDRV %1$s ya est? disponible</string>
+    <string name="notification_title_release_live_with_version">HYDRV %1$s ya está disponible</string>
     <string name="notification_text_release_live">Una nueva versión de HYDRV está disponible.</string>
     <string name="updates_open_release">Lanzamiento abierto</string>
     <string name="install_failed">La instalación falló</string>
@@ -385,7 +385,7 @@
     <string name="updates_launch_message_summary">Muestra un mensaje en la aplicación cuando cambia la última versión del repositorio.</string>
     <string name="updates_check_now">Buscar actualizaciones</string>
     <string name="updates_checking">De cheques…</string>
-    <string name="updates_changelog_title">Registro de cambios de la versi?n</string>
+    <string name="updates_changelog_title">Registro de cambios de la versión</string>
     <string name="updates_changelog_body">HYDRV mantiene el registro de cambios en la aplicación alineado con las últimas notas de la versión de GitHub.</string>
     <string name="updates_changelog_loading">Cargando las últimas notas de la versión de GitHub...</string>
     <string name="updates_release_unavailable">Aún no se ha cargado ninguna versión</string>

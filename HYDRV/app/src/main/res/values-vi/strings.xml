@@ -6,8 +6,8 @@
     <string name="settings_general_subtitle">Tùy thích sắc thái và danh sách</string>
     <string name="settings_updates_title">Cập nhật</string>
     <string name="settings_updates_subtitle">Cập nhật thiết lập và bản ghi thay đổi</string>
-    <string name="settings_advance_title">N?ng cao</string>
-    <string name="settings_advance_subtitle">C?ng c? b? sung, k?t n?i v? t?y ch?n ngu?n ?i?n</string>
+    <string name="settings_advance_title">Nâng cao</string>
+    <string name="settings_advance_subtitle">Công cụ bổ sung, kết nối và tùy chọn nguồn điện</string>
     <string name="settings_about_title">Giới thiệu</string>
     <string name="settings_about_subtitle">Thông tin ứng dụng và chi tiết hỗ trợ</string>
     <string name="settings_section_appearance">Diện mạo</string>
@@ -62,7 +62,7 @@
     <string name="language_romanian">Ru- ma- niName</string>
     <string name="language_chinese_simplified">Hoa (phổ thông)</string>
     <string name="language_chinese_traditional">Hoa (truyền thống)</string>
-    <string name="language_hindi">Name</string>
+    <string name="language_hindi">Tiếng Hindi</string>
     <string name="language_arabic">Ả Rập</string>
     <string name="language_russian">NgaName</string>
     <string name="language_serbian">Serbia</string>
@@ -95,7 +95,7 @@
     <string name="language_romanian_region">Ru- ma- niName</string>
     <string name="language_chinese_simplified_region">Hoa (Trung Quốc) Name</string>
     <string name="language_chinese_traditional_region">Hoa (truyền thống)</string>
-    <string name="language_hindi_region">Name</string>
+    <string name="language_hindi_region">Tiếng Hindi (Ấn Độ)</string>
     <string name="language_arabic_region">Ả Rập</string>
     <string name="language_russian_region">Nga (Russia)</string>
     <string name="language_serbian_region">Serbia (Serbia)</string>
@@ -292,7 +292,7 @@
     <string name="downloads_wifi_only_blocked">Tải về</string>
     <string name="no_internet_connection">Không có kết nối Mạng sẵn sàng</string>
     <string name="rewarded_ad_required_message">Xem quảng cáo khen thưởng để bắt đầu tải về, hoặc đợi quảng cáo không sẵn sàng.</string>
-    <string name="backend_title">Ngu?n backend</string>
+    <string name="backend_title">Nguồn backend</string>
     <string name="backend_summary">Thay đổi liên kết nguồn danh mục phần mềm</string>
     <string name="backend_help_title">Cái này để làm gì?</string>
     <string name="backend_help_body">Tùy chọn này điều khiển nơi nạp các dữ liệu, phiên bản và bản cập nhật hậu phương. Còn lại trống để tiếp tục sử dụng hậu phương mặc định có sẵn. Chỉ thay đổi nếu bạn tin cậy liên kết tự chọn.</string>
