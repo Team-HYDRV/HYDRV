@@ -16,6 +16,23 @@ All notable changes to HYDRV are recorded here.
 
 - Bug fixes continue to roll in with each release.
 
+## [1.0.9] - 2026-04-12
+
+### Added
+
+- A cleaner public website with refreshed desktop and mobile layouts, a Features section, and smoother section-aware navigation.
+- DMCA verification support through the live site validation file, homepage verification tag, and linked trust badges.
+
+### Changed
+
+- The website and README were aligned around the same calmer HYDRV presentation, badge styling, and feature wording.
+- Release metadata now matches the 1.0.9 tag and keeps the app, site, and docs in sync.
+
+### Fixed
+
+- RTL settings switches and Arabic, Greek, and Hebrew language picker labels now render in the correct direction without mojibake.
+- Localized resource issues were cleaned up further, including malformed strings, plural coverage, and lingering question-mark corruption.
+
 ## [1.0.8] - 2026-04-11
 
 ### Added
