@@ -17,6 +17,9 @@
   <a href="https://translate.hydrv.app">
     <img src="https://img.shields.io/badge/Translate-Crowdin-2c80fb?style=for-the-badge&logo=crowdin&logoColor=white" alt="HYDRV Crowdin">
   </a>
+</p>
+
+<p align="center">
   <a href="https://ko-fi.com/xc3fff0e">
     <img src="https://img.shields.io/badge/Support-Ko--fi-ff5f5f?style=for-the-badge&logo=ko-fi&logoColor=white" alt="Support on Ko-fi">
   </a>
