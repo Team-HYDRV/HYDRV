@@ -15,6 +15,7 @@ import android.os.PowerManager
 import android.provider.Settings
 import android.text.InputType
 import android.text.SpannableStringBuilder
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -357,6 +358,7 @@ class SettingsFragment : Fragment() {
         updateSettingsSectionTabs()
         updateAboutAppIcon()
         updateSettingsCardSurfaces(view)
+        configureSwitchRows(view)
         batteryOptimizationValue = view.findViewById(R.id.batteryOptimizationValue)
         updateBackendUrlLabel()
         updateBatteryOptimizationLabel()
@@ -1738,6 +1740,37 @@ class SettingsFragment : Fragment() {
             .translationX(if (enabled) 20f.dpToPx() else 0f)
             .setDuration(150)
             .start()
+    }
+
+    private fun configureSwitchRows(root: View) {
+        val isRtl = resources.configuration.layoutDirection == View.LAYOUT_DIRECTION_RTL
+        val switchRowIds = intArrayOf(
+            R.id.dynamicColorRow,
+            R.id.pureBlackRow,
+            R.id.updateNotificationsRow,
+            R.id.checkUpdatesOnLaunchRow,
+            R.id.showUpdateMessageRow,
+            R.id.adsSupportRow
+        )
+
+        switchRowIds.forEach { rowId ->
+            val row = root.findViewById<LinearLayout>(rowId) ?: return@forEach
+            val textColumn = row.getChildAt(0) as? LinearLayout ?: return@forEach
+            row.layoutDirection = View.LAYOUT_DIRECTION_LTR
+            textColumn.layoutDirection = if (isRtl) View.LAYOUT_DIRECTION_RTL else View.LAYOUT_DIRECTION_LTR
+            textColumn.gravity = if (isRtl) Gravity.END else Gravity.START
+
+            for (index in 0 until textColumn.childCount) {
+                val child = textColumn.getChildAt(index)
+                if (child is TextView) {
+                    child.textAlignment = if (isRtl) {
+                        View.TEXT_ALIGNMENT_VIEW_END
+                    } else {
+                        View.TEXT_ALIGNMENT_VIEW_START
+                    }
+                }
+            }
+        }
     }
 
     private fun Float.dpToPx(): Float {
