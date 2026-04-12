@@ -33,6 +33,12 @@ All notable changes to HYDRV are recorded here.
 - RTL settings switches and Arabic, Greek, and Hebrew language picker labels now render in the correct direction without mojibake.
 - Localized resource issues were cleaned up further, including malformed strings, plural coverage, and lingering question-mark corruption.
 
+### Recent work
+
+- Reworked the website into a cleaner desktop and mobile experience with calmer navigation and section flow.
+- Added DMCA verification support, trust badges, and the matching validation file and meta tag on the site.
+- Cleaned RTL settings behavior and repaired remaining language picker label corruption in Arabic, Greek, and Hebrew.
+
 ## [1.0.8] - 2026-04-11
 
 ### Added
