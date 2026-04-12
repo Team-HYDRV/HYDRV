@@ -11,6 +11,8 @@ files:
         ar: ar
         cs: cs
         fil: fil
+        hi: hi-rIN
+        pl: pl-rPL
         pt-BR: pt-rBR
         zh-CN: zh-rCN
     update_option: update_as_unapproved
