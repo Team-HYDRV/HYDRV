@@ -140,6 +140,7 @@ jobs:
             write_section Added
             write_section Changed
             write_section Fixed
+            write_section "Recent work"
             echo "## Contributors"
             echo
             release_contributors
