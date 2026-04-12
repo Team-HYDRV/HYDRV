@@ -269,7 +269,7 @@
   <string name="notification_channel_name">Оновлення додатків</string>
   <string name="notification_channel_description">Повідомлення про зміну нових додатків.</string>
   <string name="notification_title_updates_live">Нові зміни додатків</string>
-  <string name="notification_text_updates_live">Свіжі оновлення доступні в HYDRV. Зверніть увагу, що\\' новий.</string>
+  <string name="notification_text_updates_live">Свіжі оновлення доступні в HYDRV. Подивіться, що нового.</string>
   <string name="notification_title_backend_update_format">%1$sBackend оновлений</string>
   <string name="notification_text_backend_update">Свіжі оновлення доступні в HYDRV. Відкрийте додаток, щоб побачити, що змінено.</string>
   <string name="backend_update_snackbar_format">%1$sBackend оновлений.</string>

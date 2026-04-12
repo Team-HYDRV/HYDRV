@@ -267,7 +267,7 @@
     <string name="notification_channel_name">Phụ cập nhật</string>
     <string name="notification_channel_description">Thông báo khi ứng dụng mới thay đổi.</string>
     <string name="notification_title_updates_live">Thay đổi ứng dụng mới là trực tiếp</string>
-    <string name="notification_text_updates_live">Các cập nhật mới có trong HYDRV. Hãy kiểm tra xem nhóm\\ mới là gì.</string>
+    <string name="notification_text_updates_live">C?c b?n c?p nh?t m?i ?? c? trong HYDRV. H?y xem c? g? m?i.</string>
     <string name="notification_title_backend_update_format">%1$sCập nhật hậu phương</string>
     <string name="notification_text_backend_update">Các cập nhật mới có trong HYDRV. Mở ứng dụng để xem cái gì đã thay đổi.</string>
     <string name="backend_update_snackbar_format">%1$sĐã cập nhật hậu phương.</string>

@@ -267,7 +267,7 @@
     <string name="notification_channel_name">Aggiornamenti dell\'app</string>
     <string name="notification_channel_description">Notifiche quando sono disponibili nuove modifiche app.</string>
     <string name="notification_title_updates_live">Nuove modifiche app sono in diretta</string>
-    <string name="notification_text_updates_live">Aggiornamenti freschi sono disponibili in HYDRV. Vieni a controllare cosa\\\'s nuovo.</string>
+    <string name="notification_text_updates_live">Nuovi aggiornamenti sono disponibili in HYDRV. Vieni a vedere le novit?.</string>
     <string name="notification_title_backend_update_format">%1$sbackend aggiornato</string>
     <string name="notification_text_backend_update">Aggiornamenti freschi sono disponibili in HYDRV. Aprire l\'app per vedere cosa è cambiato.</string>
     <string name="backend_update_snackbar_format">%1$sbackend aggiornato.</string>
