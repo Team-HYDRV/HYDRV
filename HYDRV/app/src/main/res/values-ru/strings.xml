@@ -285,7 +285,7 @@
     <string name="install_waiting_confirmation_format">В ожидании подтверждения установки для%1$s</string>
     <string name="install_success_format">%1$sуспешно установленный</string>
     <string name="uninstall_success_format">%1$sуспешно удалены</string>
-    <string name="install_preparing_format">Подготовка%1$sДля установки...</string>
+    <string name="install_preparing_format">Подготовка%1$sДля установки?</string>
     <string name="install_failed_error_format">Установка не удалась:%1$s</string>
     <string name="unknown_error">Неизвестная ошибка</string>
     <string name="file_not_found">Файл не найден</string>
@@ -316,7 +316,7 @@
     <string name="settings_backup_import_failed">Невозможно импортировать резервную копию настроек.</string>
     <string name="backend_health_title">Статус приложения</string>
     <string name="backend_health_summary">Просмотр backend, кэш, уведомление и статус обновления</string>
-    <string name="backend_health_loading">Загрузка статуса приложения...</string>
+    <string name="backend_health_loading">Загрузка статуса приложения?</string>
     <string name="backend_health_backend_mode_format">Режим источника:%1$s</string>
     <string name="backend_health_last_checked_format">Последнее проверено:%1$s</string>
     <string name="backend_health_last_seen_hash_format">Последний раз видел хэш:%1$d</string>
@@ -358,7 +358,7 @@
     <string name="backend_source_name_hint">Фамилия на спине</string>
     <string name="backend_source_url_hint">https://exmple.com/catalogue.json</string>
     <string name="backend_example_url">Пример: https://example.com/catalogue.json</string>
-    <string name="backend_validating_message">Проверить обратную ссылку...</string>
+    <string name="backend_validating_message">Проверить обратную ссылку?</string>
     <string name="backend_invalid_message">Эта ссылка не похожа на действующую конечную точку JSON.</string>
     <string name="backend_set_active_failed">Этот бэкэнд сейчас не работает.</string>
     <string name="backend_set_active_failed_detail">Этот бэкэнд сейчас не работает:%1$s</string>
@@ -377,17 +377,17 @@
     <string name="updates_view_changelog">Посмотреть Changelog</string>
     <string name="updates_download_now">скачать</string>
     <string name="updates_install_now">устанавливать</string>
-    <string name="updates_downloading">Скачать...</string>
+    <string name="updates_downloading">Скачать?</string>
     <string name="updates_resume_download">Резюме</string>
     <string name="updates_launch_check_title">Проверьте обновления при запуске</string>
     <string name="updates_launch_check_summary">Автоматически проверяйте последнюю версию GitHub при открытии HYDRV.</string>
     <string name="updates_launch_message_title">Показать сообщение обновления для запуска</string>
     <string name="updates_launch_message_summary">Отобразите сообщение в приложении, когда последний выпуск репо изменится.</string>
     <string name="updates_check_now">Проверьте обновления</string>
-    <string name="updates_checking">Проверить...</string>
+    <string name="updates_checking">Проверить?</string>
     <string name="updates_changelog_title">Журнал изменений релиза</string>
     <string name="updates_changelog_body">HYDRV сохраняет журнал изменений в приложении в соответствии с последними заметками о выпуске GitHub.</string>
-    <string name="updates_changelog_loading">Загрузка последних заметок GitHub...</string>
+    <string name="updates_changelog_loading">Загрузка последних заметок GitHub?</string>
     <string name="updates_release_unavailable">Отпуск еще не загружен</string>
     <string name="updates_check_failed">Не могу проверить обновления прямо сейчас.</string>
     <string name="updates_check_live_with_version">Новый релиз вышел в прямом эфире:%1$s%2$s.</string>
@@ -421,7 +421,7 @@
     <string name="about_contributors_dialog_title">Вкладчики</string>
     <string name="about_contributors_dialog_body">Этот экран показывает список живых участников из репозитория HYDRV GitHub.</string>
     <string name="contributors_group_summary">Спасибо, что помогаете HYDRV двигаться вперед.</string>
-    <string name="contributors_loading">Загрузка вкладчиков GitHub...</string>
+    <string name="contributors_loading">Загрузка вкладчиков GitHub?</string>
     <string name="contributors_loaded">%1$dАвторы загружаются с GitHub.</string>
     <string name="contributors_failed">Вкладчики GitHub временно недоступны.</string>
     <plurals name="contributor_role_contributions">

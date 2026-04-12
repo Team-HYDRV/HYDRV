@@ -287,7 +287,7 @@
   <string name="install_waiting_confirmation_format">설치 확인을 위한 대기%1$s</string>
   <string name="install_success_format">%1$s성공적으로 설치</string>
   <string name="uninstall_success_format">%1$s성공적으로 제거</string>
-  <string name="install_preparing_format">지원하다%1$s설치...</string>
+  <string name="install_preparing_format">지원하다%1$s설치?</string>
   <string name="install_failed_error_format">설치 실패:%1$s</string>
   <string name="unknown_error">알 수없는 오류</string>
   <string name="file_not_found">찾을 수 없음</string>
@@ -318,7 +318,7 @@
   <string name="settings_backup_import_failed">설정 백업을 가져올 수 없습니다.</string>
   <string name="backend_health_title">앱 상태</string>
   <string name="backend_health_summary">백엔드, 캐시, 알림 및 업데이트 상태 보기</string>
-  <string name="backend_health_loading">로딩 앱 상태...</string>
+  <string name="backend_health_loading">로딩 앱 상태?</string>
   <string name="backend_health_backend_mode_format">근원 형태:%1$s</string>
   <string name="backend_health_last_checked_format">마지막 검사:%1$s</string>
   <string name="backend_health_last_seen_hash_format">마지막으로 본 해시:%1$d</string>
@@ -360,7 +360,7 @@
   <string name="backend_source_name_hint">이름 *</string>
   <string name="backend_source_url_hint">HTTPS://example.com/catalogue.json</string>
   <string name="backend_example_url">예: https://example.com/catalogue.json</string>
-  <string name="backend_validating_message">Backend 링크 확인 ...</string>
+  <string name="backend_validating_message">Backend 링크 확인 ?</string>
   <string name="backend_invalid_message">해당 링크는 유효한 JSON 엔드포인트와 같습니다.</string>
   <string name="backend_set_active_failed">그건 지금 바로 작동하지 않습니다.</string>
   <string name="backend_set_active_failed_detail">그 백엔드가 지금 작동하지 않습니다:%1$s</string>
@@ -379,17 +379,17 @@
   <string name="updates_view_changelog">ChangeLog에 보기</string>
   <string name="updates_download_now">다운로드</string>
   <string name="updates_install_now">설치하기</string>
-  <string name="updates_downloading">다운로드 ...</string>
+  <string name="updates_downloading">다운로드 ?</string>
   <string name="updates_resume_download">제품 설명</string>
   <string name="updates_launch_check_title">공지사항</string>
   <string name="updates_launch_check_summary">HYDRV를 열 때마다 최신 GitHub 릴리스를 자동으로 확인합니다.</string>
   <string name="updates_launch_message_title">공지사항</string>
   <string name="updates_launch_message_summary">최신 repo 릴리스가 변경 될 때 in-app 메시지를 표시합니다.</string>
   <string name="updates_check_now">자주 묻는 질문</string>
-  <string name="updates_checking">기타...</string>
+  <string name="updates_checking">기타?</string>
   <string name="updates_changelog_title">릴리스 변경 기록</string>
   <string name="updates_changelog_body">HYDRV는 최신 GitHub 릴리스 노트로 정렬 된 앱 변경 로그를 유지합니다.</string>
-  <string name="updates_changelog_loading">최신 GitHub 릴리스 노트로드 ...</string>
+  <string name="updates_changelog_loading">최신 GitHub 릴리스 노트로드 ?</string>
   <string name="updates_release_unavailable">아직 로드되지 않음</string>
   <string name="updates_check_failed">지금 업데이트 할 수 없습니다.</string>
   <string name="updates_check_live_with_version">새로운 릴리스는 살아있는:%1$s%2$s·</string>
@@ -423,7 +423,7 @@
   <string name="about_contributors_dialog_title">계정 관리</string>
   <string name="about_contributors_dialog_body">이 화면은 HYDRV GitHub 저장소의 라이브 기여자 목록을 보여줍니다.</string>
   <string name="contributors_group_summary">HYDRV를 앞으로 돕는 당신을 감사하십시오.</string>
-  <string name="contributors_loading">GitHub 기여자...</string>
+  <string name="contributors_loading">GitHub 기여자?</string>
   <string name="contributors_loaded">%1$dGitHub에서 가져온 기여자.</string>
   <string name="contributors_failed">GitHub 기여자는 일시적으로 사용할 수 없습니다.</string>
   <plurals name="contributor_role_contributions">

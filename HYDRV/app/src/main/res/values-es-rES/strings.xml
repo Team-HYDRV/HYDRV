@@ -285,7 +285,7 @@
     <string name="install_waiting_confirmation_format">Esperando confirmación de instalación para %1$s</string>
     <string name="install_success_format">%1$s instalado correctamente</string>
     <string name="uninstall_success_format">%1$s desinstalado exitosamente</string>
-    <string name="install_preparing_format">Preparando %1$s para la instalación...</string>
+    <string name="install_preparing_format">Preparando %1$s para la instalación?</string>
     <string name="install_failed_error_format">Error de instalación: %1$s</string>
     <string name="unknown_error">error desconocido</string>
     <string name="file_not_found">Archivo no encontrado</string>
@@ -358,7 +358,7 @@
     <string name="backend_source_name_hint">Nombre del servidor</string>
     <string name="backend_source_url_hint">https://example.com/catalogue.json</string>
     <string name="backend_example_url">Ejemplo: https://example.com/catalogue.json</string>
-    <string name="backend_validating_message">Comprobando el enlace backend...</string>
+    <string name="backend_validating_message">Comprobando el enlace backend?</string>
     <string name="backend_invalid_message">Ese enlace no parece un punto final JSON válido.</string>
     <string name="backend_set_active_failed">Ese backend no está funcionando en este momento.</string>
     <string name="backend_set_active_failed_detail">Ese backend no funciona en este momento: %1$s</string>
@@ -387,7 +387,7 @@
     <string name="updates_checking">De cheques…</string>
     <string name="updates_changelog_title">Registro de cambios de la versión</string>
     <string name="updates_changelog_body">HYDRV mantiene el registro de cambios en la aplicación alineado con las últimas notas de la versión de GitHub.</string>
-    <string name="updates_changelog_loading">Cargando las últimas notas de la versión de GitHub...</string>
+    <string name="updates_changelog_loading">Cargando las últimas notas de la versión de GitHub?</string>
     <string name="updates_release_unavailable">Aún no se ha cargado ninguna versión</string>
     <string name="updates_check_failed">No se pudieron buscar actualizaciones en este momento.</string>
     <string name="updates_check_live_with_version">El nuevo lanzamiento está disponible: %1$s %2$s.</string>

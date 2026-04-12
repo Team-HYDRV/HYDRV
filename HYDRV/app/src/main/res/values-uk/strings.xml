@@ -285,7 +285,7 @@
     <string name="install_waiting_confirmation_format">Очікується підтвердження для встановлення%1$s</string>
     <string name="install_success_format">%1$sуспішно встановлена</string>
     <string name="uninstall_success_format">%1$sвидаліть успішно</string>
-    <string name="install_preparing_format">Підготовка%1$sдля установки ...</string>
+    <string name="install_preparing_format">Підготовка%1$sдля установки ?</string>
     <string name="install_failed_error_format">Встановити не вдалося:%1$s</string>
     <string name="unknown_error">Невідома помилка</string>
     <string name="file_not_found">Файл не знайдено</string>
@@ -358,7 +358,7 @@
     <string name="backend_source_name_hint">Ім\'я користувача</string>
     <string name="backend_source_url_hint">https://example.com/catalogue.json</string>
     <string name="backend_example_url">Приклад: https://example.com/catalogue.json</string>
-    <string name="backend_validating_message">Перевірка зворотного зв\'язку ...</string>
+    <string name="backend_validating_message">Перевірка зворотного зв\'язку ?</string>
     <string name="backend_invalid_message">Ця посилання не схожа на дійсну кінцеву точку JSON.</string>
     <string name="backend_set_active_failed">Що не працює зараз.</string>
     <string name="backend_set_active_failed_detail">Що не працює зараз:%1$s</string>
@@ -377,17 +377,17 @@
     <string name="updates_view_changelog">Перегляд журналів змін</string>
     <string name="updates_download_now">Завантажити</string>
     <string name="updates_install_now">Увійти</string>
-    <string name="updates_downloading">Завантаження...</string>
+    <string name="updates_downloading">Завантаження?</string>
     <string name="updates_resume_download">Резюме</string>
     <string name="updates_launch_check_title">Перевірити оновлення</string>
     <string name="updates_launch_check_summary">Автоматично перевірте останні реліз GitHub, коли ви відкриєте HYDRV.</string>
     <string name="updates_launch_message_title">Показати оновлення повідомлення про запуск</string>
     <string name="updates_launch_message_summary">Відобразити повідомлення в додатку, коли останні зміни релізу репо.</string>
     <string name="updates_check_now">Перевірити оновлення</string>
-    <string name="updates_checking">Перевірити...</string>
+    <string name="updates_checking">Перевірити?</string>
     <string name="updates_changelog_title">Журнал змін релізу</string>
     <string name="updates_changelog_body">HYDRV зберігає запатентовану систему, вирівняну з останніми нотами релізу GitHub.</string>
-    <string name="updates_changelog_loading">Завантаження останніх GitHub випуск нот...</string>
+    <string name="updates_changelog_loading">Завантаження останніх GitHub випуск нот?</string>
     <string name="updates_release_unavailable">Ні реліз завантажений</string>
     <string name="updates_check_failed">Не перевірте оновлення прямо зараз.</string>
     <string name="updates_check_live_with_version">Новий реліз:%1$s%2$sй</string>
@@ -421,7 +421,7 @@
     <string name="about_contributors_dialog_title">Внески</string>
     <string name="about_contributors_dialog_body">Цей екран показує список вкладників у HYDRV GitHub.</string>
     <string name="contributors_group_summary">Дякую за допомогу тримати HYDRV переміщення вперед.</string>
-    <string name="contributors_loading">Завантаження GitHub...</string>
+    <string name="contributors_loading">Завантаження GitHub?</string>
     <string name="contributors_loaded">%1$dвід GitHub.</string>
     <string name="contributors_failed">GitHub тимчасово недоступні.</string>
     <plurals name="contributor_role_contributions">
@@ -429,7 +429,7 @@
         <item quantity="few">%d</item><item quantity="many">%d</item><item quantity="other">%dВнески</item>
     </plurals>
     <string name="about_licenses_dialog_title">Бібліотека відкритих джерел</string>
-    <string name="about_licenses_dialog_body">English, Українська, Français...</string>
+    <string name="about_licenses_dialog_body">English, Українська, Français?</string>
     <string name="about_dialog_close">Головна</string>
     <string name="back_label">Зареєструватися</string>
     <string name="favorite_toggle_add" translatable="false">Додати до обраного</string>

@@ -285,7 +285,7 @@
     <string name="install_waiting_confirmation_format">Venter på installationsbekræftelse for%1$s</string>
     <string name="install_success_format">%1$sinstalleret med succes</string>
     <string name="uninstall_success_format">%1$sikke installeret med succes</string>
-    <string name="install_preparing_format">Forberedelse%1$stil installation...</string>
+    <string name="install_preparing_format">Forberedelse%1$stil installation?</string>
     <string name="install_failed_error_format">Installér mislykkedes:%1$s</string>
     <string name="unknown_error">ukendt fejl</string>
     <string name="file_not_found">Fil ikke fundet</string>
@@ -316,7 +316,7 @@
     <string name="settings_backup_import_failed">Kunne ikke importere backup af indstillinger.</string>
     <string name="backend_health_title">Appstatus</string>
     <string name="backend_health_summary">Vis backend, cache, notifikation og opdateringsstatus</string>
-    <string name="backend_health_loading">Indlæser app status...</string>
+    <string name="backend_health_loading">Indlæser app status?</string>
     <string name="backend_health_backend_mode_format">Kildetilstand:%1$s</string>
     <string name="backend_health_last_checked_format">Sidst markeret:%1$s</string>
     <string name="backend_health_last_seen_hash_format">Seneste set hash:%1$d</string>
@@ -358,7 +358,7 @@
     <string name="backend_source_name_hint">Baggrunds navn</string>
     <string name="backend_source_url_hint">https: / / example.com / catalogue.json</string>
     <string name="backend_example_url">Eksempel: https: / / example.com / catalogue.json</string>
-    <string name="backend_validating_message">Tjekker backend link...</string>
+    <string name="backend_validating_message">Tjekker backend link?</string>
     <string name="backend_invalid_message">Dette link ligner ikke et gyldigt JSON endpoint.</string>
     <string name="backend_set_active_failed">Den bagdel virker ikke lige nu.</string>
     <string name="backend_set_active_failed_detail">Bagenden virker ikke lige nu.%1$s</string>
@@ -377,17 +377,17 @@
     <string name="updates_view_changelog">Vis changelog</string>
     <string name="updates_download_now">Hent</string>
     <string name="updates_install_now">Installér</string>
-    <string name="updates_downloading">Downloader...</string>
+    <string name="updates_downloading">Downloader?</string>
     <string name="updates_resume_download">Genoptag</string>
     <string name="updates_launch_check_title">Tjek for opdateringer ved lancering</string>
     <string name="updates_launch_check_summary">Kontrollér automatisk den seneste GitHub-udgave, når du åbner HYDRV.</string>
     <string name="updates_launch_message_title">Vis opdateringsbesked ved lancering</string>
     <string name="updates_launch_message_summary">Vis en in- app besked når den seneste repo udgivelse ændres.</string>
     <string name="updates_check_now">Tjek for opdateringer</string>
-    <string name="updates_checking">Tjekker...</string>
+    <string name="updates_checking">Tjekker?</string>
     <string name="updates_changelog_title">Ændringslog for udgivelse</string>
     <string name="updates_changelog_body">HYDRV holder in-app changelog tilpasset de nyeste GitHub release noter.</string>
-    <string name="updates_changelog_loading">Indlæser de seneste GitHub udgivelsesnoter...</string>
+    <string name="updates_changelog_loading">Indlæser de seneste GitHub udgivelsesnoter?</string>
     <string name="updates_release_unavailable">Ingen udgivelse indlæst endnu</string>
     <string name="updates_check_failed">Kunne ikke tjekke for opdateringer lige nu.</string>
     <string name="updates_check_live_with_version">Ny udgivelse er live:%1$s%2$s.</string>
@@ -421,7 +421,7 @@
     <string name="about_contributors_dialog_title">Bidragydere</string>
     <string name="about_contributors_dialog_body">Denne skærm viser listen med live bidragydere fra HYDRV GitHub-lageret.</string>
     <string name="contributors_group_summary">Tak, fordi du hjalp HYDRV med at komme videre.</string>
-    <string name="contributors_loading">Indlæser GitHub bidragydere...</string>
+    <string name="contributors_loading">Indlæser GitHub bidragydere?</string>
     <string name="contributors_loaded">%1$dbidragydere indlæst fra GitHub.</string>
     <string name="contributors_failed">GitHub bidragydere er midlertidigt ikke tilgængelige.</string>
     <plurals name="contributor_role_contributions">

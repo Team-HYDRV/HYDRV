@@ -285,7 +285,7 @@
     <string name="install_waiting_confirmation_format">في انتظار تأكيد الانشاء%1$s</string>
     <string name="install_success_format">%1$sتم تركيبه بنجاح</string>
     <string name="uninstall_success_format">%1$sغير مكتمل بنجاح</string>
-    <string name="install_preparing_format">الإعداد%1$sللتركيب...</string>
+    <string name="install_preparing_format">الإعداد%1$sللتركيب?</string>
     <string name="install_failed_error_format">Install failed:%1$s</string>
     <string name="unknown_error">خطأ مجهول</string>
     <string name="file_not_found">الملف لم يعثر عليه</string>
@@ -358,7 +358,7 @@
     <string name="backend_source_name_hint">اسم خلفي</string>
     <string name="backend_source_url_hint">https://example.com/catalogue.json</string>
     <string name="backend_example_url">مثال: https://example.com/catalogue.json</string>
-    <string name="backend_validating_message">التحقق من الرابط الخلفي...</string>
+    <string name="backend_validating_message">التحقق من الرابط الخلفي?</string>
     <string name="backend_invalid_message">وهذه الصلة لا تبدو وكأنها نقطة نهاية سارة للشركة.</string>
     <string name="backend_set_active_failed">هذا الدعم لا يعمل الآن</string>
     <string name="backend_set_active_failed_detail">هذه المساندة لا تعمل الآن%1$s</string>
@@ -377,17 +377,17 @@
     <string name="updates_view_changelog">عرض سجل التغيير</string>
     <string name="updates_download_now">تحميل</string>
     <string name="updates_install_now">ثَبَّتَ</string>
-    <string name="updates_downloading">تحميل...</string>
+    <string name="updates_downloading">تحميل?</string>
     <string name="updates_resume_download">الاستهلاك</string>
     <string name="updates_launch_check_title">التحقق من المستجدات بشأن الإطلاق</string>
     <string name="updates_launch_check_summary">تحقق تلقائياً من آخر إطلاق لـ (جيت هوب) عندما تفتح (هايدرايف)</string>
     <string name="updates_launch_message_title">رسالة معلومات مستكملة عن الإطلاق</string>
     <string name="updates_launch_message_summary">اكتب رسالة في حالة حدوث تغيرات</string>
     <string name="updates_check_now">التحقق من المستجدات</string>
-    <string name="updates_checking">التحقق...</string>
+    <string name="updates_checking">التحقق?</string>
     <string name="updates_changelog_title">سجل الإصدار</string>
     <string name="updates_changelog_body">(هايدرايف) يحتفظ بالتغيير في التمارين المتوافقة مع آخر ملاحظات إطلاق (جيت هوب)</string>
-    <string name="updates_changelog_loading">تحمل آخر ملاحظات إطلاق (جيت هوب)...</string>
+    <string name="updates_changelog_loading">تحمل آخر ملاحظات إطلاق (جيت هوب)?</string>
     <string name="updates_release_unavailable">لم يتم تحميل أي إصدار حتى الآن</string>
     <string name="updates_check_failed">لا يمكن التحقق من المستجدات الآن.</string>
     <string name="updates_check_live_with_version">إطلاق جديد حي:%1$s%2$s.</string>
@@ -421,7 +421,7 @@
     <string name="about_contributors_dialog_title">المساهمون</string>
     <string name="about_contributors_dialog_body">هذه الشاشة تُظهر قائمة المساهمين الحيّين من مستودع (هايرف جيت هوب)</string>
     <string name="contributors_group_summary">شكراً لكِ على مساعدتكِ في المضي قدماً</string>
-    <string name="contributors_loading">مساهمين في (غيت هوب)...</string>
+    <string name="contributors_loading">مساهمين في (غيت هوب)?</string>
     <string name="contributors_loaded">%1$dمساهمون محملون من (جيت هوب)</string>
     <string name="contributors_failed">المساهمون في شركة جيت هوب غير متاحين مؤقتاً.</string>
     <plurals name="contributor_role_contributions">

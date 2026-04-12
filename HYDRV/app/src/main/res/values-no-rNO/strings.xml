@@ -285,7 +285,7 @@
     <string name="install_waiting_confirmation_format">Venter på installasjonsbekreftelse%1$s</string>
     <string name="install_success_format">%1$sinstallert</string>
     <string name="uninstall_success_format">%1$savinstallert vellykket</string>
-    <string name="install_preparing_format">Forbereder%1$sFor installasjon...</string>
+    <string name="install_preparing_format">Forbereder%1$sFor installasjon?</string>
     <string name="install_failed_error_format">Installasjonen mislyktes:%1$s</string>
     <string name="unknown_error">ukjent feil</string>
     <string name="file_not_found">Fil ikke funnet</string>
@@ -316,7 +316,7 @@
     <string name="settings_backup_import_failed">Kunne ikke importere sikkerhetskopien.</string>
     <string name="backend_health_title">App-status</string>
     <string name="backend_health_summary">Vis motor, buffer, varsling og oppdateringsstatus</string>
-    <string name="backend_health_loading">Laster appstatus...</string>
+    <string name="backend_health_loading">Laster appstatus?</string>
     <string name="backend_health_backend_mode_format">Kildemodus:%1$s</string>
     <string name="backend_health_last_checked_format">Sist kontrollert:%1$s</string>
     <string name="backend_health_last_seen_hash_format">Sist sett hash:%1$d</string>
@@ -358,7 +358,7 @@
     <string name="backend_source_name_hint">Motornavn</string>
     <string name="backend_source_url_hint">https://eksample.com/catalougue.json</string>
     <string name="backend_example_url">Eksempel: https://eksample.com/catalougue.json</string>
-    <string name="backend_validating_message">Sjekker backend-lenke...</string>
+    <string name="backend_validating_message">Sjekker backend-lenke?</string>
     <string name="backend_invalid_message">Denne linken ser ikke ut som et gyldig JSON-endepunkt.</string>
     <string name="backend_set_active_failed">Den motoren fungerer ikke akkurat nå.</string>
     <string name="backend_set_active_failed_detail">Denne motoren fungerer ikke akkurat nå:%1$s</string>
@@ -377,17 +377,17 @@
     <string name="updates_view_changelog">Vis endringslogg</string>
     <string name="updates_download_now">Last ned</string>
     <string name="updates_install_now">Installer</string>
-    <string name="updates_downloading">Laster ned...</string>
+    <string name="updates_downloading">Laster ned?</string>
     <string name="updates_resume_download">Fortsett</string>
     <string name="updates_launch_check_title">Sjekk etter oppdateringer ved oppstart</string>
     <string name="updates_launch_check_summary">Sjekk automatisk den nyeste GitHub-utgivelsen når du åpner HYDRV.</string>
     <string name="updates_launch_message_title">Vis oppdateringsmelding ved oppstart</string>
     <string name="updates_launch_message_summary">Vis en i-app-melding når den siste repo-utgivelsen endres.</string>
     <string name="updates_check_now">Sjekk etter oppdateringer</string>
-    <string name="updates_checking">Sjekker...</string>
+    <string name="updates_checking">Sjekker?</string>
     <string name="updates_changelog_title">Endringslogg for utgivelsen</string>
     <string name="updates_changelog_body">HYDRV holder endringsloggen i appen i tråd med de nyeste gitHub-utgivelsesnotene.</string>
-    <string name="updates_changelog_loading">Laster de nyeste GitHub release notater...</string>
+    <string name="updates_changelog_loading">Laster de nyeste GitHub release notater?</string>
     <string name="updates_release_unavailable">Ingen utgivelse ennå</string>
     <string name="updates_check_failed">Kunne ikke se etter oppdateringer akkurat nå.</string>
     <string name="updates_check_live_with_version">Ny utgivelse er live:%1$s%2$s..</string>
@@ -421,7 +421,7 @@
     <string name="about_contributors_dialog_title">Bidragsytere</string>
     <string name="about_contributors_dialog_body">Denne skjermen viser live bidragsyterlisten fra HYDRV GitHub-arkivet.</string>
     <string name="contributors_group_summary">Takk for hjelpen til å holde HYDRV i gang.</string>
-    <string name="contributors_loading">Laster inn GitHub-bidragsytere...</string>
+    <string name="contributors_loading">Laster inn GitHub-bidragsytere?</string>
     <string name="contributors_loaded">%1$dDeltakerne lastet fra GitHub.</string>
     <string name="contributors_failed">GitHub bidragsytere er midlertidig utilgjengelige.</string>
     <plurals name="contributor_role_contributions">

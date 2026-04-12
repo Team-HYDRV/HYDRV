@@ -285,7 +285,7 @@
     <string name="install_waiting_confirmation_format">Odotetaan asennuksen vahvistusta kohteelle %1$s</string>
     <string name="install_success_format">%1$s asennettu onnistuneesti</string>
     <string name="uninstall_success_format">%1$s poistettu onnistuneesti</string>
-    <string name="install_preparing_format">Valmistellaan %1$s asennusta varten...</string>
+    <string name="install_preparing_format">Valmistellaan %1$s asennusta varten?</string>
     <string name="install_failed_error_format">Asennus epäonnistui: %1$s</string>
     <string name="unknown_error">tuntematon virhe</string>
     <string name="file_not_found">Tiedostoa ei löydy</string>
@@ -358,7 +358,7 @@
     <string name="backend_source_name_hint">Taustaohjelman nimi</string>
     <string name="backend_source_url_hint">https://example.com/catalogue.json</string>
     <string name="backend_example_url">Esimerkki: https://example.com/catalogue.json</string>
-    <string name="backend_validating_message">Tarkistetaan taustalinkkiä...</string>
+    <string name="backend_validating_message">Tarkistetaan taustalinkkiä?</string>
     <string name="backend_invalid_message">Tämä linkki ei näytä kelvolliselta JSON-päätepisteeltä.</string>
     <string name="backend_set_active_failed">Se taustaohjelma ei toimi juuri nyt.</string>
     <string name="backend_set_active_failed_detail">Tämä taustaohjelma ei toimi juuri nyt: %1$s</string>

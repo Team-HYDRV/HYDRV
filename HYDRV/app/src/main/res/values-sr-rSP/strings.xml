@@ -288,7 +288,7 @@
   <string name="install_waiting_confirmation_format">Чека се потврда инсталације за %1$s</string>
   <string name="install_success_format">%1$s је успешно инсталиран</string>
   <string name="uninstall_success_format">%1$s је успешно деинсталиран</string>
-  <string name="install_preparing_format">Припрема %1$s за инсталацију...</string>
+  <string name="install_preparing_format">Припрема %1$s за инсталацију?</string>
   <string name="install_failed_error_format">Инсталација није успела: %1$s</string>
   <string name="unknown_error">непозната грешка</string>
   <string name="file_not_found">Фајл није пронађен</string>
@@ -361,7 +361,7 @@
   <string name="backend_source_name_hint">Бацкенд наме</string>
   <string name="backend_source_url_hint">хттпс://екампле.цом/цаталогуе.јсон</string>
   <string name="backend_example_url">Пример: хттпс://екампле.цом/цаталогуе.јсон</string>
-  <string name="backend_validating_message">Проверава се позадинска веза...</string>
+  <string name="backend_validating_message">Проверава се позадинска веза?</string>
   <string name="backend_invalid_message">Та веза не изгледа као важећа ЈСОН крајња тачка.</string>
   <string name="backend_set_active_failed">Тај бацкенд тренутно не ради.</string>
   <string name="backend_set_active_failed_detail">Тај бацкенд тренутно не ради: %1$s</string>

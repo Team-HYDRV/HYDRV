@@ -287,7 +287,7 @@
   <string name="install_waiting_confirmation_format">Wag tans vir installasiebevestiging vir %1$s</string>
   <string name="install_success_format">%1$s suksesvol geïnstalleer</string>
   <string name="uninstall_success_format">%1$s is suksesvol gedeïnstalleer</string>
-  <string name="install_preparing_format">Berei tans %1$s voor vir installasie...</string>
+  <string name="install_preparing_format">Berei tans %1$s voor vir installasie?</string>
   <string name="install_failed_error_format">Installering het misluk: %1$s</string>
   <string name="unknown_error">onbekende fout</string>
   <string name="file_not_found">Lêer nie gevind nie</string>

@@ -285,7 +285,7 @@
     <string name="install_waiting_confirmation_format">Väntar på installationsbekräftelse för%1$s</string>
     <string name="install_success_format">%1$sinstallerad framgångsrikt</string>
     <string name="uninstall_success_format">%1$sAvinstallerad framgångsrikt</string>
-    <string name="install_preparing_format">Förberedelser%1$sFör installation...</string>
+    <string name="install_preparing_format">Förberedelser%1$sFör installation?</string>
     <string name="install_failed_error_format">Installera misslyckad:%1$s</string>
     <string name="unknown_error">Okänd fel</string>
     <string name="file_not_found">File hittades inte</string>
@@ -316,7 +316,7 @@
     <string name="settings_backup_import_failed">Kunde inte importera inställningarna backup.</string>
     <string name="backend_health_title">Appens status</string>
     <string name="backend_health_summary">Visa backend, cache, meddelande och uppdateringsstatus</string>
-    <string name="backend_health_loading">Laddar appstatus...</string>
+    <string name="backend_health_loading">Laddar appstatus?</string>
     <string name="backend_health_backend_mode_format">Källa läge:%1$s</string>
     <string name="backend_health_last_checked_format">Senast kontrollerad:%1$s</string>
     <string name="backend_health_last_seen_hash_format">Senast sett hash:%1$d</string>
@@ -358,7 +358,7 @@
     <string name="backend_source_name_hint">Backend namn</string>
     <string name="backend_source_url_hint">https://example.com/catalogue.json</string>
     <string name="backend_example_url">Exempel: https://example.com/catalogue.json</string>
-    <string name="backend_validating_message">Kontrollera backend länk...</string>
+    <string name="backend_validating_message">Kontrollera backend länk?</string>
     <string name="backend_invalid_message">Denna länk ser inte ut som en giltig JSON-endpoint.</string>
     <string name="backend_set_active_failed">Denna backend fungerar inte just nu.</string>
     <string name="backend_set_active_failed_detail">Denna backend fungerar inte just nu:%1$s</string>
@@ -377,17 +377,17 @@
     <string name="updates_view_changelog">View Changelog</string>
     <string name="updates_download_now">Ladda ner</string>
     <string name="updates_install_now">Installera</string>
-    <string name="updates_downloading">Ladda ner...</string>
+    <string name="updates_downloading">Ladda ner?</string>
     <string name="updates_resume_download">Återkomma</string>
     <string name="updates_launch_check_title">Kontrollera uppdateringar om lansering</string>
     <string name="updates_launch_check_summary">Kontrollera automatiskt den senaste GitHub-utgåvan när du öppnar HYDRV.</string>
     <string name="updates_launch_message_title">Visa uppdateringsmeddelande på lanseringen</string>
     <string name="updates_launch_message_summary">Visa ett in-app-meddelande när den senaste repo-utgåvan ändras.</string>
     <string name="updates_check_now">Kontrollera uppdateringar</string>
-    <string name="updates_checking">Kontrollera...</string>
+    <string name="updates_checking">Kontrollera?</string>
     <string name="updates_changelog_title">Ändringslogg för release</string>
     <string name="updates_changelog_body">HYDRV håller in-app changelog i linje med de senaste GitHub release anteckningar.</string>
-    <string name="updates_changelog_loading">Laddar de senaste GitHub-releasenoteringarna...</string>
+    <string name="updates_changelog_loading">Laddar de senaste GitHub-releasenoteringarna?</string>
     <string name="updates_release_unavailable">Ingen release laddad ännu</string>
     <string name="updates_check_failed">Kunde inte kolla efter uppdateringar just nu.</string>
     <string name="updates_check_live_with_version">Ny release är live:%1$s%2$s.</string>
@@ -421,7 +421,7 @@
     <string name="about_contributors_dialog_title">Bidragsgivare</string>
     <string name="about_contributors_dialog_body">Den här skärmen visar livebidragslistan från HYDRV GitHub-förvaret.</string>
     <string name="contributors_group_summary">Tack för att du hjälper till att hålla HYDRV framåt.</string>
-    <string name="contributors_loading">Laddar GitHub-bidragsgivare...</string>
+    <string name="contributors_loading">Laddar GitHub-bidragsgivare?</string>
     <string name="contributors_loaded">%1$dBidragsgivare laddade från GitHub.</string>
     <string name="contributors_failed">GitHub bidragsgivare är tillfälligt otillgängliga.</string>
     <plurals name="contributor_role_contributions">

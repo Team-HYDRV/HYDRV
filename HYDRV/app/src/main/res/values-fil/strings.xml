@@ -287,7 +287,7 @@
   <string name="install_waiting_confirmation_format">Naghihintay ng kumpirmasyon sa pag-install para sa %1$s</string>
   <string name="install_success_format">Matagumpay na na-install ang %1$s</string>
   <string name="uninstall_success_format">Matagumpay na na-uninstall ang %1$s</string>
-  <string name="install_preparing_format">Inihahanda ang %1$s para sa pag-install...</string>
+  <string name="install_preparing_format">Inihahanda ang %1$s para sa pag-install?</string>
   <string name="install_failed_error_format">Nabigo ang pag-install: %1$s</string>
   <string name="unknown_error">hindi kilalang error</string>
   <string name="file_not_found">Hindi nahanap ang file</string>
@@ -318,7 +318,7 @@
   <string name="settings_backup_import_failed">Hindi ma-import ang backup ng mga setting.</string>
   <string name="backend_health_title">Status ng app</string>
   <string name="backend_health_summary">Tingnan ang backend, cache, notification, at status ng update</string>
-  <string name="backend_health_loading">Nilo-load ang status ng app...</string>
+  <string name="backend_health_loading">Nilo-load ang status ng app?</string>
   <string name="backend_health_backend_mode_format">Mode ng source: %1$s</string>
   <string name="backend_health_last_checked_format">Huling nasuri: %1$s</string>
   <string name="backend_health_last_seen_hash_format">Huling nakitang hash: %1$d</string>
@@ -360,7 +360,7 @@
   <string name="backend_source_name_hint">Pangalan ng backend</string>
   <string name="backend_source_url_hint">https://halimbawa.com/catalogue.json</string>
   <string name="backend_example_url">Halimbawa: https://example.com/catalogue.json</string>
-  <string name="backend_validating_message">Sinusuri ang link sa backend...</string>
+  <string name="backend_validating_message">Sinusuri ang link sa backend?</string>
   <string name="backend_invalid_message">Ang link na iyon ay hindi mukhang isang wastong JSON endpoint.</string>
   <string name="backend_set_active_failed">Hindi gumagana ang backend na iyon sa ngayon.</string>
   <string name="backend_set_active_failed_detail">Hindi gumagana ang backend na iyon sa ngayon: %1$s</string>
@@ -389,7 +389,7 @@
   <string name="updates_checking">Sinusuri…</string>
   <string name="updates_changelog_title">Changelog ng release</string>
   <string name="updates_changelog_body">Pinapanatili ng HYDRV na nakahanay ang in-app na changelog sa pinakabagong mga tala sa paglabas ng GitHub.</string>
-  <string name="updates_changelog_loading">Nilo-load ang pinakabagong mga tala sa paglabas ng GitHub...</string>
+  <string name="updates_changelog_loading">Nilo-load ang pinakabagong mga tala sa paglabas ng GitHub?</string>
   <string name="updates_release_unavailable">Wala pang na-load na release</string>
   <string name="updates_check_failed">Hindi masuri ang mga update sa ngayon.</string>
   <string name="updates_check_live_with_version">Live ang bagong release: %1$s %2$s.</string>
@@ -423,7 +423,7 @@
   <string name="about_contributors_dialog_title">Mga kontribyutor</string>
   <string name="about_contributors_dialog_body">Ipinapakita ng screen na ito ang live na listahan ng contributor mula sa HYDRV GitHub repository.</string>
   <string name="contributors_group_summary">Salamat sa pagtulong na panatilihing sumusulong ang HYDRV.</string>
-  <string name="contributors_loading">Nilo-load ang mga taga-ambag ng GitHub...</string>
+  <string name="contributors_loading">Nilo-load ang mga taga-ambag ng GitHub?</string>
   <string name="contributors_loaded">Na-load ang %1$d na mga contributor mula sa GitHub.</string>
   <string name="contributors_failed">Pansamantalang hindi available ang mga taga-ambag ng GitHub.</string>
   <plurals name="contributor_role_contributions">

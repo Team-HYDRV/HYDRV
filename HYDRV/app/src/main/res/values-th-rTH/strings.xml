@@ -287,7 +287,7 @@
   <string name="install_waiting_confirmation_format">กําลังรอการยืนยันการติดตั้ง%1$s</string>
   <string name="install_success_format">%1$sติดตั้งสําเร็จแล้ว</string>
   <string name="uninstall_success_format">%1$sติดตั้งไม่สําเร็จ</string>
-  <string name="install_preparing_format">กําลังเตรียม%1$sสําหรับติดตั้ง...</string>
+  <string name="install_preparing_format">กําลังเตรียม%1$sสําหรับติดตั้ง?</string>
   <string name="install_failed_error_format">ติดตั้งล้มเหลว:%1$s</string>
   <string name="unknown_error">ข้อผิดพลาดไม่ทราบสาเหตุ</string>
   <string name="file_not_found">ไม่พบแฟ้ม</string>
@@ -318,7 +318,7 @@
   <string name="settings_backup_import_failed">ไม่สามารถนําเข้าแฟ้มสํารองข้อมูลของการตั้งค่าได้</string>
   <string name="backend_health_title">สถานะของ App</string>
   <string name="backend_health_summary">ดูแบ็คเอนต์จัดการแฟ้ม, แคช, การแจ้งให้ทราบ, และสถานะอัปเดต</string>
-  <string name="backend_health_loading">กําลังโหลดสถานะโปรแกรม...</string>
+  <string name="backend_health_loading">กําลังโหลดสถานะโปรแกรม?</string>
   <string name="backend_health_backend_mode_format">โหมดต้นทาง:%1$s</string>
   <string name="backend_health_last_checked_format">ตรวจสอบครั้งสุดท้าย:%1$s</string>
   <string name="backend_health_last_seen_hash_format">กัญชาล่าสุด:%1$d</string>
@@ -360,7 +360,7 @@
   <string name="backend_source_name_hint">ชื่อเบื้องหลัง</string>
   <string name="backend_source_url_hint">https/example.com/catalogue.json</string>
   <string name="backend_example_url">ตัวอย่าง: https/kregator.com/catalogue.json</string>
-  <string name="backend_validating_message">กําลังตรวจสอบที่อยู่เชื่อมโยงของแบ็คเอนต์...</string>
+  <string name="backend_validating_message">กําลังตรวจสอบที่อยู่เชื่อมโยงของแบ็คเอนต์?</string>
   <string name="backend_invalid_message">ลิงก์นั่นดูไม่เหมือน Json Endpoint ที่ถูกต้อง</string>
   <string name="backend_set_active_failed">แบ็คเอนต์นั่นไม่ทํางานตอนนี้</string>
   <string name="backend_set_active_failed_detail">แบ็คเอนต์ดังกล่าวไม่ทํางานในตอนนี้:%1$s</string>
@@ -379,17 +379,17 @@
   <string name="updates_view_changelog">ดูการเปลี่ยนแปลง</string>
   <string name="updates_download_now">ดาวน์โหลด</string>
   <string name="updates_install_now">ติดตั้ง</string>
-  <string name="updates_downloading">กําลังดาวน์โหลด...</string>
+  <string name="updates_downloading">กําลังดาวน์โหลด?</string>
   <string name="updates_resume_download">ทําต่อไป</string>
   <string name="updates_launch_check_title">Check สําหรับการปรับปรุงเมื่อการเปิดตัว</string>
   <string name="updates_launch_check_summary">ตรวจสอบการปล่อย GitHub รุ่นล่าสุดโดยอัตโนมัติ เมื่อคุณเปิด HYDRV</string>
   <string name="updates_launch_message_title">แสดงข้อความอัปเดตเมื่อเริ่มการทํางาน</string>
   <string name="updates_launch_message_summary">แสดงข้อความแจ้งรับเมื่อมีการเปลี่ยนแปลงการปล่อยข้อมูลล่าสุด</string>
   <string name="updates_check_now">Check สําหรับการปรับปรุง</string>
-  <string name="updates_checking">กําลังตรวจ...</string>
+  <string name="updates_checking">กําลังตรวจ?</string>
   <string name="updates_changelog_title">บันทึกการเปลี่ยนแปลงของรุ่น</string>
   <string name="updates_changelog_body">HYDRV เก็บบันทึกการปรับเปลี่ยนข้อมูลการรับข้อมูล จัดเรียงเข้ากับบันทึกการปล่อย GitHub รุ่นล่าสุด</string>
-  <string name="updates_changelog_loading">กําลังโหลดบันทึกการปล่อย GitHub รุ่นล่าสุด...</string>
+  <string name="updates_changelog_loading">กําลังโหลดบันทึกการปล่อย GitHub รุ่นล่าสุด?</string>
   <string name="updates_release_unavailable">ยังไม่มีการโหลด</string>
   <string name="updates_check_failed">ไม่สามารถตรวจสอบความคืบหน้าได้ในตอนนี้</string>
   <string name="updates_check_live_with_version">มีการปล่อยใหม่:%1$s%2$s.</string>
@@ -423,7 +423,7 @@
   <string name="about_contributors_dialog_title">ผู้มีส่วนร่วม</string>
   <string name="about_contributors_dialog_body">หน้าจอนี้แสดงรายการผู้มีส่วนร่วมสดจากคลังเก็บ HYDRV HDV GitHub</string>
   <string name="contributors_group_summary">ขอบคุณที่ช่วยให้ HYDRV ก้าวไปข้างหน้า</string>
-  <string name="contributors_loading">กําลังโหลดผู้มีส่วนร่วมของ GitHub...</string>
+  <string name="contributors_loading">กําลังโหลดผู้มีส่วนร่วมของ GitHub?</string>
   <string name="contributors_loaded">%1$dผู้มีส่วนร่วมที่โหลดจาก กิตติฮับ</string>
   <string name="contributors_failed">ผู้ บริจาค กิตติฮับไม่มีให้ชั่วคราว</string>
   <plurals name="contributor_role_contributions">

@@ -287,7 +287,7 @@
   <string name="install_waiting_confirmation_format">Attendere la conferma di installazione per%1$s</string>
   <string name="install_success_format">%1$sinstallato con successo</string>
   <string name="uninstall_success_format">%1$sdisinstallato con successo</string>
-  <string name="install_preparing_format">Preparazione%1$sper installare...</string>
+  <string name="install_preparing_format">Preparazione%1$sper installare?</string>
   <string name="install_failed_error_format">Installare non riuscito:%1$s</string>
   <string name="unknown_error">errore sconosciuto</string>
   <string name="file_not_found">File non trovato</string>
@@ -318,7 +318,7 @@
   <string name="settings_backup_import_failed">Non potrebbe importare il backup delle impostazioni.</string>
   <string name="backend_health_title">Stato dell\'app</string>
   <string name="backend_health_summary">Visualizza lo stato di backend, cache, notifica e aggiornamento</string>
-  <string name="backend_health_loading">Caricamento dello stato dell\'app...</string>
+  <string name="backend_health_loading">Caricamento dello stato dell\'app?</string>
   <string name="backend_health_backend_mode_format">Modalità sorgente:%1$s</string>
   <string name="backend_health_last_checked_format">Ultimo controllo:%1$s</string>
   <string name="backend_health_last_seen_hash_format">Ultimo hash visto:%1$d</string>
@@ -360,7 +360,7 @@
   <string name="backend_source_name_hint">Nome del messaggio</string>
   <string name="backend_source_url_hint">URL del backend: https://example.com/catalogue.json</string>
   <string name="backend_example_url">Esempio: https://example.com/catalogue.json</string>
-  <string name="backend_validating_message">Controllare il link backend...</string>
+  <string name="backend_validating_message">Controllare il link backend?</string>
   <string name="backend_invalid_message">Questo link non sembra un valido punto finale JSON.</string>
   <string name="backend_set_active_failed">Quel backend non funziona adesso.</string>
   <string name="backend_set_active_failed_detail">Quel backend non funziona in questo momento:%1$s</string>
@@ -379,17 +379,17 @@
   <string name="updates_view_changelog">Visualizza changelog</string>
   <string name="updates_download_now">Scarica</string>
   <string name="updates_install_now">Installazione</string>
-  <string name="updates_downloading">Scarica...</string>
+  <string name="updates_downloading">Scarica?</string>
   <string name="updates_resume_download">Ripresa</string>
   <string name="updates_launch_check_title">Controllare gli aggiornamenti sul lancio</string>
   <string name="updates_launch_check_summary">Controlla automaticamente l\'ultimo rilascio GitHub ogni volta che si apre HYDRV.</string>
   <string name="updates_launch_message_title">Mostra messaggio di aggiornamento sul lancio</string>
   <string name="updates_launch_message_summary">Mostra un messaggio in-app quando cambia l\'ultima versione del repo.</string>
   <string name="updates_check_now">Controllare gli aggiornamenti</string>
-  <string name="updates_checking">Controllo...</string>
+  <string name="updates_checking">Controllo?</string>
   <string name="updates_changelog_title">Registro delle modifiche</string>
   <string name="updates_changelog_body">HYDRV mantiene il changelog in-app allineato alle ultime note di rilascio GitHub.</string>
-  <string name="updates_changelog_loading">Caricamento delle ultime note di rilascio GitHub...</string>
+  <string name="updates_changelog_loading">Caricamento delle ultime note di rilascio GitHub?</string>
   <string name="updates_release_unavailable">Nessun rilascio caricato</string>
   <string name="updates_check_failed">Non è possibile controllare gli aggiornamenti in questo momento.</string>
   <string name="updates_check_live_with_version">La nuova versione è live:%1$s%2$s.</string>
@@ -423,7 +423,7 @@
   <string name="about_contributors_dialog_title">Contributori</string>
   <string name="about_contributors_dialog_body">Questa schermata mostra l\'elenco dei contributori dal vivo del repository HYDRV GitHub.</string>
   <string name="contributors_group_summary">Grazie per aver aiutato HYDRV a proseguire.</string>
-  <string name="contributors_loading">Caricamento GitHub contributori...</string>
+  <string name="contributors_loading">Caricamento GitHub contributori?</string>
   <string name="contributors_loaded">%1$dcontributori caricati da GitHub.</string>
   <string name="contributors_failed">I collaboratori di GitHub non sono temporaneamente disponibili.</string>
   <plurals name="contributor_role_contributions">

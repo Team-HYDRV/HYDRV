@@ -285,7 +285,7 @@
     <string name="install_waiting_confirmation_format">Aştept confirmarea instalării%1$s</string>
     <string name="install_success_format">%1$sinstalat cu succes</string>
     <string name="uninstall_success_format">%1$sdezinstalat cu succes</string>
-    <string name="install_preparing_format">Pregătirea%1$spentru instalare...</string>
+    <string name="install_preparing_format">Pregătirea%1$spentru instalare?</string>
     <string name="install_failed_error_format">Instalare eșuată:%1$s</string>
     <string name="unknown_error">Eroare necunoscută</string>
     <string name="file_not_found">Fișier negăsit</string>
@@ -316,7 +316,7 @@
     <string name="settings_backup_import_failed">Nu am putut importa setările.</string>
     <string name="backend_health_title">Stare aplicație</string>
     <string name="backend_health_summary">Vizualizați backend, cache, notificare și starea de actualizare</string>
-    <string name="backend_health_loading">Se încarcă starea aplicației...</string>
+    <string name="backend_health_loading">Se încarcă starea aplicației?</string>
     <string name="backend_health_backend_mode_format">Modul sursă:%1$s</string>
     <string name="backend_health_last_checked_format">Ultima verificare:%1$s</string>
     <string name="backend_health_last_seen_hash_format">Ultima dată văzut hash:%1$d</string>
@@ -358,7 +358,7 @@
     <string name="backend_source_name_hint">Numele platformei</string>
     <string name="backend_source_url_hint">https://exemplu.com/catalogue.json</string>
     <string name="backend_example_url">Exemplu: https://exemplu.com/catalogue.json</string>
-    <string name="backend_validating_message">Verific link-ul platformei...</string>
+    <string name="backend_validating_message">Verific link-ul platformei?</string>
     <string name="backend_invalid_message">Această legătură nu arată ca un obiectiv JSON valid.</string>
     <string name="backend_set_active_failed">Acel suport nu funcţionează acum.</string>
     <string name="backend_set_active_failed_detail">Acel suport nu funcţionează acum:%1$s</string>
@@ -377,17 +377,17 @@
     <string name="updates_view_changelog">Vizualizează jurnalul</string>
     <string name="updates_download_now">Descărcare</string>
     <string name="updates_install_now">Instalează</string>
-    <string name="updates_downloading">Descărcare...</string>
+    <string name="updates_downloading">Descărcare?</string>
     <string name="updates_resume_download">Reia</string>
     <string name="updates_launch_check_title">Verificați actualizările la lansare</string>
     <string name="updates_launch_check_summary">Verificați automat ultima versiune GitHub ori de câte ori deschideți HYDRV.</string>
     <string name="updates_launch_message_title">Afișează mesajul de actualizare la lansare</string>
     <string name="updates_launch_message_summary">Afișează un mesaj în aplicație atunci când ultima versiune repo se schimbă.</string>
     <string name="updates_check_now">Verificați actualizările</string>
-    <string name="updates_checking">Verific...</string>
+    <string name="updates_checking">Verific?</string>
     <string name="updates_changelog_title">Jurnal de modificări al versiunii</string>
     <string name="updates_changelog_body">HYDRV menține în-app changelog aliniat cu cele mai recente note GitHub eliberare.</string>
-    <string name="updates_changelog_loading">Se încarcă ultimele note de lansare GitHub...</string>
+    <string name="updates_changelog_loading">Se încarcă ultimele note de lansare GitHub?</string>
     <string name="updates_release_unavailable">Nici o eliberare încărcată încă</string>
     <string name="updates_check_failed">Nu am putut verifica pentru actualizări chiar acum.</string>
     <string name="updates_check_live_with_version">Noua versiune este live:%1$s%2$s.</string>
@@ -421,7 +421,7 @@
     <string name="about_contributors_dialog_title">Contribuitori</string>
     <string name="about_contributors_dialog_body">Acest ecran arată lista contribuitorilor live din depozitul HYDRV GitHub.</string>
     <string name="contributors_group_summary">Îţi mulţumesc că m-ai ajutat să merg mai departe.</string>
-    <string name="contributors_loading">Se încarcă contribuitorii GitHub...</string>
+    <string name="contributors_loading">Se încarcă contribuitorii GitHub?</string>
     <string name="contributors_loaded">%1$dcontribuitori încărcate de la GitHub.</string>
     <string name="contributors_failed">Contribuabilii GitHub sunt temporar indisponibili.</string>
     <plurals name="contributor_role_contributions">

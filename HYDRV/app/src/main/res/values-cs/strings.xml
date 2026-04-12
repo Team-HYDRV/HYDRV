@@ -285,7 +285,7 @@
     <string name="install_waiting_confirmation_format">Čekání na potvrzení instalace pro%1$s</string>
     <string name="install_success_format">%1$súspěšně nainstalován</string>
     <string name="uninstall_success_format">%1$súspěšně neinstalován</string>
-    <string name="install_preparing_format">Příprava%1$spro instalaci...</string>
+    <string name="install_preparing_format">Příprava%1$spro instalaci?</string>
     <string name="install_failed_error_format">Instalace selhala:%1$s</string>
     <string name="unknown_error">neznámá chyba</string>
     <string name="file_not_found">Soubor nenalezen</string>
@@ -316,7 +316,7 @@
     <string name="settings_backup_import_failed">Nelze importovat nastavení zálohování.</string>
     <string name="backend_health_title">Stav aplikace</string>
     <string name="backend_health_summary">Zobrazit backend, cache, notification, and update status</string>
-    <string name="backend_health_loading">Načítám stav aplikace...</string>
+    <string name="backend_health_loading">Načítám stav aplikace?</string>
     <string name="backend_health_backend_mode_format">Režim zdroje:%1$s</string>
     <string name="backend_health_last_checked_format">Poslední kontrola:%1$s</string>
     <string name="backend_health_last_seen_hash_format">Naposledy viděn hash:%1$d</string>
@@ -358,7 +358,7 @@
     <string name="backend_source_name_hint">Název backendu</string>
     <string name="backend_source_url_hint">http: / / example.com / catalogue.json</string>
     <string name="backend_example_url">Příklad: https: / / example.com / catalogue.json</string>
-    <string name="backend_validating_message">Kontroluji backend link...</string>
+    <string name="backend_validating_message">Kontroluji backend link?</string>
     <string name="backend_invalid_message">Tento odkaz nevypadá jako platný koncový bod JSON.</string>
     <string name="backend_set_active_failed">Ten backend teď nefunguje.</string>
     <string name="backend_set_active_failed_detail">Ten backend teď nefunguje.%1$s</string>
@@ -377,17 +377,17 @@
     <string name="updates_view_changelog">Zobrazit měnič</string>
     <string name="updates_download_now">Stáhnout</string>
     <string name="updates_install_now">Instalovat</string>
-    <string name="updates_downloading">Stahuji...</string>
+    <string name="updates_downloading">Stahuji?</string>
     <string name="updates_resume_download">Pokračovat</string>
     <string name="updates_launch_check_title">Zkontrolovat aktualizace při spuštění</string>
     <string name="updates_launch_check_summary">Automaticky zkontrolujte nejnovější vydání GitHub kdykoliv otevřete HYDRV.</string>
     <string name="updates_launch_message_title">Zobrazit aktualizovanou zprávu při spuštění</string>
     <string name="updates_launch_message_summary">Zobrazit in- app zprávu, když se změní nejnovější repo verze.</string>
     <string name="updates_check_now">Kontrola aktualizací</string>
-    <string name="updates_checking">Kontroluji...</string>
+    <string name="updates_checking">Kontroluji?</string>
     <string name="updates_changelog_title">Protokol změn vydání</string>
     <string name="updates_changelog_body">HYDRV udržuje měnič in- app v souladu s nejnovějšími poznámkami GitHub.</string>
-    <string name="updates_changelog_loading">Nahrávám nejnovější poznámky GitHub...</string>
+    <string name="updates_changelog_loading">Nahrávám nejnovější poznámky GitHub?</string>
     <string name="updates_release_unavailable">Zatím žádné uvolnění</string>
     <string name="updates_check_failed">Nemohl jsem zkontrolovat aktualizace právě teď.</string>
     <string name="updates_check_live_with_version">Nové vydání je živě:%1$s%2$s.</string>
@@ -421,7 +421,7 @@
     <string name="about_contributors_dialog_title">Příspěvek</string>
     <string name="about_contributors_dialog_body">Tato obrazovka zobrazuje živý seznam přispěvatelů z úložiště HYDRV GitHub.</string>
     <string name="contributors_group_summary">Děkuji, že jste pomohl HYDRV udržet v chodu.</string>
-    <string name="contributors_loading">Nahrávání GitHub přispěvatelů...</string>
+    <string name="contributors_loading">Nahrávání GitHub přispěvatelů?</string>
     <string name="contributors_loaded">%1$dPřispěvatelé naložení z GitHubu.</string>
     <string name="contributors_failed">GitHub přispěvatelé jsou dočasně nedostupní.</string>
     <plurals name="contributor_role_contributions">

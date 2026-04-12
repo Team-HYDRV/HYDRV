@@ -316,7 +316,7 @@
     <string name="settings_backup_import_failed">Tak dapat mengimpor cadangan pengaturan.</string>
     <string name="backend_health_title">Status aplikasi</string>
     <string name="backend_health_summary">Lihat backend, cache, pemberitahuan, dan status pembaruan</string>
-    <string name="backend_health_loading">Memuat status aplikasi...</string>
+    <string name="backend_health_loading">Memuat status aplikasi?</string>
     <string name="backend_health_backend_mode_format">Mode sumber:%1$s</string>
     <string name="backend_health_last_checked_format">Terakhir diperiksa:%1$s</string>
     <string name="backend_health_last_seen_hash_format">Terakhir terlihat hash:%1$d</string>
@@ -358,7 +358,7 @@
     <string name="backend_source_name_hint">Nama belakang:</string>
     <string name="backend_source_url_hint">https://example.com/katalog.json</string>
     <string name="backend_example_url">Contoh: https://example.com/katalog.json</string>
-    <string name="backend_validating_message">Memeriksa link backend...</string>
+    <string name="backend_validating_message">Memeriksa link backend?</string>
     <string name="backend_invalid_message">Hubungan itu tidak terlihat seperti titik akhir JSON yang sah.</string>
     <string name="backend_set_active_failed">Bagian belakang itu tidak bekerja sekarang.</string>
     <string name="backend_set_active_failed_detail">Bagian belakang itu tidak bekerja sekarang:%1$s</string>
@@ -377,17 +377,17 @@
     <string name="updates_view_changelog">Lihat log perubahan</string>
     <string name="updates_download_now">Muaturun</string>
     <string name="updates_install_now">Instal</string>
-    <string name="updates_downloading">Memuatturun...</string>
+    <string name="updates_downloading">Memuatturun?</string>
     <string name="updates_resume_download">Sambung</string>
     <string name="updates_launch_check_title">Periksa pemutakhiran saat peluncuran</string>
     <string name="updates_launch_check_summary">Otomatis periksa rilis GitHub terbaru setiap kali Anda membuka HYDRV.</string>
     <string name="updates_launch_message_title">Tampilkan pesan pembaruan pada peluncuran</string>
     <string name="updates_launch_message_summary">Aifex Tampilkan pesan in-app ketika perubahan rilis repo terbaru.</string>
     <string name="updates_check_now">Periksa pemutakhiran</string>
-    <string name="updates_checking">Memeriksa...</string>
+    <string name="updates_checking">Memeriksa?</string>
     <string name="updates_changelog_title">Log perubahan keluaran</string>
     <string name="updates_changelog_body">KYDRV menyimpan log perubahan in-app yang disejajarkan dengan catatan rilis GitHub terbaru.</string>
-    <string name="updates_changelog_loading">Memuat catatan pelepasan GitHub terbaru...</string>
+    <string name="updates_changelog_loading">Memuat catatan pelepasan GitHub terbaru?</string>
     <string name="updates_release_unavailable">Tidak ada rilis belum dimuat</string>
     <string name="updates_check_failed">Tak bisa memeriksa pembaruan sekarang.</string>
     <string name="updates_check_live_with_version">Rilis baru langsung:%1$s%2$s.</string>
@@ -421,7 +421,7 @@
     <string name="about_contributors_dialog_title">Kontributor</string>
     <string name="about_contributors_dialog_body">Layar ini menunjukkan daftar kontributor langsung dari repositori HYDRV GitHub.</string>
     <string name="contributors_group_summary">Terima kasih telah membantu HYDRV terus maju.</string>
-    <string name="contributors_loading">Memuatkan kontributor GitHub...</string>
+    <string name="contributors_loading">Memuatkan kontributor GitHub?</string>
     <string name="contributors_loaded">%1$dKontributor dimuat dari GitHub.</string>
     <string name="contributors_failed">Kontributor GitHub untuk sementara tidak tersedia.</string>
     <plurals name="contributor_role_contributions">

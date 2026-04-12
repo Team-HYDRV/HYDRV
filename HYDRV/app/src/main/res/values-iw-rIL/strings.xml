@@ -287,7 +287,7 @@
   <string name="install_waiting_confirmation_format">מחכה לאישור ההתקנה%1$s</string>
   <string name="install_success_format">%1$sמותקן בהצלחה</string>
   <string name="uninstall_success_format">%1$sמותקן בהצלחה</string>
-  <string name="install_preparing_format">להתכונן%1$sלהתקין...</string>
+  <string name="install_preparing_format">להתכונן%1$sלהתקין?</string>
   <string name="install_failed_error_format">ההתקנה נכשלה:%1$s</string>
   <string name="unknown_error">טעות לא ידועה</string>
   <string name="file_not_found">קובץ לא נמצא</string>
@@ -360,7 +360,7 @@
   <string name="backend_source_name_hint">שם מקורי</string>
   <string name="backend_source_url_hint">כתובת:http.com/catalog.json</string>
   <string name="backend_example_url">דוגמה: TP: www.example.com/catalog.json</string>
-  <string name="backend_validating_message">לבדוק קישור אחורי...</string>
+  <string name="backend_validating_message">לבדוק קישור אחורי?</string>
   <string name="backend_invalid_message">קישור זה לא נראה כמו נקודת קצה של JSON.</string>
   <string name="backend_set_active_failed">זה לא עובד כרגע.</string>
   <string name="backend_set_active_failed_detail">החזרה הזאת לא עובדת כרגע:%1$s</string>
@@ -379,14 +379,14 @@
   <string name="updates_view_changelog">תגית: Changelog</string>
   <string name="updates_download_now">הורד</string>
   <string name="updates_install_now">התקן</string>
-  <string name="updates_downloading">הורד...</string>
+  <string name="updates_downloading">הורד?</string>
   <string name="updates_resume_download">המונחים</string>
   <string name="updates_launch_check_title">בדוק עדכונים על ההשקה</string>
   <string name="updates_launch_check_summary">בדוק באופן אוטומטי את שחרורו האחרון של GitHub בכל פעם שאתה פותח HYDRV.</string>
   <string name="updates_launch_message_title">הצג הודעה על ההשקה</string>
   <string name="updates_launch_message_summary">הצגת הודעה בתוך-app כאשר ההודעה האחרונה חוזרת משתנה.</string>
   <string name="updates_check_now">בדוק עבור עדכונים</string>
-  <string name="updates_checking">לבדוק...</string>
+  <string name="updates_checking">לבדוק?</string>
   <string name="updates_changelog_title">יומן שינויים של הגרסה</string>
   <string name="updates_changelog_body">HYDRV שומרת על שינוי ב-app התואם להערות החדשות האחרונות של GitHub.</string>
   <string name="updates_changelog_loading">עקבו אחרי GitHub</string>
@@ -423,7 +423,7 @@
   <string name="about_contributors_dialog_title">תורמים</string>
   <string name="about_contributors_dialog_body">מסך זה מראה את רשימת התורמים החיים של HYDRV GitHub repository.</string>
   <string name="contributors_group_summary">תודה על שעזרת ל-HYDRV להתקדם.</string>
-  <string name="contributors_loading">עקבו אחרי GitHubators...</string>
+  <string name="contributors_loading">עקבו אחרי GitHubators?</string>
   <string name="contributors_loaded">%1$dתורם טעון מ GitHub.</string>
   <string name="contributors_failed">תורמים של GitHub אינם זמינים באופן זמני.</string>
   <plurals name="contributor_role_contributions">

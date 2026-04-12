@@ -285,7 +285,7 @@
     <string name="install_waiting_confirmation_format">Yükleme onayı için%1$s</string>
     <string name="install_success_format">%1$sbaşarıyla kuruldu başarıyla</string>
     <string name="uninstall_success_format">%1$sKaldırılmamış başarıyla</string>
-    <string name="install_preparing_format">Hazırlanma%1$sYükleme için...</string>
+    <string name="install_preparing_format">Hazırlanma%1$sYükleme için?</string>
     <string name="install_failed_error_format">Yükleme başarısız oldu:%1$s</string>
     <string name="unknown_error">Bilinmeyen hata</string>
     <string name="file_not_found">File bulunamadı</string>
@@ -316,7 +316,7 @@
     <string name="settings_backup_import_failed">ayarları yedeklemeyi ithal edemez.</string>
     <string name="backend_health_title">App statüsü</string>
     <string name="backend_health_summary">Backend, önbellek, bildirim ve güncelleme durumu</string>
-    <string name="backend_health_loading">Yükleniyor uygulama durumu...</string>
+    <string name="backend_health_loading">Yükleniyor uygulama durumu?</string>
     <string name="backend_health_backend_mode_format">Kaynak modu:%1$s</string>
     <string name="backend_health_last_checked_format">Son kontrol:%1$s</string>
     <string name="backend_health_last_seen_hash_format">Son görülen hash:%1$d</string>
@@ -358,7 +358,7 @@
     <string name="backend_source_name_hint">Arka uç adı</string>
     <string name="backend_source_url_hint">https://ör.com/catalog.json</string>
     <string name="backend_example_url">Örnek: https://ör.com/catalog.json</string>
-    <string name="backend_validating_message">Backend linkini kontrol edin...</string>
+    <string name="backend_validating_message">Backend linkini kontrol edin?</string>
     <string name="backend_invalid_message">Bu bağlantı geçerli bir JSON uç noktası gibi görünmüyor.</string>
     <string name="backend_set_active_failed">Bu backend şu anda çalışmıyor.</string>
     <string name="backend_set_active_failed_detail">Bu backend şu anda çalışmıyor:%1$s</string>
@@ -377,17 +377,17 @@
     <string name="updates_view_changelog">Değişiklik günlüğünü görüntüle</string>
     <string name="updates_download_now">İndir</string>
     <string name="updates_install_now">Yükleme</string>
-    <string name="updates_downloading">Downloading...</string>
+    <string name="updates_downloading">Downloading?</string>
     <string name="updates_resume_download">Sürdürmek</string>
     <string name="updates_launch_check_title">Başlangıçtaki güncellemeler için kontrol</string>
     <string name="updates_launch_check_summary">Otomatik olarak, HDRV\'yi açtığınız en son GitHub\'ı kontrol edin.</string>
     <string name="updates_launch_message_title">Show update message on start</string>
     <string name="updates_launch_message_summary">En son repo salıverme değişikliklerinde bir in-app message.</string>
     <string name="updates_check_now">güncelleştirme için kontrol</string>
-    <string name="updates_checking">Checking...</string>
+    <string name="updates_checking">Checking?</string>
     <string name="updates_changelog_title">Sürüm değişiklik günlüğü</string>
     <string name="updates_changelog_body">HYDRV, en son GitHub sürüm notlarıyla uyumlu olan in-app changelog tutar.</string>
-    <string name="updates_changelog_loading">En son GitHub sürüm notlarını yükleyin...</string>
+    <string name="updates_changelog_loading">En son GitHub sürüm notlarını yükleyin?</string>
     <string name="updates_release_unavailable">Henüz yükleme yok</string>
     <string name="updates_check_failed">Şu anda güncelleştirmeleri kontrol edemez.</string>
     <string name="updates_check_live_with_version">Yeni sürüm canlı:%1$s%2$s.</string>
@@ -421,7 +421,7 @@
     <string name="about_contributors_dialog_title">Katkıda Bulunanlar</string>
     <string name="about_contributors_dialog_body">Bu ekran, HDRV GitHub repository\'den canlı katkıda bulunan listeyi gösterir.</string>
     <string name="contributors_group_summary">HDRV\'nin ilerlemesine yardımcı olmak için teşekkür ederiz.</string>
-    <string name="contributors_loading">GitHub katkıda bulunanlar yükleniyor...</string>
+    <string name="contributors_loading">GitHub katkıda bulunanlar yükleniyor?</string>
     <string name="contributors_loaded">%1$dKatılımcılar GitHub\'dan yükleniyor.</string>
     <string name="contributors_failed">GitHub katkıda bulunanlar geçici olarak mevcut değildir.</string>
     <plurals name="contributor_role_contributions">

@@ -285,7 +285,7 @@
     <string name="install_waiting_confirmation_format">सम्पर्क करने का विवरण%1$s</string>
     <string name="install_success_format">%1$sसफलतापूर्वक स्थापित</string>
     <string name="uninstall_success_format">%1$sसफलतापूर्वक स्थापित</string>
-    <string name="install_preparing_format">तैयारी%1$sस्थापित करने के लिए...</string>
+    <string name="install_preparing_format">तैयारी%1$sस्थापित करने के लिए?</string>
     <string name="install_failed_error_format">त्रुटि:%1$s</string>
     <string name="unknown_error">अज्ञात त्रुटि</string>
     <string name="file_not_found">फ़ाइल नहीं मिला</string>
@@ -316,7 +316,7 @@
     <string name="settings_backup_import_failed">सेटिंग्स बैकअप आयात नहीं कर सका।</string>
     <string name="backend_health_title">ऐप स्टेटस</string>
     <string name="backend_health_summary">बैकेंड, कैश, अधिसूचना और अद्यतन स्थिति देखें</string>
-    <string name="backend_health_loading">अनुप्रयोग स्थिति लोड हो रहा है...</string>
+    <string name="backend_health_loading">अनुप्रयोग स्थिति लोड हो रहा है?</string>
     <string name="backend_health_backend_mode_format">स्रोत मोड:%1$s</string>
     <string name="backend_health_last_checked_format">अंतिम जाँच:%1$s</string>
     <string name="backend_health_last_seen_hash_format">पिछले देखा हैश:%1$d</string>
@@ -358,7 +358,7 @@
     <string name="backend_source_name_hint">बैकएंड नाम</string>
     <string name="backend_source_url_hint">https://example.com/catalogue.json</string>
     <string name="backend_example_url">उदाहरण: https://example.com/catalogue.json</string>
-    <string name="backend_validating_message">बैकएंड लिंक की जाँच...</string>
+    <string name="backend_validating_message">बैकएंड लिंक की जाँच?</string>
     <string name="backend_invalid_message">यह लिंक एक वैध JSON समापन बिंदु की तरह नहीं दिखता है।</string>
     <string name="backend_set_active_failed">यह अभी काम नहीं कर रहा है।</string>
     <string name="backend_set_active_failed_detail">यह अभी काम नहीं कर रहा है:%1$s</string>
@@ -384,10 +384,10 @@
     <string name="updates_launch_message_title">लॉन्च पर अद्यतन संदेश दिखाएं</string>
     <string name="updates_launch_message_summary">जब नवीनतम रेपो रिलीज़ में बदलाव आता है तो एक इन-ऐप संदेश प्रदर्शित करें।</string>
     <string name="updates_check_now">अद्यतन की जाँच करें</string>
-    <string name="updates_checking">जाँच...</string>
+    <string name="updates_checking">जाँच?</string>
     <string name="updates_changelog_title">रिलीज़ चेंजलॉग</string>
     <string name="updates_changelog_body">HYDRV नवीनतम GitHub रिलीज नोटों के साथ संरेखित इन-ऐप चेंजलॉग रखता है।</string>
-    <string name="updates_changelog_loading">नवीनतम GitHub रिलीज नोट्स लोड हो रहा है ...</string>
+    <string name="updates_changelog_loading">नवीनतम GitHub रिलीज नोट्स लोड हो रहा है ?</string>
     <string name="updates_release_unavailable">अभी तक कोई रिलीज नहीं हुई</string>
     <string name="updates_check_failed">अभी अद्यतन के लिए जाँच नहीं कर सका।</string>
     <string name="updates_check_live_with_version">नई रिलीज लाइव है:%1$s%2$s।</string>

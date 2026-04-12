@@ -285,7 +285,7 @@
     <string name="install_waiting_confirmation_format">Várakozás telepítési megerősítésre%1$s</string>
     <string name="install_success_format">%1$stelepítés sikeresen</string>
     <string name="uninstall_success_format">%1$ssikeresen nincs telepítve</string>
-    <string name="install_preparing_format">Felkészülés%1$stelepíteni...</string>
+    <string name="install_preparing_format">Felkészülés%1$stelepíteni?</string>
     <string name="install_failed_error_format">Nem sikerült telepíteni:%1$s</string>
     <string name="unknown_error">ismeretlen hiba</string>
     <string name="file_not_found">Nem található fájl</string>
@@ -316,7 +316,7 @@
     <string name="settings_backup_import_failed">Nem tudtam importálni a beállításokat.</string>
     <string name="backend_health_title">Alkalmazási állapot</string>
     <string name="backend_health_summary">Háttér, gyorsítótár, értesítés és frissítési állapot megtekintése</string>
-    <string name="backend_health_loading">Alkalmazási állapot betöltése...</string>
+    <string name="backend_health_loading">Alkalmazási állapot betöltése?</string>
     <string name="backend_health_backend_mode_format">Forrásmód:%1$s</string>
     <string name="backend_health_last_checked_format">Utolsó ellenőrzés:%1$s</string>
     <string name="backend_health_last_seen_hash_format">Az utolsó látott hash:%1$d</string>
@@ -358,7 +358,7 @@
     <string name="backend_source_name_hint">A hátlap neve</string>
     <string name="backend_source_url_hint">https: / / example.com / catalogue.json</string>
     <string name="backend_example_url">Példa: https: / / example.com / catalogue.json</string>
-    <string name="backend_validating_message">A háttérkapcsolat ellenőrzése...</string>
+    <string name="backend_validating_message">A háttérkapcsolat ellenőrzése?</string>
     <string name="backend_invalid_message">Ez a link nem tűnik érvényes JSON végpontnak.</string>
     <string name="backend_set_active_failed">Ez a háttér most nem működik.</string>
     <string name="backend_set_active_failed_detail">Ez a háttér most nem működik:%1$s</string>
@@ -377,17 +377,17 @@
     <string name="updates_view_changelog">Váltás megtekintése</string>
     <string name="updates_download_now">Letöltés</string>
     <string name="updates_install_now">Telepítés</string>
-    <string name="updates_downloading">Letöltés...</string>
+    <string name="updates_downloading">Letöltés?</string>
     <string name="updates_resume_download">Folytatás</string>
     <string name="updates_launch_check_title">Frissítések ellenőrzése a kilövéskor</string>
     <string name="updates_launch_check_summary">Automatikusan ellenőrizze a legújabb GitHub kiadást, amikor megnyitja a HYDRV-t.</string>
     <string name="updates_launch_message_title">Frissítési üzenet megjelenítése indításkor</string>
     <string name="updates_launch_message_summary">Megjelenít egy inapp üzenetet, amikor a legújabb repo kiadás megváltozik.</string>
     <string name="updates_check_now">A frissítések ellenőrzése</string>
-    <string name="updates_checking">Ellenőrzés...</string>
+    <string name="updates_checking">Ellenőrzés?</string>
     <string name="updates_changelog_title">Kiadási változásnapló</string>
     <string name="updates_changelog_body">A HYDRV az in-app változókat a legújabb GitHub kiadású jegyzetekhez igazítja.</string>
-    <string name="updates_changelog_loading">Betöltöm a legújabb GitHub feljegyzéseket...</string>
+    <string name="updates_changelog_loading">Betöltöm a legújabb GitHub feljegyzéseket?</string>
     <string name="updates_release_unavailable">Még nincs betöltve.</string>
     <string name="updates_check_failed">Nem tudtam leellenőrizni a frissítéseket.</string>
     <string name="updates_check_live_with_version">Az új kiadás élő:%1$s%2$s.</string>
@@ -421,7 +421,7 @@
     <string name="about_contributors_dialog_title">Hozzájárulók</string>
     <string name="about_contributors_dialog_body">Ez a képernyő a HYDRV GitHub adattárból származó élő közreműködő listát mutatja.</string>
     <string name="contributors_group_summary">Köszönöm, hogy segítettek a HYDRV továbbvitelében.</string>
-    <string name="contributors_loading">A GitHub-tagok betöltése...</string>
+    <string name="contributors_loading">A GitHub-tagok betöltése?</string>
     <string name="contributors_loaded">%1$dA GitHub-tól érkező támogatók.</string>
     <string name="contributors_failed">A GitHub közreműködése átmenetileg nem elérhető.</string>
     <plurals name="contributor_role_contributions">

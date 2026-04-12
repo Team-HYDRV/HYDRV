@@ -287,7 +287,7 @@
   <string name="install_waiting_confirmation_format">Αναμονή για επιβεβαίωση εγκατάστασης για %1$s</string>
   <string name="install_success_format">Το %1$s εγκαταστάθηκε με επιτυχία</string>
   <string name="uninstall_success_format">Το %1$s απεγκαταστάθηκε με επιτυχία</string>
-  <string name="install_preparing_format">Προετοιμασία %1$s για εγκατάσταση...</string>
+  <string name="install_preparing_format">Προετοιμασία %1$s για εγκατάσταση?</string>
   <string name="install_failed_error_format">Η εγκατάσταση απέτυχε: %1$s</string>
   <string name="unknown_error">άγνωστο σφάλμα</string>
   <string name="file_not_found">Το αρχείο δεν βρέθηκε</string>
@@ -360,7 +360,7 @@
   <string name="backend_source_name_hint">Όνομα backend</string>
   <string name="backend_source_url_hint">Î•Ï€Î¹ÎºÎ¿Î»Î»Î®ÏƒÏ„Îµ ÎµÎ´ÏŽ Ï„Î· Î´Î¹ÎµÏÎ¸Ï…Î½ÏƒÎ· URL Ï„Î·Ï‚ Ï€Î·Î³Î®Ï‚</string>
   <string name="backend_example_url">Παράδειγμα: https://example.com/catalogue.json</string>
-  <string name="backend_validating_message">Έλεγχος συνδέσμου backend...</string>
+  <string name="backend_validating_message">Έλεγχος συνδέσμου backend?</string>
   <string name="backend_invalid_message">Αυτός ο σύνδεσμος δεν μοιάζει με έγκυρο τελικό σημείο JSON.</string>
   <string name="backend_set_active_failed">Αυτό το backend δεν λειτουργεί αυτήν τη στιγμή.</string>
   <string name="backend_set_active_failed_detail">Αυτό το backend δεν λειτουργεί αυτήν τη στιγμή: %1$s</string>

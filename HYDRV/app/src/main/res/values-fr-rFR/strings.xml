@@ -287,7 +287,7 @@
   <string name="install_waiting_confirmation_format">Attendre la confirmation de l\'installation%1$s</string>
   <string name="install_success_format">%1$sinstallé avec succès</string>
   <string name="uninstall_success_format">%1$sdésinstallé avec succès</string>
-  <string name="install_preparing_format">Préparation%1$spour installation...</string>
+  <string name="install_preparing_format">Préparation%1$spour installation?</string>
   <string name="install_failed_error_format">L\'installation a échoué &amp; #160;:%1$s</string>
   <string name="unknown_error">erreur inconnue</string>
   <string name="file_not_found">Fichier introuvable</string>
@@ -318,7 +318,7 @@
   <string name="settings_backup_import_failed">Impossible d\'importer la sauvegarde des paramètres.</string>
   <string name="backend_health_title">État de l\'application</string>
   <string name="backend_health_summary">Afficher l\'état du moteur, du cache, de la notification et de la mise à jour</string>
-  <string name="backend_health_loading">Chargement de l\'état de l\'application...</string>
+  <string name="backend_health_loading">Chargement de l\'état de l\'application?</string>
   <string name="backend_health_backend_mode_format">Mode source:%1$s</string>
   <string name="backend_health_last_checked_format">Dernière vérification :%1$s</string>
   <string name="backend_health_last_seen_hash_format">Dernière vue:%1$d</string>
@@ -360,7 +360,7 @@
   <string name="backend_source_name_hint">Nom du moteur</string>
   <string name="backend_source_url_hint">https://exemple.com/catalogue.json</string>
   <string name="backend_example_url">Exemple: https://exemple.com/catalogue.json</string>
-  <string name="backend_validating_message">Vérifier le lien du moteur...</string>
+  <string name="backend_validating_message">Vérifier le lien du moteur?</string>
   <string name="backend_invalid_message">Ce lien ne ressemble pas à un paramètre JSON valide.</string>
   <string name="backend_set_active_failed">Ce moteur ne fonctionne pas en ce moment.</string>
   <string name="backend_set_active_failed_detail">Ce moteur ne fonctionne pas en ce moment :%1$s</string>
@@ -379,17 +379,17 @@
   <string name="updates_view_changelog">Afficher le journal des changements</string>
   <string name="updates_download_now">Télécharger</string>
   <string name="updates_install_now">Installer</string>
-  <string name="updates_downloading">Téléchargement...</string>
+  <string name="updates_downloading">Téléchargement?</string>
   <string name="updates_resume_download">Résumé</string>
   <string name="updates_launch_check_title">Vérifier les mises à jour lors du lancement</string>
   <string name="updates_launch_check_summary">Vérifiez automatiquement la dernière version de GitHub lorsque vous ouvrez HYDRV.</string>
   <string name="updates_launch_message_title">Afficher le message de mise à jour au lancement</string>
   <string name="updates_launch_message_summary">Affiche un message dans l\'application lorsque la dernière version de repo change.</string>
   <string name="updates_check_now">Vérifier les mises à jour</string>
-  <string name="updates_checking">Vérification...</string>
+  <string name="updates_checking">Vérification?</string>
   <string name="updates_changelog_title">Journal des versions</string>
   <string name="updates_changelog_body">HYDRV maintient le changelog in-app aligné avec les dernières notes de sortie GitHub.</string>
-  <string name="updates_changelog_loading">Chargement des dernières notes de sortie de GitHub...</string>
+  <string name="updates_changelog_loading">Chargement des dernières notes de sortie de GitHub?</string>
   <string name="updates_release_unavailable">Pas encore chargé</string>
   <string name="updates_check_failed">Impossible de vérifier les mises à jour.</string>
   <string name="updates_check_live_with_version">Nouvelle sortie en direct:%1$s%2$s.</string>
@@ -423,7 +423,7 @@
   <string name="about_contributors_dialog_title">Contributions</string>
   <string name="about_contributors_dialog_body">Cet écran affiche la liste des contributeurs en direct du dépôt HYDRV GitHub.</string>
   <string name="contributors_group_summary">Merci d\'avoir aidé à faire avancer HYDRV.</string>
-  <string name="contributors_loading">Chargement des contributeurs GitHub...</string>
+  <string name="contributors_loading">Chargement des contributeurs GitHub?</string>
   <string name="contributors_loaded">%1$dcontributeurs chargés de GitHub.</string>
   <string name="contributors_failed">Les contributeurs GitHub sont temporairement indisponibles.</string>
   <plurals name="contributor_role_contributions">

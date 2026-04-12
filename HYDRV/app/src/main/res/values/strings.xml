@@ -288,7 +288,7 @@
   <string name="install_waiting_confirmation_format">Waiting for install confirmation for %1$s</string>
   <string name="install_success_format">%1$s installed successfully</string>
   <string name="uninstall_success_format">%1$s uninstalled successfully</string>
-  <string name="install_preparing_format">Preparing %1$s for install...</string>
+  <string name="install_preparing_format">Preparing %1$s for install?</string>
   <string name="install_failed_error_format">Install failed: %1$s</string>
   <string name="unknown_error">unknown error</string>
   <string name="file_not_found">File not found</string>
@@ -361,7 +361,7 @@
   <string name="backend_source_name_hint">Backend name</string>
   <string name="backend_source_url_hint">https://example.com/catalogue.json</string>
   <string name="backend_example_url">Example: https://example.com/catalogue.json</string>
-  <string name="backend_validating_message">Checking backend link...</string>
+  <string name="backend_validating_message">Checking backend link?</string>
   <string name="backend_invalid_message">That link does not look like a valid JSON endpoint.</string>
   <string name="backend_set_active_failed">That backend is not working right now.</string>
   <string name="backend_set_active_failed_detail">That backend is not working right now: %1$s</string>

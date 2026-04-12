@@ -285,7 +285,7 @@
     <string name="install_waiting_confirmation_format">S\' està esperant la confirmació d\' instal· lació%1$s</string>
     <string name="install_success_format">%1$sLa instal· lada correctament</string>
     <string name="uninstall_success_format">%1$sS\' ha desinstal· lat correctament</string>
-    <string name="install_preparing_format">S\' està preparant%1$sper instal· lar...</string>
+    <string name="install_preparing_format">S\' està preparant%1$sper instal· lar?</string>
     <string name="install_failed_error_format">Ha fallat la instal· lació:%1$s</string>
     <string name="unknown_error">error desconegut</string>
     <string name="file_not_found">No s\' ha trobat el fitxer</string>
@@ -316,7 +316,7 @@
     <string name="settings_backup_import_failed">No s\' ha pogut importar la còpia de seguretat de les preferències.</string>
     <string name="backend_health_title">Estat de l\' aplicació</string>
     <string name="backend_health_summary">Visualitza el dorsal, memòria cau, notificació i actualització</string>
-    <string name="backend_health_loading">S\' està carregant l\' estat de l\' aplicació...</string>
+    <string name="backend_health_loading">S\' està carregant l\' estat de l\' aplicació?</string>
     <string name="backend_health_backend_mode_format">Mode font:%1$s</string>
     <string name="backend_health_last_checked_format">Última comprovació:%1$s</string>
     <string name="backend_health_last_seen_hash_format">Últim resum vist:%1$d</string>
@@ -358,7 +358,7 @@
     <string name="backend_source_name_hint">Nom del dorsal</string>
     <string name="backend_source_url_hint">https://exemple.com/catalòleg.json</string>
     <string name="backend_example_url">Exemple: https://exemple.com/catalòleg.json</string>
-    <string name="backend_validating_message">S\' està comprovant l\' enllaç del dorsal...</string>
+    <string name="backend_validating_message">S\' està comprovant l\' enllaç del dorsal?</string>
     <string name="backend_invalid_message">Aquest enllaç no sembla un objectiu vàlid.</string>
     <string name="backend_set_active_failed">Aquest dorsal no funciona ara mateix.</string>
     <string name="backend_set_active_failed_detail">Aquest dorsal no funciona ara mateix:%1$s</string>
@@ -377,17 +377,17 @@
     <string name="updates_view_changelog">Visualitza el registre de canvis</string>
     <string name="updates_download_now">Descarrega</string>
     <string name="updates_install_now">Instal· la</string>
-    <string name="updates_downloading">S\' està baixant...</string>
+    <string name="updates_downloading">S\' està baixant?</string>
     <string name="updates_resume_download">Continua</string>
     <string name="updates_launch_check_title">Comprova les actualitzacions al llançament</string>
     <string name="updates_launch_check_summary">Comprova automàticament l\' última versió del GitHub quan obriu HYDRV.</string>
     <string name="updates_launch_message_title">Mostra el missatge d\' actualització en iniciar</string>
     <string name="updates_launch_message_summary">Mostra un missatge d\' entrada quan s\' alliberin els canvis més nous.</string>
     <string name="updates_check_now">Comprova les actualitzacions</string>
-    <string name="updates_checking">S\' està comprovant...</string>
+    <string name="updates_checking">S\' està comprovant?</string>
     <string name="updates_changelog_title">Registre de canvis de versió</string>
     <string name="updates_changelog_body">HYDRV manté el registre de canvis alineats amb les últimes notes de publicació de GitHub.</string>
-    <string name="updates_changelog_loading">S\' estan carregant les últimes notes del GitHub...</string>
+    <string name="updates_changelog_loading">S\' estan carregant les últimes notes del GitHub?</string>
     <string name="updates_release_unavailable">Encara no s\' ha carregat cap versió</string>
     <string name="updates_check_failed">No s\'ha pogut comprovar les actualitzacions ara mateix.</string>
     <string name="updates_check_live_with_version">La nova versió és vida:%1$s%2$s.</string>
@@ -421,7 +421,7 @@
     <string name="about_contributors_dialog_title">Col· laboradors</string>
     <string name="about_contributors_dialog_body">Aquesta pantalla mostra la llista de col· laboradors en directe del repositori HYDRV GittHub.</string>
     <string name="contributors_group_summary">Gràcies per ajudar a mantenir endavant HYDR.</string>
-    <string name="contributors_loading">S\' estan carregant els col· laboradors del GitHub...</string>
+    <string name="contributors_loading">S\' estan carregant els col· laboradors del GitHub?</string>
     <string name="contributors_loaded">%1$dCol·laboradors carregats de GitHub.</string>
     <string name="contributors_failed">Els col·laboradors de GitHub no estan disponibles temporalment.</string>
     <plurals name="contributor_role_contributions">

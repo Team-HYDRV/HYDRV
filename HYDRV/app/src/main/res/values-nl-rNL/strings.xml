@@ -287,7 +287,7 @@
   <string name="install_waiting_confirmation_format">Wachten op installatiebevestiging voor%1$s</string>
   <string name="install_success_format">%1$ssuccesvol geïnstalleerd</string>
   <string name="uninstall_success_format">%1$sverwijderd met succes</string>
-  <string name="install_preparing_format">Voorbereiding%1$svoor installatie...</string>
+  <string name="install_preparing_format">Voorbereiding%1$svoor installatie?</string>
   <string name="install_failed_error_format">Installeren mislukt:%1$s</string>
   <string name="unknown_error">onbekende fout</string>
   <string name="file_not_found">Bestand niet gevonden</string>
@@ -318,7 +318,7 @@
   <string name="settings_backup_import_failed">Kon de back-up van instellingen niet importeren.</string>
   <string name="backend_health_title">Appstatus</string>
   <string name="backend_health_summary">Backend, cache, notificatie en updatestatus weergeven</string>
-  <string name="backend_health_loading">Laden van appstatus...</string>
+  <string name="backend_health_loading">Laden van appstatus?</string>
   <string name="backend_health_backend_mode_format">Bronmodus:%1$s</string>
   <string name="backend_health_last_checked_format">Laatst aangevinkt:%1$s</string>
   <string name="backend_health_last_seen_hash_format">Laatst gezien hash:%1$d</string>
@@ -360,7 +360,7 @@
   <string name="backend_source_name_hint">Backend naam</string>
   <string name="backend_source_url_hint">https://voorbeeld.com/katalogus.json</string>
   <string name="backend_example_url">Voorbeeld: https://example.com/catalogue.json</string>
-  <string name="backend_validating_message">Backendlink wordt gecontroleerd...</string>
+  <string name="backend_validating_message">Backendlink wordt gecontroleerd?</string>
   <string name="backend_invalid_message">Die link lijkt niet op een geldig JSON eindpunt.</string>
   <string name="backend_set_active_failed">Die backend werkt nu niet.</string>
   <string name="backend_set_active_failed_detail">Die backend werkt nu niet.%1$s</string>
@@ -386,10 +386,10 @@
   <string name="updates_launch_message_title">Updatebericht tonen bij opstarten</string>
   <string name="updates_launch_message_summary">Toon een in-app bericht wanneer de nieuwste repo release verandert.</string>
   <string name="updates_check_now">Controleren op updates</string>
-  <string name="updates_checking">Controleren...</string>
+  <string name="updates_checking">Controleren?</string>
   <string name="updates_changelog_title">Releasewijzigingslog</string>
   <string name="updates_changelog_body">HYDRV houdt de in-app changelog in lijn met de nieuwste GitHub release notes.</string>
-  <string name="updates_changelog_loading">Laden van de nieuwste GitHub release notes...</string>
+  <string name="updates_changelog_loading">Laden van de nieuwste GitHub release notes?</string>
   <string name="updates_release_unavailable">Nog geen release geladen</string>
   <string name="updates_check_failed">Kon nu niet controleren op updates.</string>
   <string name="updates_check_live_with_version">Nieuwe release is live:%1$s%2$s.</string>
@@ -423,7 +423,7 @@
   <string name="about_contributors_dialog_title">Bijdragen</string>
   <string name="about_contributors_dialog_body">Dit scherm toont de live-bijdragelijst van de HYDRV GitHub repository.</string>
   <string name="contributors_group_summary">Bedankt voor uw hulp om HYDRV vooruit te helpen.</string>
-  <string name="contributors_loading">Bezig met laden van GitHub-bijdragers...</string>
+  <string name="contributors_loading">Bezig met laden van GitHub-bijdragers?</string>
   <string name="contributors_loaded">%1$dBijdragers geladen van GitHub.</string>
   <string name="contributors_failed">Bijdragers van GitHub zijn tijdelijk niet beschikbaar.</string>
   <plurals name="contributor_role_contributions">

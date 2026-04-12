@@ -285,7 +285,7 @@
     <string name="install_waiting_confirmation_format">等待安装确认%1$s</string>
     <string name="install_success_format">%1$s成功安装</string>
     <string name="uninstall_success_format">%1$s未安装成功</string>
-    <string name="install_preparing_format">准备%1$s用于安装...</string>
+    <string name="install_preparing_format">准备%1$s用于安装?</string>
     <string name="install_failed_error_format">安装失败 :%1$s</string>
     <string name="unknown_error">未知错误</string>
     <string name="file_not_found">未找到文件</string>
@@ -316,7 +316,7 @@
     <string name="settings_backup_import_failed">无法导入设置备份 。</string>
     <string name="backend_health_title">App 状态</string>
     <string name="backend_health_summary">查看后端、 缓存、 通知和更新状态</string>
-    <string name="backend_health_loading">正在装入应用程序状态...</string>
+    <string name="backend_health_loading">正在装入应用程序状态?</string>
     <string name="backend_health_backend_mode_format">来源模式 :%1$s</string>
     <string name="backend_health_last_checked_format">上次选中 :%1$s</string>
     <string name="backend_health_last_seen_hash_format">最后见到的散列 :%1$d</string>
@@ -358,7 +358,7 @@
     <string name="backend_source_name_hint">后端名称</string>
     <string name="backend_source_url_hint">https://example.com/catalogue.json 页面存档备份,存于互联网档案馆.</string>
     <string name="backend_example_url">示例:https://example.com/catalogue.json 互联网档案馆的存檔,存档日期2013-12-22.</string>
-    <string name="backend_validating_message">正在检查后端链接...</string>
+    <string name="backend_validating_message">正在检查后端链接?</string>
     <string name="backend_invalid_message">这个链接看起来不像一个有效的JSON终点.</string>
     <string name="backend_set_active_failed">后端现在不行</string>
     <string name="backend_set_active_failed_detail">后端现在不起作用:%1$s</string>
@@ -377,17 +377,17 @@
     <string name="updates_view_changelog">查看更改日志</string>
     <string name="updates_download_now">下载</string>
     <string name="updates_install_now">安装</string>
-    <string name="updates_downloading">正在下载...</string>
+    <string name="updates_downloading">正在下载?</string>
     <string name="updates_resume_download">继续</string>
     <string name="updates_launch_check_title">发射时检查更新</string>
     <string name="updates_launch_check_summary">打开九头蛇时自动检查最新的 GitHub 释放 。</string>
     <string name="updates_launch_message_title">启动时显示更新消息</string>
     <string name="updates_launch_message_summary">当最新的 repo 发布时显示内应用消息 。</string>
     <string name="updates_check_now">检查更新</string>
-    <string name="updates_checking">检查中...</string>
+    <string name="updates_checking">检查中?</string>
     <string name="updates_changelog_title">发布更改日志</string>
     <string name="updates_changelog_body">HydrV保持了与最新GitHub发布注释一致的应用程序内更改日志.</string>
-    <string name="updates_changelog_loading">正在装入最新的 GitHub 发布注释...</string>
+    <string name="updates_changelog_loading">正在装入最新的 GitHub 发布注释?</string>
     <string name="updates_release_unavailable">尚未装入释放</string>
     <string name="updates_check_failed">现在不能检查更新。</string>
     <string name="updates_check_live_with_version">新发行是直播:%1$s%2$s。 。 。 。</string>
@@ -421,7 +421,7 @@
     <string name="about_contributors_dialog_title">贡献者</string>
     <string name="about_contributors_dialog_body">此屏幕显示来自九头蛇 GitHub 寄存器的现场贡献列表 。</string>
     <string name="contributors_group_summary">谢谢你帮助九头蛇继续前进</string>
-    <string name="contributors_loading">正在装入 GitHub 贡献者...</string>
+    <string name="contributors_loading">正在装入 GitHub 贡献者?</string>
     <string name="contributors_loaded">%1$d从 GitHub 装入贡献 。</string>
     <string name="contributors_failed">GitHub 贡献者暂时无法使用 。</string>
     <plurals name="contributor_role_contributions">
