@@ -49,7 +49,7 @@
 
 ---
 
-<h2 align="center">Highlights</h2>
+<h2 align="center">Features</h2>
 
 <table>
   <tr>
