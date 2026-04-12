@@ -142,6 +142,7 @@ img {
 .brand-copy strong {
     font-size: 0.98rem;
     letter-spacing: 0.08em;
+    color: var(--accent);
 }
 
 .brand-copy span,
@@ -171,6 +172,7 @@ img {
     border-radius: 10px;
     font-size: 0.94rem;
     color: #d0dad5;
+    transition: background 0.2s ease, color 0.2s ease;
 }
 
 .nav a.nav-support {
@@ -240,6 +242,7 @@ img {
     align-items: flex-start;
     justify-content: center;
     min-height: 560px;
+    gap: 10px;
 }
 
 .eyebrow {
@@ -319,7 +322,7 @@ img {
     display: flex;
     justify-content: flex-start;
     gap: 12px;
-    margin-top: 26px;
+    margin-top: 18px;
 }
 
 .feature-visual {
@@ -361,7 +364,7 @@ img {
 
 .section-heading {
     max-width: 620px;
-    margin-bottom: 20px;
+    margin-bottom: 24px;
     text-align: center;
     margin-left: auto;
     margin-right: auto;
@@ -421,7 +424,8 @@ img {
 }
 
 .release-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    align-items: stretch;
 }
 
 .info-card,
@@ -431,6 +435,22 @@ img {
     border-radius: 18px;
     background: rgba(18, 23, 20, 0.86);
     border: 1px solid var(--line);
+}
+
+.highlight-card,
+.info-card,
+.release-card,
+.legal-card {
+    transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+
+.highlight-card:hover,
+.info-card:hover,
+.release-card:hover,
+.legal-card:hover {
+    border-color: rgba(34, 197, 94, 0.16);
+    background: rgba(20, 26, 22, 0.92);
+    transform: translateY(-1px);
 }
 
 .info-card h3,
@@ -463,6 +483,10 @@ img {
     flex-direction: column;
     gap: 12px;
     min-height: 100%;
+}
+
+.release-card-empty {
+    max-width: 380px;
 }
 
 .release-head {
@@ -596,7 +620,8 @@ img {
     }
 
     .dmca-badge img {
-        height: 16px;
+        height: 18px;
+        opacity: 1;
     }
 
     .topbar.is-scrolled {
@@ -702,6 +727,7 @@ img {
         font-size: clamp(2rem, 8vw, 2.9rem);
         line-height: 1;
         letter-spacing: -0.04em;
+        color: var(--accent);
     }
 
     .hero-mobile-lockup span {
@@ -747,5 +773,12 @@ img {
 
     .highlight-card {
         padding: 22px 18px;
+    }
+
+    .highlight-card:hover,
+    .info-card:hover,
+    .release-card:hover,
+    .legal-card:hover {
+        transform: none;
     }
 }
