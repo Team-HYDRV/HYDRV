@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
   <string name="app_name">HYDRV</string>
   <string name="settings_title">Settings</string>
@@ -410,7 +410,7 @@
   <string name="about_issue_title">Report a problem</string>
   <string name="about_issue_summary">Send bugs, rough edges, or ideas that could make HYDRV better.</string>
   <string name="about_contributors_title">People behind HYDRV</string>
-  <string name="about_contributors_summary">Meet the live GitHub contributors behind the project.</string>
+  <string name="about_contributors_summary">Meet the GitHub contributors behind the project.</string>
   <string name="about_licenses_title">Libraries and credits</string>
   <string name="about_licenses_summary">Browse the open source tools and components that power HYDRV.</string>
   <string name="about_contact_email">support@hydrv.app</string>
