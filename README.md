@@ -21,7 +21,7 @@
     <img src="https://badges.crowdin.net/hydrv/localized.svg" alt="Crowdin localization progress">
   </a>
   <a href="https://www.dmca.com/Protection/Status.aspx?ID=78a2a6af-920a-4b85-b5dd-863cc849e31f" title="DMCA.com Protection Status">
-    <img src="https://images.dmca.com/Badges/dmca-badge-w100-5x1-01.png?ID=78a2a6af-920a-4b85-b5dd-863cc849e31f" alt="DMCA.com Protection Status">
+    <img src="https://img.shields.io/badge/DMCA-Protected-4f4f4f?logo=dmca&logoColor=white" alt="DMCA Protected">
   </a>
 </p>
 
