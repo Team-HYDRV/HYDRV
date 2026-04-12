@@ -1,6 +1,26 @@
 document.addEventListener("DOMContentLoaded", () => {
+    resetInitialScroll();
+
     const currentYear = new Date().getFullYear();
     document.title = "HYDRV";
+    bindBrandScroll();
+    bindSectionNavHighlight();
+    bindTopbarState();
+
+    const menuToggle = document.querySelector(".mobile-menu-toggle");
+    if (menuToggle) {
+        menuToggle.addEventListener("click", () => {
+            const isOpen = document.body.classList.toggle("nav-open");
+            menuToggle.setAttribute("aria-expanded", String(isOpen));
+        });
+    }
+
+    document.querySelectorAll(".nav a").forEach((link) => {
+        link.addEventListener("click", () => {
+            document.body.classList.remove("nav-open");
+            menuToggle?.setAttribute("aria-expanded", "false");
+        });
+    });
 
     const footer = document.querySelector(".footer p");
     if (footer) {
@@ -9,6 +29,109 @@ document.addEventListener("DOMContentLoaded", () => {
 
     loadGitHubReleases();
 });
+
+function bindBrandScroll() {
+    const brand = document.querySelector(".brand");
+    const hero = document.querySelector(".hero");
+    const topbar = document.querySelector(".topbar");
+
+    if (!brand || !hero) return;
+
+    brand.addEventListener("click", (event) => {
+        event.preventDefault();
+
+        const offset = (topbar?.offsetHeight || 0) + 10;
+        const target = Math.max(0, hero.getBoundingClientRect().top + window.scrollY - offset);
+
+        window.scrollTo({
+            top: target,
+            behavior: "smooth"
+        });
+    });
+}
+
+function bindSectionNavHighlight() {
+    const navLinks = Array.from(document.querySelectorAll(".nav a[href^='#']"));
+    const entries = navLinks
+        .map((link) => {
+            const hash = link.getAttribute("href");
+            if (!hash) return null;
+            const section = document.querySelector(hash);
+            if (!section) return null;
+            return { link, section };
+        })
+        .filter(Boolean);
+
+    if (entries.length === 0) return;
+
+    const setActiveLink = (targetLink) => {
+        navLinks.forEach((link) => {
+            link.classList.toggle("nav-current", link === targetLink);
+        });
+    };
+
+    navLinks.forEach((link) => {
+        link.addEventListener("click", () => {
+            setActiveLink(link);
+        });
+    });
+
+    const updateActiveSection = () => {
+        const focusY = window.scrollY + window.innerHeight * 0.5;
+        const viewportBottom = window.scrollY + window.innerHeight;
+        const pageBottom = document.documentElement.scrollHeight;
+        let active = entries[0].link;
+
+        if (viewportBottom >= pageBottom - 24) {
+            setActiveLink(entries[entries.length - 1].link);
+            return;
+        }
+
+        for (let index = 0; index < entries.length; index += 1) {
+            const current = entries[index];
+            const next = entries[index + 1];
+            const currentTop = current.section.offsetTop;
+            const nextTop = next ? next.section.offsetTop : Number.POSITIVE_INFINITY;
+
+            if (focusY >= currentTop && focusY < nextTop) {
+                active = current.link;
+                break;
+            }
+        }
+
+        setActiveLink(active);
+    };
+
+    window.addEventListener("scroll", updateActiveSection, { passive: true });
+    window.addEventListener("resize", updateActiveSection);
+    updateActiveSection();
+}
+
+function bindTopbarState() {
+    const topbar = document.querySelector(".topbar");
+    if (!topbar) return;
+
+    const updateTopbarState = () => {
+        topbar.classList.toggle("is-scrolled", window.scrollY > 12);
+    };
+
+    window.addEventListener("scroll", updateTopbarState, { passive: true });
+    updateTopbarState();
+}
+
+function resetInitialScroll() {
+    if ("scrollRestoration" in history) {
+        history.scrollRestoration = "manual";
+    }
+
+    if (window.location.hash) {
+        history.replaceState(null, "", `${window.location.pathname}${window.location.search}`);
+    }
+
+    requestAnimationFrame(() => {
+        window.scrollTo(0, 0);
+    });
+}
 
 async function loadGitHubReleases() {
     const grid = document.getElementById("releaseGrid");

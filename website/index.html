@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -6,11 +6,12 @@
     <title>HYDRV</title>
     <meta
         name="description"
-        content="Android release browsing, kept clean."
+        content="Clean Android release browsing with fast downloads, simple controls, and a calmer interface."
     >
-    <meta name="theme-color" content="#111015">
+    <meta name="dmca-site-verification" content="T1c2aHc3WjJFcEhPcnJLcjErMlIwZz090">
+    <meta name="theme-color" content="#0d120f">
     <meta property="og:title" content="HYDRV">
-    <meta property="og:description" content="Android release browsing, kept clean.">
+    <meta property="og:description" content="Clean Android release browsing with fast downloads, simple controls, and a calmer interface.">
     <meta property="og:type" content="website">
     <meta property="og:image" content="./assets/icon-512.png">
     <meta name="twitter:card" content="summary_large_image">
@@ -24,458 +25,163 @@
 <body>
     <div class="page-shell">
         <header class="topbar">
+            <button class="mobile-menu-toggle" type="button" aria-expanded="false" aria-controls="primaryNav" aria-label="Open navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
             <a class="brand" href="#top" aria-label="HYDRV home">
                 <span class="brand-mark">
                     <img src="./assets/icon-512.png" alt="HYDRV icon">
                 </span>
                 <span class="brand-copy">
                     <strong>HYDRV</strong>
-                    <span>Android release browsing, kept clean.</span>
                 </span>
             </a>
 
-            <nav class="nav">
-                <a href="#guide">Guide</a>
-                <a href="#backend">Backend</a>
-                <a href="#highlights">Highlights</a>
-                <a href="#releases">Releases</a>
-                <a href="#why">Why HYDRV</a>
-                <a href="#roadmap">Roadmap</a>
+            <div class="brand-meta" aria-label="Brand metadata">
+                <span class="brand-divider" aria-hidden="true">|</span>
+                <a
+                    href="//www.dmca.com/Protection/Status.aspx?ID=78a2a6af-920a-4b85-b5dd-863cc849e31f"
+                    title="DMCA.com Protection Status"
+                    class="dmca-badge"
+                >
+                    <img
+                        src="https://images.dmca.com/Badges/dmca-badge-w100-5x1-01.png?ID=78a2a6af-920a-4b85-b5dd-863cc849e31f"
+                        alt="DMCA.com Protection Status"
+                    >
+                </a>
+            </div>
+
+            <nav class="nav" id="primaryNav" aria-label="Primary">
+                <a class="nav-support" href="https://ko-fi.com/xc3fff0e" target="_blank" rel="noopener noreferrer">Buy me a coffee</a>
+                <a href="#download">Download</a>
+                <a href="#features">Features</a>
                 <a href="#faq">FAQ</a>
-                <a href="#contact">Contact</a>
+                <a href="#links">Links</a>
             </nav>
         </header>
 
         <main id="top">
             <section class="hero">
-                <div class="hero-copy">
-                    <p class="eyebrow">New name</p>
-                    <h1>xManager is now HYDRV.</h1>
-                    <p class="pronunciation">Android release browsing, kept clean.</p>
-                    <p class="hero-text">
-                        Browse releases, grab signed downloads, and keep installs in one place without the extra clutter.
-                    </p>
+                <div class="feature-visual" aria-label="App preview">
+                    <figure class="feature-screen">
+                        <img src="./assets/screen-home-current.png" alt="HYDRV app preview">
+                    </figure>
+                </div>
 
+                <div class="hero-copy">
+                    <p class="eyebrow">HYDRV</p>
+                    <div class="hero-desktop-lockup" aria-hidden="true">
+                        <strong>HYDRV</strong>
+                        <span>Android release browsing, kept clean.</span>
+                    </div>
+                    <h1>Android release browsing, kept clean.</h1>
+                    <div class="hero-mobile-lockup" aria-hidden="true">
+                        <strong>HYDRV</strong>
+                        <span>Android release browsing, kept clean.</span>
+                    </div>
                     <div class="hero-actions">
                         <a class="button button-primary" href="https://github.com/Team-HYDRV/HYDRV/releases/latest/download/HYDRV.apk" target="_blank" rel="noopener noreferrer">Download</a>
-                        <a class="button button-secondary" href="#highlights">Explore highlights</a>
-                    </div>
-
-                    <ul class="hero-points">
-                        <li>Same project, new name</li>
-                        <li>Releases, downloads, and installs in one flow</li>
-                        <li>Built to stay light and easy to live with</li>
-                    </ul>
-                </div>
-
-                <div class="hero-visual" aria-hidden="true">
-                    <div class="phone-frame">
-                        <div class="phone-sensor"></div>
-                        <div class="phone-screen">
-                            <div class="screen-head">
-                                <span class="screen-logo">
-                                    <img src="./assets/icon-512.png" alt="">
-                                </span>
-                                <div>
-                                    <strong>HYDRV</strong>
-                                    <p>Browse releases and downloads without extra noise.</p>
-                                </div>
-                            </div>
-
-                            <div class="screen-search"></div>
-
-                            <div class="screen-tabs">
-                                <span class="active">All</span>
-                                <span>Favorites</span>
-                                <span>Installed</span>
-                            </div>
-
-                            <div class="screen-card">
-                                <div class="screen-icon"></div>
-                                <div class="screen-lines">
-                                    <strong>Calm</strong>
-                                    <span>Version 6.89</span>
-                                </div>
-                                <em>Latest</em>
-                            </div>
-
-                            <div class="screen-card">
-                                <div class="screen-icon alt"></div>
-                                <div class="screen-lines">
-                                    <strong>Crunchyroll</strong>
-                                    <span>Version 3.8.8.1</span>
-                                </div>
-                                <em>Update</em>
-                            </div>
-
-                            <div class="screen-card">
-                                <div class="screen-icon alt-two"></div>
-                                <div class="screen-lines">
-                                    <strong>DramaHub</strong>
-                                    <span>Version 1.2.1</span>
-                                </div>
-                                <em>Download</em>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </section>
 
-            <section class="stats-strip">
-                <article>
-                    <strong>Focused</strong>
-                    <span>Built around releases, downloads, and installs.</span>
-                </article>
-                <article>
-                    <strong>Fast</strong>
-                    <span>Kept light so it feels quick from the first tap.</span>
-                </article>
-                <article>
-                    <strong>Flexible</strong>
-                    <span>Theme options, languages, and update controls are built in.</span>
-                </article>
+            <section class="section compact-section highlights-section" id="features">
+                <div class="section-heading section-heading-centered">
+                    <h2>Features</h2>
+                </div>
+                <div class="highlights-grid">
+                    <article class="highlight-card">
+                        <h3>Release browsing</h3>
+                        <p>Open apps, check their releases, and move through versions without extra clutter.</p>
+                    </article>
+                    <article class="highlight-card">
+                        <h3>Signed downloads</h3>
+                        <p>The public catalogue stays simple while HYDRV handles the real download flow cleanly.</p>
+                    </article>
+                    <article class="highlight-card">
+                        <h3>Flexible setup</h3>
+                        <p>Theme, language, lists, backend sources, and launcher icons are all built in.</p>
+                    </article>
+                    <article class="highlight-card">
+                        <h3>Support tools</h3>
+                        <p>Update checks, backend health, quick links, and maintenance tools stay easy to reach.</p>
+                    </article>
+                </div>
             </section>
 
-            <section class="section" id="guide">
+            <section class="section compact-section" id="download">
                 <div class="section-heading">
-                    <p class="eyebrow">Guide</p>
-                    <h2>How to use HYDRV.</h2>
-                    <p class="section-lead">A quick walk-through of the parts people actually use every day.</p>
+                    <h2>Latest releases</h2>
+                    <p class="section-lead">Grab the newest build or check the recent release notes from GitHub.</p>
                 </div>
-
-                <div class="story-grid">
-                    <article class="story-card">
-                        <span class="story-index">01</span>
-                        <h3>Allow permissions first</h3>
-                        <p>HYDRV needs internet access and install permission before it can download or install anything. Once that is done, you’re ready to go.</p>
-                    </article>
-                    <article class="story-card">
-                        <span class="story-index">02</span>
-                        <h3>Use Home to browse</h3>
-                        <p>Search for an app, open a release, choose a version, and download the one you want.</p>
-                    </article>
-                    <article class="story-card">
-                        <span class="story-index">03</span>
-                        <h3>Keep Favorites close</h3>
-                        <p>Star the apps you use often so they’re easy to find again later.</p>
-                    </article>
-                    <article class="story-card">
-                        <span class="story-index">04</span>
-                        <h3>Check Installed</h3>
-                        <p>See what’s already on your phone and check whether HYDRV has something newer.</p>
-                    </article>
-                    <article class="story-card">
-                        <span class="story-index">05</span>
-                        <h3>Manage Downloads</h3>
-                        <p>Watch files finish, install APKs, retry failed downloads, or clear old items when you’re done with them.</p>
-                    </article>
-                    <article class="story-card">
-                        <span class="story-index">06</span>
-                        <h3>Use General and About</h3>
-                        <p>General is where you change how HYDRV looks and behaves. About is where you’ll find version info, reports, and project links.</p>
-                    </article>
-                </div>
+                <div class="release-grid" id="releaseGrid" aria-live="polite"></div>
             </section>
 
-            <section class="section" id="app-areas">
+            <section class="section compact-section" id="faq">
                 <div class="section-heading">
-                    <p class="eyebrow">App areas</p>
-                    <h2>What each tab is for.</h2>
-                    <p class="section-lead">The app is split into a few simple tabs so you can get where you need to go without digging around.</p>
+                    <h2>FAQ</h2>
                 </div>
-
-                <div class="story-grid">
-                    <article class="story-card">
-                        <span class="story-index">01</span>
-                        <h3>Home</h3>
-                        <p>Browse apps, open a release, pick a version, and start a download from the main catalogue.</p>
-                    </article>
-                    <article class="story-card">
-                        <span class="story-index">02</span>
-                        <h3>Favorites</h3>
-                        <p>Keep the apps you care about close by so you can jump back to them without searching again.</p>
-                    </article>
-                    <article class="story-card">
-                        <span class="story-index">03</span>
-                        <h3>Installed</h3>
-                        <p>See what is already on your phone and spot anything newer at a glance.</p>
-                    </article>
-                    <article class="story-card">
-                        <span class="story-index">04</span>
-                        <h3>Downloads</h3>
-                        <p>Watch files finish, install APKs, retry failed downloads, or clear old items when you are done.</p>
-                    </article>
-                    <article class="story-card">
-                        <span class="story-index">05</span>
-                        <h3>General</h3>
-                        <p>Adjust the look and behavior of HYDRV, including theme, language, sorting, backend, and icon settings.</p>
-                    </article>
-                    <article class="story-card">
-                        <span class="story-index">06</span>
-                        <h3>About</h3>
-                        <p>Find version info, reports, support links, and the small project details people usually need first.</p>
-                    </article>
-                </div>
-            </section>
-
-            <section class="section section-alt" id="backend">
-                <div class="section-heading">
-                    <p class="eyebrow">Backend tutorial</p>
-                    <h2>For power users who want their own source.</h2>
-                    <p class="section-lead">Most people can stay on Default. If you want HYDRV to point at your own catalogue, this is where it happens.</p>
-                </div>
-
-                <div class="story-grid">
-                    <article class="story-card">
-                        <span class="story-index">01</span>
-                        <h3>What it does</h3>
-                        <p>The backend lets HYDRV load catalogue data from your own JSON source instead of only the built-in one.</p>
-                    </article>
-                    <article class="story-card">
-                        <span class="story-index">02</span>
-                        <h3>Why it helps</h3>
-                        <p>It’s useful if you want a private list, a test source, or a mirrored catalogue that you control yourself.</p>
-                    </article>
-                    <article class="story-card">
-                        <span class="story-index">03</span>
-                        <h3>How to set it up</h3>
-                        <p>Open General, tap Backend, add or select a URL, and make sure it returns valid HYDRV catalogue data.</p>
-                    </article>
-                    <article class="story-card">
-                        <span class="story-index">04</span>
-                        <h3>Switch back anytime</h3>
-                        <p>If you just want the normal HYDRV setup again, switch back to Default and keep using the built-in source.</p>
-                    </article>
-                </div>
-
-                <p class="section-lead" style="text-align:center; margin-top: 1.5rem;">
-                    If a backend is broken or offline, HYDRV may not be able to load apps from it. For most people, Default is still the safest choice.
-                </p>
-            </section>
-
-            <section class="section" id="highlights">
-                <div class="section-heading">
-                    <p class="eyebrow">Highlights</p>
-                    <h2>What HYDRV handles without getting in the way.</h2>
-                </div>
-
-                <div class="feature-grid">
-                    <article class="feature-card">
-                        <h3>Release browsing that stays clear</h3>
-                        <p>Open an app, check the versions it has, and go straight to the one you want.</p>
-                    </article>
-                    <article class="feature-card">
-                        <h3>Downloads that stay easy to follow</h3>
-                        <p>Keep an eye on progress, install when it’s ready, and come back later without losing your place.</p>
-                    </article>
-                    <article class="feature-card">
-                        <h3>One place for releases and installs</h3>
-                        <p>Release discovery, signed downloads, and install steps all stay together.</p>
-                    </article>
-                    <article class="feature-card">
-                        <h3>Built-in update awareness</h3>
-                        <p>Launch checks, update messages, and notifications help you notice changes without hunting for them.</p>
-                    </article>
-                    <article class="feature-card">
-                        <h3>Appearance that fits your device</h3>
-                        <p>Light, dark, and pure black help HYDRV fit the way you already use your phone.</p>
-                    </article>
-                    <article class="feature-card">
-                        <h3>Designed to stay lightweight</h3>
-                        <p>Recent work has been about keeping it quick, simple, and out of the way.</p>
-                    </article>
-                </div>
-            </section>
-
-            <section class="section" id="screens">
-                <div class="section-heading">
-                    <p class="eyebrow">Screens</p>
-                    <h2>A quick look at HYDRV in use.</h2>
-                </div>
-
-                <div class="shot-grid">
-                    <figure class="shot-card">
-                        <div class="shot-media">
-                            <img src="./assets/screen-permissions.png" alt="HYDRV permission setup screen">
-                        </div>
-                        <figcaption>
-                            <strong>Permissions</strong>
-                            <span>Clear setup steps before you start downloading.</span>
-                        </figcaption>
-                    </figure>
-
-                    <figure class="shot-card">
-                        <div class="shot-media">
-                            <img src="./assets/screen-home.png" alt="HYDRV home screen">
-                        </div>
-                        <figcaption>
-                            <strong>Home</strong>
-                            <span>Browse releases, track versions, and keep installs organized.</span>
-                        </figcaption>
-                    </figure>
-
-                    <figure class="shot-card">
-                        <div class="shot-media">
-                            <img src="./assets/screen-general.png" alt="HYDRV general screen">
-                        </div>
-                        <figcaption>
-                            <strong>General</strong>
-                            <span>Theme, language, and list controls in one place.</span>
-                        </figcaption>
-                    </figure>
-
-                    <figure class="shot-card">
-                        <div class="shot-media">
-                            <img src="./assets/screen-about.png" alt="HYDRV About screen">
-                        </div>
-                        <figcaption>
-                            <strong>About</strong>
-                            <span>Project info, quick links, and the new name in one place.</span>
-                        </figcaption>
-                    </figure>
-                </div>
-            </section>
-
-            <section class="section section-alt" id="why">
-                <div class="section-heading">
-                    <p class="eyebrow">Why HYDRV</p>
-                    <h2>Why HYDRV feels a little different.</h2>
-                </div>
-
-                <div class="story-grid">
-                    <article class="story-card">
-                        <span class="story-index">01</span>
-                        <h3>Clarity first</h3>
-                        <p>HYDRV keeps the important stuff up front so releases, downloads, and settings don’t feel buried.</p>
-                    </article>
-                    <article class="story-card">
-                        <span class="story-index">02</span>
-                        <h3>Speed matters</h3>
-                        <p>It should feel quick from the first tap, not like you’re waiting around.</p>
-                    </article>
-                    <article class="story-card">
-                        <span class="story-index">03</span>
-                        <h3>Room to grow</h3>
-                        <p>HYDRV is built to keep improving without losing the simple feel that makes it useful now.</p>
-                    </article>
-                </div>
-            </section>
-
-            <section class="section" id="download">
-                <div class="download-panel">
-                    <div>
-                        <p class="eyebrow">Get HYDRV</p>
-                        <h2>Built for release browsing and signed downloads.</h2>
-                        <p>
-                            HYDRV keeps release discovery, signed download links, and project updates in one clean
-                            public home.
-                        </p>
-                    </div>
-                    <div class="download-actions">
-                        <a class="button button-primary" href="https://github.com/Team-HYDRV/HYDRV/releases/latest/download/HYDRV.apk" target="_blank" rel="noopener noreferrer">Download</a>
-                        <a class="button button-secondary" href="https://github.com/Team-HYDRV/HYDRV" target="_blank" rel="noopener noreferrer">View source</a>
-                    </div>
-                    <p class="download-note">
-                        Want to use your own catalogue JSON? Read the
-                        <a href="https://github.com/Team-HYDRV/HYDRV/blob/develop/HYDRV/docs/backend-example.md" target="_blank" rel="noopener noreferrer">backend guide</a>
-                        and sample files.
-                    </p>
-                </div>
-            </section>
-
-            <section class="section" id="releases">
-                <div class="section-heading">
-                    <p class="eyebrow">Releases</p>
-                    <h2>Latest release notes from GitHub.</h2>
-                    <p class="section-lead">Pulled straight from the Team-HYDRV/HYDRV repository.</p>
-                </div>
-
-                <div class="release-grid" id="releaseGrid" aria-live="polite">
-                    <article class="story-card release-card release-card-loading">
-                        <span class="story-index">01</span>
-                        <h3>Fetching latest releases</h3>
-                        <p>Live GitHub release notes will appear here as soon as they are available.</p>
-                    </article>
-                    <article class="story-card release-card release-card-loading">
-                        <span class="story-index">02</span>
-                        <h3>Fetching latest releases</h3>
-                        <p>Live GitHub release notes will appear here as soon as they are available.</p>
-                    </article>
-                    <article class="story-card release-card release-card-loading">
-                        <span class="story-index">03</span>
-                        <h3>Fetching latest releases</h3>
-                        <p>Live GitHub release notes will appear here as soon as they are available.</p>
-                    </article>
-                </div>
-
-                <div class="section-actions">
-                    <a class="button button-secondary" href="https://github.com/Team-HYDRV/HYDRV/releases" target="_blank" rel="noopener noreferrer">View all releases</a>
-                </div>
-            </section>
-
-            <section class="section section-alt" id="roadmap">
-                <div class="section-heading">
-                    <p class="eyebrow">Roadmap</p>
-                    <h2>What we could add later.</h2>
-                </div>
-
-                <div class="story-grid">
-                    <article class="story-card">
-                        <span class="story-index">A</span>
-                        <h3>Release archive</h3>
-                        <p>A fuller archive could bring version history, release notes, and older builds together.</p>
-                    </article>
-                    <article class="story-card">
-                        <span class="story-index">B</span>
-                        <h3>Build details</h3>
-                        <p>Future releases could include checksums, file sizes, and other verification details beside each build.</p>
-                    </article>
-                    <article class="story-card">
-                        <span class="story-index">C</span>
-                        <h3>Support hub</h3>
-                        <p>The public site could grow into a cleaner support hub with project status and community details.</p>
-                    </article>
-                </div>
-            </section>
-
-            <section class="section" id="faq">
-                <div class="section-heading">
-                    <p class="eyebrow">FAQ</p>
-                    <h2>A few quick answers.</h2>
-                </div>
-
-                <div class="faq-list">
-                    <article class="faq-item">
+                <div class="simple-grid">
+                    <article class="info-card">
                         <h3>What is HYDRV?</h3>
-                        <p>HYDRV is the new name for the project that used to be xManager. It is still the same Android app for browsing releases and downloading files through signed links.</p>
+                        <p>HYDRV is a release browser for Android apps, built to keep downloads, versions, and installs easy to follow.</p>
                     </article>
-                    <article class="faq-item">
-                        <h3>Is this the full public website?</h3>
-                        <p>Yes. This is the current public landing page, and future updates can expand it into a release archive, build details, and more project context.</p>
+                    <article class="info-card">
+                        <h3>Where do downloads come from?</h3>
+                        <p>The app uses its built-in catalog by default, and advanced users can swap to a custom backend source when needed.</p>
                     </article>
-                    <article class="faq-item">
-                        <h3>Can this be deployed to hydrv.app?</h3>
-                        <p>Yes. It is a static site and can be deployed to Cloudflare Pages, Netlify, GitHub Pages, or any other static host.</p>
+                    <article class="info-card">
+                        <h3>Is it open source?</h3>
+                        <p>Yes. Releases, issue tracking, and contributor history live on GitHub.</p>
+                    </article>
+                </div>
+            </section>
+
+            <section class="section compact-section" id="links">
+                <div class="section-heading">
+                    <h2>Links</h2>
+                </div>
+                <div class="simple-grid">
+                    <article class="info-card">
+                        <h3>GitHub</h3>
+                        <p>View source, releases, commits, and issue history.</p>
+                        <a class="text-link" href="https://github.com/Team-HYDRV/HYDRV" target="_blank" rel="noopener noreferrer">Open GitHub</a>
+                    </article>
+                    <article class="info-card">
+                        <h3>Contributors</h3>
+                        <p>See the people helping move the project forward.</p>
+                        <a class="text-link" href="https://github.com/Team-HYDRV/HYDRV/graphs/contributors" target="_blank" rel="noopener noreferrer">Open contributors</a>
+                    </article>
+                    <article class="info-card">
+                        <h3>Support</h3>
+                        <p>Support upkeep, future fixes, and product polish.</p>
+                        <a class="text-link" href="https://ko-fi.com/xc3fff0e" target="_blank" rel="noopener noreferrer">Donate on Ko-fi</a>
+                    </article>
+                    <article class="info-card">
+                        <h3>Contact</h3>
+                        <p>Reach out for support questions or project-related issues.</p>
+                        <a class="text-link" href="mailto:support@hydrv.app">support@hydrv.app</a>
                     </article>
                 </div>
             </section>
         </main>
 
-        <footer class="footer" id="contact">
+        <footer class="footer">
             <div>
                 <strong>HYDRV</strong>
                 <p>Android release browsing, kept clean.</p>
             </div>
             <div class="footer-links">
-                <a href="mailto:support@hydrv.app">support@hydrv.app</a>
-                <a href="./privacy.html">Privacy policy</a>
+                <a href="./privacy.html">Privacy</a>
                 <a href="./terms.html">Terms</a>
-                <a href="#top">Back to top</a>
             </div>
         </footer>
     </div>
 
     <script src="./app.js"></script>
+    <script src="https://images.dmca.com/Badges/DMCABadgeHelper.min.js"></script>
 </body>
 </html>
-
