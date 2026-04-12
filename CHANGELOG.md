@@ -62,6 +62,14 @@ All notable changes to HYDRV are recorded here.
 - Added a lightweight reusable settings footer for small status text without changing the overall screen structure.
 - Cleaned up the release metadata path so the tagged build, in-app versioning, and notes stay aligned.
 
+## [1.0.7] - 2026-04-08
+
+### Recent work
+
+- Bumped the release to `1.0.7` and aligned the packaged metadata with the tagged build.
+- Warmed up the public copy across the README and website so the project reads more naturally.
+- Reworked the repo presentation with clearer highlights, cleaner screenshot ordering, and a tighter architecture/build overview.
+
 ## [1.0.6] - 2026-04-06
 
 ### Added
