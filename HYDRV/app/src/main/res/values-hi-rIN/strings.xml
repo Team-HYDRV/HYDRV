@@ -318,7 +318,7 @@
   <string name="settings_backup_import_failed">सेटिंग्स बैकअप आयात नहीं कर सका।</string>
   <string name="backend_health_title">ऐप स्टेटस</string>
   <string name="backend_health_summary">बैकेंड, कैश, अधिसूचना और अद्यतन स्थिति देखें</string>
-  <string name="backend_health_loading">अनुप्रयोग स्थिति लोड हो रहा है?</string>
+  <string name="backend_health_loading">अनुप्रयोग स्थिति लोड हो रहा है...</string>
   <string name="backend_health_backend_mode_format">स्रोत मोड:%1$s</string>
   <string name="backend_health_last_checked_format">अंतिम जाँच:%1$s</string>
   <string name="backend_health_last_seen_hash_format">पिछले देखा हैश:%1$d</string>
@@ -386,10 +386,10 @@
   <string name="updates_launch_message_title">लॉन्च पर अद्यतन संदेश दिखाएं</string>
   <string name="updates_launch_message_summary">जब नवीनतम रेपो रिलीज़ में बदलाव आता है तो एक इन-ऐप संदेश प्रदर्शित करें।</string>
   <string name="updates_check_now">अद्यतन की जाँच करें</string>
-  <string name="updates_checking">जाँच?</string>
+  <string name="updates_checking">जाँच...</string>
   <string name="updates_changelog_title">रिलीज़ चेंजलॉग</string>
   <string name="updates_changelog_body">HYDRV नवीनतम GitHub रिलीज नोटों के साथ संरेखित इन-ऐप चेंजलॉग रखता है।</string>
-  <string name="updates_changelog_loading">नवीनतम GitHub रिलीज नोट्स लोड हो रहा है ?</string>
+  <string name="updates_changelog_loading">नवीनतम GitHub रिलीज नोट्स लोड हो रहा है ...</string>
   <string name="updates_release_unavailable">अभी तक कोई रिलीज नहीं हुई</string>
   <string name="updates_check_failed">अभी अद्यतन के लिए जाँच नहीं कर सका।</string>
   <string name="updates_check_live_with_version">नई रिलीज लाइव है:%1$s%2$s।</string>

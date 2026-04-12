@@ -318,7 +318,7 @@
   <string name="settings_backup_import_failed">設定バックアップをインポートできません。</string>
   <string name="backend_health_title">アプリのステータス</string>
   <string name="backend_health_summary">バックエンド、キャッシュ、通知、更新ステータスを表示</string>
-  <string name="backend_health_loading">アプリのステータスをロードする?</string>
+  <string name="backend_health_loading">アプリのステータスをロードする...</string>
   <string name="backend_health_backend_mode_format">源モード:%1$s</string>
   <string name="backend_health_last_checked_format">最終チェック:%1$s</string>
   <string name="backend_health_last_seen_hash_format">最後に見たハッシュ:%1$d</string>
@@ -379,7 +379,7 @@
   <string name="updates_view_changelog">変更履歴を見る</string>
   <string name="updates_download_now">ダウンロード</string>
   <string name="updates_install_now">インストール</string>
-  <string name="updates_downloading">ダウンロード?</string>
+  <string name="updates_downloading">ダウンロード...</string>
   <string name="updates_resume_download">ログイン</string>
   <string name="updates_launch_check_title">アップデートの確認</string>
   <string name="updates_launch_check_summary">HYDRV を開くと、自動的に最新の GitHub リリースを確認します。</string>
@@ -389,7 +389,7 @@
   <string name="updates_checking">チェックイン</string>
   <string name="updates_changelog_title">リリース変更ログ</string>
   <string name="updates_changelog_body">HYDRV は、最新の GitHub リリースノートと整列するアプリ内変更ログを保持します。</string>
-  <string name="updates_changelog_loading">最新のGitHubリリースノートを読み込む?</string>
+  <string name="updates_changelog_loading">最新のGitHubリリースノートを読み込む...</string>
   <string name="updates_release_unavailable">リリースがまだロードされていない</string>
   <string name="updates_check_failed">今すぐ更新を確認できませんでした。</string>
   <string name="updates_check_live_with_version">新しいリリースがライブです。%1$s%2$sお問い合わせ</string>

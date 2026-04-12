@@ -269,7 +269,7 @@
   <string name="notification_channel_name">App-updates</string>
   <string name="notification_channel_description">Meldingen wanneer nieuwe app wijzigingen beschikbaar zijn.</string>
   <string name="notification_title_updates_live">Nieuwe app wijzigingen zijn live</string>
-  <string name="notification_text_updates_live">Nieuwe updates zijn beschikbaar in HYDRV. Kom kijken wat er nieuw is.</string>
+  <string name="notification_text_updates_live">Verse updates zijn beschikbaar in HYDRV. Kom kijken wat\\'s nieuw.</string>
   <string name="notification_title_backend_update_format">%1$sbackend bijgewerkt</string>
   <string name="notification_text_backend_update">Nieuwe updates zijn beschikbaar in HYDRV. Open de app om te zien wat er veranderd is.</string>
   <string name="backend_update_snackbar_format">%1$sbackend bijgewerkt.</string>
@@ -318,7 +318,7 @@
   <string name="settings_backup_import_failed">Kon de back-up van instellingen niet importeren.</string>
   <string name="backend_health_title">Appstatus</string>
   <string name="backend_health_summary">Backend, cache, notificatie en updatestatus weergeven</string>
-  <string name="backend_health_loading">Laden van appstatus?</string>
+  <string name="backend_health_loading">Laden van appstatus...</string>
   <string name="backend_health_backend_mode_format">Bronmodus:%1$s</string>
   <string name="backend_health_last_checked_format">Laatst aangevinkt:%1$s</string>
   <string name="backend_health_last_seen_hash_format">Laatst gezien hash:%1$d</string>
@@ -386,10 +386,10 @@
   <string name="updates_launch_message_title">Updatebericht tonen bij opstarten</string>
   <string name="updates_launch_message_summary">Toon een in-app bericht wanneer de nieuwste repo release verandert.</string>
   <string name="updates_check_now">Controleren op updates</string>
-  <string name="updates_checking">Controleren?</string>
+  <string name="updates_checking">Controleren...</string>
   <string name="updates_changelog_title">Releasewijzigingslog</string>
   <string name="updates_changelog_body">HYDRV houdt de in-app changelog in lijn met de nieuwste GitHub release notes.</string>
-  <string name="updates_changelog_loading">Laden van de nieuwste GitHub release notes?</string>
+  <string name="updates_changelog_loading">Laden van de nieuwste GitHub release notes...</string>
   <string name="updates_release_unavailable">Nog geen release geladen</string>
   <string name="updates_check_failed">Kon nu niet controleren op updates.</string>
   <string name="updates_check_live_with_version">Nieuwe release is live:%1$s%2$s.</string>
@@ -423,7 +423,7 @@
   <string name="about_contributors_dialog_title">Bijdragen</string>
   <string name="about_contributors_dialog_body">Dit scherm toont de live-bijdragelijst van de HYDRV GitHub repository.</string>
   <string name="contributors_group_summary">Bedankt voor uw hulp om HYDRV vooruit te helpen.</string>
-  <string name="contributors_loading">Bezig met laden van GitHub-bijdragers?</string>
+  <string name="contributors_loading">Bezig met laden van GitHub-bijdragers...</string>
   <string name="contributors_loaded">%1$dBijdragers geladen van GitHub.</string>
   <string name="contributors_failed">Bijdragers van GitHub zijn tijdelijk niet beschikbaar.</string>
   <plurals name="contributor_role_contributions">

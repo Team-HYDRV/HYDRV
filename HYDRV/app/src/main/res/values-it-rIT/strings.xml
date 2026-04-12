@@ -36,7 +36,7 @@
   <string name="language_title">Lingua</string>
   <string name="language_summary">Scegli la lingua di visualizzazione dell\'app</string>
   <string name="language_system_default">Di default del sistema</string>
-  <string name="language_afrikaans">Afrikaans</string>
+  <string name="language_afrikaans">Africano</string>
   <string name="language_english">Inglese</string>
   <string name="language_filipino">Filippino</string>
   <string name="language_spanish">Spagnolo</string>
@@ -70,7 +70,7 @@
   <string name="language_swedish">Svezia</string>
   <string name="language_japanese">Giapponese</string>
   <string name="language_korean">Coreano</string>
-  <string name="language_afrikaans_region">Afrikaans (South Africa)</string>
+  <string name="language_afrikaans_region">Africano (Sud Africa)</string>
   <string name="language_english_region">Inglese (Stati Uniti)</string>
   <string name="language_filipino_region">Filippine (Filippine)</string>
   <string name="language_spanish_region">Spagnolo (Spagna)</string>
@@ -105,7 +105,7 @@
   <string name="language_japanese_region">Giapponese (Giappone)</string>
   <string name="language_korean_region">Coreano (Corea del Sud)</string>
   <string name="language_native_system_default">Usa la lingua del dispositivo</string>
-  <string name="language_native_afrikaans_region">Afrikaans (Suid-Afrika)</string>
+  <string name="language_native_afrikaans_region">Africano (Suid-Afrika)</string>
   <string name="language_native_english_region">Inglese (Stati Uniti)</string>
   <string name="language_native_filipino_region">Filippino (Filippine)</string>
   <string name="language_native_spanish_region">Spagnolo (Spagna)</string>
@@ -269,7 +269,7 @@
   <string name="notification_channel_name">Aggiornamenti dell\'app</string>
   <string name="notification_channel_description">Notifiche quando sono disponibili nuove modifiche app.</string>
   <string name="notification_title_updates_live">Nuove modifiche app sono in diretta</string>
-  <string name="notification_text_updates_live">Nuovi aggiornamenti sono disponibili in HYDRV. Vieni a vedere le novit?.</string>
+  <string name="notification_text_updates_live">Aggiornamenti freschi sono disponibili in HYDRV. Vieni a controllare cosa\\'s nuovo.</string>
   <string name="notification_title_backend_update_format">%1$sbackend aggiornato</string>
   <string name="notification_text_backend_update">Aggiornamenti freschi sono disponibili in HYDRV. Aprire l\'app per vedere cosa è cambiato.</string>
   <string name="backend_update_snackbar_format">%1$sbackend aggiornato.</string>
@@ -318,7 +318,7 @@
   <string name="settings_backup_import_failed">Non potrebbe importare il backup delle impostazioni.</string>
   <string name="backend_health_title">Stato dell\'app</string>
   <string name="backend_health_summary">Visualizza lo stato di backend, cache, notifica e aggiornamento</string>
-  <string name="backend_health_loading">Caricamento dello stato dell\'app?</string>
+  <string name="backend_health_loading">Caricamento dello stato dell\'app...</string>
   <string name="backend_health_backend_mode_format">Modalità sorgente:%1$s</string>
   <string name="backend_health_last_checked_format">Ultimo controllo:%1$s</string>
   <string name="backend_health_last_seen_hash_format">Ultimo hash visto:%1$d</string>
@@ -379,17 +379,17 @@
   <string name="updates_view_changelog">Visualizza changelog</string>
   <string name="updates_download_now">Scarica</string>
   <string name="updates_install_now">Installazione</string>
-  <string name="updates_downloading">Scarica?</string>
+  <string name="updates_downloading">Scarica...</string>
   <string name="updates_resume_download">Ripresa</string>
   <string name="updates_launch_check_title">Controllare gli aggiornamenti sul lancio</string>
   <string name="updates_launch_check_summary">Controlla automaticamente l\'ultimo rilascio GitHub ogni volta che si apre HYDRV.</string>
   <string name="updates_launch_message_title">Mostra messaggio di aggiornamento sul lancio</string>
   <string name="updates_launch_message_summary">Mostra un messaggio in-app quando cambia l\'ultima versione del repo.</string>
   <string name="updates_check_now">Controllare gli aggiornamenti</string>
-  <string name="updates_checking">Controllo?</string>
+  <string name="updates_checking">Controllo...</string>
   <string name="updates_changelog_title">Registro delle modifiche</string>
   <string name="updates_changelog_body">HYDRV mantiene il changelog in-app allineato alle ultime note di rilascio GitHub.</string>
-  <string name="updates_changelog_loading">Caricamento delle ultime note di rilascio GitHub?</string>
+  <string name="updates_changelog_loading">Caricamento delle ultime note di rilascio GitHub...</string>
   <string name="updates_release_unavailable">Nessun rilascio caricato</string>
   <string name="updates_check_failed">Non è possibile controllare gli aggiornamenti in questo momento.</string>
   <string name="updates_check_live_with_version">La nuova versione è live:%1$s%2$s.</string>
@@ -415,7 +415,7 @@
   <string name="about_contributors_summary">Scopri i collaboratori GitHub attivi che stanno dietro a questo progetto.</string>
   <string name="about_licenses_title">Biblioteche e crediti</string>
   <string name="about_licenses_summary">Sfoglia gli strumenti e i componenti open source che alimentano HYDRV.</string>
-  <string name="about_contact_email">support@hydrv.app</string>
+  <string name="about_contact_email">supporto@hydrv.app</string>
   <string name="about_link_placeholder">Questo link non è disponibile in questo momento.</string>
   <string name="about_issue_placeholder">La segnalazione dei problemi non è disponibile in questo momento.</string>
   <string name="about_issue_email_subject">Feedback HYDRV</string>
@@ -423,7 +423,7 @@
   <string name="about_contributors_dialog_title">Contributori</string>
   <string name="about_contributors_dialog_body">Questa schermata mostra l\'elenco dei contributori dal vivo del repository HYDRV GitHub.</string>
   <string name="contributors_group_summary">Grazie per aver aiutato HYDRV a proseguire.</string>
-  <string name="contributors_loading">Caricamento GitHub contributori?</string>
+  <string name="contributors_loading">Caricamento GitHub contributori...</string>
   <string name="contributors_loaded">%1$dcontributori caricati da GitHub.</string>
   <string name="contributors_failed">I collaboratori di GitHub non sono temporaneamente disponibili.</string>
   <plurals name="contributor_role_contributions">
