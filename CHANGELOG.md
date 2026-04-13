@@ -16,6 +16,29 @@ All notable changes to HYDRV are recorded here.
 
 - Bug fixes continue to roll in with each release.
 
+## [1.1.0] - 2026-04-13
+
+### Added
+
+- Broader localized coverage and translation sync support for the app’s release, settings, notifications, and about surfaces.
+- Smoother list updating in version history, downloads, backend management, and contributors screens through more targeted adapter refreshes.
+
+### Changed
+
+- The changelog now follows the catalog JSON content more faithfully, preserving multi-line notes and proper bullet formatting.
+- The app’s version metadata, release notes, and packaged release output are aligned for the `1.1.0` tag.
+
+### Fixed
+
+- Recycler rows no longer leak stale app or action state when catalog entries or downloads reuse recycled views.
+- Broken localized resource placeholders and malformed escaped notification strings were repaired so debug and release builds stay clean after translation syncs.
+
+### Recent work
+
+- Fixed changelog rendering so JSON release notes display with the intended line breaks, bullets, and content structure.
+- Tightened RecyclerView binding correctness across app, download, backend, version, and contributors surfaces while reducing unnecessary full-list redraws.
+- Cleaned up repeated Crowdin sync regressions in localized resources and restored build-safe strings and format placeholders across affected locales.
+
 ## [1.0.9] - 2026-04-12
 
 ### Added
