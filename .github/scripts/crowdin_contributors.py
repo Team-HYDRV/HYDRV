@@ -18,24 +18,43 @@ def unwrap_item(item: dict) -> dict:
     return data if isinstance(data, dict) else item
 
 
+def unwrap_nested_dict(value: object) -> dict:
+    current = value if isinstance(value, dict) else {}
+    while isinstance(current.get("data"), dict):
+        current = current["data"]
+    return current
+
+
 def extract_name(item: dict) -> str | None:
-    name = item.get("name")
-    user = item.get("user")
-    if not name and isinstance(user, dict):
-        name = (
-            user.get("name")
-            or user.get("username")
-            or user.get("login")
-            or user.get("fullName")
-        )
+    item = unwrap_nested_dict(item)
+    user = unwrap_nested_dict(item.get("user"))
 
-    if not name:
-        name = item.get("username") or item.get("login") or item.get("email")
+    display_name = (
+        item.get("name")
+        or item.get("fullName")
+        or item.get("displayName")
+        or user.get("name")
+        or user.get("fullName")
+        or user.get("displayName")
+    )
+    username = (
+        item.get("username")
+        or item.get("userName")
+        or item.get("login")
+        or user.get("username")
+        or user.get("userName")
+        or user.get("login")
+    )
+    email = item.get("email") or user.get("email")
 
-    return name
+    if display_name and username and display_name.lower() != username.lower():
+        return f"{display_name} ({username})"
+
+    return display_name or username or email
 
 
 def is_translation_contributor(item: dict) -> bool:
+    item = unwrap_nested_dict(item)
     role_values: list[str] = []
 
     def collect_role(value: object) -> None:
@@ -50,8 +69,8 @@ def is_translation_contributor(item: dict) -> bool:
     for key in ("role", "roleName", "type"):
         collect_role(item.get(key))
 
-    user = item.get("user")
-    if isinstance(user, dict):
+    user = unwrap_nested_dict(item.get("user"))
+    if user:
         for key in ("role", "roleName", "type"):
             collect_role(user.get(key))
 
