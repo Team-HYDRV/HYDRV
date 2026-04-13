@@ -17,7 +17,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.color.DynamicColors
@@ -29,7 +31,6 @@ class BackendManagerActivity : AppCompatActivity() {
         val isDefault: Boolean
     )
 
-    private val rows = mutableListOf<BackendRow>()
     private lateinit var adapter: BackendSourceAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -89,19 +90,20 @@ class BackendManagerActivity : AppCompatActivity() {
     }
 
     private fun refreshBackendList() {
-        rows.clear()
-        rows += BackendRow(
+        val rows = mutableListOf(
+            BackendRow(
             source = BackendSource(
                 name = getString(R.string.backend_default_label),
                 url = RuntimeConfig.defaultCatalogUrl,
                 enabled = true
             ),
             isDefault = true
+            )
         )
         rows += BackendPreferences.getCustomBackendSources(this).map {
             BackendRow(source = it, isDefault = false)
         }
-        adapter.submit(rows.toList())
+        adapter.submit(rows)
     }
 
     private fun refreshCatalogAfterBackendChange() {
@@ -209,14 +211,21 @@ class BackendManagerActivity : AppCompatActivity() {
     }
 
     private inner class BackendSourceAdapter :
-        RecyclerView.Adapter<BackendSourceAdapter.BackendSourceViewHolder>() {
+        ListAdapter<BackendRow, BackendSourceAdapter.BackendSourceViewHolder>(
+            object : DiffUtil.ItemCallback<BackendRow>() {
+                override fun areItemsTheSame(oldItem: BackendRow, newItem: BackendRow): Boolean {
+                    return oldItem.isDefault == newItem.isDefault &&
+                        oldItem.source.url.equals(newItem.source.url, ignoreCase = true)
+                }
 
-        private val items = mutableListOf<BackendRow>()
+                override fun areContentsTheSame(oldItem: BackendRow, newItem: BackendRow): Boolean {
+                    return oldItem == newItem
+                }
+            }
+        ) {
 
         fun submit(next: List<BackendRow>) {
-            items.clear()
-            items.addAll(next)
-            notifyDataSetChanged()
+            submitList(next)
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BackendSourceViewHolder {
@@ -226,10 +235,8 @@ class BackendManagerActivity : AppCompatActivity() {
         }
 
         override fun onBindViewHolder(holder: BackendSourceViewHolder, position: Int) {
-            holder.bind(items[position])
+            holder.bind(getItem(position))
         }
-
-        override fun getItemCount(): Int = items.size
 
         inner class BackendSourceViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             private val name: TextView = itemView.findViewById(R.id.backendSourceName)

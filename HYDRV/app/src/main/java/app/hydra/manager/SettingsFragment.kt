@@ -3,6 +3,7 @@ package app.hydra.manager
 import android.annotation.SuppressLint
 import android.app.ActivityManager
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.ApplicationInfo
@@ -968,44 +969,7 @@ class SettingsFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun updateDeviceInfo() {
-        val context = requireContext()
-        val packageInfo = context.packageManager.getPackageInfo(context.packageName, 0)
-        val versionName = packageInfo.versionName ?: "1.0.1"
-        val versionCode = packageInfo.versionCodeCompat()
-        val activityManager = context.getSystemService(ActivityManager::class.java)
-        val buildType = if ((context.applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE) != 0) {
-            "debug"
-        } else {
-            "release"
-        }
-        val supportedAbis = Build.SUPPORTED_ABIS
-            ?.filter { it.isNotBlank() }
-            ?.joinToString(", ")
-            .orEmpty()
-            .ifBlank { getString(R.string.device_info_unknown) }
-        val memoryClass = activityManager?.memoryClass ?: 0
-        val largeMemoryClass = activityManager?.largeMemoryClass ?: memoryClass
-
-        deviceInfoValue.text = buildString {
-            appendLine(getString(R.string.device_info_version_format, versionName, versionCode))
-            appendLine(getString(R.string.device_info_build_type_format, buildType))
-            appendLine(getString(R.string.device_info_model_format, Build.MODEL ?: getString(R.string.device_info_unknown)))
-            appendLine(
-                getString(
-                    R.string.device_info_android_version_format,
-                    Build.VERSION.RELEASE ?: Build.VERSION.SDK_INT.toString(),
-                    Build.VERSION.SDK_INT
-                )
-            )
-            appendLine(getString(R.string.device_info_archs_format, supportedAbis))
-            append(
-                getString(
-                    R.string.device_info_memory_format,
-                    memoryClass,
-                    largeMemoryClass
-                )
-            )
-        }
+        deviceInfoValue.text = buildDeviceInfoBlock(requireContext())
     }
 
     private fun toggleUpdateNotifications() {
@@ -1107,38 +1071,11 @@ class SettingsFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     private fun exportDebugLogs() {
         val context = requireContext()
-        val packageInfo = context.packageManager.getPackageInfo(context.packageName, 0)
-        val versionName = packageInfo.versionName ?: "1.0.1"
-        val versionCode = packageInfo.versionCodeCompat()
-        val activityManager = context.getSystemService(ActivityManager::class.java)
-        val buildType = if ((context.applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE) != 0) {
-            "debug"
-        } else {
-            "release"
-        }
-        val supportedAbis = Build.SUPPORTED_ABIS
-            ?.filter { it.isNotBlank() }
-            ?.joinToString(", ")
-            .orEmpty()
-            .ifBlank { getString(R.string.device_info_unknown) }
-        val memoryClass = activityManager?.memoryClass ?: 0
-        val largeMemoryClass = activityManager?.largeMemoryClass ?: memoryClass
 
         val report = buildString {
             appendLine(getString(R.string.debug_report_title))
             appendLine()
-            appendLine(getString(R.string.device_info_version_format, versionName, versionCode))
-            appendLine(getString(R.string.device_info_build_type_format, buildType))
-            appendLine(getString(R.string.device_info_model_format, Build.MODEL ?: getString(R.string.device_info_unknown)))
-            appendLine(
-                getString(
-                    R.string.device_info_android_version_format,
-                    Build.VERSION.RELEASE ?: Build.VERSION.SDK_INT.toString(),
-                    Build.VERSION.SDK_INT
-                )
-            )
-            appendLine(getString(R.string.device_info_archs_format, supportedAbis))
-            appendLine(getString(R.string.device_info_memory_format, memoryClass, largeMemoryClass))
+            appendLine(buildDeviceInfoBlock(context))
             appendLine()
             appendLine(getString(R.string.backend_title) + ": " + backendUrlValue.text)
             appendLine(
@@ -1167,6 +1104,109 @@ class SettingsFragment : Fragment() {
                 getString(R.string.debug_share_chooser)
             )
         )
+    }
+
+    private fun buildBackendHealthSummary(
+        uiContext: Context,
+        appContext: Context
+    ): String {
+        val checkedAt = AppUpdateState.getLastCheckedAt(appContext)
+        val formattedCheck = if (checkedAt > 0L) {
+            SimpleDateFormat("MMM d, h:mm a", Locale.getDefault()).format(Date(checkedAt))
+        } else {
+            uiContext.getString(R.string.updates_never_checked)
+        }
+        val cacheResult = AppCatalogService.readCachedApps(appContext)
+        val cacheSummary = when {
+            cacheResult?.isSuccess == true -> {
+                val count = cacheResult.getOrNull()?.apps?.size ?: 0
+                uiContext.getString(R.string.backend_health_cache_ready_count, count)
+            }
+            else -> uiContext.getString(R.string.backend_health_cache_missing)
+        }
+        val backendModeLabel = if (BackendPreferences.isUsingDefault(appContext)) {
+            uiContext.getString(R.string.backend_default_label)
+        } else {
+            uiContext.getString(R.string.backend_custom_label)
+        }
+        val notificationsLabel = if (NotificationPreferences.areUpdateNotificationsEnabled(appContext)) {
+            uiContext.getString(R.string.debug_enabled)
+        } else {
+            uiContext.getString(R.string.debug_disabled)
+        }
+        val adsEnabledLabel = if (AdsPreferences.areRewardedAdsEnabled(appContext)) {
+            uiContext.getString(R.string.debug_enabled)
+        } else {
+            uiContext.getString(R.string.debug_disabled)
+        }
+
+        return buildString {
+            append(uiContext.getString(R.string.backend_health_backend_mode_format, backendModeLabel))
+            append('\n')
+            append('\n')
+            append(uiContext.getString(R.string.backend_health_last_checked_format, formattedCheck))
+            append('\n')
+            append(uiContext.getString(R.string.backend_health_last_seen_hash_format, AppUpdateState.getLastSeenHash(appContext)))
+            append('\n')
+            append(uiContext.getString(R.string.backend_health_last_notified_hash_format, AppUpdateState.getLastNotifiedHash(appContext)))
+            append('\n')
+            append(uiContext.getString(R.string.backend_health_cache_format, cacheSummary))
+            append('\n')
+            append(uiContext.getString(R.string.backend_health_notifications_format, notificationsLabel))
+            append('\n')
+            append(uiContext.getString(R.string.backend_health_ads_enabled_format, adsEnabledLabel))
+            append('\n')
+            append(uiContext.getString(R.string.backend_health_ads_status_format, RewardedAdManager.runtimeAvailabilityReason()))
+            append("\n\n")
+            append(uiContext.getString(R.string.backend_health_worker_status_title))
+            append('\n')
+            append(UpdateWorkScheduler.workerSummary(appContext))
+        }
+    }
+
+    private fun buildDeviceInfoBlock(context: Context): String {
+        val packageInfo = context.packageManager.getPackageInfo(context.packageName, 0)
+        val versionName = packageInfo.versionName ?: "1.0.1"
+        val versionCode = packageInfo.versionCodeCompat()
+        val activityManager = context.getSystemService(ActivityManager::class.java)
+        val buildType = if ((context.applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE) != 0) {
+            "debug"
+        } else {
+            "release"
+        }
+        val supportedAbis = Build.SUPPORTED_ABIS
+            ?.filter { it.isNotBlank() }
+            ?.joinToString(", ")
+            .orEmpty()
+            .ifBlank { context.getString(R.string.device_info_unknown) }
+        val memoryClass = activityManager?.memoryClass ?: 0
+        val largeMemoryClass = activityManager?.largeMemoryClass ?: memoryClass
+
+        return buildString {
+            appendLine(context.getString(R.string.device_info_version_format, versionName, versionCode))
+            appendLine(context.getString(R.string.device_info_build_type_format, buildType))
+            appendLine(
+                context.getString(
+                    R.string.device_info_model_format,
+                    Build.MODEL ?: context.getString(R.string.device_info_unknown)
+                )
+            )
+            appendLine(
+                context.getString(
+                    R.string.device_info_android_version_format,
+                    Build.VERSION.RELEASE ?: Build.VERSION.SDK_INT.toString(),
+                    Build.VERSION.SDK_INT
+                )
+            )
+            appendLine(context.getString(R.string.device_info_archs_format, supportedAbis))
+            append(
+                context.getString(
+                    R.string.device_info_memory_format,
+                    memoryClass,
+                    largeMemoryClass
+                )
+            )
+        }
     }
 
     private fun updateLaunchUpdateSwitches() {
@@ -1249,75 +1289,7 @@ class SettingsFragment : Fragment() {
             .show()
 
         Thread {
-            val checkedAt = AppUpdateState.getLastCheckedAt(appContext)
-            val formattedCheck = if (checkedAt > 0L) {
-                SimpleDateFormat("MMM d, h:mm a", Locale.getDefault()).format(Date(checkedAt))
-            } else {
-                uiContext.getString(R.string.updates_never_checked)
-            }
-            val cacheResult = AppCatalogService.readCachedApps(appContext)
-            val cacheSummary = when {
-                cacheResult?.isSuccess == true -> {
-                    val count = cacheResult.getOrNull()?.apps?.size ?: 0
-                    uiContext.getString(R.string.backend_health_cache_ready_count, count)
-                }
-                else -> uiContext.getString(R.string.backend_health_cache_missing)
-            }
-            val isDefaultBackend = BackendPreferences.isUsingDefault(appContext)
-            val summary = buildString {
-                append(
-                    uiContext.getString(
-                        R.string.backend_health_backend_mode_format,
-                        if (isDefaultBackend) {
-                            uiContext.getString(R.string.backend_default_label)
-                        } else {
-                            uiContext.getString(R.string.backend_custom_label)
-                        }
-                    )
-                )
-                append('\n')
-                append('\n')
-                append(uiContext.getString(R.string.backend_health_last_checked_format, formattedCheck))
-                append('\n')
-                append(uiContext.getString(R.string.backend_health_last_seen_hash_format, AppUpdateState.getLastSeenHash(appContext)))
-                append('\n')
-                append(uiContext.getString(R.string.backend_health_last_notified_hash_format, AppUpdateState.getLastNotifiedHash(appContext)))
-                append('\n')
-                append(uiContext.getString(R.string.backend_health_cache_format, cacheSummary))
-                append('\n')
-                append(
-                    uiContext.getString(
-                        R.string.backend_health_notifications_format,
-                        if (NotificationPreferences.areUpdateNotificationsEnabled(appContext)) {
-                            uiContext.getString(R.string.debug_enabled)
-                        } else {
-                            uiContext.getString(R.string.debug_disabled)
-                        }
-                    )
-                )
-                append('\n')
-                append(
-                    uiContext.getString(
-                        R.string.backend_health_ads_enabled_format,
-                        if (AdsPreferences.areRewardedAdsEnabled(appContext)) {
-                            uiContext.getString(R.string.debug_enabled)
-                        } else {
-                            uiContext.getString(R.string.debug_disabled)
-                        }
-                    )
-                )
-                append('\n')
-                append(
-                    uiContext.getString(
-                        R.string.backend_health_ads_status_format,
-                        RewardedAdManager.runtimeAvailabilityReason()
-                    )
-                )
-                append("\n\n")
-                append(uiContext.getString(R.string.backend_health_worker_status_title))
-                append('\n')
-                append(UpdateWorkScheduler.workerSummary(appContext))
-            }
+            val summary = buildBackendHealthSummary(uiContext, appContext)
             mainHandler.post {
                 if (!isAdded || view == null || !dialog.isShowing) return@post
                     dialog.setMessage(summary)

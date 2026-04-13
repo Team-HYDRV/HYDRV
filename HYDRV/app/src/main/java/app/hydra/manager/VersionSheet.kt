@@ -30,7 +30,9 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 class VersionSheet(
     private val app: AppModel,
@@ -85,6 +87,16 @@ class VersionSheet(
     private lateinit var fadeView: View
     private var installedVersionName: String? = null
     private val versionAdapter = VersionAdapter()
+
+    private val versionDiff = object : DiffUtil.ItemCallback<Version>() {
+        override fun areItemsTheSame(oldItem: Version, newItem: Version): Boolean {
+            return versionKey(oldItem) == versionKey(newItem)
+        }
+
+        override fun areContentsTheSame(oldItem: Version, newItem: Version): Boolean {
+            return oldItem == newItem
+        }
+    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return BottomSheetDialog(requireContext(), R.style.BottomSheetTheme).apply {
@@ -503,25 +515,20 @@ class VersionSheet(
         val buttonIcon: ImageView = itemView.findViewById(R.id.versionDownloadIcon)
     }
 
-    private inner class VersionAdapter : RecyclerView.Adapter<VersionViewHolder>() {
-        private var items: List<Version> = emptyList()
+    private inner class VersionAdapter : ListAdapter<Version, VersionViewHolder>(versionDiff) {
         private var latestVersionNumber: Int? = null
 
         init {
             setHasStableIds(true)
         }
 
-        @SuppressLint("NotifyDataSetChanged")
         fun submitVersions(versions: List<Version>, latest: Int?) {
-            items = versions
             latestVersionNumber = latest
-            notifyDataSetChanged()
+            submitList(versions)
         }
 
-        override fun getItemCount(): Int = items.size
-
         override fun getItemId(position: Int): Long {
-            return versionKey(items[position]).hashCode().toLong()
+            return versionKey(getItem(position)).hashCode().toLong()
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VersionViewHolder {
@@ -531,7 +538,7 @@ class VersionSheet(
         }
 
         override fun onBindViewHolder(holder: VersionViewHolder, position: Int) {
-            val version = items[position]
+            val version = getItem(position)
             val key = versionKey(version)
             if (holder.boundKey != null && holder.boundKey != key) {
                 clearVersionView(holder.boundKey!!)

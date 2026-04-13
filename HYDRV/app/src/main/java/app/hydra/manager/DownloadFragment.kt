@@ -78,21 +78,7 @@ class DownloadFragment : Fragment() {
         }
 
         DownloadRepository.downloadsLive.observe(viewLifecycleOwner) { list ->
-            val sortedList = ListSortPreferences.sortDownloads(
-                ListSortPreferences.getDownloadSort(requireContext()),
-                list.filterNot { DownloadRepository.isSelfUpdateDownload(it) }
-            )
-
-            adapter.updateList(sortedList.toMutableList())
-
-            if (sortedList.isEmpty()) {
-                emptyText.visibility = View.VISIBLE
-                recycler.visibility = View.GONE
-                adapter.setSelectionMode(false)
-            } else {
-                emptyText.visibility = View.GONE
-                recycler.visibility = View.VISIBLE
-            }
+            renderDownloads(list, stopScroll = false)
         }
 
         InstallStatusCenter.events.observe(viewLifecycleOwner) { event ->
@@ -101,7 +87,6 @@ class DownloadFragment : Fragment() {
                 if (!isAdded || view == null) return@forceRefreshInstalledPackages
                 DownloadRepository.syncInstalledState(requireContext())
                 refreshDownloads()
-                adapter.refreshRuntimeState()
             }
         }
 
@@ -126,15 +111,26 @@ class DownloadFragment : Fragment() {
         if (!::adapter.isInitialized) return
 
         DownloadRepository.pruneStaleCompleted(requireContext())
-        recycler.stopScroll()
+        renderDownloads(DownloadRepository.downloads, stopScroll = true)
+    }
+
+    private fun renderDownloads(
+        source: List<DownloadItem>,
+        stopScroll: Boolean
+    ) {
+        if (!::adapter.isInitialized || !isAdded) return
+        if (stopScroll) {
+            recycler.stopScroll()
+        }
         val sortedList = ListSortPreferences.sortDownloads(
             ListSortPreferences.getDownloadSort(requireContext()),
-            DownloadRepository.downloads.filterNot { DownloadRepository.isSelfUpdateDownload(it) }
+            source.filterNot { DownloadRepository.isSelfUpdateDownload(it) }
         )
         adapter.updateList(sortedList.toMutableList())
-        emptyText.visibility = if (sortedList.isEmpty()) View.VISIBLE else View.GONE
-        recycler.visibility = if (sortedList.isEmpty()) View.GONE else View.VISIBLE
-        if (sortedList.isEmpty()) {
+        val isEmpty = sortedList.isEmpty()
+        emptyText.visibility = if (isEmpty) View.VISIBLE else View.GONE
+        recycler.visibility = if (isEmpty) View.GONE else View.VISIBLE
+        if (isEmpty) {
             adapter.setSelectionMode(false)
         }
     }
@@ -211,7 +207,6 @@ class DownloadFragment : Fragment() {
             AppStateCacheManager.forceRefreshInstalledPackages(context) {
                 if (!isAdded || view == null) return@forceRefreshInstalledPackages
                 refreshDownloads()
-                adapter.refreshRuntimeState()
             }
             return
         }
@@ -243,7 +238,6 @@ class DownloadFragment : Fragment() {
             if (!isAdded || view == null) return@forceRefreshInstalledPackages
             DownloadRepository.syncInstalledState(requireContext())
             refreshDownloads()
-            adapter.refreshRuntimeState()
         }
     }
 }

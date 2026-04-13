@@ -91,6 +91,26 @@ class DownloadAdapter(
     fun updateList(newList: MutableList<DownloadItem>) {
         val oldList = list.map { it.copy() }
         val snapshotList = newList.map { it.copy() }
+        val unchanged = oldList.size == snapshotList.size &&
+            oldList.indices.all { index ->
+                val oldItem = oldList[index]
+                val newItem = snapshotList[index]
+                progressKey(oldItem) == progressKey(newItem) &&
+                    oldItem.progress == newItem.progress &&
+                    oldItem.status == newItem.status &&
+                    oldItem.errorMessage == newItem.errorMessage &&
+                    oldItem.speed == newItem.speed &&
+                    oldItem.eta == newItem.eta &&
+                    oldItem.completedAt == newItem.completedAt &&
+                    oldItem.createdAt == newItem.createdAt &&
+                    oldItem.filePath == newItem.filePath &&
+                    oldItem.doneHandled == newItem.doneHandled &&
+                    oldItem.installed == newItem.installed
+            }
+        if (unchanged) {
+            syncSelectionWithList()
+            return
+        }
         val diff = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
             override fun getOldListSize() = oldList.size
 
@@ -111,7 +131,8 @@ class DownloadAdapter(
                     oldItem.completedAt == newItem.completedAt &&
                     oldItem.createdAt == newItem.createdAt &&
                     oldItem.filePath == newItem.filePath &&
-                    oldItem.doneHandled == newItem.doneHandled
+                    oldItem.doneHandled == newItem.doneHandled &&
+                    oldItem.installed == newItem.installed
             }
         })
         list.clear()
@@ -337,14 +358,52 @@ class DownloadAdapter(
                         holder.action.text = context.getString(R.string.download_action_open)
                         holder.delete.visibility = View.VISIBLE
                         holder.delete.text = context.getString(R.string.downloads_uninstall)
+                        holder.action.setOnClickListener {
+                            if (!tryBeginControlAction(holder, itemKey)) return@setOnClickListener
+                            openApp(context, item.packageName, item.name)
+                        }
+                        holder.delete.setOnClickListener {
+                            if (!tryBeginControlAction(holder, itemKey)) return@setOnClickListener
+                            onUninstallRequested?.invoke(item.packageName, item.name)
+                        }
                     } else if (isApkDownload) {
                         holder.action.text = context.getString(R.string.download_action_install)
                         holder.delete.visibility = View.VISIBLE
                         holder.delete.text = context.getString(R.string.downloads_delete)
+                        holder.action.setOnClickListener {
+                            if (!tryBeginControlAction(holder, itemKey)) return@setOnClickListener
+                            installApk(context, item.filePath, item.name, item.packageName)
+                        }
+                        holder.delete.setOnClickListener {
+                            if (!tryBeginControlAction(holder, itemKey)) return@setOnClickListener
+                            val target = repositoryItem(item) ?: item
+                            DownloadRepository.delete(context, target)
+
+                            val pos = holder.bindingAdapterPosition
+                            if (pos != RecyclerView.NO_POSITION) {
+                                list.removeAt(pos)
+                                notifyItemRemoved(pos)
+                            }
+                        }
                     } else {
                         holder.action.text = context.getString(R.string.download_action_open)
                         holder.delete.visibility = View.VISIBLE
                         holder.delete.text = context.getString(R.string.downloads_delete)
+                        holder.action.setOnClickListener {
+                            if (!tryBeginControlAction(holder, itemKey)) return@setOnClickListener
+                            openDownloadedFile(context, item.filePath)
+                        }
+                        holder.delete.setOnClickListener {
+                            if (!tryBeginControlAction(holder, itemKey)) return@setOnClickListener
+                            val target = repositoryItem(item) ?: item
+                            DownloadRepository.delete(context, target)
+
+                            val pos = holder.bindingAdapterPosition
+                            if (pos != RecyclerView.NO_POSITION) {
+                                list.removeAt(pos)
+                                notifyItemRemoved(pos)
+                            }
+                        }
                     }
                     return
                 }

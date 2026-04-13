@@ -1,6 +1,5 @@
 package app.hydra.manager
 
-import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.os.Bundle
@@ -18,6 +17,8 @@ import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.color.DynamicColors
@@ -120,7 +121,7 @@ class ContributorsActivity : AppCompatActivity() {
         if (filtered.isEmpty()) return emptyList()
 
         val chunks = filtered.chunked(6)
-        return chunks.mapIndexed { index, chunk ->
+        return chunks.map { chunk ->
             ContributorGroup(
                 summary = getString(R.string.contributors_group_summary),
                 members = chunk
@@ -139,16 +140,7 @@ class ContributorsActivity : AppCompatActivity() {
 
     private class ContributorsAdapter(
         private val onClick: (String) -> Unit
-    ) : RecyclerView.Adapter<ContributorsAdapter.ContributorViewHolder>() {
-
-        private val items = mutableListOf<ContributorGroup>()
-
-        @SuppressLint("NotifyDataSetChanged")
-        fun submitList(newItems: List<ContributorGroup>) {
-            items.clear()
-            items.addAll(newItems)
-            notifyDataSetChanged()
-        }
+    ) : ListAdapter<ContributorGroup, ContributorsAdapter.ContributorViewHolder>(DIFF) {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContributorViewHolder {
             val view = LayoutInflater.from(parent.context)
@@ -160,10 +152,8 @@ class ContributorsActivity : AppCompatActivity() {
         }
 
         override fun onBindViewHolder(holder: ContributorViewHolder, position: Int) {
-            holder.bind(items[position])
+            holder.bind(getItem(position))
         }
-
-        override fun getItemCount(): Int = items.size
 
         class ContributorViewHolder(
             itemView: View,
@@ -246,6 +236,23 @@ class ContributorsActivity : AppCompatActivity() {
 
             private fun dpToPx(context: android.content.Context, value: Int): Int {
                 return (value * context.resources.displayMetrics.density).toInt()
+            }
+        }
+
+        companion object {
+            private val DIFF = object : DiffUtil.ItemCallback<ContributorGroup>() {
+                override fun areItemsTheSame(
+                    oldItem: ContributorGroup,
+                    newItem: ContributorGroup
+                ): Boolean {
+                    return oldItem.members.firstOrNull()?.profileUrl ==
+                        newItem.members.firstOrNull()?.profileUrl
+                }
+
+                override fun areContentsTheSame(
+                    oldItem: ContributorGroup,
+                    newItem: ContributorGroup
+                ): Boolean = oldItem == newItem
             }
         }
     }

@@ -319,6 +319,8 @@ object AppCatalogService {
                     )
                 }
 
+            if (safeVersions.isEmpty()) return@mapNotNull null
+
             app.copy(
                 name = safeName,
                 packageName = safePackage,
