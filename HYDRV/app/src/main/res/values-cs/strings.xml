@@ -269,7 +269,7 @@
   <string name="notification_channel_name">Aktualizace aplikací</string>
   <string name="notification_channel_description">Upozornění při nových změnách aplikací.</string>
   <string name="notification_title_updates_live">Nové změny aplikací jsou živé</string>
-  <string name="notification_text_updates_live">Čerstvé aktualizace jsou k dispozici v HYDRV. Přijďte se podívat, co\\ \'s nové.</string>
+  <string name="notification_text_updates_live">V HYDRV jsou k dispozici čerstvé aktualizace. Podívejte se, co je nového.</string>
   <string name="notification_title_backend_update_format">%1$sbackend aktualizován</string>
   <string name="notification_text_backend_update">Nové aktualizace jsou k dispozici v HYDRV. Otevřete aplikaci, abyste viděli, co se změnilo.</string>
   <string name="backend_update_snackbar_format">%1$sbackend aktualizován.</string>
