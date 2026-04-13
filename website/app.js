@@ -8,19 +8,35 @@ document.addEventListener("DOMContentLoaded", () => {
     bindTopbarState();
 
     const menuToggle = document.querySelector(".mobile-menu-toggle");
+    let mobileMenuOpenedAtY = null;
+
+    const closeMobileMenu = () => {
+        if (!document.body.classList.contains("nav-open")) return;
+        document.body.classList.remove("nav-open");
+        menuToggle?.setAttribute("aria-expanded", "false");
+        mobileMenuOpenedAtY = null;
+    };
+
     if (menuToggle) {
         menuToggle.addEventListener("click", () => {
             const isOpen = document.body.classList.toggle("nav-open");
             menuToggle.setAttribute("aria-expanded", String(isOpen));
+            mobileMenuOpenedAtY = isOpen ? window.scrollY : null;
         });
     }
 
     document.querySelectorAll(".nav a").forEach((link) => {
         link.addEventListener("click", () => {
-            document.body.classList.remove("nav-open");
-            menuToggle?.setAttribute("aria-expanded", "false");
+            closeMobileMenu();
         });
     });
+
+    window.addEventListener("scroll", () => {
+        if (window.innerWidth > 760 || mobileMenuOpenedAtY === null) return;
+        const scrolledSinceOpen = Math.abs(window.scrollY - mobileMenuOpenedAtY);
+        if (scrolledSinceOpen < 24) return;
+        closeMobileMenu();
+    }, { passive: true });
 
     const footer = document.querySelector(".footer p");
     if (footer) {

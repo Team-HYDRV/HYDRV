@@ -349,8 +349,10 @@ img {
 }
 
 .hero .button-primary {
-    min-width: 190px;
-    border-radius: 999px;
+    min-width: 144px;
+    min-height: 46px;
+    padding: 0 18px;
+    border-radius: 12px;
 }
 
 .section {
@@ -550,16 +552,29 @@ img {
 
 .footer-links {
     display: flex;
-    flex-wrap: wrap;
+    align-items: center;
     gap: 14px;
 }
 
-.footer-links a {
+.footer-legal-links {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.footer-cloudflare {
+    display: block;
+    width: auto;
+    height: 24px;
+    opacity: 0.94;
+}
+
+.footer-legal-links a {
     color: var(--muted);
 }
 
-.footer-links a:hover,
-.footer-links a:focus-visible {
+.footer-legal-links a:hover,
+.footer-legal-links a:focus-visible {
     color: var(--text);
 }
 
@@ -769,6 +784,33 @@ img {
     .footer {
         flex-direction: column;
         align-items: flex-start;
+    }
+
+    .footer > div:first-child {
+        width: 100%;
+        text-align: center;
+    }
+
+    .footer-links {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .footer-legal-links {
+        justify-content: center;
+    }
+
+    .footer-links img.footer-cloudflare {
+        height: 24px;
+        width: auto;
+        max-width: none;
+    }
+
+    .footer-cloudflare {
+        height: 24px;
     }
 
     .highlight-card {
