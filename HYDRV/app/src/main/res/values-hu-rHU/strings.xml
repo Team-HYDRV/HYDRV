@@ -269,7 +269,7 @@
   <string name="notification_channel_name">App frissítések</string>
   <string name="notification_channel_description">Értesítések, ha új app változások állnak rendelkezésre.</string>
   <string name="notification_title_updates_live">Új app változások élő</string>
-  <string name="notification_text_updates_live">Friss frissítések állnak rendelkezésre a HYDRV. Gyere nézd meg, mi\\ \'s új.</string>
+  <string name="notification_text_updates_live">Friss frissítések érhetők el a HYDRV-ben. Nézd meg, mi az újdonság.</string>
   <string name="notification_title_backend_update_format">%1$sa háttér frissítése</string>
   <string name="notification_text_backend_update">Friss frissítések állnak rendelkezésre HYDRV. Nyissa meg az alkalmazást, hogy mi változott.</string>
   <string name="backend_update_snackbar_format">%1$sfrissítve.</string>
