@@ -153,7 +153,7 @@ def main() -> int:
         return 0
     except CrowdinLookupError as exc:
         print(str(exc), file=sys.stderr)
-        return 1
+        return 0
 
 
 if __name__ == "__main__":
