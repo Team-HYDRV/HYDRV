@@ -269,7 +269,7 @@
   <string name="notification_channel_name">Actualitzacions de l\' aplicació</string>
   <string name="notification_channel_description">Notificacions quan hi ha canvis d\' aplicació nous disponibles.</string>
   <string name="notification_title_updates_live">Els canvis d\' aplicació nous són de vida</string>
-  <string name="notification_text_updates_live">Les actualitzacions noves estan disponibles a HYDRV. Vine a veure què hi ha de nou.</string>
+  <string name="notification_text_updates_live">Les actualitzacions fresques estan disponibles a HYDRV. Aneu a veure què és nou\\.</string>
   <string name="notification_title_backend_update_format">%1$sS\' ha actualitzat el dorsal</string>
   <string name="notification_text_backend_update">Les actualitzacions fresques estan disponibles a HYDRV. Obriu l\' aplicació per veure què ha canviat.</string>
   <string name="backend_update_snackbar_format">%1$sS\' ha actualitzat el dorsal.</string>
