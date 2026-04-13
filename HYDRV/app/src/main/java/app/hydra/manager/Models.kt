@@ -208,6 +208,43 @@ internal fun Version.displayVersionName(): String {
     return version_name.cleanDuplicateSuffix()
 }
 
+internal fun formatChangelogForDisplay(raw: String?): String? {
+    val normalized = raw
+        ?.replace("\r\n", "\n")
+        ?.replace('\r', '\n')
+        ?.replace("â€¢", "\u2022")
+        ?.trim()
+        .orEmpty()
+
+    if (normalized.isBlank()) return null
+
+    val lines = normalized
+        .split('\n')
+        .map { it.trim() }
+        .filter { it.isNotEmpty() }
+
+    if (lines.isEmpty()) return null
+
+    val looksLikeList = lines.size > 1 || lines.any { line ->
+        line.startsWith("\u2022") ||
+            line.startsWith("- ") ||
+            line.startsWith("* ") ||
+            line.startsWith("+ ")
+    }
+
+    if (!looksLikeList) return normalized
+
+    return lines.joinToString(separator = "\n") { line ->
+        val content = line
+            .removePrefix("\u2022")
+            .removePrefix("-")
+            .removePrefix("*")
+            .removePrefix("+")
+            .trim()
+        "\u2022 $content"
+    }
+}
+
 data class BackendSource(
     val name: String,
     val url: String,

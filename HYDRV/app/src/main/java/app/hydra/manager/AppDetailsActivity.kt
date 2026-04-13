@@ -138,15 +138,17 @@ class AppDetailsActivity : AppCompatActivity() {
                 )
             )
 
-            val changelog = TextView(this)
-            changelog.text = v.changelog
-            changelog.setTextColor(
-                ThemeColors.color(
-                    this,
-                    com.google.android.material.R.attr.colorOnSurfaceVariant,
-                    R.color.subtext
+            val formattedChangelog = formatChangelogForDisplay(v.changelog)
+            val changelog = TextView(this).apply {
+                text = formattedChangelog.orEmpty()
+                setTextColor(
+                    ThemeColors.color(
+                        this@AppDetailsActivity,
+                        com.google.android.material.R.attr.colorOnSurfaceVariant,
+                        R.color.subtext
+                    )
                 )
-            )
+            }
 
             val btn = androidx.appcompat.widget.AppCompatButton(this)
             btn.text = getString(R.string.app_details_download)
@@ -179,7 +181,9 @@ class AppDetailsActivity : AppCompatActivity() {
             }
 
             item.addView(title)
-            item.addView(changelog)
+            if (!formattedChangelog.isNullOrBlank()) {
+                item.addView(changelog)
+            }
             item.addView(btn)
 
             container.addView(item)

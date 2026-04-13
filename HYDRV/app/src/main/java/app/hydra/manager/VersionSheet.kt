@@ -315,12 +315,16 @@ class VersionSheet(
         )
         badge.visibility = if (version.version == latestVersionNumber) View.VISIBLE else View.GONE
 
-        val changelogText = sanitizeChangelog(version.changelog)
+        val changelogText = if (version.changelog == getString(R.string.release_details_unavailable)) {
+            version.changelog
+        } else {
+            formatChangelogForDisplay(version.changelog)
+        }
         if (changelogText.isNullOrBlank()) {
             changelog.visibility = View.GONE
         } else {
             changelog.visibility = View.VISIBLE
-            changelog.text = formatChangelogText(changelogText)
+            changelog.text = changelogText
         }
         val sourceLabel = version.downloadSourceLabel(BackendPreferences.isUsingDefault(ctx))
         val sourceHostText = version.downloadHost()
@@ -1365,23 +1369,6 @@ class VersionSheet(
                 getString(R.string.version_share_notes)
             )
         )
-    }
-
-    private fun formatChangelogText(raw: String): String {
-        if (raw == getString(R.string.release_details_unavailable)) return raw
-        val parts = raw.split(',').map { it.trim() }.filter { it.isNotEmpty() }
-        return if (parts.size >= 3) {
-            parts.joinToString(separator = "\n") { "\u2022 $it" }
-        } else {
-            raw
-        }
-    }
-
-    private fun sanitizeChangelog(raw: String?): String? {
-        val text = raw?.trim().orEmpty()
-        if (text.isBlank()) return null
-        if (text.equals("Disabled Advertisements", ignoreCase = true)) return null
-        return text
     }
 
     private fun updateScrollFade() {
