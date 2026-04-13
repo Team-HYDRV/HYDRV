@@ -2,6 +2,7 @@ import json
 import os
 import sys
 import urllib.parse
+import urllib.error
 import urllib.request
 
 
@@ -133,8 +134,36 @@ def fetch_contributors() -> list[str]:
         try:
             with urllib.request.urlopen(request) as response:
                 payload = json.load(response)
+        except urllib.error.HTTPError as exc:
+            details = ""
+            try:
+                error_body = exc.read().decode("utf-8", errors="replace").strip()
+                if error_body:
+                    details = f" HTTP {exc.code}: {error_body}"
+            except Exception:
+                details = f" HTTP {exc.code}"
+            message = (
+                "Crowdin contributor lookup failed; skipping Crowdin contributor credits."
+                f"{details}"
+            )
+            if lookup_is_required():
+                raise CrowdinLookupError(message) from exc
+            print(message, file=sys.stderr)
+            return []
+        except urllib.error.URLError as exc:
+            message = (
+                "Crowdin contributor lookup failed; skipping Crowdin contributor credits."
+                f" Network error: {exc.reason}"
+            )
+            if lookup_is_required():
+                raise CrowdinLookupError(message) from exc
+            print(message, file=sys.stderr)
+            return []
         except Exception as exc:
-            message = "Crowdin contributor lookup failed; skipping Crowdin contributor credits."
+            message = (
+                "Crowdin contributor lookup failed; skipping Crowdin contributor credits."
+                f" Unexpected error: {exc}"
+            )
             if lookup_is_required():
                 raise CrowdinLookupError(message) from exc
             print(message, file=sys.stderr)
