@@ -145,13 +145,11 @@ jobs:
             echo "## Contributors"
             echo
             release_contributors
-            echo
-            echo "### Crowdin Contributors"
-            echo
             if [ -n "$crowdin_contributors" ]; then
+              echo
+              echo "### Crowdin Contributors"
+              echo
               printf '%s\n' "$crowdin_contributors"
-            else
-              echo "- No Crowdin contributors"
             fi
           } > "$GITHUB_WORKSPACE/release-notes.md"
 
