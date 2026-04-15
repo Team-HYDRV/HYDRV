@@ -2,6 +2,8 @@ package app.hydra.manager
 
 import android.app.Activity
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
 import android.content.Context
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
@@ -13,9 +15,20 @@ import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 
 object RewardedAdManager {
     private const val NO_ADS_AVAILABLE_REASON = "No ads available yet"
+    private const val PENDING_SHOW_TIMEOUT_MS = 3000L
     private var rewardedAd: RewardedAd? = null
     private var isLoading = false
     private var initialized = false
+    private val mainHandler = Handler(Looper.getMainLooper())
+    private var nextPendingToken = 0L
+    private var pendingShowRequest: PendingShowRequest? = null
+
+    private data class PendingShowRequest(
+        val token: Long,
+        val activity: Activity,
+        val onRewardEarned: () -> Unit,
+        val onAdUnavailable: () -> Unit
+    )
 
     fun initialize(context: Context) {
         if (!AdsPreferences.areRewardedAdsEnabled(context)) {
@@ -49,11 +62,27 @@ object RewardedAdManager {
                 override fun onAdLoaded(ad: RewardedAd) {
                     rewardedAd = ad
                     isLoading = false
+                    consumePendingShow()?.let { request ->
+                        mainHandler.post {
+                            if (isActivityUnavailable(request.activity)) return@post
+                            showThen(
+                                activity = request.activity,
+                                onRewardEarned = request.onRewardEarned,
+                                onAdUnavailable = request.onAdUnavailable
+                            )
+                        }
+                    }
                 }
 
                 override fun onAdFailedToLoad(adError: LoadAdError) {
                     rewardedAd = null
                     isLoading = false
+                    consumePendingShow()?.let { request ->
+                        mainHandler.post {
+                            if (isActivityUnavailable(request.activity)) return@post
+                            request.onAdUnavailable()
+                        }
+                    }
                 }
             }
         )
@@ -70,8 +99,12 @@ object RewardedAdManager {
         }
         val ad = rewardedAd
         if (ad == null) {
-            preload(activity.applicationContext)
-            onAdUnavailable()
+            queuePendingShow(activity, onRewardEarned, onAdUnavailable)
+            if (!initialized) {
+                initialize(activity.applicationContext)
+            } else {
+                preload(activity.applicationContext)
+            }
             return
         }
 
@@ -141,6 +174,7 @@ object RewardedAdManager {
         rewardedAd = null
         isLoading = false
         initialized = false
+        consumePendingShow()
     }
 
     private fun activeAdUnitId(): String {
@@ -170,5 +204,36 @@ object RewardedAdManager {
             || brand.startsWith("generic")
             || device.startsWith("generic")
             || abis.contains("x86")
+    }
+
+    private fun queuePendingShow(
+        activity: Activity,
+        onRewardEarned: () -> Unit,
+        onAdUnavailable: () -> Unit
+    ) {
+        val request = PendingShowRequest(
+            token = ++nextPendingToken,
+            activity = activity,
+            onRewardEarned = onRewardEarned,
+            onAdUnavailable = onAdUnavailable
+        )
+        pendingShowRequest = request
+        mainHandler.postDelayed({
+            val pending = pendingShowRequest
+            if (pending?.token != request.token) return@postDelayed
+            pendingShowRequest = null
+            if (isActivityUnavailable(pending.activity)) return@postDelayed
+            pending.onAdUnavailable()
+        }, PENDING_SHOW_TIMEOUT_MS)
+    }
+
+    private fun consumePendingShow(): PendingShowRequest? {
+        val request = pendingShowRequest ?: return null
+        pendingShowRequest = null
+        return request
+    }
+
+    private fun isActivityUnavailable(activity: Activity): Boolean {
+        return activity.isFinishing || (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && activity.isDestroyed)
     }
 }
