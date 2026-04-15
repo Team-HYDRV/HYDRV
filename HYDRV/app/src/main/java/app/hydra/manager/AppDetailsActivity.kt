@@ -222,14 +222,13 @@ class AppDetailsActivity : AppCompatActivity() {
                 startDownload(btn, url, name, packageName, versionName, versionCode)
             },
             onAdUnavailable = {
-                if (RewardedAdManager.shouldBypassRewardGate()) {
-                    startDownload(btn, url, name, packageName, versionName, versionCode)
-                } else {
-                    AppSnackbar.show(
-                        findViewById(android.R.id.content),
-                        getString(R.string.rewarded_ad_required_message)
-                    )
-                }
+                startDownload(btn, url, name, packageName, versionName, versionCode)
+            },
+            onAdDismissedWithoutReward = {
+                AppSnackbar.show(
+                    findViewById(android.R.id.content),
+                    getString(R.string.rewarded_ad_required_message)
+                )
             }
         )
     }

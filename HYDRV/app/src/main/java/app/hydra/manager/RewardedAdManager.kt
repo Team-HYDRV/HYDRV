@@ -22,12 +22,16 @@ object RewardedAdManager {
     private val mainHandler = Handler(Looper.getMainLooper())
     private var nextPendingToken = 0L
     private var pendingShowRequest: PendingShowRequest? = null
+    private var lastEvent: String = "Idle"
+    private var lastLoadError: String? = null
+    private var lastShowError: String? = null
 
     private data class PendingShowRequest(
         val token: Long,
         val activity: Activity,
         val onRewardEarned: () -> Unit,
-        val onAdUnavailable: () -> Unit
+        val onAdUnavailable: () -> Unit,
+        val onAdDismissedWithoutReward: () -> Unit
     )
 
     fun initialize(context: Context) {
@@ -54,6 +58,7 @@ object RewardedAdManager {
         if (isLoading || rewardedAd != null) return
 
         isLoading = true
+        lastEvent = "Loading rewarded ad"
         RewardedAd.load(
             context,
             activeAdUnitId(),
@@ -62,13 +67,16 @@ object RewardedAdManager {
                 override fun onAdLoaded(ad: RewardedAd) {
                     rewardedAd = ad
                     isLoading = false
+                    lastLoadError = null
+                    lastEvent = "Rewarded ad loaded"
                     consumePendingShow()?.let { request ->
                         mainHandler.post {
                             if (isActivityUnavailable(request.activity)) return@post
                             showThen(
                                 activity = request.activity,
                                 onRewardEarned = request.onRewardEarned,
-                                onAdUnavailable = request.onAdUnavailable
+                                onAdUnavailable = request.onAdUnavailable,
+                                onAdDismissedWithoutReward = request.onAdDismissedWithoutReward
                             )
                         }
                     }
@@ -77,6 +85,8 @@ object RewardedAdManager {
                 override fun onAdFailedToLoad(adError: LoadAdError) {
                     rewardedAd = null
                     isLoading = false
+                    lastLoadError = adError.message
+                    lastEvent = "Rewarded ad failed to load"
                     consumePendingShow()?.let { request ->
                         mainHandler.post {
                             if (isActivityUnavailable(request.activity)) return@post
@@ -91,15 +101,18 @@ object RewardedAdManager {
     fun showThen(
         activity: Activity,
         onRewardEarned: () -> Unit,
-        onAdUnavailable: () -> Unit
+        onAdUnavailable: () -> Unit,
+        onAdDismissedWithoutReward: () -> Unit
     ) {
         if (!AdsPreferences.areRewardedAdsEnabled(activity)) {
+            lastEvent = "Rewarded ads disabled"
             onAdUnavailable()
             return
         }
         val ad = rewardedAd
         if (ad == null) {
-            queuePendingShow(activity, onRewardEarned, onAdUnavailable)
+            lastEvent = "Rewarded ad requested before ready"
+            queuePendingShow(activity, onRewardEarned, onAdUnavailable, onAdDismissedWithoutReward)
             if (!initialized) {
                 initialize(activity.applicationContext)
             } else {
@@ -109,6 +122,8 @@ object RewardedAdManager {
         }
 
         rewardedAd = null
+        lastShowError = null
+        lastEvent = "Showing rewarded ad"
         var rewardEarned = false
         var completionHandled = false
 
@@ -124,24 +139,35 @@ object RewardedAdManager {
             onAdUnavailable()
         }
 
+        fun finishBlockedWithoutReward() {
+            if (completionHandled) return
+            completionHandled = true
+            onAdDismissedWithoutReward()
+        }
+
         ad.fullScreenContentCallback = object : FullScreenContentCallback() {
             override fun onAdDismissedFullScreenContent() {
                 preload(activity.applicationContext)
                 if (rewardEarned) {
+                    lastEvent = "Reward earned"
                     finishWithReward()
                 } else {
-                    finishUnavailable()
+                    lastEvent = "Rewarded ad dismissed before reward"
+                    finishBlockedWithoutReward()
                 }
             }
 
             override fun onAdFailedToShowFullScreenContent(adError: com.google.android.gms.ads.AdError) {
                 preload(activity.applicationContext)
+                lastShowError = adError.message
+                lastEvent = "Rewarded ad failed to show"
                 finishUnavailable()
             }
         }
 
         ad.show(activity) { _: RewardItem ->
             rewardEarned = true
+            lastEvent = "Reward callback received"
         }
     }
 
@@ -175,6 +201,27 @@ object RewardedAdManager {
         isLoading = false
         initialized = false
         consumePendingShow()
+        lastEvent = "Cleared"
+        lastLoadError = null
+        lastShowError = null
+    }
+
+    fun debugReport(context: Context): String {
+        val adsEnabled = AdsPreferences.areRewardedAdsEnabled(context)
+        val enabledLabel = if (adsEnabled) "Enabled" else "Disabled"
+        val yesNo = { value: Boolean -> if (value) "Yes" else "No" }
+        return buildString {
+            appendLine("Rewarded ads: $enabledLabel")
+            appendLine("Status: ${runtimeAvailabilityReason()}")
+            appendLine("Initialized: ${yesNo(initialized)}")
+            appendLine("Loading: ${yesNo(isLoading)}")
+            appendLine("Ad loaded: ${yesNo(rewardedAd != null)}")
+            appendLine("Pending show request: ${yesNo(pendingShowRequest != null)}")
+            appendLine("Using test ads: ${yesNo(shouldUseTestAdsForRuntime())}")
+            appendLine("Last event: $lastEvent")
+            appendLine("Last load error: ${lastLoadError ?: "None"}")
+            append("Last show error: ${lastShowError ?: "None"}")
+        }
     }
 
     private fun activeAdUnitId(): String {
@@ -209,13 +256,15 @@ object RewardedAdManager {
     private fun queuePendingShow(
         activity: Activity,
         onRewardEarned: () -> Unit,
-        onAdUnavailable: () -> Unit
+        onAdUnavailable: () -> Unit,
+        onAdDismissedWithoutReward: () -> Unit
     ) {
         val request = PendingShowRequest(
             token = ++nextPendingToken,
             activity = activity,
             onRewardEarned = onRewardEarned,
-            onAdUnavailable = onAdUnavailable
+            onAdUnavailable = onAdUnavailable,
+            onAdDismissedWithoutReward = onAdDismissedWithoutReward
         )
         pendingShowRequest = request
         mainHandler.postDelayed({

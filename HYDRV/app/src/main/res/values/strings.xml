@@ -341,6 +341,7 @@
   <string name="device_info_memory_format">Memory limit: %1$dMB (Normal) - %2$dMB (Large)</string>
   <string name="device_info_unknown">Unknown</string>
   <string name="debug_report_title">Diagnostic report</string>
+  <string name="debug_ads_section_title">Ads debug</string>
   <string name="debug_recent_diagnostics">Recent diagnostics</string>
   <string name="debug_enabled">Enabled</string>
   <string name="debug_disabled">Disabled</string>

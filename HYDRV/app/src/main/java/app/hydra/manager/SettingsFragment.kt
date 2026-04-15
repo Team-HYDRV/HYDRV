@@ -1080,14 +1080,9 @@ class SettingsFragment : Fragment() {
             appendLine(buildDeviceInfoBlock(context))
             appendLine()
             appendLine(getString(R.string.backend_title) + ": " + backendUrlValue.text)
-            appendLine(
-                getString(R.string.ads_support_title) + ": " +
-                    if (AdsPreferences.areRewardedAdsEnabled(context)) {
-                        getString(R.string.debug_enabled)
-                    } else {
-                        getString(R.string.debug_disabled)
-                    }
-            )
+            appendLine()
+            appendLine(getString(R.string.debug_ads_section_title))
+            appendLine(RewardedAdManager.debugReport(context))
             val diagnostics = AppDiagnostics.read(context)
             if (diagnostics.isNotBlank()) {
                 appendLine()
