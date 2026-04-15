@@ -301,7 +301,14 @@ class AppDetailsActivity : AppCompatActivity() {
         val observer = Observer<List<DownloadItem>> { downloads ->
             val match = downloads.lastOrNull {
                 it.requestKey() == downloadKey
-            } ?: return@Observer
+            }
+            if (match == null) {
+                activeDownloadObservers.remove(downloadKey)?.let {
+                    DownloadRepository.downloadsLive.removeObserver(it)
+                }
+                resetButton()
+                return@Observer
+            }
 
             when {
                 match.status == "Done" || match.progress >= 100 -> {

@@ -41,7 +41,7 @@ object InstallIntelligence {
         val packageMismatchVersionKeys = linkedSetOf<String>()
         val signatureMismatchVersionKeys = linkedSetOf<String>()
 
-        DownloadRepository.downloads
+        DownloadRepository.snapshotDownloads()
             .asReversed()
             .filter {
                 val looksCompleted =

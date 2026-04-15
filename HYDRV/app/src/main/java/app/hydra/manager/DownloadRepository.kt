@@ -38,7 +38,7 @@ object DownloadRepository {
     }
 
     private fun notifyChange() {
-        val snapshot = downloads.toList()
+        val snapshot = snapshotDownloads()
         if (Looper.myLooper() == Looper.getMainLooper()) {
             _downloadsLive.value = snapshot
         } else {
@@ -510,10 +510,16 @@ object DownloadRepository {
         persistNow(context.applicationContext)
     }
 
+    fun snapshotDownloads(): List<DownloadItem> {
+        return synchronized(startLock) {
+            downloads.toList()
+        }
+    }
+
     private fun persistNow(context: Context) {
         val array = JSONArray()
 
-        downloads.forEach {
+        snapshotDownloads().forEach {
             val obj = JSONObject()
             obj.put("name", it.name)
             obj.put("url", it.url)
