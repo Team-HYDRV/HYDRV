@@ -77,22 +77,38 @@ object RewardedAdManager {
 
         rewardedAd = null
         var rewardEarned = false
+        var completionHandled = false
+
+        fun finishWithReward() {
+            if (completionHandled) return
+            completionHandled = true
+            onRewardEarned()
+        }
+
+        fun finishUnavailable() {
+            if (completionHandled) return
+            completionHandled = true
+            onAdUnavailable()
+        }
 
         ad.fullScreenContentCallback = object : FullScreenContentCallback() {
             override fun onAdDismissedFullScreenContent() {
                 preload(activity.applicationContext)
-                if (!rewardEarned) onAdUnavailable()
+                if (rewardEarned) {
+                    finishWithReward()
+                } else {
+                    finishUnavailable()
+                }
             }
 
             override fun onAdFailedToShowFullScreenContent(adError: com.google.android.gms.ads.AdError) {
                 preload(activity.applicationContext)
-                onAdUnavailable()
+                finishUnavailable()
             }
         }
 
         ad.show(activity) { _: RewardItem ->
             rewardEarned = true
-            onRewardEarned()
         }
     }
 
