@@ -16,6 +16,22 @@ All notable changes to HYDRV are recorded here.
 
 - Bug fixes continue to roll in with each release.
 
+## [1.1.1] - 2026-04-15
+
+### Added
+
+- A cleaner in-app release changelog dialog with tighter spacing and less noisy header content.
+
+### Changed
+
+- Rewarded-download gating now waits more gracefully for ad loading instead of rejecting first taps during warm-up.
+- Update flow state now keeps release notifications and hidden self-update cleanup more predictable across checks and releases.
+
+### Fixed
+
+- Pending uninstall state is cleared when a system uninstall prompt is canceled, so stale success state does not leak forward.
+- Download persistence, version hints, and app details button state now rely on safer snapshot-style state handling during active download changes.
+
 ## [1.1.0] - 2026-04-13
 
 ### Added
