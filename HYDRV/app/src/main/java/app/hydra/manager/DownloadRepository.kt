@@ -330,6 +330,38 @@ object DownloadRepository {
         }
     }
 
+    fun pruneLegacySelfUpdates(context: Context, currentTag: String) {
+        val normalizedTag = currentTag.trim()
+        if (normalizedTag.isBlank()) return
+
+        synchronized(startLock) {
+            val iterator = downloads.iterator()
+            var changed = false
+
+            while (iterator.hasNext()) {
+                val item = iterator.next()
+                if (!isSelfUpdateDownload(item)) continue
+                if (item.versionName.trim() == normalizedTag) continue
+
+                Downloader.cancel(item)
+                val filePath = item.filePath.trim()
+                if (filePath.isNotBlank()) {
+                    runCatching {
+                        val file = File(filePath)
+                        if (file.exists()) file.delete()
+                    }
+                }
+                iterator.remove()
+                changed = true
+            }
+
+            if (!changed) return
+
+            scheduleSave(context)
+            notifyChange()
+        }
+    }
+
     fun deleteMany(context: Context, items: Collection<DownloadItem>) {
         if (items.isEmpty()) return
 

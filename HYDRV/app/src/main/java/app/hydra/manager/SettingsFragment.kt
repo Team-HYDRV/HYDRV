@@ -15,7 +15,11 @@ import android.os.Looper
 import android.os.PowerManager
 import android.provider.Settings
 import android.text.InputType
+import android.text.SpannableString
 import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.style.StyleSpan
+import android.graphics.Typeface
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -36,8 +40,6 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.edit
 import androidx.core.net.toUri
-import androidx.core.text.htmlEncode
-import androidx.core.text.HtmlCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.work.WorkManager
@@ -1350,17 +1352,10 @@ class SettingsFragment : Fragment() {
             result.onSuccess { release ->
                 if (!isAdded) return@onSuccess
                 val body = release.body?.trim().orEmpty()
-                val message = SpannableStringBuilder().apply {
-                    appendLine(release.displayLabel())
-                    appendLine(release.htmlUrl)
-                    appendLine()
-                    append(
-                        if (body.isNotBlank()) {
-                            formatReleaseNotesBody(body)
-                        } else {
-                            getString(R.string.release_details_unavailable)
-                        }
-                    )
+                val message = if (body.isNotBlank()) {
+                    formatReleaseNotesBody(body)
+                } else {
+                    getString(R.string.release_details_unavailable)
                 }
                 if (dialog.isShowing) {
                     dialog.setMessage(message)
@@ -1400,13 +1395,17 @@ class SettingsFragment : Fragment() {
     }
 
     private fun formatReleaseNotesBody(markdown: String): CharSequence {
-        val html = StringBuilder()
-        var inList = false
+        val builder = SpannableStringBuilder()
+        var previousWasBullet = false
+        var previousWasHeading = false
 
-        fun closeList() {
-            if (inList) {
-                html.append("</ul>")
-                inList = false
+        fun appendBlankLineIfNeeded() {
+            if (builder.isEmpty()) return
+            if (builder.endsWith("\n\n")) return
+            if (builder.endsWith("\n")) {
+                builder.append('\n')
+            } else {
+                builder.append("\n\n")
             }
         }
 
@@ -1414,44 +1413,63 @@ class SettingsFragment : Fragment() {
             val line = rawLine.trimEnd()
             when {
                 line.isBlank() -> {
-                    closeList()
-                    html.append("<br>")
+                    if (previousWasHeading) return@forEach
+                    previousWasBullet = false
+                    appendBlankLineIfNeeded()
                 }
                 line.startsWith("### ") -> {
-                    closeList()
-                    html.append("<b>")
-                        .append(line.removePrefix("### ").trim().htmlEncode())
-                        .append("</b><br>")
+                    appendBlankLineIfNeeded()
+                    appendStyledLine(builder, line.removePrefix("### ").trim())
+                    previousWasBullet = false
+                    previousWasHeading = true
                 }
                 line.startsWith("## ") -> {
-                    closeList()
-                    html.append("<b>")
-                        .append(line.removePrefix("## ").trim().htmlEncode())
-                        .append("</b><br><br>")
+                    appendBlankLineIfNeeded()
+                    appendStyledLine(builder, line.removePrefix("## ").trim())
+                    previousWasBullet = false
+                    previousWasHeading = true
                 }
                 line.startsWith("- ") || line.startsWith("* ") -> {
-                    if (!inList) {
-                        html.append("<ul>")
-                        inList = true
+                    if (builder.isNotEmpty() && !builder.endsWith("\n")) {
+                        builder.append('\n')
                     }
-                    html.append("<li>")
-                        .append(line.drop(2).trim().htmlEncode())
-                        .append("</li>")
+                    builder.append('\u2022')
+                    builder.append(' ')
+                    builder.append(line.drop(2).trim())
+                    builder.append('\n')
+                    previousWasBullet = true
+                    previousWasHeading = false
                 }
                 else -> {
-                    closeList()
-                    html.append(line.htmlEncode())
-                        .append("<br>")
+                    if (builder.isNotEmpty()) {
+                        if (!builder.endsWith("\n")) {
+                            builder.append('\n')
+                        }
+                    }
+                    builder.append(line.trim())
+                    builder.append('\n')
+                    previousWasBullet = false
+                    previousWasHeading = false
                 }
             }
         }
 
-        closeList()
+        while (builder.endsWith("\n\n\n")) {
+            builder.delete(builder.length - 1, builder.length)
+        }
+        while (builder.endsWith("\n")) {
+            builder.delete(builder.length - 1, builder.length)
+        }
 
-        return HtmlCompat.fromHtml(
-            html.toString(),
-            HtmlCompat.FROM_HTML_MODE_LEGACY
-        )
+        return builder
+    }
+
+    private fun appendStyledLine(builder: SpannableStringBuilder, text: String) {
+        val styled = SpannableString(text).apply {
+            setSpan(StyleSpan(Typeface.BOLD), 0, length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
+        builder.append(styled)
+        builder.append('\n')
     }
 
     private fun runManualUpdateCheck() {
@@ -1536,6 +1554,7 @@ class SettingsFragment : Fragment() {
 
     private fun resolveUpdateActionState(context: android.content.Context): UpdateActionUi {
         val latestTag = ReleaseUpdateState.getLastSeenTag(context).trim()
+        DownloadRepository.pruneLegacySelfUpdates(context, latestTag)
         val currentVersion = getCurrentVersionName(context)
         val updateAvailable = latestTag.isNotBlank() &&
             ReleaseVersionComparator.isNewer(currentVersion, latestTag)
@@ -1576,7 +1595,7 @@ class SettingsFragment : Fragment() {
     }
 
     private fun latestReleaseDownloadItem(latestTag: String): DownloadItem? {
-        return DownloadRepository.downloads.lastOrNull { item ->
+        return DownloadRepository.snapshotDownloads().lastOrNull { item ->
             item.url == RuntimeConfig.githubLatestReleaseApkUrl &&
                 item.versionName.trim() == latestTag &&
                 item.isSelfUpdate

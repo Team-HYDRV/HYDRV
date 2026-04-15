@@ -19,11 +19,10 @@ class AppUpdateWorker(
         }
         val latestTag = latestRelease.tagName.trim()
         val hasUpdate = ReleaseVersionComparator.isNewer(currentVersion, latestTag)
-        val lastSeenTag = ReleaseUpdateState.getLastSeenTag(applicationContext)
         val lastNotifiedTag = ReleaseUpdateState.getLastNotifiedTag(applicationContext)
 
         if (latestTag.isNotBlank()) {
-            if (hasUpdate && latestTag != lastSeenTag && latestTag != lastNotifiedTag) {
+            if (hasUpdate && latestTag != lastNotifiedTag) {
                 AppNotificationHelper.showReleaseUpdateNotification(
                     applicationContext,
                     latestRelease.displayLabel(),
