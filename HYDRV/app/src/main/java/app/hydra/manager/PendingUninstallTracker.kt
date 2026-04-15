@@ -21,6 +21,14 @@ object PendingUninstallTracker {
         return appName
     }
 
+    fun clearIfStillInstalled(context: Context) {
+        val appName = pendingAppName ?: return
+        val packageName = pendingPackageName ?: return
+        if (AppStateCacheManager.isInstalled(context, packageName, appName)) {
+            clear()
+        }
+    }
+
     fun consumeIfMatchesRemoved(packageName: String): String? {
         if (packageName.isBlank() || pendingPackageName != packageName) return null
         val appName = pendingAppName ?: return null

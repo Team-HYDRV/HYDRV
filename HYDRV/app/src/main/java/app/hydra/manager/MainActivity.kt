@@ -286,7 +286,11 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         AppStateCacheManager.forceRefreshInstalledPackages(this) {
-            PendingUninstallTracker.consumeIfRemoved(this)?.let { appName ->
+            val removedApp = PendingUninstallTracker.consumeIfRemoved(this)
+            if (removedApp == null) {
+                PendingUninstallTracker.clearIfStillInstalled(this)
+            }
+            removedApp?.let { appName ->
                 InstallStatusCenter.post(getString(R.string.uninstall_success_format, appName))
             }
         }
