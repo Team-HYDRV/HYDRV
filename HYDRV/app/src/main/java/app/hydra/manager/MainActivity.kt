@@ -61,15 +61,13 @@ class MainActivity : AppCompatActivity() {
                     val packageName = intent.data?.schemeSpecificPart.orEmpty()
                     val isReplacing = intent.getBooleanExtra(Intent.EXTRA_REPLACING, false)
                     AppStateCacheManager.forceRefreshInstalledPackages(this@MainActivity) {
-                        if (
-                            intent.action == Intent.ACTION_PACKAGE_REMOVED &&
-                            !isReplacing &&
-                            packageName.isNotBlank()
-                        ) {
-                            val appName = resolveDisplayNameForPackage(packageName)
-                            InstallStatusCenter.post(
-                                getString(R.string.uninstall_success_format, appName)
-                            )
+                        if (intent.action == Intent.ACTION_PACKAGE_REMOVED && !isReplacing) {
+                            val appName = PendingUninstallTracker.consumeIfMatchesRemoved(packageName)
+                            if (appName != null) {
+                                InstallStatusCenter.post(
+                                    getString(R.string.uninstall_success_format, appName)
+                                )
+                            }
                         }
                         InstallStatusCenter.post("", refreshInstalledState = true)
                     }

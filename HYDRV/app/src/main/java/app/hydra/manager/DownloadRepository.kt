@@ -463,10 +463,12 @@ object DownloadRepository {
     fun handleInstallSuccess(context: Context, appName: String, apkPath: String, backendPackage: String) {
         val actualPackage = archivePackageName(context, apkPath) ?: return
 
-        downloads.forEach { item ->
-            if (item.filePath == apkPath || (item.name == appName && item.status == "Done")) {
-                item.packageName = actualPackage
-                item.installed = true
+        synchronized(startLock) {
+            downloads.forEach { item ->
+                if (item.filePath == apkPath || (item.name == appName && item.status == "Done")) {
+                    item.packageName = actualPackage
+                    item.installed = true
+                }
             }
         }
 

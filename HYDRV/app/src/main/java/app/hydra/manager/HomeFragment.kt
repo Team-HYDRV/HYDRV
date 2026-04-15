@@ -149,7 +149,6 @@ class HomeFragment : Fragment() {
 
         CatalogStateCenter.apps.observe(viewLifecycleOwner) { apps ->
             val context = context ?: return@observe
-            if (apps.isEmpty()) return@observe
 
             val newHash = CatalogFingerprint.hash(apps)
             if (newHash == lastHash && cachedApps.isNotEmpty()) return@observe
