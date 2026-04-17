@@ -358,8 +358,6 @@
   <string name="backend_active_source_short">×¤×¢×™×œ</string>
   <string name="backend_edit_source">×¢×¨×•×š</string>
   <string name="backend_source_name_hint">×©× ×ž×§×•×¨×™</string>
-  <string name="backend_source_url_hint">×›×ª×•×‘×ª:http.com/catalog.json</string>
-  <string name="backend_example_url">×“×•×’×ž×”: TP: www.example.com/catalog.json</string>
   <string name="backend_validating_message">×œ×‘×“×•×§ ×§×™×©×•×¨ ××—×•×¨×™?</string>
   <string name="backend_invalid_message">×§×™×©×•×¨ ×–×” ×œ× × ×¨××” ×›×ž×• × ×§×•×“×ª ×§×¦×” ×©×œ JSON.</string>
   <string name="backend_set_active_failed">×–×” ×œ× ×¢×•×‘×“ ×›×¨×’×¢.</string>
@@ -415,7 +413,6 @@
   <string name="about_contributors_summary">×¤×’×•×© ××ª ×”×ª×•×¨×ž×™× ×”×—×™×™× ×©×œ GitHub ×ž××—×•×¨×™ ×”×¤×¨×•×™×§×˜.</string>
   <string name="about_licenses_title">×¡×¤×¨×™×•×ª ×•××©×¨××™</string>
   <string name="about_licenses_summary">×œ×”×¨×™× ××ª ×”×›×œ×™× ×•×”×¨×›×™×‘×™× ×”×¤×ª×•×—×™× ×©×”×›×•×— HYDRV.</string>
-  <string name="about_contact_email">support@hydrv.app</string>
   <string name="about_link_placeholder">×”×§×™×©×•×¨ ×”×–×” ××™× ×• ×–×ž×™×Ÿ ×›×¨×’×¢.</string>
   <string name="about_issue_placeholder">×”×“×™×•×•×— ××™× ×• ×–×ž×™×Ÿ ×›×¨×’×¢.</string>
   <string name="about_issue_email_subject">HYDRV ×ž×©×•×‘</string>

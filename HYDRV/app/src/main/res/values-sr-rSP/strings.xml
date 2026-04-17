@@ -358,8 +358,6 @@
   <string name="backend_active_source_short">Ацтиве</string>
   <string name="backend_edit_source">Уреди</string>
   <string name="backend_source_name_hint">Бацкенд наме</string>
-  <string name="backend_source_url_hint">хттпс://екампле.цом/цаталогуе.јсон</string>
-  <string name="backend_example_url">Пример: хттпс://екампле.цом/цаталогуе.јсон</string>
   <string name="backend_validating_message">Проверава се позадинска веза?</string>
   <string name="backend_invalid_message">Та веза не изгледа као важећа ЈСОН крајња тачка.</string>
   <string name="backend_set_active_failed">Тај бацкенд тренутно не ради.</string>
@@ -415,7 +413,6 @@
   <string name="about_contributors_summary">Упознајте активне GitHub сараднике иза овог пројекта.</string>
   <string name="about_licenses_title">Библиотеке и кредити</string>
   <string name="about_licenses_summary">Прегледајте алате и компоненте отвореног кода који покрећу HYDRV.</string>
-  <string name="about_contact_email">support@hydrv.app</string>
   <string name="about_link_placeholder">Ова веза тренутно није доступна.</string>
   <string name="about_issue_placeholder">Извештавање о проблемима тренутно није доступно.</string>
   <string name="about_issue_email_subject">ХИДРВ повратне информације</string>

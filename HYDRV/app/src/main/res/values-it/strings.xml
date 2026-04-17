@@ -356,8 +356,6 @@
     <string name="backend_active_source_short">Attivo</string>
     <string name="backend_edit_source">Modifica</string>
     <string name="backend_source_name_hint">Nome del messaggio</string>
-    <string name="backend_source_url_hint">https://example.com/catalogue.json</string>
-    <string name="backend_example_url">Esempio: https://example.com/catalogue.json</string>
     <string name="backend_validating_message">Controllare il link backend?</string>
     <string name="backend_invalid_message">Questo link non sembra un valido punto finale JSON.</string>
     <string name="backend_set_active_failed">Quel backend non funziona adesso.</string>
@@ -413,7 +411,6 @@
     <string name="about_contributors_summary">Scopri i collaboratori GitHub attivi che stanno dietro a questo progetto.</string>
     <string name="about_licenses_title">Biblioteche e crediti</string>
     <string name="about_licenses_summary">Sfoglia gli strumenti e i componenti open source che alimentano HYDRV.</string>
-    <string name="about_contact_email">support@hydrv.app</string>
     <string name="about_link_placeholder">Questo link non è disponibile in questo momento.</string>
     <string name="about_issue_placeholder">La segnalazione dei problemi non è disponibile in questo momento.</string>
     <string name="about_issue_email_subject">Feedback HYDRV</string>

@@ -358,8 +358,6 @@
   <string name="backend_active_source_short">作用中</string>
   <string name="backend_edit_source">編輯</string>
   <string name="backend_source_name_hint">後端名稱</string>
-  <string name="backend_source_url_hint">https://example.com/catalogue.json 互联网档案馆的存檔,存档日期2013-12-11.</string>
-  <string name="backend_example_url">示例:https://example.com/catalogue.json</string>
   <string name="backend_validating_message">正在檢查後端連結?</string>
   <string name="backend_invalid_message">這個連結看起來不像有效的 JSON 端點 。</string>
   <string name="backend_set_active_failed">后端現在不起作用</string>
@@ -415,7 +413,6 @@
   <string name="about_contributors_summary">認識一下活躍在這個專案背後的 GitHub 貢獻者。</string>
   <string name="about_licenses_title">图书馆和信用</string>
   <string name="about_licenses_summary">查看驅動 HYDRV 的開源工具與元件。</string>
-  <string name="about_contact_email">support@hydrv.app</string>
   <string name="about_link_placeholder">此連結目前不可用 。</string>
   <string name="about_issue_placeholder">發布報告現在沒空</string>
   <string name="about_issue_email_subject">九头蛇反馈</string>

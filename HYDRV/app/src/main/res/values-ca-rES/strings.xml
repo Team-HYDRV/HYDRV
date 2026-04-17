@@ -358,8 +358,6 @@
   <string name="backend_active_source_short">Actiu</string>
   <string name="backend_edit_source">Edita</string>
   <string name="backend_source_name_hint">Nom del dorsal</string>
-  <string name="backend_source_url_hint">https://exemple.com/catalòleg.json</string>
-  <string name="backend_example_url">Exemple: https://exemple.com/catalòleg.json</string>
   <string name="backend_validating_message">Checking backend link?</string>
   <string name="backend_invalid_message">That link does not look like a valid JSON endpoint.</string>
   <string name="backend_set_active_failed">Aquest dorsal no funciona ara mateix.</string>
@@ -415,7 +413,6 @@
   <string name="about_contributors_summary">Conegueu els col?laboradors actius de GitHub que hi ha darrere d?aquest projecte.</string>
   <string name="about_licenses_title">Biblioteques i crèdits</string>
   <string name="about_licenses_summary">Exploreu les eines i els components de codi obert que fan possible HYDRV.</string>
-  <string name="about_contact_email">suport@hydrv.app</string>
   <string name="about_link_placeholder">This link is unavailable right now.</string>
   <string name="about_issue_placeholder">L\'informe d\'emissió no és disponible ara mateix.</string>
   <string name="about_issue_email_subject">Informació HYDRV</string>

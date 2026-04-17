@@ -358,8 +358,6 @@
   <string name="backend_active_source_short">Aktiv</string>
   <string name="backend_edit_source">Rediger</string>
   <string name="backend_source_name_hint">Motornavn</string>
-  <string name="backend_source_url_hint">https://eksample.com/catalougue.json</string>
-  <string name="backend_example_url">Eksempel: https://eksample.com/catalougue.json</string>
   <string name="backend_validating_message">Sjekker backend-lenke?</string>
   <string name="backend_invalid_message">Denne linken ser ikke ut som et gyldig JSON-endepunkt.</string>
   <string name="backend_set_active_failed">That backend is not working right now.</string>
@@ -415,7 +413,6 @@
   <string name="about_contributors_summary">Mot de aktive GitHub-bidragsyterne som star bak dette prosjektet.</string>
   <string name="about_licenses_title">Biblioteker og kreditter</string>
   <string name="about_licenses_summary">Se gjennom open source-verktoyene og komponentene som holder HYDRV i gang.</string>
-  <string name="about_contact_email">sokongan@hydrv.app</string>
   <string name="about_link_placeholder">This link is unavailable right now.</string>
   <string name="about_issue_placeholder">Issue reporting is unavailable right now.</string>
   <string name="about_issue_email_subject">HYDRV tilbakemelding</string>

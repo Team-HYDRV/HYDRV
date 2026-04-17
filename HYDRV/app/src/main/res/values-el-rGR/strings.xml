@@ -358,8 +358,6 @@
   <string name="backend_active_source_short">Ενεργός</string>
   <string name="backend_edit_source">Εκδίδω</string>
   <string name="backend_source_name_hint">Όνομα backend</string>
-  <string name="backend_source_url_hint">Επικολλήστε εδώ τη διεύθυνση URL της πηγής</string>
-  <string name="backend_example_url">Παράδειγμα: https://example.com/catalogue.json</string>
   <string name="backend_validating_message">Έλεγχος συνδέσμου backend?</string>
   <string name="backend_invalid_message">Αυτός ο σύνδεσμος δεν μοιάζει με έγκυρο τελικό σημείο JSON.</string>
   <string name="backend_set_active_failed">Αυτό το backend δεν λειτουργεί αυτήν τη στιγμή.</string>
@@ -415,7 +413,6 @@
   <string name="about_contributors_summary">Γνωρίστε τους ενεργούς συνεισφέροντες του GitHub που στηρίζουν αυτό το έργο.</string>
   <string name="about_licenses_title">Βιβλιοθήκες και πιστώσεις</string>
   <string name="about_licenses_summary">Εξερευνήστε τα εργαλεία και τα στοιχεία ανοιχτού κώδικα που κρατούν το HYDRV σε λειτουργία.</string>
-  <string name="about_contact_email">voitheia@hydrv.app</string>
   <string name="about_link_placeholder">Αυτός ο σύνδεσμος δεν είναι διαθέσιμος αυτήν τη στιγμή.</string>
   <string name="about_issue_placeholder">Η αναφορά προβλημάτων δεν είναι διαθέσιμη αυτήν τη στιγμή.</string>
   <string name="about_issue_email_subject">Ανατροφοδότηση HYDRV</string>

@@ -358,8 +358,6 @@
   <string name="backend_active_source_short">à¤¸à¤•à¥à¤°à¤¿à¤¯</string>
   <string name="backend_edit_source">à¤¸à¤‚à¤ªà¤¾à¤¦à¤¿à¤¤ à¤•à¤°à¥‡à¤‚</string>
   <string name="backend_source_name_hint">à¤¬à¥ˆà¤•à¤à¤‚à¤¡ à¤¨à¤¾à¤®</string>
-  <string name="backend_source_url_hint">https://example.com/catalogue.json</string>
-  <string name="backend_example_url">à¤‰à¤¦à¤¾à¤¹à¤°à¤£: https://example.com/catalogue.json</string>
   <string name="backend_validating_message">à¤¬à¥ˆà¤•à¤à¤‚à¤¡ à¤²à¤¿à¤‚à¤• à¤•à¥€ à¤œà¤¾à¤à¤š?</string>
   <string name="backend_invalid_message">à¤¯à¤¹ à¤²à¤¿à¤‚à¤• à¤à¤• à¤µà¥ˆà¤§ JSON à¤¸à¤®à¤¾à¤ªà¤¨ à¤¬à¤¿à¤‚à¤¦à¥ à¤•à¥€ à¤¤à¤°à¤¹ à¤¨à¤¹à¥€à¤‚ à¤¦à¤¿à¤–à¤¤à¤¾ à¤¹à¥ˆà¥¤</string>
   <string name="backend_set_active_failed">à¤¯à¤¹ à¤…à¤­à¥€ à¤•à¤¾à¤® à¤¨à¤¹à¥€à¤‚ à¤•à¤° à¤°à¤¹à¤¾ à¤¹à¥ˆà¥¤</string>
@@ -415,7 +413,6 @@
   <string name="about_contributors_summary">à¤‡à¤¸ à¤ªà¤°à¤¿à¤¯à¥‹à¤œà¤¨à¤¾ à¤•à¥‡ à¤ªà¥€à¤›à¥‡ à¤•à¤¾à¤® à¤•à¤° à¤°à¤¹à¥‡ à¤¸à¤•à¥à¤°à¤¿à¤¯ GitHub à¤¯à¥‹à¤—à¤¦à¤¾à¤¨à¤•à¤°à¥à¤¤à¤¾à¤“à¤‚ à¤¸à¥‡ à¤®à¤¿à¤²à¥‡à¤‚à¥¤</string>
   <string name="about_licenses_title">à¤ªà¥à¤¸à¥à¤¤à¤•à¤¾à¤²à¤¯ à¤”à¤° à¤•à¥à¤°à¥‡à¤¡à¤¿à¤Ÿ</string>
   <string name="about_licenses_summary">HYDRV à¤•à¥‹ à¤šà¤²à¤¾à¤¨à¥‡ à¤µà¤¾à¤²à¥‡ à¤“à¤ªà¤¨ à¤¸à¥‹à¤°à¥à¤¸ à¤Ÿà¥‚à¤² à¤”à¤° à¤˜à¤Ÿà¤•à¥‹à¤‚ à¤•à¥‹ à¤¦à¥‡à¤–à¥‡à¤‚à¥¤</string>
-  <string name="about_contact_email">support@hydrv.app</string>
   <string name="about_link_placeholder">à¤¯à¤¹ à¤²à¤¿à¤‚à¤• à¤…à¤­à¥€ à¤‰à¤ªà¤²à¤¬à¥à¤§ à¤¨à¤¹à¥€à¤‚ à¤¹à¥ˆà¥¤</string>
   <string name="about_issue_placeholder">à¤…à¤­à¥€ à¤œà¤¾à¤°à¥€ à¤•à¤°à¤¨à¤¾ à¤…à¤¨à¥à¤ªà¤²à¤¬à¥à¤§ à¤¹à¥ˆà¥¤</string>
   <string name="about_issue_email_subject">HYDRV à¤«à¥€à¤¡à¤¬à¥ˆà¤•</string>

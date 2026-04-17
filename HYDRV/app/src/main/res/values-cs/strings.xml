@@ -358,8 +358,6 @@
   <string name="backend_active_source_short">Aktivní</string>
   <string name="backend_edit_source">Upravit</string>
   <string name="backend_source_name_hint">Název backendu</string>
-  <string name="backend_source_url_hint">http: / / example.com / catalogue.json</string>
-  <string name="backend_example_url">Example: https://example.com/catalogue.json</string>
   <string name="backend_validating_message">Kontroluji backend link?</string>
   <string name="backend_invalid_message">That link does not look like a valid JSON endpoint.</string>
   <string name="backend_set_active_failed">Ten backend teď nefunguje.</string>
@@ -415,7 +413,6 @@
   <string name="about_contributors_summary">Meet the GitHub contributors behind the project.</string>
   <string name="about_licenses_title">Libraries and credits</string>
   <string name="about_licenses_summary">Prohl?dni si open source n?stroje a komponenty, kter? poh?n?j? HYDRV.</string>
-  <string name="about_contact_email">podpora@hydrv.app</string>
   <string name="about_link_placeholder">Tohle spojení je nedostupné.</string>
   <string name="about_issue_placeholder">Issue reporting is unavailable right now.</string>
   <string name="about_issue_email_subject">Zpětná vazba HYDRV</string>

@@ -358,8 +358,6 @@
   <string name="backend_active_source_short">Aktif</string>
   <string name="backend_edit_source">Sunting</string>
   <string name="backend_source_name_hint">Nama belakang:</string>
-  <string name="backend_source_url_hint">https://example.com/katalog.json</string>
-  <string name="backend_example_url">Contoh: https://example.com/katalog.json</string>
   <string name="backend_validating_message">Memeriksa link backend?</string>
   <string name="backend_invalid_message">Hubungan itu tidak terlihat seperti titik akhir JSON yang sah.</string>
   <string name="backend_set_active_failed">Bagian belakang itu tidak bekerja sekarang.</string>
@@ -415,7 +413,6 @@
   <string name="about_contributors_summary">Temui penyumbang GitHub aktif di sebalik projek ini.</string>
   <string name="about_licenses_title">Perpustakaan dan kredit</string>
   <string name="about_licenses_summary">Terokai alat dan komponen sumber terbuka yang menggerakkan HYDRV.</string>
-  <string name="about_contact_email">sokongan@hydrv.app</string>
   <string name="about_link_placeholder">Link ini tidak tersedia sekarang.</string>
   <string name="about_issue_placeholder">Isu pelaporan tidak tersedia sekarang.</string>
   <string name="about_issue_email_subject">Umpan balik HYDRV</string>

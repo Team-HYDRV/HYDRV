@@ -358,8 +358,6 @@
   <string name="backend_active_source_short">Aktief</string>
   <string name="backend_edit_source">Wysig</string>
   <string name="backend_source_name_hint">Agterkant naam</string>
-  <string name="backend_source_url_hint">https://voorbeeld.com/katalogus.json</string>
-  <string name="backend_example_url">Voorbeeld: https://example.com/catalogue.json</string>
   <string name="backend_validating_message">Gaan tans agterkantskakel na …</string>
   <string name="backend_invalid_message">Daardie skakel lyk nie soos \'n geldige JSON-eindpunt nie.</string>
   <string name="backend_set_active_failed">Daardie backend werk nie nou nie.</string>
@@ -415,7 +413,6 @@
   <string name="about_contributors_summary">Leer ken die aktiewe GitHub-bydraers agter hierdie projek.</string>
   <string name="about_licenses_title">Biblioteke en krediete</string>
   <string name="about_licenses_summary">Kyk na die oopbron-gereedskap en komponente wat HYDRV aandryf.</string>
-  <string name="about_contact_email">hulp@hydrv.app</string>
   <string name="about_link_placeholder">Hierdie skakel is nie tans beskikbaar nie.</string>
   <string name="about_issue_placeholder">Kwessieverslagdoening is tans nie beskikbaar nie.</string>
   <string name="about_issue_email_subject">HYDRV terugvoer</string>

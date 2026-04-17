@@ -358,8 +358,6 @@
   <string name="backend_active_source_short">Активний</string>
   <string name="backend_edit_source">Редагування</string>
   <string name="backend_source_name_hint">Ім\'я користувача</string>
-  <string name="backend_source_url_hint">https://example.com/katalog-ua.json</string>
-  <string name="backend_example_url">Приклад: https://example.com/catalogue.json</string>
   <string name="backend_validating_message">Перевірка зворотного зв\'язку ?</string>
   <string name="backend_invalid_message">Ця посилання не схожа на дійсну кінцеву точку JSON.</string>
   <string name="backend_set_active_failed">Що не працює зараз.</string>
@@ -415,7 +413,6 @@
   <string name="about_contributors_summary">Познайомтеся з активними дописувачами GitHub, які працюють над цим проєктом.</string>
   <string name="about_licenses_title">Біблії та кредити</string>
   <string name="about_licenses_summary">Перегляньте інструменти й компоненти з відкритим кодом, на яких тримається HYDRV.</string>
-  <string name="about_contact_email">support@hydrv.app</string>
   <string name="about_link_placeholder">Ця посилання недоступна прямо зараз.</string>
   <string name="about_issue_placeholder">Звітність про емітента не надається прямо зараз.</string>
   <string name="about_issue_email_subject">відгуки HYDRV</string>

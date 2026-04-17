@@ -358,8 +358,6 @@
   <string name="backend_active_source_short">النشاط</string>
   <string name="backend_edit_source">يحرر</string>
   <string name="backend_source_name_hint">اسم خلفي</string>
-  <string name="backend_source_url_hint">https://مثال.com/catalogue.json</string>
-  <string name="backend_example_url">مثال: https://example.com/catalogue.json</string>
   <string name="backend_validating_message">التحقق من الرابط الخلفي?</string>
   <string name="backend_invalid_message">وهذه الصلة لا تبدو وكأنها نقطة نهاية سارة للشركة.</string>
   <string name="backend_set_active_failed">هذا الدعم لا يعمل الآن</string>
@@ -415,7 +413,6 @@
   <string name="about_contributors_summary">تعرّف على مساهمي GitHub النشطين الذين يقفون خلف هذا المشروع.</string>
   <string name="about_licenses_title">المكتبات والائتمانات</string>
   <string name="about_licenses_summary">تصفح أدوات ومكوّنات مفتوحة المصدر التي تشغّل HYDRV.</string>
-  <string name="about_contact_email">help@hydrv.app</string>
   <string name="about_link_placeholder">هذه الصلة غير متاحة الآن</string>
   <string name="about_issue_placeholder">الإبلاغ غير متاح الآن</string>
   <string name="about_issue_email_subject">ردود فعل HYDRV</string>

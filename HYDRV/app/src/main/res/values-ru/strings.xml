@@ -356,8 +356,6 @@
     <string name="backend_active_source_short">Активный</string>
     <string name="backend_edit_source">Редактировать</string>
     <string name="backend_source_name_hint">Фамилия на спине</string>
-    <string name="backend_source_url_hint">https://exmple.com/catalogue.json</string>
-    <string name="backend_example_url">Пример: https://example.com/catalogue.json</string>
     <string name="backend_validating_message">Проверить обратную ссылку?</string>
     <string name="backend_invalid_message">Эта ссылка не похожа на действующую конечную точку JSON.</string>
     <string name="backend_set_active_failed">Этот бэкэнд сейчас не работает.</string>
@@ -413,7 +411,6 @@
     <string name="about_contributors_summary">Познакомьтесь с активными участниками GitHub, которые стоят за этим проектом.</string>
     <string name="about_licenses_title">Библиотеки и кредиты</string>
     <string name="about_licenses_summary">Посмотрите на инструменты и компоненты с открытым исходным кодом, на которых держится HYDRV.</string>
-    <string name="about_contact_email">support@hydrv.app</string>
     <string name="about_link_placeholder">Эта ссылка сейчас недоступна.</string>
     <string name="about_issue_placeholder">Отчетность о проблемах сейчас недоступна.</string>
     <string name="about_issue_email_subject">Отзывы HYDRV</string>

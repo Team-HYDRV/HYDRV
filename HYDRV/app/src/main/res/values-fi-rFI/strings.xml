@@ -356,8 +356,6 @@
     <string name="backend_active_source_short">Aktiivinen</string>
     <string name="backend_edit_source">Muokata</string>
     <string name="backend_source_name_hint">Taustaohjelman nimi</string>
-    <string name="backend_source_url_hint">https://example.com/catalogue.json</string>
-    <string name="backend_example_url">Esimerkki: https://example.com/catalogue.json</string>
     <string name="backend_validating_message">Checking backend link?</string>
     <string name="backend_invalid_message">That link does not look like a valid JSON endpoint.</string>
     <string name="backend_set_active_failed">Se taustaohjelma ei toimi juuri nyt.</string>
@@ -413,7 +411,6 @@
     <string name="about_contributors_summary">Tutustu aktiivisiin GitHub-avustajiin taman projektin takana.</string>
     <string name="about_licenses_title">Kirjastot ja luottotiedot</string>
     <string name="about_licenses_summary">Selaa avoimen lahdekoodin tyokaluja ja komponentteja, jotka pitavat HYDRV:n kaynnissa.</string>
-    <string name="about_contact_email">support@hydrv.app</string>
     <string name="about_link_placeholder">This link is unavailable right now.</string>
     <string name="about_issue_placeholder">Issue reporting is unavailable right now.</string>
     <string name="about_issue_email_subject">HYDRV palaute</string>

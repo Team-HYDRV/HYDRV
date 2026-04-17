@@ -358,8 +358,6 @@
   <string name="backend_active_source_short">활성</string>
   <string name="backend_edit_source">편집</string>
   <string name="backend_source_name_hint">이름 *</string>
-  <string name="backend_source_url_hint">HTTPS://example.com/catalogue.json</string>
-  <string name="backend_example_url">예: https://example.com/catalogue.json</string>
   <string name="backend_validating_message">Backend 링크 확인 ?</string>
   <string name="backend_invalid_message">해당 링크는 유효한 JSON 엔드포인트와 같습니다.</string>
   <string name="backend_set_active_failed">그건 지금 바로 작동하지 않습니다.</string>
@@ -415,7 +413,6 @@
   <string name="about_contributors_summary">이 프로젝트를 만드는 GitHub 기여자들을 확인해 보세요.</string>
   <string name="about_licenses_title">도서관 및 크레딧</string>
   <string name="about_licenses_summary">HYDRV를 지탱하는 오픈 소스 도구와 구성 요소를 살펴보세요.</string>
-  <string name="about_contact_email">support@hydrv.app</string>
   <string name="about_link_placeholder">이 링크는 지금 사용할 수 없습니다.</string>
   <string name="about_issue_placeholder">문제 보고는 지금 사용할 수 없습니다.</string>
   <string name="about_issue_email_subject">HYDRV 의견</string>

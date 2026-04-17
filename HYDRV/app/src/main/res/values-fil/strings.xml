@@ -358,8 +358,6 @@
   <string name="backend_active_source_short">Aktibo</string>
   <string name="backend_edit_source">I-edit</string>
   <string name="backend_source_name_hint">Pangalan ng backend</string>
-  <string name="backend_source_url_hint">https://halimbawa.com/catalogue.json</string>
-  <string name="backend_example_url">Halimbawa: https://example.com/catalogue.json</string>
   <string name="backend_validating_message">Sinusuri ang link sa backend?</string>
   <string name="backend_invalid_message">Ang link na iyon ay hindi mukhang isang wastong JSON endpoint.</string>
   <string name="backend_set_active_failed">Hindi gumagana ang backend na iyon sa ngayon.</string>
@@ -415,7 +413,6 @@
   <string name="about_contributors_summary">Kilalanin ang mga aktibong taga-ambag sa GitHub sa likod ng proyektong ito.</string>
   <string name="about_licenses_title">Mga aklatan at kredito</string>
   <string name="about_licenses_summary">I-browse ang mga open source na tool at bahagi na nagpapatakbo sa HYDRV.</string>
-  <string name="about_contact_email">tulong@hydrv.app</string>
   <string name="about_link_placeholder">Hindi available ang link na ito sa ngayon.</string>
   <string name="about_issue_placeholder">Ang pag-uulat ng isyu ay hindi magagamit sa ngayon.</string>
   <string name="about_issue_email_subject">Feedback ng HYDRV</string>

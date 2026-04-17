@@ -356,8 +356,6 @@
     <string name="backend_active_source_short">à¸—à¹à¸²à¸‡à¸²à¸™</string>
     <string name="backend_edit_source">à¹à¸à¹‰à¹„à¸‚</string>
     <string name="backend_source_name_hint">à¸Šà¸·à¹ˆà¸­à¹€à¸šà¸·à¹‰à¸­à¸‡à¸«à¸¥à¸±à¸‡</string>
-    <string name="backend_source_url_hint">https/example.com/catalogue.json</string>
-    <string name="backend_example_url">à¸•à¸±à¸§à¸­à¸¢à¹ˆà¸²à¸‡: https/kregator.com/catalogue.json</string>
     <string name="backend_validating_message">à¸à¹à¸²à¸¥à¸±à¸‡à¸•à¸£à¸§à¸ˆà¸ªà¸­à¸šà¸—à¸µà¹ˆà¸­à¸¢à¸¹à¹ˆà¹€à¸Šà¸·à¹ˆà¸­à¸¡à¹‚à¸¢à¸‡à¸‚à¸­à¸‡à¹à¸šà¹‡à¸„à¹€à¸­à¸™à¸•à¹Œ?</string>
     <string name="backend_invalid_message">à¸¥à¸´à¸‡à¸à¹Œà¸™à¸±à¹ˆà¸™à¸”à¸¹à¹„à¸¡à¹ˆà¹€à¸«à¸¡à¸·à¸­à¸™ Json Endpoint à¸—à¸µà¹ˆà¸–à¸¹à¸à¸•à¹‰à¸­à¸‡</string>
     <string name="backend_set_active_failed">à¹à¸šà¹‡à¸„à¹€à¸­à¸™à¸•à¹Œà¸™à¸±à¹ˆà¸™à¹„à¸¡à¹ˆà¸—à¹à¸²à¸‡à¸²à¸™à¸•à¸­à¸™à¸™à¸µà¹‰</string>
@@ -413,7 +411,6 @@
     <string name="about_contributors_summary">à¸—à¸³à¸„à¸§à¸²à¸¡à¸£à¸¹à¹‰à¸ˆà¸±à¸à¸à¸±à¸šà¸œà¸¹à¹‰à¸¡à¸µà¸ªà¹ˆà¸§à¸™à¸£à¹ˆà¸§à¸¡à¸šà¸™ GitHub à¸—à¸µà¹ˆà¸”à¸¹à¹à¸¥à¹‚à¸›à¸£à¹€à¸ˆà¸à¸•à¹Œà¸™à¸µà¹‰.</string>
     <string name="about_licenses_title">à¸šà¸±à¸à¸Šà¸µ à¹à¸¥à¸° à¹€à¸„à¸£à¸”à¸´à¸•</string>
     <string name="about_licenses_summary">à¸”à¸¹à¹€à¸„à¸£à¸·à¹ˆà¸­à¸‡à¸¡à¸·à¸­à¹à¸¥à¸°à¸ªà¹ˆà¸§à¸™à¸›à¸£à¸°à¸à¸­à¸šà¹‚à¸­à¹€à¸žà¸™à¸‹à¸­à¸£à¹Œà¸ªà¸—à¸µà¹ˆà¸Šà¹ˆà¸§à¸¢à¸‚à¸±à¸šà¹€à¸„à¸¥à¸·à¹ˆà¸­à¸™ HYDRV.</string>
-    <string name="about_contact_email">support@hydrv.app</string>
     <string name="about_link_placeholder">à¸¥à¸´à¸‡à¸à¹Œà¸™à¸µà¹‰à¹„à¸¡à¹ˆà¸§à¹ˆà¸²à¸‡à¹ƒà¸™à¸•à¸­à¸™à¸™à¸µà¹‰</string>
     <string name="about_issue_placeholder">à¸‚à¸“à¸°à¸™à¸µà¹‰à¸¢à¸±à¸‡à¹„à¸¡à¹ˆà¸¡à¸µà¸£à¸²à¸¢à¸‡à¸²à¸™à¸›à¸±à¸à¸«à¸²</string>
     <string name="about_issue_email_subject">à¸•à¸­à¸šà¸à¸¥à¸±à¸šà¹à¸šà¸š HYDRV</string>

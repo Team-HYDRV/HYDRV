@@ -358,8 +358,6 @@
   <string name="backend_active_source_short">Activ</string>
   <string name="backend_edit_source">Editare</string>
   <string name="backend_source_name_hint">Numele platformei</string>
-  <string name="backend_source_url_hint">https://exemplu.com/catalogue.json</string>
-  <string name="backend_example_url">Exemplu: https://exemplu.com/catalogue.json</string>
   <string name="backend_validating_message">Verific link-ul platformei?</string>
   <string name="backend_invalid_message">Această legătură nu arată ca un obiectiv JSON valid.</string>
   <string name="backend_set_active_failed">Acel suport nu funcţionează acum.</string>
@@ -415,7 +413,6 @@
   <string name="about_contributors_summary">Meet the GitHub contributors behind the project.</string>
   <string name="about_licenses_title">Biblioteci și credite</string>
   <string name="about_licenses_summary">R?sfoie?te uneltele ?i componentele open source care sus?in HYDRV.</string>
-  <string name="about_contact_email">support@hydrv.app</string>
   <string name="about_link_placeholder">Acest link nu este disponibil acum.</string>
   <string name="about_issue_placeholder">Raportarea emisiunii nu este disponibilă acum.</string>
   <string name="about_issue_email_subject">Reacție HYDRV</string>

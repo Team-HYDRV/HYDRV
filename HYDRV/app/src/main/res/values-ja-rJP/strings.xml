@@ -358,8 +358,6 @@
   <string name="backend_active_source_short">アクティブ</string>
   <string name="backend_edit_source">編集</string>
   <string name="backend_source_name_hint">バックエンド名</string>
-  <string name="backend_source_url_hint">https://example.com/catalogue.json の</string>
-  <string name="backend_example_url">例:https://example.com/catalogue.json</string>
   <string name="backend_validating_message">バックエンドのリンクを確認する</string>
   <string name="backend_invalid_message">このリンクは、有効なJSONエンドポイントのように見えません。</string>
   <string name="backend_set_active_failed">そのバックエンドは今では機能しません。</string>
@@ -415,7 +413,6 @@
   <string name="about_contributors_summary">このプロジェクトを支えている GitHub の貢献者たちを見てみましょう。</string>
   <string name="about_licenses_title">図書館・クレジット</string>
   <string name="about_licenses_summary">HYDRV を支えているオープンソースのツールやコンポーネントを確認できます。</string>
-  <string name="about_contact_email">support@hydrv.app</string>
   <string name="about_link_placeholder">このリンクは利用できません。</string>
   <string name="about_issue_placeholder">問題報告は利用できません。</string>
   <string name="about_issue_email_subject">HYDRVのフィードバック</string>
