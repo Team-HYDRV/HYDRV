@@ -445,4 +445,5 @@
     <item quantity="many">%dвыбранный</item>
     <item quantity="other">%dвыбранный</item>
   </plurals>
+  <string name="version_sheet_scroll_hint">Прокрутите, чтобы увидеть больше</string>
 </resources>

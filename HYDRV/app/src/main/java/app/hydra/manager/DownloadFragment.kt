@@ -13,6 +13,10 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
 class DownloadFragment : Fragment() {
+    companion object {
+        private const val VISIBLE_REFRESH_DELAY_MS = 200L
+    }
+
 
     private lateinit var recycler: RecyclerView
     private lateinit var adapter: DownloadAdapter
@@ -26,6 +30,11 @@ class DownloadFragment : Fragment() {
     private lateinit var buttonSelectAll: TextView
     private lateinit var buttonDeleteSelected: TextView
     private lateinit var buttonCancelSelection: TextView
+    private var installedStateRefreshPending = false
+    private val visibleRefreshRunnable = Runnable {
+        if (!isAdded || view == null) return@Runnable
+        refreshInstalledStateAndUi()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -61,6 +70,7 @@ class DownloadFragment : Fragment() {
         adapter.onUninstallRequested = { packageName, appName ->
             launchUninstall(packageName, appName)
         }
+        renderDownloads(DownloadRepository.snapshotDownloads(), stopScroll = false)
 
         buttonSelectMode.setOnClickListener {
             adapter.setSelectionMode(true)
@@ -83,11 +93,7 @@ class DownloadFragment : Fragment() {
 
         InstallStatusCenter.events.observe(viewLifecycleOwner) { event ->
             if (!event.refreshInstalledState || !isAdded) return@observe
-            AppStateCacheManager.forceRefreshInstalledPackages(requireContext()) {
-                if (!isAdded || view == null) return@forceRefreshInstalledPackages
-                DownloadRepository.syncInstalledState(requireContext())
-                refreshDownloads()
-            }
+            refreshInstalledStateAndUi(force = true)
         }
 
         return view
@@ -96,22 +102,30 @@ class DownloadFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         DownloadRepository.pruneStaleCompleted(requireContext())
-        refreshInstalledStateAndUi()
+        renderDownloads(DownloadRepository.snapshotDownloads(), stopScroll = false)
+        scheduleVisibleRefresh()
     }
 
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
 
         if (!hidden && ::adapter.isInitialized) {
-            refreshInstalledStateAndUi()
+            scheduleVisibleRefresh()
         }
+    }
+
+    override fun onPause() {
+        if (::recycler.isInitialized) {
+            recycler.removeCallbacks(visibleRefreshRunnable)
+        }
+        super.onPause()
     }
 
     private fun refreshDownloads() {
         if (!::adapter.isInitialized) return
 
         DownloadRepository.pruneStaleCompleted(requireContext())
-        renderDownloads(DownloadRepository.downloads, stopScroll = true)
+        renderDownloads(DownloadRepository.snapshotDownloads(), stopScroll = true)
     }
 
     private fun renderDownloads(
@@ -232,12 +246,25 @@ class DownloadFragment : Fragment() {
         }
     }
 
-    private fun refreshInstalledStateAndUi() {
-        if (!::adapter.isInitialized || !isAdded) return
-        AppStateCacheManager.forceRefreshInstalledPackages(requireContext()) {
-            if (!isAdded || view == null) return@forceRefreshInstalledPackages
+    private fun refreshInstalledStateAndUi(force: Boolean = false) {
+        if (!::adapter.isInitialized || !isAdded || installedStateRefreshPending) return
+        installedStateRefreshPending = true
+        val onComplete = onComplete@{
+            installedStateRefreshPending = false
+            if (!isAdded || view == null) return@onComplete
             DownloadRepository.syncInstalledState(requireContext())
             refreshDownloads()
         }
+        if (force) {
+            AppStateCacheManager.forceRefreshInstalledPackages(requireContext(), onComplete)
+        } else {
+            AppStateCacheManager.warmInstalledPackages(requireContext(), onComplete = onComplete)
+        }
+    }
+
+    private fun scheduleVisibleRefresh() {
+        if (!::recycler.isInitialized) return
+        recycler.removeCallbacks(visibleRefreshRunnable)
+        recycler.postDelayed(visibleRefreshRunnable, VISIBLE_REFRESH_DELAY_MS)
     }
 }

@@ -439,4 +439,5 @@
         <item quantity="zero">%d</item><item quantity="one">%dمختارة</item>
         <item quantity="two">%d</item><item quantity="few">%d</item><item quantity="many">%d</item><item quantity="other">%dمختارة</item>
     </plurals>
+  <string name="version_sheet_scroll_hint">مرر للمزيد</string>
 </resources>

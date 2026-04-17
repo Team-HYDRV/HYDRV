@@ -439,4 +439,5 @@
     <item quantity="one">%dSeleccionat</item>
     <item quantity="other">%dSeleccionat</item>
   </plurals>
+  <string name="version_sheet_scroll_hint">Desplaca per veure mes</string>
 </resources>

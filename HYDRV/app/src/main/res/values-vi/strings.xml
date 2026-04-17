@@ -439,4 +439,5 @@
         <item quantity="one">%d�� ch?n</item>
         <item quantity="other">%d�� ch?n</item>
     </plurals>
+  <string name="version_sheet_scroll_hint">Cuộn để xem thêm</string>
 </resources>

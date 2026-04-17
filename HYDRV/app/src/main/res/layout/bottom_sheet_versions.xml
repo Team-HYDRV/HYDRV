@@ -1,11 +1,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/sheetRoot"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@drawable/bottom_sheet_bg"
     android:clipToOutline="true"
-    android:orientation="vertical"
-    android:paddingBottom="16dp">
+    android:orientation="vertical">
 
     <View
         android:layout_width="40dp"
@@ -36,27 +35,60 @@
         android:textSize="13sp" />
 
     <FrameLayout
+        android:id="@+id/versionListContainer"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="wrap_content">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/versionList"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:clipToPadding="false"
             android:overScrollMode="never"
             android:paddingStart="16dp"
             android:paddingTop="4dp"
             android:paddingEnd="16dp"
-            android:paddingBottom="28dp" />
+            android:paddingBottom="18dp" />
 
-        <View
-            android:id="@+id/scrollFade"
+        <FrameLayout
+            android:id="@+id/scrollHintContainer"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:background="@drawable/scroll_fade" />
-    </FrameLayout>
+            android:paddingTop="6dp"
+            android:paddingBottom="14dp"
+            android:visibility="gone">
 
+            <LinearLayout
+                android:id="@+id/scrollHintPill"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/about_action_pill"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingStart="14dp"
+                android:paddingTop="7dp"
+                android:paddingEnd="14dp"
+                android:paddingBottom="7dp">
+
+                <TextView
+                    android:id="@+id/scrollHintText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/version_sheet_scroll_hint"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/scrollHintIcon"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginStart="6dp"
+                    android:contentDescription="@null"
+                    android:src="@android:drawable/arrow_down_float" />
+            </LinearLayout>
+        </FrameLayout>
+    </FrameLayout>
 </LinearLayout>

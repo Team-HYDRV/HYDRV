@@ -439,4 +439,5 @@
         <item quantity="one">%dà¤šà¤¯à¤¨à¤¿à¤¤</item>
         <item quantity="other">%dà¤šà¤¯à¤¨à¤¿à¤¤</item>
     </plurals>
+  <string name="version_sheet_scroll_hint">और देखने के लिए स्क्रॉल करें</string>
 </resources>

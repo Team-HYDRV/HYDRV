@@ -436,4 +436,5 @@
   <plurals name="download_selected_count">
     <item quantity="other">%ddipilih</item>
   </plurals>
+  <string name="version_sheet_scroll_hint">Tatal untuk lagi</string>
 </resources>

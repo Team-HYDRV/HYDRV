@@ -445,4 +445,5 @@
     <item quantity="many">%dwybrany</item>
     <item quantity="other">%dwybrany</item>
   </plurals>
+  <string name="version_sheet_scroll_hint">Przewiń, aby zobaczyć więcej</string>
 </resources>

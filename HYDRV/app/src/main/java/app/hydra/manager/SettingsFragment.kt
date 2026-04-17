@@ -1932,6 +1932,9 @@ class SettingsFragment : Fragment() {
                 )
             )
             textSize = 13f
+            gravity = Gravity.CENTER
+            textAlignment = View.TEXT_ALIGNMENT_CENTER
+            includeFontPadding = false
             val top = (10 * resources.displayMetrics.density).toInt()
             setPadding(0, top, 0, 0)
             visibility = if (sources.isEmpty()) View.VISIBLE else View.GONE

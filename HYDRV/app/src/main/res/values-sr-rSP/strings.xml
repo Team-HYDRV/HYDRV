@@ -442,4 +442,5 @@
     <item quantity="few">%d označena</item>
     <item quantity="other">%d označenih</item>
   </plurals>
+  <string name="version_sheet_scroll_hint">Скролуј за још</string>
 </resources>

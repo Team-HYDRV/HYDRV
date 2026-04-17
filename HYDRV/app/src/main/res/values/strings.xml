@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+﻿<?xml version='1.0' encoding='utf-8'?>
 <resources>
   <string name="app_name">HYDRV</string>
   <string name="settings_title">Settings</string>
@@ -114,14 +114,14 @@
   <string name="language_native_french_region">Français (France)</string>
   <string name="language_native_german_region">Deutsch (Deutschland)</string>
   <string name="language_native_greek_region">Ελληνικά (Ελλάδα)</string>
-  <string name="language_native_hebrew_region">×¢×‘×¨×™×ª (×™×©×¨××œ)</string>
+  <string name="language_native_hebrew_region">עברית (ישראל)</string>
   <string name="language_native_hungarian_region">Magyar (Magyarország)</string>
   <string name="language_native_portuguese_brazil_region">Português (Brasil)</string>
   <string name="language_native_portuguese_portugal_region">Português (Portugal)</string>
   <string name="language_native_italian_region">Italiano (Italia)</string>
   <string name="language_native_turkish_region">Türkçe (Türkiye)</string>
   <string name="language_native_vietnamese_region">Tiếng Việt (Việt Nam)</string>
-  <string name="language_native_thai_region">à¸ à¸²à¸©à¸²à¹„à¸—à¸¢ (à¹„à¸—à¸¢)</string>
+  <string name="language_native_thai_region">ภาษาไทย (ไทย)</string>
   <string name="language_native_polish_region">Polski (Polska)</string>
   <string name="language_native_dutch_region">Nederlands (Nederland)</string>
   <string name="language_native_danish_region">Dansk (Danmark)</string>
@@ -132,7 +132,7 @@
   <string name="language_native_romanian_region">Română (România)</string>
   <string name="language_native_chinese_simplified_region">中文 (中国)</string>
   <string name="language_native_chinese_traditional_region">繁體中文 (台灣)</string>
-  <string name="language_native_hindi_region">à¤¹à¤¿à¤¨à¥à¤¦à¥€ (à¤­à¤¾à¤°à¤¤)</string>
+  <string name="language_native_hindi_region">हिन्दी (भारत)</string>
   <string name="language_native_arabic_region">العربية</string>
   <string name="language_native_russian_region">Русский (Россия)</string>
   <string name="language_native_serbian_region">Српски (Србија)</string>
@@ -206,23 +206,23 @@
   <string name="sample_app_name">App Name</string>
   <string name="sample_downloaded_now">Downloaded just now</string>
   <string name="sample_download_speed">Speed 0 KB/s</string>
-  <string name="download_status_downloading">DOWNLOADING</string>
-  <string name="download_status_done">DONE</string>
+  <string name="download_status_downloading">Downloading</string>
+  <string name="download_status_done">Done</string>
   <string name="download_progress_format" translatable="false">%1$d%%</string>
-  <string name="download_status_paused">PAUSED</string>
-  <string name="download_status_stopped">STOPPED</string>
-  <string name="download_status_failed">FAILED</string>
+  <string name="download_status_paused">Paused</string>
+  <string name="download_status_stopped">Stopped</string>
+  <string name="download_status_failed">Failed</string>
   <string name="download_error_invalid_link">Direct APK link required</string>
   <string name="download_error_network">Network error interrupted the download</string>
   <string name="download_error_http_format">Server returned HTTP %1$d</string>
   <string name="download_error_write_failed">Could not write the downloaded file</string>
   <string name="download_already_exists">This version is already in downloads</string>
-  <string name="download_action_open">OPEN</string>
-  <string name="download_action_install">INSTALL</string>
-  <string name="download_action_resume">RESUME</string>
-  <string name="download_action_retry">RETRY</string>
-  <string name="download_action_pause">PAUSE</string>
-  <string name="download_action_stop">STOP</string>
+  <string name="download_action_open">Open</string>
+  <string name="download_action_install">Install</string>
+  <string name="download_action_resume">Resume</string>
+  <string name="download_action_retry">Retry</string>
+  <string name="download_action_pause">Pause</string>
+  <string name="download_action_stop">Stop</string>
   <string name="download_action_apk">APK</string>
   <string name="download_speed_format">Speed %1$s</string>
   <string name="download_eta_format">ETA %1$s</string>
@@ -239,6 +239,7 @@
   <string name="version_notes_copied">Release notes copied.</string>
   <string name="version_source_unknown">Source unavailable</string>
   <string name="version_source_prefix">Source: %1$s</string>
+  <string name="version_sheet_scroll_hint">Scroll for more</string>
   <string name="version_installed_hint">Installed on this device</string>
   <string name="version_new_since_installed">New since your installed version</string>
   <string name="version_installed_unknown_catalog_hint">Installed version differs from this catalog</string>
@@ -319,7 +320,7 @@
   <string name="settings_backup_import_failed">Couldn\'t import the settings backup.</string>
   <string name="backend_health_title">App status</string>
   <string name="backend_health_summary">View backend, cache, notification, and update status</string>
-  <string name="backend_health_loading">Loading app status…</string>
+  <string name="backend_health_loading">Loading app statusâ€¦</string>
   <string name="backend_health_backend_mode_format">Source mode: %1$s</string>
   <string name="backend_health_last_checked_format">Last checked: %1$s</string>
   <string name="backend_health_last_seen_hash_format">Last seen hash: %1$d</string>
@@ -381,17 +382,17 @@
   <string name="updates_view_changelog">View changelog</string>
   <string name="updates_download_now">Download</string>
   <string name="updates_install_now">Install</string>
-  <string name="updates_downloading">Downloading…</string>
+  <string name="updates_downloading">Downloadingâ€¦</string>
   <string name="updates_resume_download">Resume</string>
   <string name="updates_launch_check_title">Check for updates on launch</string>
   <string name="updates_launch_check_summary">Automatically check the latest GitHub release whenever you open HYDRV.</string>
   <string name="updates_launch_message_title">Show update message on launch</string>
   <string name="updates_launch_message_summary">Display an in-app message when the latest repo release changes.</string>
   <string name="updates_check_now">Check for updates</string>
-  <string name="updates_checking">Checking…</string>
+  <string name="updates_checking">Checkingâ€¦</string>
   <string name="updates_changelog_title">Release changelog</string>
   <string name="updates_changelog_body">HYDRV keeps the in-app changelog aligned with the latest GitHub release notes.</string>
-  <string name="updates_changelog_loading">Loading the latest GitHub release notes…</string>
+  <string name="updates_changelog_loading">Loading the latest GitHub release notesâ€¦</string>
   <string name="updates_release_unavailable">No release loaded yet</string>
   <string name="updates_check_failed">Couldn\'t check for updates right now.</string>
   <string name="updates_check_live_with_version">New release is live: %1$s %2$s.</string>
@@ -425,7 +426,7 @@
   <string name="about_contributors_dialog_title">Contributors</string>
   <string name="about_contributors_dialog_body">This screen shows the live contributor list from the HYDRV GitHub repository.</string>
   <string name="contributors_group_summary">Thank you for helping keep HYDRV moving forward.</string>
-  <string name="contributors_loading">Loading GitHub contributors…</string>
+  <string name="contributors_loading">Loading GitHub contributorsâ€¦</string>
   <string name="contributors_loaded">%1$d contributors loaded from GitHub.</string>
   <string name="contributors_failed">GitHub contributors are temporarily unavailable.</string>
   <plurals name="contributor_role_contributions">
@@ -447,3 +448,4 @@
     <item quantity="other">%d selected</item>
   </plurals>
 </resources>
+

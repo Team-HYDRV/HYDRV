@@ -1,6 +1,8 @@
 package app.hydra.manager
 
 import android.content.Context
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import androidx.lifecycle.LiveData
@@ -140,9 +142,18 @@ object DownloadRepository {
     private fun archivePackageInfo(context: Context, filePath: String): android.content.pm.PackageInfo? {
         return try {
             @Suppress("DEPRECATION")
-            context.packageManager.getPackageArchiveInfo(filePath, 0)
+            context.packageManager.getPackageArchiveInfo(filePath, archiveSigningFlags())
         } catch (_: Exception) {
             null
+        }
+    }
+
+    private fun archiveSigningFlags(): Int {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            PackageManager.GET_SIGNING_CERTIFICATES
+        } else {
+            @Suppress("DEPRECATION")
+            PackageManager.GET_SIGNATURES
         }
     }
 
@@ -394,9 +405,38 @@ object DownloadRepository {
             var changed = false
 
             downloads.forEach { item ->
-                val shouldBeInstalled = isInstalledDownload(item) &&
-                    AppStateCacheManager.isInstalled(context, item.packageName, item.name)
+                val trustedInstall = AppIdentityStore.findTrustedInstalledPackage(
+                    context,
+                    item.backendPackageName.ifBlank { item.packageName },
+                    item.name
+                )
+                val archiveInfo = item.filePath
+                    .takeIf { it.isNotBlank() }
+                    ?.let { archivePackageInfo(context, it) }
+                val resolvedPackageName = archiveInfo?.packageName?.trim().orEmpty()
+                    .ifBlank { item.packageName.trim() }
+                val resolvedVersionCode = archiveInfo?.versionCodeCompat()?.takeIf { it > 0 }
+                    ?: item.versionCode.takeIf { it > 0 }
+                    ?: 0
+                val resolvedVersionName = archiveInfo?.versionName?.trim()
+                    ?.takeIf { it.isNotEmpty() }
+                    ?: item.versionName.trim().takeIf { it.isNotEmpty() }
+                val packageMatches = trustedInstall != null &&
+                    resolvedPackageName.isNotBlank() &&
+                    resolvedPackageName == trustedInstall.packageName
+                val matchesInstalledVersion = trustedInstall != null && packageMatches && when {
+                    resolvedVersionCode > 0 && trustedInstall.versionCode > 0 ->
+                        resolvedVersionCode == trustedInstall.versionCode
+                    !resolvedVersionName.isNullOrBlank() && !trustedInstall.versionName.isNullOrBlank() ->
+                        resolvedVersionName == trustedInstall.versionName.trim()
+                    else -> false
+                }
+                val shouldBeInstalled = isInstalledDownload(item) && matchesInstalledVersion
 
+                if (resolvedPackageName.isNotBlank() && item.packageName != resolvedPackageName) {
+                    item.packageName = resolvedPackageName
+                    changed = true
+                }
                 if (item.installed != shouldBeInstalled) {
                     item.installed = shouldBeInstalled
                     changed = true
@@ -493,20 +533,30 @@ object DownloadRepository {
     }
 
     fun handleInstallSuccess(context: Context, appName: String, apkPath: String, backendPackage: String) {
-        val actualPackage = archivePackageName(context, apkPath) ?: return
+        val archiveInfo = archivePackageInfo(context, apkPath) ?: return
+        val actualPackage = archiveInfo.packageName?.trim().orEmpty()
+        if (actualPackage.isBlank()) return
 
+        val normalizedApkPath = apkPath.trim()
+        var metadataChanged = false
         synchronized(startLock) {
             downloads.forEach { item ->
-                if (item.filePath == apkPath || (item.name == appName && item.status == "Done")) {
-                    item.packageName = actualPackage
-                    item.installed = true
+                if (item.filePath.trim() == normalizedApkPath) {
+                    if (item.packageName != actualPackage) {
+                        item.packageName = actualPackage
+                        metadataChanged = true
+                    }
                 }
             }
         }
 
         InstallAliasStore.saveAlias(context, appName, backendPackage, actualPackage)
-        scheduleSave(context)
-        notifyChange()
+        AppIdentityStore.recordInstall(context, appName, backendPackage, archiveInfo)
+        syncInstalledState(context)
+        if (metadataChanged) {
+            scheduleSave(context)
+            notifyChange()
+        }
     }
 
     fun markFailed(context: Context, item: DownloadItem, errorMessage: String) {
@@ -674,7 +724,21 @@ object DownloadRepository {
 
         downloads.clear()
         downloads.addAll(merged)
+        backfillTrustedInstalls(context)
         notifyChange()
+    }
+
+    private fun backfillTrustedInstalls(context: Context) {
+        downloads.forEach { item ->
+            if (!item.installed || item.filePath.isBlank()) return@forEach
+            val archiveInfo = archivePackageInfo(context, item.filePath) ?: return@forEach
+            AppIdentityStore.recordInstall(
+                context,
+                item.name,
+                item.backendPackageName.ifBlank { item.packageName },
+                archiveInfo
+            )
+        }
     }
 
     private fun mergeLoadedItem(existing: DownloadItem, loaded: DownloadItem): DownloadItem {

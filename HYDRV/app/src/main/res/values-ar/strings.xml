@@ -451,4 +451,5 @@
     <item quantity="many">%dمختارة</item>
     <item quantity="other">%dمختارة</item>
   </plurals>
+  <string name="version_sheet_scroll_hint">مرر للمزيد</string>
 </resources>

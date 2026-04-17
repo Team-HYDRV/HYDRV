@@ -40,7 +40,7 @@ class AppAdapter :
     private val installedVersionCache = mutableMapOf<String, Int>()
     private val addedLabelCache = mutableMapOf<Long, String>()
     private val dateFormatter by lazy { SimpleDateFormat("MMM d, h:mm a", Locale.getDefault()) }
-    private var preferOpenInstalledAction = false
+    var onAppSelected: ((AppModel) -> Unit)? = null
 
     init {
         setHasStableIds(true)
@@ -96,14 +96,15 @@ class AppAdapter :
         }
 
         holder.itemView.setOnClickListener {
+            onAppSelected?.let { callback ->
+                callback(app)
+                return@setOnClickListener
+            }
             val activity = context as? AppCompatActivity ?: return@setOnClickListener
             val fm = activity.supportFragmentManager
             val tag = "versions"
             if (!fm.isStateSaved && fm.findFragmentByTag(tag) == null) {
-                VersionSheet(
-                    app = app,
-                    preferOpenInstalledAction = preferOpenInstalledAction
-                ).show(fm, tag)
+                VersionSheet(app = app).show(fm, tag)
             }
         }
     }
@@ -268,7 +269,7 @@ class AppAdapter :
     private fun getInstalledVersion(context: Context, app: AppModel): Int {
         val cacheKey = "${app.name}|${app.packageName}"
         return installedVersionCache.getOrPut(cacheKey) {
-            AppStateCacheManager.installedVersion(context, app.packageName, app.name)
+            AppStateCacheManager.hydrvInstalledVersion(context, app.packageName, app.name)
         }
     }
 
@@ -276,10 +277,6 @@ class AppAdapter :
         favoriteCache.clear()
         installedVersionCache.clear()
         addedLabelCache.clear()
-    }
-
-    fun setPreferOpenInstalledAction(enabled: Boolean) {
-        preferOpenInstalledAction = enabled
     }
 
     fun refreshRuntimeState() {

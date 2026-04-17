@@ -439,4 +439,5 @@
         <item quantity="one">%ddipilih</item>
         <item quantity="other">%ddipilih</item>
     </plurals>
+  <string name="version_sheet_scroll_hint">Gulir untuk melihat lebih banyak</string>
 </resources>

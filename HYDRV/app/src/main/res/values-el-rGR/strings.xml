@@ -439,4 +439,5 @@
     <item quantity="one">%d επιλεγμένο</item>
     <item quantity="other">%d επιλεγμένα</item>
   </plurals>
+  <string name="version_sheet_scroll_hint">Κύλιση για περισσότερα</string>
 </resources>

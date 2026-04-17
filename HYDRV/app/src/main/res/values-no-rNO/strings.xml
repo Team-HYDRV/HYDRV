@@ -439,4 +439,5 @@
     <item quantity="one">%dvalgt</item>
     <item quantity="other">%dvalgt</item>
   </plurals>
+  <string name="version_sheet_scroll_hint">Bla for mer</string>
 </resources>

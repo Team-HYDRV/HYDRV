@@ -3,6 +3,7 @@ package app.hydra.manager
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.os.Parcelable
 import android.os.SystemClock
 import android.text.Editable
 import android.text.TextWatcher
@@ -68,6 +69,8 @@ class HomeFragment : Fragment() {
     private var selectedTag: String? = null
     private var recentOnly = false
     private var lastFilterChipSignature: String? = null
+    private val tabScrollStates = mutableMapOf<Int, Parcelable?>()
+    private var pendingTabScrollRestore = false
     private val searchRunnable = Runnable { renderCurrentTab(animate = true) }
 
     override fun onCreateView(
@@ -121,9 +124,29 @@ class HomeFragment : Fragment() {
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         adapter = AppAdapter()
+        adapter.onAppSelected = onAppSelected@{ app ->
+            val activity = activity as? androidx.appcompat.app.AppCompatActivity
+                ?: return@onAppSelected
+            val fm = activity.supportFragmentManager
+            val tag = "versions"
+            if (fm.isStateSaved || fm.findFragmentByTag(tag) != null) return@onAppSelected
+
+            val trustedInstall = if (currentTab == 2) {
+                AppIdentityStore.findTrustedInstalledPackage(requireContext(), app.packageName, app.name)
+            } else {
+                null
+            }
+            VersionSheet(
+                app = app,
+                preferOpenInstalledAction = currentTab == 2,
+                installedVersionCodeHint = trustedInstall?.versionCode?.takeIf { it > 0 },
+                installedVersionNameHint = trustedInstall?.versionName
+            ).show(fm, tag)
+        }
         recyclerView.adapter = adapter
         recyclerView.itemAnimator = null
         recyclerView.setHasFixedSize(true)
+        syncEmptyViewPaddingWithList()
 
         if (appList.isEmpty()) {
             preloadCachedApps()
@@ -189,7 +212,9 @@ class HomeFragment : Fragment() {
 
         tabsListener = object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
+                saveCurrentTabScrollState()
                 currentTab = tab?.position ?: 0
+                pendingTabScrollRestore = true
                 renderCurrentTab(animate = true)
             }
 
@@ -478,9 +503,14 @@ class HomeFragment : Fragment() {
     private fun showLastUpdatedBanner() {
         if (!::lastUpdated.isInitialized) return
         lastUpdated.animate().cancel()
+        recyclerView.animate().cancel()
+        emptyView.animate().cancel()
+        recyclerView.translationY = 0f
+        emptyView.translationY = 0f
         lastUpdated.alpha = 1f
         lastUpdated.text = getString(R.string.home_updated_just_now)
         lastUpdated.visibility = View.VISIBLE
+        lastUpdated.post { animateLastUpdatedOffset(lastUpdated.height.toFloat()) }
         handler.removeCallbacks(lastUpdatedHideRunnable)
         handler.postDelayed(lastUpdatedHideRunnable, 2000)
     }
@@ -489,9 +519,13 @@ class HomeFragment : Fragment() {
         if (!::lastUpdated.isInitialized) return
 
         lastUpdated.animate().cancel()
+        recyclerView.animate().cancel()
+        emptyView.animate().cancel()
         if (immediate) {
             lastUpdated.visibility = View.GONE
             lastUpdated.alpha = 1f
+            recyclerView.translationY = 0f
+            emptyView.translationY = 0f
             return
         }
 
@@ -502,10 +536,27 @@ class HomeFragment : Fragment() {
                 lastUpdated.visibility = View.GONE
                 lastUpdated.alpha = 1f
             }
+        animateLastUpdatedOffset(0f)
+    }
+
+    private fun animateLastUpdatedOffset(targetOffset: Float) {
+        if (!::recyclerView.isInitialized || !::emptyView.isInitialized) return
+        recyclerView.animate()
+            .translationY(targetOffset)
+            .setDuration(220)
+            .start()
+        emptyView.animate()
+            .translationY(targetOffset)
+            .setDuration(220)
+            .start()
     }
 
     private fun updateEmptyState(list: List<AppModel>) {
+        val currentBannerOffset = currentLastUpdatedOffset()
         if (list.isEmpty()) {
+            emptyView.animate().cancel()
+            emptyView.alpha = 1f
+            emptyView.translationY = currentBannerOffset
             emptyView.visibility = View.VISIBLE
             recyclerView.visibility = View.GONE
 
@@ -516,9 +567,22 @@ class HomeFragment : Fragment() {
                 else -> getString(R.string.home_empty_no_apps)
             }
         } else {
+            recyclerView.animate().cancel()
+            recyclerView.alpha = 1f
+            recyclerView.translationY = currentBannerOffset
             emptyView.visibility = View.GONE
             recyclerView.visibility = View.VISIBLE
         }
+    }
+
+    private fun syncEmptyViewPaddingWithList() {
+        if (!::recyclerView.isInitialized || !::emptyView.isInitialized) return
+        emptyView.setPaddingRelative(
+            recyclerView.paddingStart,
+            recyclerView.paddingTop,
+            recyclerView.paddingEnd,
+            recyclerView.paddingBottom
+        )
     }
 
     private fun renderCurrentTab(animate: Boolean = false) {
@@ -544,7 +608,7 @@ class HomeFragment : Fragment() {
 
             2 -> ListSortPreferences.sortApps(
                 ListSortPreferences.getInstalledSort(context),
-                baseApps.filter { AppStateCacheManager.isInstalled(context, it.packageName, it.name) }
+                baseApps.filter { AppStateCacheManager.isHydrvInstalled(context, it.packageName, it.name) }
             )
 
             else -> appList
@@ -567,27 +631,35 @@ class HomeFragment : Fragment() {
             }
         val filteredList = filteredSequence.toList()
 
-        adapter.setPreferOpenInstalledAction(currentTab == 2)
-
         if (animate) {
             animateFilteredContentSwap(filteredList)
         } else {
-            adapter.submitList(filteredList)
-            updateEmptyState(filteredList)
+            if (adapter.currentList == filteredList) {
+                updateEmptyState(filteredList)
+                restoreCurrentTabScrollStateIfNeeded()
+                return
+            }
+            adapter.submitList(filteredList) {
+                updateEmptyState(filteredList)
+                restoreCurrentTabScrollStateIfNeeded()
+            }
         }
     }
 
     private fun animateFilteredContentSwap(filteredList: List<AppModel>) {
         val currentTarget = if (recyclerView.isVisible) recyclerView else emptyView
         currentTarget.animate().cancel()
+        val currentOffset = currentLastUpdatedOffset()
+        currentTarget.translationY = currentOffset
 
         currentTarget.animate()
             .alpha(0f)
-            .translationY(6f)
+            .translationY(currentOffset + 6f)
             .setDuration(90)
             .withEndAction {
                 adapter.submitList(filteredList) {
                     updateEmptyState(filteredList)
+                    restoreCurrentTabScrollStateIfNeeded()
                     animateContentSwap()
                 }
             }
@@ -596,14 +668,42 @@ class HomeFragment : Fragment() {
 
     private fun animateContentSwap() {
         val target = if (recyclerView.isVisible) recyclerView else emptyView
+        val targetOffset = currentLastUpdatedOffset()
         target.animate().cancel()
         target.alpha = 0f
-        target.translationY = 10f
+        target.translationY = targetOffset + 10f
         target.animate()
             .alpha(1f)
-            .translationY(0f)
+            .translationY(targetOffset)
             .setDuration(180)
             .start()
+    }
+
+    private fun currentLastUpdatedOffset(): Float {
+        return if (::lastUpdated.isInitialized && lastUpdated.visibility == View.VISIBLE) {
+            lastUpdated.height.toFloat()
+        } else {
+            0f
+        }
+    }
+
+    private fun saveCurrentTabScrollState() {
+        if (!::recyclerView.isInitialized) return
+        tabScrollStates[currentTab] = recyclerView.layoutManager?.onSaveInstanceState()
+    }
+
+    private fun restoreCurrentTabScrollStateIfNeeded() {
+        if (!pendingTabScrollRestore || !::recyclerView.isInitialized) return
+        pendingTabScrollRestore = false
+        recyclerView.post {
+            if (!isAdded || view == null) return@post
+            val savedState = tabScrollStates[currentTab]
+            if (savedState != null) {
+                recyclerView.layoutManager?.onRestoreInstanceState(savedState)
+            } else {
+                recyclerView.scrollToPosition(0)
+            }
+        }
     }
 
     private fun refreshFilterChips() {

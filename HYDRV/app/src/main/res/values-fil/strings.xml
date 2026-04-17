@@ -439,4 +439,5 @@
     <item quantity="one">%d napili</item>
     <item quantity="other">%d napili</item>
   </plurals>
+  <string name="version_sheet_scroll_hint">Mag-scroll para sa higit pa</string>
 </resources>

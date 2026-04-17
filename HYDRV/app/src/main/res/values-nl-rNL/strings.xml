@@ -439,4 +439,5 @@
     <item quantity="one">%dgeselecteerd</item>
     <item quantity="other">%dgeselecteerd</item>
   </plurals>
+  <string name="version_sheet_scroll_hint">Scroll voor meer</string>
 </resources>

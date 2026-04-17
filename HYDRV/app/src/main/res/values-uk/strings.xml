@@ -439,4 +439,5 @@
         <item quantity="one">%dвибір</item>
         <item quantity="few">%d</item><item quantity="many">%d</item><item quantity="other">%dвибір</item>
     </plurals>
+  <string name="version_sheet_scroll_hint">Прокрутіть, щоб побачити більше</string>
 </resources>

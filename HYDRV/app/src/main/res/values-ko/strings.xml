@@ -439,4 +439,5 @@
         <item quantity="one">%d선택하기</item>
         <item quantity="other">%d선택하기</item>
     </plurals>
+  <string name="version_sheet_scroll_hint">더 보려면 스크롤</string>
 </resources>

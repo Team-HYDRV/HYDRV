@@ -206,22 +206,22 @@
   <string name="sample_app_name">App Name</string>
   <string name="sample_downloaded_now">Downloaded just now</string>
   <string name="sample_download_speed">Speed 0 KB/s</string>
-  <string name="download_status_downloading">DOWNLOADING</string>
-  <string name="download_status_done">DONE</string>
-  <string name="download_status_paused">PAUSED</string>
-  <string name="download_status_stopped">STOPPED</string>
-  <string name="download_status_failed">FAILED</string>
+  <string name="download_status_downloading">Downloading</string>
+  <string name="download_status_done">Done</string>
+  <string name="download_status_paused">Paused</string>
+  <string name="download_status_stopped">Stopped</string>
+  <string name="download_status_failed">Failed</string>
   <string name="download_error_invalid_link">Direct APK link required</string>
   <string name="download_error_network">Network error interrupted the download</string>
   <string name="download_error_http_format">Server returned HTTP %1$d</string>
   <string name="download_error_write_failed">Could not write the downloaded file</string>
   <string name="download_already_exists">This version is already in downloads</string>
-  <string name="download_action_open">OPEN</string>
-  <string name="download_action_install">INSTALL</string>
-  <string name="download_action_resume">RESUME</string>
-  <string name="download_action_retry">RETRY</string>
-  <string name="download_action_pause">PAUSE</string>
-  <string name="download_action_stop">STOP</string>
+  <string name="download_action_open">Open</string>
+  <string name="download_action_install">Install</string>
+  <string name="download_action_resume">Resume</string>
+  <string name="download_action_retry">Retry</string>
+  <string name="download_action_pause">Pause</string>
+  <string name="download_action_stop">Stop</string>
   <string name="download_action_apk">APK</string>
   <string name="download_speed_format">Speed %1$s</string>
   <string name="download_eta_format">ETA %1$s</string>
@@ -439,4 +439,5 @@
     <item quantity="one">%d selected</item>
     <item quantity="other">%d selected</item>
   </plurals>
+  <string name="version_sheet_scroll_hint">Scroll for more</string>
 </resources>

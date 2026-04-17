@@ -439,4 +439,5 @@
         <item quantity="one">%dzvoleno</item>
         <item quantity="few">%d</item><item quantity="many">%d</item><item quantity="other">%dzvoleno</item>
     </plurals>
+  <string name="version_sheet_scroll_hint">Posuňte pro více</string>
 </resources>

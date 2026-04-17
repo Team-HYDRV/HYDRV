@@ -109,22 +109,26 @@ object AppStateCacheManager {
             val versions = mutableMapOf<String, Int>()
             val callbacks: List<() -> Unit>
 
-            appContext.packageManager.getInstalledPackages(0).forEach { pkg ->
-                packages.add(pkg.packageName)
-                versions[pkg.packageName] = pkg.versionCodeCompat()
+            try {
+                appContext.packageManager.getInstalledPackages(0).forEach { pkg ->
+                    packages.add(pkg.packageName)
+                    versions[pkg.packageName] = pkg.versionCodeCompat()
+                }
+            } finally {
+                synchronized(lock) {
+                    if (packages.isNotEmpty()) {
+                        installedPackages.clear()
+                        installedPackages.addAll(packages)
+                        installedVersions.clear()
+                        installedVersions.putAll(versions)
+                        installedLoaded = true
+                        lastInstalledRefreshAt = System.currentTimeMillis()
+                    }
+                    callbacks = pendingInstalledCallbacks.toList()
+                    pendingInstalledCallbacks.clear()
+                }
+                installedRefreshInFlight = false
             }
-
-            synchronized(lock) {
-                installedPackages.clear()
-                installedPackages.addAll(packages)
-                installedVersions.clear()
-                installedVersions.putAll(versions)
-                installedLoaded = true
-                lastInstalledRefreshAt = System.currentTimeMillis()
-                callbacks = pendingInstalledCallbacks.toList()
-                pendingInstalledCallbacks.clear()
-            }
-            installedRefreshInFlight = false
 
             callbacks.forEach { callback ->
                 mainHandler.post(callback)
@@ -183,6 +187,18 @@ object AppStateCacheManager {
                 ?: installedVersions[actualPackage]
                 ?: -1
         }
+    }
+
+    fun isHydrvInstalled(context: Context, packageName: String, appName: String): Boolean {
+        initialize(context)
+        return AppIdentityStore.isTrustedInstalled(context, packageName, appName)
+    }
+
+    fun hydrvInstalledVersion(context: Context, packageName: String, appName: String): Int {
+        initialize(context)
+        return AppIdentityStore.findTrustedInstalledPackage(context, packageName, appName)
+            ?.versionCode
+            ?: -1
     }
 
     fun installedPackageSet(context: Context): Set<String> {

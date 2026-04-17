@@ -439,4 +439,5 @@
         <item quantity="one">%dà¹€à¸¥à¸·à¸­à¸</item>
         <item quantity="other">%dà¹€à¸¥à¸·à¸­à¸</item>
     </plurals>
+  <string name="version_sheet_scroll_hint">เลื่อนเพื่อดูเพิ่มเติม</string>
 </resources>

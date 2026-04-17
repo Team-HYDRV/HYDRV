@@ -439,4 +439,5 @@
         <item quantity="one">%d選択する</item>
         <item quantity="other">%d選択する</item>
     </plurals>
+  <string name="version_sheet_scroll_hint">さらに見るにはスクロール</string>
 </resources>

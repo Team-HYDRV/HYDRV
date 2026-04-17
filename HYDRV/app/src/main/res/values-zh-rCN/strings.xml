@@ -436,4 +436,5 @@
   <plurals name="download_selected_count">
     <item quantity="other">%d选中</item>
   </plurals>
+  <string name="version_sheet_scroll_hint">滑动查看更多</string>
 </resources>

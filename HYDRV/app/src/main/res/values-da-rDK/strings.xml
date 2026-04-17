@@ -439,4 +439,5 @@
     <item quantity="one">%dmarkeret</item>
     <item quantity="other">%dmarkeret</item>
   </plurals>
+  <string name="version_sheet_scroll_hint">Rul for mere</string>
 </resources>

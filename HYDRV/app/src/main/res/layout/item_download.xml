@@ -145,7 +145,7 @@
                 android:layout_width="88dp"
                 android:layout_height="36dp"
                 android:text="@string/downloads_delete"
-                android:textAllCaps="true"
+                android:textAllCaps="false"
                 android:background="@drawable/button_delete"
                 android:backgroundTint="@null"
                 app:backgroundTint="@null"

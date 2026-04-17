@@ -439,4 +439,5 @@
     <item quantity="one">%dkijelölt</item>
     <item quantity="other">%dkijelölt</item>
   </plurals>
+  <string name="version_sheet_scroll_hint">Görgess tovább</string>
 </resources>

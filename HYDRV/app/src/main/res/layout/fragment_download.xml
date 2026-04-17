@@ -144,6 +144,8 @@
             android:textColor="?attr/colorOnSurfaceVariant"
             android:textSize="14sp"
             android:gravity="center"
+            android:textAlignment="center"
+            android:includeFontPadding="false"
             android:visibility="gone"/>
 
     </FrameLayout>

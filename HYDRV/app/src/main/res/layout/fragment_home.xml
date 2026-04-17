@@ -100,21 +100,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <LinearLayout
-                android:orientation="vertical"
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/lastUpdated"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/home_updated_just_now"
-                    android:textColor="?attr/colorOnSurfaceVariant"
-                    android:textSize="12sp"
-                    android:gravity="center"
-                    android:padding="6dp"
-                    android:visibility="gone"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerView"
@@ -134,9 +122,29 @@
                     android:textColor="?attr/colorOnSurfaceVariant"
                     android:textSize="14sp"
                     android:gravity="center"
+                    android:textAlignment="center"
+                    android:includeFontPadding="false"
                     android:visibility="gone"/>
 
-            </LinearLayout>
+                <TextView
+                    android:id="@+id/lastUpdated"
+                    android:layout_width="match_parent"
+                    android:layout_height="28dp"
+                    android:layout_gravity="top"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/home_updated_just_now"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:textSize="12sp"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:includeFontPadding="false"
+                    android:paddingTop="0dp"
+                    android:paddingBottom="0dp"
+                    android:paddingStart="0dp"
+                    android:paddingEnd="0dp"
+                    android:visibility="gone"/>
+
+            </FrameLayout>
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

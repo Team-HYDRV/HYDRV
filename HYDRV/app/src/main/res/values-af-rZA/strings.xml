@@ -439,4 +439,5 @@
     <item quantity="one">%d gekies</item>
     <item quantity="other">%d gekies</item>
   </plurals>
+  <string name="version_sheet_scroll_hint">Rol vir meer</string>
 </resources>

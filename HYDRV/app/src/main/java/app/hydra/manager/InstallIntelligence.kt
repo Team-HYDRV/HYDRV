@@ -32,7 +32,8 @@ object InstallIntelligence {
 
     fun snapshot(context: Context, app: AppModel): Snapshot {
         val packageManager = context.packageManager
-        val installedInfo = installedPackageInfo(packageManager, app.packageName)
+        val trustedInstall = AppIdentityStore.findTrustedInstalledPackage(context, app.packageName, app.name)
+        val installedInfo = trustedInstall?.packageName?.let { installedPackageInfo(packageManager, it) }
         val installedVersionName = installedInfo?.versionName?.trim()?.takeIf { it.isNotEmpty() }
         val installedVersionCode = installedInfo?.versionCodeCompat()?.takeIf { it > 0 }
         val installedSignatures = installedInfo?.let(::signaturesFor).orEmpty()

@@ -764,61 +764,6 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/updateNotificationsRow"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    android:layout_marginTop="12dp"
-                    android:background="@drawable/card"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="@android:color/transparent"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingHorizontal="16dp"
-                    android:paddingVertical="18dp">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/update_notifications_title"
-                            android:textColor="?attr/colorOnBackground"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:text="@string/update_notifications_summary"
-                            android:textColor="?attr/colorOnSurfaceVariant"
-                            android:textSize="13sp" />
-                    </LinearLayout>
-
-                    <FrameLayout
-                        android:id="@+id/updateNotificationsSwitchTrack"
-                        android:layout_width="52dp"
-                        android:layout_height="32dp"
-                        android:background="@drawable/settings_toggle_track_on"
-                        android:clickable="false"
-                        android:focusable="false"
-                        android:padding="4dp">
-
-                        <View
-                            android:id="@+id/updateNotificationsSwitchThumb"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:background="@drawable/settings_toggle_thumb_on" />
-                    </FrameLayout>
-                </LinearLayout>
-
-                <LinearLayout
                     android:id="@+id/languageRow"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -1486,6 +1431,61 @@
                             android:textColor="?attr/colorOnSurfaceVariant"
                             android:textSize="13sp" />
                     </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/updateNotificationsRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/card"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="@android:color/transparent"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="18dp">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/update_notifications_title"
+                            android:textColor="?attr/colorOnBackground"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="@string/update_notifications_summary"
+                            android:textColor="?attr/colorOnSurfaceVariant"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:id="@+id/updateNotificationsSwitchTrack"
+                        android:layout_width="52dp"
+                        android:layout_height="32dp"
+                        android:background="@drawable/settings_toggle_track_on"
+                        android:clickable="false"
+                        android:focusable="false"
+                        android:padding="4dp">
+
+                        <View
+                            android:id="@+id/updateNotificationsSwitchThumb"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:background="@drawable/settings_toggle_thumb_on" />
+                    </FrameLayout>
                 </LinearLayout>
 
                 <LinearLayout

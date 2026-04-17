@@ -436,4 +436,5 @@
   <plurals name="download_selected_count">
     <item quantity="other">%d선택하기</item>
   </plurals>
+  <string name="version_sheet_scroll_hint">더 보려면 스크롤</string>
 </resources>

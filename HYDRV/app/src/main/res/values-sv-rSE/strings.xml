@@ -439,4 +439,5 @@
     <item quantity="one">%dvald</item>
     <item quantity="other">%dvald</item>
   </plurals>
+  <string name="version_sheet_scroll_hint">Scrolla för mer</string>
 </resources>

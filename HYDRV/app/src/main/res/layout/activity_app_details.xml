@@ -74,6 +74,7 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/install"
                 android:text="@string/app_details_download"
+                android:textAllCaps="false"
                 android:textStyle="bold"
                 android:textColor="?attr/colorOnPrimary"
                 android:background="@drawable/button_install"

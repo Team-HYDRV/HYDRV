@@ -439,4 +439,5 @@
         <item quantity="one">%dSe�ilen se�ilen se�ilmis se�ilmis se�ilmis se�ilmis se�ilmis se�ilmis se�ilmis</item>
         <item quantity="other">%dSe�ilen se�ilen se�ilmis se�ilmis se�ilmis se�ilmis se�ilmis se�ilmis se�ilmis</item>
     </plurals>
+  <string name="version_sheet_scroll_hint">Daha fazlası için kaydırın</string>
 </resources>

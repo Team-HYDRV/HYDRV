@@ -439,4 +439,5 @@
         <item quantity="one">%dselectat</item>
         <item quantity="few">%d</item><item quantity="other">%dselectat</item>
     </plurals>
+  <string name="version_sheet_scroll_hint">Derulează pentru mai mult</string>
 </resources>

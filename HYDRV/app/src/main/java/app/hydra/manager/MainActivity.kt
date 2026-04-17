@@ -197,8 +197,15 @@ class MainActivity : AppCompatActivity() {
 
         if (savedInstanceState == null) {
             val initialHomeFragment = createFragment(TAG_HOME)
+            val initialDownloadFragment = createFragment(TAG_DOWNLOAD)
+            val initialSettingsFragment = createFragment(TAG_SETTINGS)
             supportFragmentManager.beginTransaction()
+                .setReorderingAllowed(true)
                 .add(R.id.fragment_container, initialHomeFragment, TAG_HOME)
+                .add(R.id.fragment_container, initialDownloadFragment, TAG_DOWNLOAD)
+                .hide(initialDownloadFragment)
+                .add(R.id.fragment_container, initialSettingsFragment, TAG_SETTINGS)
+                .hide(initialSettingsFragment)
                 .commitNow()
 
             activeFragment = initialHomeFragment
@@ -225,6 +232,7 @@ class MainActivity : AppCompatActivity() {
             val existingTarget = supportFragmentManager.findFragmentByTag(targetTag)
             val target = existingTarget ?: createFragment(targetTag)
             val transaction = supportFragmentManager.beginTransaction()
+                .setReorderingAllowed(true)
                 .setCustomAnimations(
                     R.anim.fragment_fade_in,
                     R.anim.fragment_fade_out,

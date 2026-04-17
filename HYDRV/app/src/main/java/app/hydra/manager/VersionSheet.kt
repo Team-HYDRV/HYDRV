@@ -2,6 +2,7 @@ package app.hydra.manager
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.animation.ValueAnimator
 import android.content.ClipData
@@ -9,6 +10,8 @@ import android.content.ClipboardManager
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.app.Dialog
+import android.net.Uri
+import android.provider.Settings
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -21,11 +24,14 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.OvershootInterpolator
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import android.content.res.ColorStateList
+import androidx.core.view.ViewCompat
+import androidx.core.view.updatePadding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -36,8 +42,16 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 class VersionSheet(
     private val app: AppModel,
-    private val preferOpenInstalledAction: Boolean = false
+    private val preferOpenInstalledAction: Boolean = false,
+    private val installedVersionCodeHint: Int? = null,
+    private val installedVersionNameHint: String? = null
 ) : BottomSheetDialogFragment() {
+
+    private enum class VersionButtonAction {
+        DOWNLOAD,
+        INSTALL,
+        OPEN
+    }
 
     companion object {
         private const val DONE_HOLD_MS = 260L
@@ -45,19 +59,24 @@ class VersionSheet(
         private const val PRESS_SCALE = 0.975f
         private const val SHEET_SNACKBAR_GAP_DP = 6
         private const val NAV_SNACKBAR_GAP_DP = 10
+        private const val MAX_SHEET_HEIGHT_RATIO = 0.5f
+        private const val MAX_SINGLE_VERSION_SHEET_HEIGHT_RATIO = 0.58f
     }
 
     private data class DownloadButtonViews(
+        val actionRow: View,
         val container: FrameLayout,
         val track: FrameLayout,
         val fill: ImageView,
         val label: TextView,
-        val icon: ImageView
+        val icon: ImageView,
+        val uninstallButton: View
     )
 
     private data class VersionHintViews(
         val installedHint: TextView,
-        val downloadedHint: TextView
+        val downloadedHint: TextView,
+        val actionRow: View
     )
 
     private val buttonViewsByKey = mutableMapOf<String, DownloadButtonViews>()
@@ -74,18 +93,28 @@ class VersionSheet(
     private var currentInstallSnapshot: InstallIntelligence.Snapshot? = null
     private val mainHandler = Handler(Looper.getMainLooper())
     private var currentSnackbar: Snackbar? = null
+    private var isCurrentSnackbarSheetBound = false
     private var bottomSheetCallback: BottomSheetBehavior.BottomSheetCallback? = null
     private var versionScrollListener: RecyclerView.OnScrollListener? = null
     private var installSnapshotRunnable: Runnable? = null
+    private var installEventObserverStartedAt = 0L
     private var lastInstallSnapshotRefreshAt = 0L
+    private var maxSheetHeightPx = 0
+    private var hasScrollableVersionContent = false
+    private var versionListBasePaddingBottom = 0
+    private var scrollHintAnimator: ObjectAnimator? = null
     private var currentApp: AppModel = app
     private var installedLaunchPackage: String? = null
     private lateinit var rootView: View
     private lateinit var appNameView: TextView
     private lateinit var sheetSummaryView: TextView
     private lateinit var versionList: RecyclerView
-    private lateinit var fadeView: View
+    private lateinit var scrollHintContainer: View
+    private lateinit var scrollHintPill: View
+    private lateinit var scrollHintText: TextView
+    private lateinit var scrollHintIcon: ImageView
     private var installedVersionName: String? = null
+    private var installedVersionCode: Int? = null
     private val versionAdapter = VersionAdapter()
 
     private val versionDiff = object : DiffUtil.ItemCallback<Version>() {
@@ -108,6 +137,8 @@ class VersionSheet(
         super.onStart()
 
         val dialog = dialog as? BottomSheetDialog ?: return
+        val context = requireContext()
+        val sheetBackgroundRes = sheetBackgroundRes(context)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.window?.decorView?.setBackgroundColor(Color.TRANSPARENT)
 
@@ -116,7 +147,7 @@ class VersionSheet(
         ) ?: return
 
         val screenHeight = resources.displayMetrics.heightPixels
-        val maxSheetHeight = (screenHeight * 0.62f).toInt()
+        maxSheetHeightPx = (screenHeight * MAX_SHEET_HEIGHT_RATIO).toInt()
 
         val behavior = BottomSheetBehavior.from(bottomSheet)
         behavior.isDraggable = true
@@ -128,8 +159,11 @@ class VersionSheet(
             override fun onStateChanged(bottomSheetView: View, newState: Int) {
                 updateSheetSnackbarPosition(bottomSheetView)
                 if (newState == BottomSheetBehavior.STATE_HIDDEN) {
-                    currentSnackbar?.dismiss()
+                    if (isCurrentSnackbarSheetBound) {
+                        currentSnackbar?.dismiss()
+                    }
                     currentSnackbar = null
+                    isCurrentSnackbarSheetBound = false
                 }
             }
 
@@ -141,8 +175,7 @@ class VersionSheet(
         behavior.addBottomSheetCallback(callback)
         updateSheetSnackbarPosition(bottomSheet)
 
-        bottomSheet.setBackgroundColor(Color.TRANSPARENT)
-        bottomSheet.background = null
+        bottomSheet.setBackgroundResource(sheetBackgroundRes)
         (bottomSheet.parent as? View)?.apply {
             setBackgroundColor(Color.TRANSPARENT)
             background = null
@@ -150,13 +183,7 @@ class VersionSheet(
 
         bottomSheet.post {
             if (!isAdded || view == null) return@post
-            val content = bottomSheet.findViewById<View>(R.id.sheetRoot) ?: return@post
-            val targetHeight = minOf(content.height, maxSheetHeight)
-            bottomSheet.layoutParams = bottomSheet.layoutParams.apply {
-                height = if (targetHeight > 0) targetHeight else WRAP_CONTENT
-            }
-            behavior.peekHeight = targetHeight
-            behavior.state = BottomSheetBehavior.STATE_EXPANDED
+            adjustSheetHeight()
         }
     }
 
@@ -168,18 +195,38 @@ class VersionSheet(
 
         val view = inflater.inflate(R.layout.bottom_sheet_versions, container, false)
         rootView = view
-        if (AppearancePreferences.isPureBlackActive(requireContext())) {
-            view.setBackgroundResource(R.drawable.bottom_sheet_bg_pure_black)
-        } else if (AppearancePreferences.isDynamicColorEnabled(requireContext())) {
-            view.setBackgroundResource(R.drawable.bottom_sheet_bg)
-        } else {
-            view.setBackgroundResource(R.drawable.bottom_sheet_bg_brand)
-        }
+        view.setBackgroundResource(sheetBackgroundRes(requireContext()))
 
         versionList = view.findViewById(R.id.versionList)
-        fadeView = view.findViewById(R.id.scrollFade)
+        scrollHintContainer = view.findViewById(R.id.scrollHintContainer)
+        scrollHintPill = view.findViewById(R.id.scrollHintPill)
+        scrollHintText = view.findViewById(R.id.scrollHintText)
+        scrollHintIcon = view.findViewById(R.id.scrollHintIcon)
         appNameView = view.findViewById(R.id.appName)
         sheetSummaryView = view.findViewById(R.id.sheetSummary)
+        versionListBasePaddingBottom = versionList.paddingBottom
+        view.findViewById<View>(R.id.versionListContainer)?.setBackgroundColor(
+            sheetSurfaceColor(requireContext())
+        )
+        val useDynamicColor = AppearancePreferences.isDynamicColorEnabled(requireContext())
+        scrollHintPill.setBackgroundResource(
+            if (useDynamicColor) {
+                R.drawable.version_badge_latest_material
+            } else {
+                R.drawable.version_badge_latest_brand
+            }
+        )
+        val scrollHintTint = if (useDynamicColor) {
+            ThemeColors.color(
+                requireContext(),
+                com.google.android.material.R.attr.colorOnPrimaryContainer,
+                R.color.text_on_accent_chip
+            )
+        } else {
+            ContextCompat.getColor(requireContext(), R.color.text_on_accent_chip)
+        }
+        scrollHintText.setTextColor(scrollHintTint)
+        scrollHintIcon.imageTintList = ColorStateList.valueOf(scrollHintTint)
         if (AdsPreferences.areRewardedAdsEnabled(requireContext())) {
             RewardedAdManager.preload(requireContext())
         } else {
@@ -191,7 +238,7 @@ class VersionSheet(
         versionList.itemAnimator = null
         versionScrollListener = object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                updateScrollFade()
+                updateScrollHint(hasScrollableVersionContent && shouldShowScrollHint(recyclerView))
             }
         }
         versionScrollListener?.let(versionList::addOnScrollListener)
@@ -210,21 +257,39 @@ class VersionSheet(
             renderVersions()
         }
 
-        versionList.post {
-            if (!isAdded || view == null) return@post
-            updateScrollFade()
-        }
-
         return view
+    }
+
+    private fun sheetSurfaceColor(context: android.content.Context): Int {
+        return when {
+            AppearancePreferences.isPureBlackActive(context) -> Color.BLACK
+            AppearancePreferences.isDynamicColorEnabled(context) -> ThemeColors.color(
+                context,
+                com.google.android.material.R.attr.colorSurface,
+                R.color.bg
+            )
+            else -> ContextCompat.getColor(context, R.color.bg)
+        }
+    }
+
+    private fun sheetBackgroundRes(context: android.content.Context): Int {
+        return when {
+            AppearancePreferences.isPureBlackActive(context) -> R.drawable.bottom_sheet_bg_pure_black
+            AppearancePreferences.isDynamicColorEnabled(context) -> R.drawable.bottom_sheet_bg
+            else -> R.drawable.bottom_sheet_bg_brand
+        }
     }
 
     private fun renderVersions() {
         val ctx = requireContext()
         DownloadRepository.pruneStaleCompleted(ctx)
         refreshInstalledInfo(ctx)
+        currentInstallSnapshot = initialInstallSnapshot()
         val sortMode = ListSortPreferences.getVersionSort(ctx)
         val sortedVersions = ListSortPreferences.sortVersions(sortMode, currentApp.versions)
-        versionsByKey = sortedVersions.associateBy(::versionKey)
+        val displayedVersions = displayedVersions(sortedVersions)
+        val downloadsSnapshot = DownloadRepository.snapshotDownloads()
+        versionsByKey = displayedVersions.associateBy(::versionKey)
         currentLatestVersion = sortedVersions.firstOrNull()
         val latestVersionNumber = currentLatestVersion?.version
 
@@ -232,7 +297,7 @@ class VersionSheet(
         sheetSummaryView.text =
             ctx.getString(
                 R.string.versions_summary_format,
-                sortedVersions.size,
+                displayedVersions.size,
                 ListSortPreferences.versionSortLabel(ctx, sortMode)
             )
 
@@ -241,7 +306,6 @@ class VersionSheet(
         }
         buttonViewsByKey.clear()
         hintViewsByKey = emptyMap()
-        currentInstallSnapshot = null
         completedKeys.clear()
         doneHandledKeys.clear()
         lastKnownStatuses.clear()
@@ -249,18 +313,18 @@ class VersionSheet(
         activeSessionKeys.clear()
         failedKeys.clear()
 
-        if (sortedVersions.isEmpty()) {
+        if (displayedVersions.isEmpty()) {
             currentInstallSnapshot = null
             versionAdapter.submitVersions(emptyList(), latestVersionNumber)
-            updateDownloadButtons(DownloadRepository.downloads)
+            updateDownloadButtons(downloadsSnapshot)
             refreshVersionHints()
-            updateScrollFade()
+            versionList.post { adjustSheetHeight() }
             return
         }
 
-        versionAdapter.submitVersions(sortedVersions, latestVersionNumber)
-        updateDownloadButtons(DownloadRepository.downloads)
-        updateScrollFade()
+        versionAdapter.submitVersions(displayedVersions, latestVersionNumber)
+        updateDownloadButtons(downloadsSnapshot)
+        versionList.post { adjustSheetHeight() }
 
         Thread {
             val snapshot = InstallIntelligence.snapshot(ctx, currentApp)
@@ -268,6 +332,7 @@ class VersionSheet(
                 if (!isAdded || view == null) return@post
                 currentInstallSnapshot = snapshot
                 refreshVersionHints()
+                adjustSheetHeight()
             }
         }.start()
     }
@@ -316,11 +381,13 @@ class VersionSheet(
         val sourceHost = card.findViewById<TextView>(R.id.versionSourceHost)
         val installedHint = card.findViewById<TextView>(R.id.versionInstalledHint)
         val downloadedHint = card.findViewById<TextView>(R.id.versionDownloadedHint)
+        val actionRow = card.findViewById<View>(R.id.versionActionRow)
         val button = card.findViewById<FrameLayout>(R.id.versionDownloadButton)
         val buttonTrack = card.findViewById<FrameLayout>(R.id.versionDownloadTrack)
         val buttonFill = card.findViewById<ImageView>(R.id.versionDownloadFill)
         val buttonLabel = card.findViewById<TextView>(R.id.versionDownloadLabel)
         val buttonIcon = card.findViewById<ImageView>(R.id.versionDownloadIcon)
+        val uninstallButton = card.findViewById<View>(R.id.versionUninstallButton)
         title.text = ctx.getString(
             R.string.version_format,
             version.displayVersionName()
@@ -367,6 +434,7 @@ class VersionSheet(
             )
             installedHint.text = insight.installedHint.orEmpty()
             installedHint.visibility = if (insight.installedHint.isNullOrBlank()) View.GONE else View.VISIBLE
+            applyInstalledHintPalette(installedHint, insight)
             downloadedHint.text = insight.downloadHint.orEmpty()
             downloadedHint.visibility = if (insight.downloadHint.isNullOrBlank()) View.GONE else View.VISIBLE
         } else {
@@ -375,81 +443,98 @@ class VersionSheet(
             downloadedHint.text = ""
             downloadedHint.visibility = View.GONE
         }
-        hintViewsByKey = hintViewsByKey + (key to VersionHintViews(installedHint, downloadedHint))
+        updateActionButtonSpacing(
+            actionRow = actionRow,
+            hasInstalledHint = installedHint.visibility == View.VISIBLE,
+            hasDownloadedHint = downloadedHint.visibility == View.VISIBLE
+        )
+        hintViewsByKey = hintViewsByKey + (key to VersionHintViews(installedHint, downloadedHint, actionRow))
 
         buttonViewsByKey[key] = DownloadButtonViews(
+            actionRow = actionRow,
             container = button,
             track = buttonTrack,
             fill = buttonFill,
             label = buttonLabel,
-            icon = buttonIcon
+            icon = buttonIcon,
+            uninstallButton = uninstallButton
         )
         applyVersionButtonPalette(buttonViewsByKey.getValue(key), ctx)
         attachPressAnimation(button)
+        attachPressAnimation(uninstallButton)
 
         button.setOnClickListener {
-            if (
-                preferOpenInstalledAction &&
-                installedLaunchPackage != null &&
-                installedVersionName == version.version_name
-            ) {
-                openInstalledApp()
-                return@setOnClickListener
-            }
             val activity = activity ?: return@setOnClickListener
-            if (!AdsPreferences.areRewardedAdsEnabled(ctx) || RewardedAdManager.shouldBypassRewardGate()) {
-                runVersionDownload(
-                    version = version,
-                    key = key,
-                    context = ctx,
-                    rootView = rootView
-                )
-                return@setOnClickListener
-            }
-            RewardedAdManager.showThen(
-                activity = activity,
-                onRewardEarned = {
-                    runVersionDownload(
-                        version = version,
-                        key = key,
-                        context = ctx,
-                        rootView = rootView
-                    )
-                },
-                onAdUnavailable = {
-                    runVersionDownload(
-                        version = version,
-                        key = key,
-                        context = ctx,
-                        rootView = rootView
-                    )
-                },
-                onAdDismissedWithoutReward = {
-                    val sheetAnchor = (dialog as? BottomSheetDialog)?.findViewById<View>(
-                        com.google.android.material.R.id.design_bottom_sheet
-                    ) ?: rootView
-                    val snackbarHost = (sheetAnchor.parent as? View) ?: sheetAnchor
-                    currentSnackbar?.dismiss()
-                    currentSnackbar = AppSnackbar.show(
-                        snackbarHost,
-                        getString(R.string.rewarded_ad_required_message),
-                        anchorTarget = sheetAnchor,
-                        baseBottomMarginDp = 6
-                    )
-                    rootView.post {
-                        if (!isAdded || view == null) return@post
-                        val bottomSheetView = (dialog as? BottomSheetDialog)?.findViewById<View>(
-                            com.google.android.material.R.id.design_bottom_sheet
-                        )
-                        if (bottomSheetView != null) {
-                            updateSheetSnackbarPosition(bottomSheetView)
-                        }
-                    }
+            val item = DownloadRepository.snapshotDownloads()
+                .lastOrNull { versionKey(it.versionName, it.url, it.versionCode) == key }
+            when (resolveButtonAction(version, item)) {
+                VersionButtonAction.OPEN -> {
+                    openInstalledApp()
                 }
-            )
+
+                VersionButtonAction.INSTALL -> {
+                    installDownloadedVersion(item)
+                }
+
+                VersionButtonAction.DOWNLOAD -> {
+                    if (!AdsPreferences.areRewardedAdsEnabled(ctx) || RewardedAdManager.shouldBypassRewardGate()) {
+                        runVersionDownload(
+                            version = version,
+                            key = key,
+                            context = ctx,
+                            rootView = rootView
+                        )
+                        return@setOnClickListener
+                    }
+                    RewardedAdManager.showThen(
+                        activity = activity,
+                        onRewardEarned = {
+                            runVersionDownload(
+                                version = version,
+                                key = key,
+                                context = ctx,
+                                rootView = rootView
+                            )
+                        },
+                        onAdUnavailable = {
+                            runVersionDownload(
+                                version = version,
+                                key = key,
+                                context = ctx,
+                                rootView = rootView
+                            )
+                        },
+                        onAdDismissedWithoutReward = {
+                            val sheetAnchor = (dialog as? BottomSheetDialog)?.findViewById<View>(
+                                com.google.android.material.R.id.design_bottom_sheet
+                            ) ?: rootView
+                            val snackbarHost = (sheetAnchor.parent as? View) ?: sheetAnchor
+                            currentSnackbar?.dismiss()
+                            currentSnackbar = AppSnackbar.show(
+                                snackbarHost,
+                                getString(R.string.rewarded_ad_required_message),
+                                anchorTarget = sheetAnchor,
+                                baseBottomMarginDp = 6
+                            )
+                            rootView.post {
+                                if (!isAdded || view == null) return@post
+                                val bottomSheetView = (dialog as? BottomSheetDialog)?.findViewById<View>(
+                                    com.google.android.material.R.id.design_bottom_sheet
+                                )
+                                if (bottomSheetView != null) {
+                                    updateSheetSnackbarPosition(bottomSheetView)
+                                }
+                            }
+                        }
+                    )
+                }
+            }
+        }
+        uninstallButton.setOnClickListener {
+            launchInstalledAppUninstall()
         }
 
-        updateDownloadButtons(DownloadRepository.downloads)
+        updateDownloadButtons(DownloadRepository.snapshotDownloads())
     }
 
     private fun applySourceBadgePalette(badge: TextView, isOfficialBackend: Boolean) {
@@ -491,6 +576,55 @@ class VersionSheet(
                 }
             }
         )
+    }
+
+    private fun applyInstalledHintPalette(
+        hintView: TextView,
+        insight: InstallIntelligence.Insight
+    ) {
+        val context = hintView.context
+        val isWarningHint =
+            insight.installedHint == context.getString(R.string.version_installed_newer_than_catalog_hint)
+        val textColor = if (isWarningHint) {
+            if (AppearancePreferences.isDynamicColorEnabled(context)) {
+                ThemeColors.color(
+                    context,
+                    com.google.android.material.R.attr.colorOnErrorContainer,
+                    R.color.red
+                )
+            } else {
+                ContextCompat.getColor(context, R.color.red)
+            }
+        } else {
+            if (AppearancePreferences.isDynamicColorEnabled(context)) {
+                ThemeColors.color(
+                    context,
+                    androidx.appcompat.R.attr.colorPrimary,
+                    R.color.accent
+                )
+            } else {
+                ContextCompat.getColor(context, R.color.accent)
+            }
+        }
+        hintView.setTextColor(textColor)
+    }
+
+    private fun updateActionButtonSpacing(
+        actionRow: View,
+        hasInstalledHint: Boolean,
+        hasDownloadedHint: Boolean
+    ) {
+        val params = actionRow.layoutParams as? ViewGroup.MarginLayoutParams ?: return
+        val density = actionRow.resources.displayMetrics.density
+        val targetTopMarginDp = when {
+            hasInstalledHint && hasDownloadedHint -> 20
+            hasInstalledHint || hasDownloadedHint -> 17
+            else -> 14
+        }
+        val targetTopMarginPx = (targetTopMarginDp * density).toInt()
+        if (params.topMargin == targetTopMarginPx) return
+        params.topMargin = targetTopMarginPx
+        actionRow.layoutParams = params
     }
 
     private fun clearVersionView(key: String) {
@@ -562,10 +696,90 @@ class VersionSheet(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        installEventObserverStartedAt = System.currentTimeMillis()
         DownloadRepository.downloadsLive.observe(viewLifecycleOwner) { downloads ->
             updateDownloadButtons(downloads)
             scheduleInstallSnapshotRefresh()
             refreshVersionHints()
+        }
+
+        InstallStatusCenter.events.observe(viewLifecycleOwner) { event ->
+            if (event.token < installEventObserverStartedAt) return@observe
+            val hadTrustedInstall = installedLaunchPackage != null
+            if (event.refreshInstalledState) {
+                scheduleInstallSnapshotRefresh()
+            }
+            if (hadTrustedInstall) {
+                AppStateCacheManager.forceRefreshInstalledPackages(requireContext()) {
+                    if (!isAdded) return@forceRefreshInstalledPackages
+                    refreshInstalledInfo(requireContext())
+                    val stillTrustedInstalled = AppIdentityStore.isTrustedInstalled(
+                        requireContext(),
+                        currentApp.packageName,
+                        currentApp.name
+                    )
+                    if (!stillTrustedInstalled) {
+                        if (preferOpenInstalledAction) {
+                            requestAnimatedDismiss()
+                        } else {
+                            updateDownloadButtons(DownloadRepository.snapshotDownloads())
+                            refreshVersionHints()
+                            if (event.message.isNotBlank()) {
+                                showSheetSnackbar(event.message, event.indefinite)
+                            }
+                        }
+                        return@forceRefreshInstalledPackages
+                    }
+                    updateDownloadButtons(DownloadRepository.snapshotDownloads())
+                    refreshVersionHints()
+                    if (event.message.isNotBlank()) {
+                        showSheetSnackbar(event.message, event.indefinite)
+                    }
+                }
+                return@observe
+            }
+            if (event.message.isBlank()) return@observe
+            showSheetSnackbar(event.message, event.indefinite)
+        }
+    }
+
+    private fun requestAnimatedDismiss() {
+        val bottomSheet = (dialog as? BottomSheetDialog)?.findViewById<View>(
+            com.google.android.material.R.id.design_bottom_sheet
+        )
+        val behavior = bottomSheet?.let { BottomSheetBehavior.from(it) }
+        if (behavior != null) {
+            behavior.state = BottomSheetBehavior.STATE_HIDDEN
+        } else {
+            dismiss()
+        }
+    }
+
+    private fun showSheetSnackbar(message: String, indefinite: Boolean) {
+        val sheetAnchor = (dialog as? BottomSheetDialog)?.findViewById<View>(
+            com.google.android.material.R.id.design_bottom_sheet
+        ) ?: rootView
+        val snackbarHost = (sheetAnchor.parent as? View) ?: sheetAnchor
+        currentSnackbar?.dismiss()
+        isCurrentSnackbarSheetBound = true
+        currentSnackbar = AppSnackbar.show(
+            snackbarHost,
+            message,
+            if (indefinite) Snackbar.LENGTH_INDEFINITE else Snackbar.LENGTH_LONG,
+            anchorTarget = sheetAnchor,
+            baseBottomMarginDp = 6
+        )
+        if (!indefinite) {
+            currentSnackbar?.duration = 6500
+        }
+        rootView.post {
+            if (!isAdded) return@post
+            val bottomSheetView = (dialog as? BottomSheetDialog)?.findViewById<View>(
+                com.google.android.material.R.id.design_bottom_sheet
+            )
+            if (bottomSheetView != null) {
+                updateSheetSnackbarPosition(bottomSheetView)
+            }
         }
     }
 
@@ -599,10 +813,85 @@ class VersionSheet(
             val snapshot = InstallIntelligence.snapshot(ctx, currentApp)
             mainHandler.post {
                 if (!isAdded || view == null) return@post
+                val previousInstalledVersionName = installedVersionName
+                val previousInstalledVersionCode = installedVersionCode
+                refreshInstalledInfo(ctx)
+                if (
+                    preferOpenInstalledAction &&
+                    (previousInstalledVersionName != installedVersionName ||
+                        previousInstalledVersionCode != installedVersionCode)
+                ) {
+                    renderVersions()
+                    return@post
+                }
                 currentInstallSnapshot = snapshot
+                updateDownloadButtons(DownloadRepository.snapshotDownloads())
                 refreshVersionHints()
+                adjustSheetHeight()
             }
         }.start()
+    }
+
+    private fun displayedVersions(sortedVersions: List<Version>): List<Version> {
+        if (!preferOpenInstalledAction) return sortedVersions
+
+        val targetInstalledVersionCode = installedVersionCodeHint?.takeIf { it > 0 } ?: installedVersionCode
+        val targetInstalledVersionName = installedVersionNameHint?.trim()?.takeIf { it.isNotEmpty() }
+            ?: installedVersionName
+        val installedOnly = sortedVersions.filter { version ->
+            val versionCodeMatches = targetInstalledVersionCode != null &&
+                targetInstalledVersionCode > 0 &&
+                version.version == targetInstalledVersionCode
+            val versionNameMatches = !targetInstalledVersionName.isNullOrBlank() &&
+                version.version_name.trim() == targetInstalledVersionName
+            versionCodeMatches || versionNameMatches
+        }
+        return installedOnly.take(1)
+    }
+
+    private fun initialInstallSnapshot(): InstallIntelligence.Snapshot? {
+        val targetInstalledVersionName = installedVersionNameHint?.trim()?.takeIf { it.isNotEmpty() }
+            ?: installedVersionName
+        val targetInstalledVersionCode = installedVersionCodeHint?.takeIf { it > 0 }
+            ?: installedVersionCode
+        val downloadedByVersionKey = linkedMapOf<String, InstallIntelligence.DownloadedArchive>()
+
+        DownloadRepository.snapshotDownloads()
+            .asReversed()
+            .filter {
+                val looksCompleted =
+                    it.status == "Done" ||
+                        it.progress >= 100 ||
+                        it.completedAt > 0L
+                looksCompleted && it.versionName.isNotBlank()
+            }
+            .forEach { item ->
+                val versionCode = item.versionCode.takeIf { it > 0 } ?: return@forEach
+                val archiveKey = "${item.versionName.trim()}|$versionCode"
+                if (downloadedByVersionKey.containsKey(archiveKey)) return@forEach
+                downloadedByVersionKey[archiveKey] = InstallIntelligence.DownloadedArchive(
+                    versionCode = versionCode,
+                    versionName = item.versionName.trim(),
+                    packageName = item.packageName.trim(),
+                    signatures = emptySet()
+                )
+            }
+
+        if (
+            targetInstalledVersionName.isNullOrBlank() &&
+            (targetInstalledVersionCode == null || targetInstalledVersionCode <= 0) &&
+            downloadedByVersionKey.isEmpty()
+        ) {
+            return null
+        }
+
+        return InstallIntelligence.Snapshot(
+            installedVersionName = targetInstalledVersionName,
+            installedVersionCode = targetInstalledVersionCode,
+            downloadedByVersionKey = downloadedByVersionKey,
+            packageMismatchVersionKeys = emptySet(),
+            signatureMismatchVersionKeys = emptySet()
+        )
     }
 
     private fun runVersionDownload(
@@ -681,8 +970,11 @@ class VersionSheet(
             behavior?.removeBottomSheetCallback(callback)
         }
         bottomSheetCallback = null
-        currentSnackbar?.dismiss()
+        if (isCurrentSnackbarSheetBound) {
+            currentSnackbar?.dismiss()
+        }
         currentSnackbar = null
+        isCurrentSnackbarSheetBound = false
         installSnapshotRunnable?.let(mainHandler::removeCallbacks)
         installSnapshotRunnable = null
         lastInstallSnapshotRefreshAt = 0L
@@ -692,6 +984,7 @@ class VersionSheet(
             }
         }
         versionScrollListener = null
+        stopScrollHintAnimation()
         buttonViewsByKey.values.forEach { releaseLiquidDrawable(it.fill) }
         resetRunnables.values.forEach(mainHandler::removeCallbacks)
         resetRunnables.clear()
@@ -720,15 +1013,6 @@ class VersionSheet(
         buttonViewsByKey.forEach { (key, views) ->
             val context = views.container.context
             val version = versionsByKey[key]
-            if (
-                preferOpenInstalledAction &&
-                version != null &&
-                installedLaunchPackage != null &&
-                installedVersionName == version.version_name
-            ) {
-                    applyOpenState(views)
-                return@forEach
-            }
             val item = relevantDownloads[key]
             val visualProgress = visualProgressByKey[key] ?: 0
 
@@ -757,7 +1041,7 @@ class VersionSheet(
                     visualProgressByKey.remove(key)
                     activeSessionKeys.remove(key)
                     failedKeys.remove(key)
-                    applyIdleState(views)
+                    applyResolvedActionState(views, version, null)
                 }
                 item.status == "Downloading" -> {
                     if (item.progress >= 100 && downloadFileExists(item)) {
@@ -792,7 +1076,7 @@ class VersionSheet(
                             doneHandledKeys.remove(key)
                             visualProgressByKey.remove(key)
                             cancelReset(key)
-                            applyIdleState(views)
+                            applyResolvedActionState(views, version, item)
                         }
                         activeSessionKeys.remove(key)
                         lastKnownStatuses[key] = "Done"
@@ -846,7 +1130,7 @@ class VersionSheet(
                         activeSessionKeys.remove(key)
                         failedKeys.remove(key)
                         lastKnownStatuses.remove(key)
-                        applyIdleState(views)
+                        applyResolvedActionState(views, version, item)
                         return@forEach
                     }
                     failedKeys.remove(key)
@@ -880,7 +1164,7 @@ class VersionSheet(
                         doneHandledKeys.remove(key)
                         visualProgressByKey.remove(key)
                         cancelReset(key)
-                        applyIdleState(views)
+                        applyResolvedActionState(views, version, item)
                     }
                     activeSessionKeys.remove(key)
                     lastKnownStatuses[key] = item.status
@@ -910,7 +1194,7 @@ class VersionSheet(
                     doneHandledKeys.remove(key)
                     visualProgressByKey.remove(key)
                     cancelReset(key)
-                    applyIdleState(views)
+                    applyResolvedActionState(views, version, item)
                     activeSessionKeys.remove(key)
                     lastKnownStatuses[key] = item.status
                 }
@@ -925,7 +1209,7 @@ class VersionSheet(
             completedKeys.remove(key)
             doneHandledKeys.remove(key)
             visualProgressByKey.remove(key)
-            buttonViewsByKey[key]?.let(::applyIdleState)
+            updateDownloadButtons(DownloadRepository.snapshotDownloads())
         }
         resetRunnables[key] = runnable
         mainHandler.postDelayed(runnable, RESET_DELAY_MS)
@@ -946,9 +1230,39 @@ class VersionSheet(
         resetRunnables.remove(key)?.let(mainHandler::removeCallbacks)
     }
 
+    private fun resolveButtonAction(
+        version: Version?,
+        item: DownloadItem?
+    ): VersionButtonAction {
+        if (
+            version != null &&
+            installedLaunchPackage != null &&
+            installedVersionName == version.version_name
+        ) {
+            return VersionButtonAction.OPEN
+        }
+        if (item != null && downloadFileExists(item)) {
+            return VersionButtonAction.INSTALL
+        }
+        return VersionButtonAction.DOWNLOAD
+    }
+
+    private fun applyResolvedActionState(
+        views: DownloadButtonViews,
+        version: Version?,
+        item: DownloadItem?
+    ) {
+        when (resolveButtonAction(version, item)) {
+            VersionButtonAction.OPEN -> applyOpenState(views)
+            VersionButtonAction.INSTALL -> applyInstallState(views)
+            VersionButtonAction.DOWNLOAD -> applyIdleState(views)
+        }
+    }
+
     private fun applyIdleState(views: DownloadButtonViews) {
         applyVersionButtonPalette(views, views.container.context)
         views.container.isEnabled = true
+        views.uninstallButton.visibility = View.GONE
         views.container.animate().cancel()
         views.track.animate().cancel()
         views.icon.visibility = View.GONE
@@ -963,9 +1277,28 @@ class VersionSheet(
         animateFillTo(views.fill, 0)
     }
 
+    private fun applyInstallState(views: DownloadButtonViews) {
+        applyVersionButtonPalette(views, views.container.context)
+        views.container.isEnabled = true
+        views.uninstallButton.visibility = View.GONE
+        views.container.animate().cancel()
+        views.track.animate().cancel()
+        views.icon.visibility = View.GONE
+        views.icon.alpha = 1f
+        views.icon.scaleX = 1f
+        views.icon.scaleY = 1f
+        views.label.animate().cancel()
+        views.label.alpha = 1f
+        views.label.translationY = 0f
+        views.label.text = getString(R.string.download_action_install)
+        views.label.setTextColor(Color.BLACK)
+        animateFillTo(views.fill, 0)
+    }
+
     private fun applyOpenState(views: DownloadButtonViews) {
         applyVersionButtonPalette(views, views.container.context)
         views.container.isEnabled = true
+        views.uninstallButton.visibility = View.VISIBLE
         views.container.animate().cancel()
         views.track.animate().cancel()
         views.icon.visibility = View.GONE
@@ -984,6 +1317,7 @@ class VersionSheet(
         val context = views.container.context
         applyVersionButtonPalette(views, context)
         views.container.isEnabled = false
+        views.uninstallButton.visibility = View.GONE
         views.track.animate().cancel()
         views.icon.visibility = View.GONE
         views.label.animate().cancel()
@@ -1007,6 +1341,7 @@ class VersionSheet(
     private fun applyDoneState(views: DownloadButtonViews, animate: Boolean = true) {
         applyVersionButtonPalette(views, views.container.context)
         views.container.isEnabled = false
+        views.uninstallButton.visibility = View.GONE
         views.label.setTextColor(Color.BLACK)
         animateFillTo(views.fill, 100)
         val doneLabel = getString(R.string.download_status_done)
@@ -1061,6 +1396,7 @@ class VersionSheet(
     private fun applyErrorState(views: DownloadButtonViews) {
         applyVersionButtonPalette(views, views.container.context)
         views.container.isEnabled = true
+        views.uninstallButton.visibility = View.GONE
         releaseLiquidDrawable(views.fill)
         views.fill.setImageResource(versionErrorFillDrawable(views.container.context))
         animateFillTo(views.fill, 100)
@@ -1204,14 +1540,6 @@ class VersionSheet(
         }
     }
 
-    private fun versionFillDrawable(context: android.content.Context): Int {
-        return if (AppearancePreferences.isDynamicColorEnabled(context)) {
-            R.drawable.version_download_fill_clip
-        } else {
-            R.drawable.version_download_fill_brand_clip
-        }
-    }
-
     private fun refreshVersionHints() {
         if (!this::versionList.isInitialized) return
         val ctx = context ?: return
@@ -1230,9 +1558,138 @@ class VersionSheet(
 
             views.installedHint.text = insight.installedHint.orEmpty()
             views.installedHint.visibility = if (insight.installedHint.isNullOrBlank()) View.GONE else View.VISIBLE
+            applyInstalledHintPalette(views.installedHint, insight)
             views.downloadedHint.text = insight.downloadHint.orEmpty()
             views.downloadedHint.visibility = if (insight.downloadHint.isNullOrBlank()) View.GONE else View.VISIBLE
+            updateActionButtonSpacing(
+                actionRow = views.actionRow,
+                hasInstalledHint = views.installedHint.visibility == View.VISIBLE,
+                hasDownloadedHint = views.downloadedHint.visibility == View.VISIBLE
+            )
         }
+        versionList.post { adjustSheetHeight() }
+    }
+
+    private fun updateScrollHint(visible: Boolean) {
+        if (!this::versionList.isInitialized || !this::scrollHintContainer.isInitialized) return
+
+        val targetVisibility = if (visible) View.VISIBLE else View.GONE
+        if (scrollHintContainer.visibility != targetVisibility) {
+            if (visible) {
+                scrollHintContainer.alpha = 0f
+                scrollHintContainer.translationY = dp(6).toFloat()
+                scrollHintContainer.visibility = View.VISIBLE
+                scrollHintContainer.animate()
+                    .alpha(1f)
+                    .translationY(0f)
+                    .setDuration(180L)
+                    .setInterpolator(DecelerateInterpolator())
+                    .start()
+            } else {
+                scrollHintContainer.animate().cancel()
+                scrollHintContainer.visibility = View.GONE
+            }
+        }
+
+        val targetPaddingBottom = versionListBasePaddingBottom + if (visible) dp(44) else 0
+        if (versionList.paddingBottom != targetPaddingBottom) {
+            versionList.updatePadding(bottom = targetPaddingBottom)
+        }
+        if (visible) {
+            startScrollHintAnimation()
+        } else {
+            stopScrollHintAnimation()
+        }
+    }
+
+    private fun shouldShowScrollHint(recyclerView: RecyclerView = versionList): Boolean {
+        if (!hasScrollableVersionContent) return false
+        val range = recyclerView.computeVerticalScrollRange()
+        val extent = recyclerView.computeVerticalScrollExtent()
+        val offset = recyclerView.computeVerticalScrollOffset()
+        val hasScrollableContent = range > extent + 1
+        val atBottom = offset + extent >= range - 2
+        return hasScrollableContent && !atBottom
+    }
+
+    private fun startScrollHintAnimation() {
+        if (!this::scrollHintIcon.isInitialized) return
+        if (scrollHintAnimator?.isRunning == true || scrollHintAnimator?.isStarted == true) return
+
+        scrollHintAnimator = ObjectAnimator.ofFloat(
+            scrollHintIcon,
+            View.TRANSLATION_Y,
+            0f,
+            dp(3).toFloat(),
+            0f
+        ).apply {
+            duration = 900L
+            repeatCount = ValueAnimator.INFINITE
+            interpolator = AccelerateDecelerateInterpolator()
+            start()
+        }
+    }
+
+    private fun stopScrollHintAnimation() {
+        scrollHintAnimator?.cancel()
+        scrollHintAnimator = null
+        if (this::scrollHintIcon.isInitialized) {
+            scrollHintIcon.translationY = 0f
+        }
+    }
+
+    private fun dp(value: Int): Int {
+        return (value * resources.displayMetrics.density).toInt()
+    }
+
+    private fun adjustSheetHeight() {
+        if (!isAdded || !this::versionList.isInitialized || maxSheetHeightPx <= 0) return
+        val dialog = dialog as? BottomSheetDialog ?: return
+        val bottomSheet = dialog.findViewById<View>(
+            com.google.android.material.R.id.design_bottom_sheet
+        ) ?: return
+        val content = bottomSheet.findViewById<View>(R.id.sheetRoot) ?: return
+        val listContainer = bottomSheet.findViewById<View>(R.id.versionListContainer) ?: return
+        val behavior = BottomSheetBehavior.from(bottomSheet)
+        val screenHeight = resources.displayMetrics.heightPixels
+        val effectiveMaxSheetHeightPx = if (versionsByKey.size <= 1) {
+            (screenHeight * MAX_SINGLE_VERSION_SHEET_HEIGHT_RATIO).toInt()
+        } else {
+            maxSheetHeightPx
+        }
+
+        val listViewportHeight = listContainer.height.takeIf { it > 0 } ?: versionList.height
+        val listContentHeight = versionList.computeVerticalScrollRange()
+            .coerceAtLeast(versionList.minimumHeight)
+        val baseHeight = (content.height - listViewportHeight).coerceAtLeast(0)
+        val targetListHeight = if (listViewportHeight > 0) {
+            val capped = (effectiveMaxSheetHeightPx - baseHeight).coerceAtLeast(0)
+            minOf(listContentHeight, capped)
+        } else {
+            listContentHeight
+        }
+        hasScrollableVersionContent = listContentHeight > targetListHeight
+        updateScrollHint(hasScrollableVersionContent && shouldShowScrollHint(versionList))
+        listContainer.layoutParams = listContainer.layoutParams.apply {
+            height = if (targetListHeight >= listContentHeight) WRAP_CONTENT else targetListHeight
+        }
+        val targetHeight = (baseHeight + targetListHeight)
+            .coerceAtLeast(0)
+            .coerceAtMost(effectiveMaxSheetHeightPx)
+
+        bottomSheet.layoutParams = bottomSheet.layoutParams.apply {
+            height = if (targetHeight > 0) targetHeight else WRAP_CONTENT
+        }
+        behavior.peekHeight = targetHeight
+        if (
+            behavior.state != BottomSheetBehavior.STATE_EXPANDED &&
+            behavior.state != BottomSheetBehavior.STATE_DRAGGING &&
+            behavior.state != BottomSheetBehavior.STATE_SETTLING &&
+            behavior.state != BottomSheetBehavior.STATE_HIDDEN
+        ) {
+            behavior.state = BottomSheetBehavior.STATE_EXPANDED
+        }
+        bottomSheet.requestLayout()
     }
 
     private fun releaseLiquidDrawable(fillView: ImageView) {
@@ -1377,20 +1834,15 @@ class VersionSheet(
         )
     }
 
-    private fun updateScrollFade() {
-        if (!this::versionList.isInitialized || !this::fadeView.isInitialized) return
-        fadeView.visibility = if (versionList.canScrollVertically(1)) View.VISIBLE else View.GONE
-    }
-
     private fun refreshInstalledInfo(context: android.content.Context) {
-        val resolvedPackage = InstallAliasStore.resolveForAppName(context, currentApp.name)
-            ?: InstallAliasStore.resolveForPackage(context, currentApp.packageName)
-            ?: currentApp.packageName
-        val packageInfo = runCatching {
-            context.packageManager.getPackageInfo(resolvedPackage, 0)
-        }.getOrNull()
-        installedLaunchPackage = packageInfo?.packageName?.takeIf { it.isNotBlank() }
-        installedVersionName = packageInfo?.versionName?.trim()?.takeIf { it.isNotEmpty() }
+        val trustedInstall = AppIdentityStore.findTrustedInstalledPackage(
+            context,
+            currentApp.packageName,
+            currentApp.name
+        )
+        installedLaunchPackage = trustedInstall?.packageName?.takeIf { it.isNotBlank() }
+        installedVersionName = trustedInstall?.versionName
+        installedVersionCode = trustedInstall?.versionCode?.takeIf { it > 0 }
     }
 
     private fun openInstalledApp() {
@@ -1398,6 +1850,75 @@ class VersionSheet(
         val packageName = installedLaunchPackage ?: return
         val launchIntent = context.packageManager.getLaunchIntentForPackage(packageName) ?: return
         startActivity(launchIntent)
+    }
+
+    private fun launchInstalledAppUninstall() {
+        val context = context ?: return
+        val packageName = installedLaunchPackage ?: return
+        val candidates = linkedSetOf<String>().apply {
+            add(packageName)
+            InstallAliasStore.resolveForAppName(context, currentApp.name)?.let(::add)
+            InstallAliasStore.resolveForPackage(context, currentApp.packageName)?.let(::add)
+        }.filter { it.isNotBlank() }
+
+        val packageManager = context.packageManager
+        val uninstallTarget = candidates.firstOrNull { candidate ->
+            Intent(Intent.ACTION_DELETE, Uri.fromParts("package", candidate, null))
+                .resolveActivity(packageManager) != null
+        } ?: candidates.firstOrNull()
+
+        if (uninstallTarget == null) {
+            AppSnackbar.show(rootView, getString(R.string.install_failed))
+            return
+        }
+
+        if (!AppStateCacheManager.isInstalled(context, uninstallTarget, currentApp.name)) {
+            AppStateCacheManager.forceRefreshInstalledPackages(context) {
+                if (!isAdded || view == null) return@forceRefreshInstalledPackages
+                refreshInstalledInfo(requireContext())
+                updateDownloadButtons(DownloadRepository.snapshotDownloads())
+                refreshVersionHints()
+            }
+            return
+        }
+
+        val uninstallUri = Uri.fromParts("package", uninstallTarget, null)
+        PendingUninstallTracker.mark(currentApp.name, uninstallTarget)
+        val uninstallIntent = Intent(Intent.ACTION_DELETE, uninstallUri).apply {
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            putExtra(Intent.EXTRA_RETURN_RESULT, true)
+        }
+        val fallbackIntent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, uninstallUri)
+
+        try {
+            startActivity(uninstallIntent)
+        } catch (_: Exception) {
+            PendingUninstallTracker.clear()
+            try {
+                startActivity(fallbackIntent)
+            } catch (_: Exception) {
+                AppSnackbar.show(rootView, getString(R.string.install_failed))
+            }
+        }
+    }
+
+    private fun installDownloadedVersion(item: DownloadItem?) {
+        val context = context ?: return
+        val filePath = item?.filePath?.takeIf { it.isNotBlank() } ?: run {
+            AppSnackbar.show(rootView, getString(R.string.install_failed_file_not_found))
+            return
+        }
+        val file = java.io.File(filePath)
+        if (!file.exists() || file.length() <= 0L) {
+            AppSnackbar.show(rootView, getString(R.string.install_failed_file_not_found))
+            return
+        }
+        InstallSessionManager.installApk(
+            context = context,
+            apkPath = filePath,
+            appName = currentApp.name,
+            backendPackage = item.backendPackageName.takeIf { it.isNotBlank() } ?: currentApp.packageName
+        )
     }
 
 }

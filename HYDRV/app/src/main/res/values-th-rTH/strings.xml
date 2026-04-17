@@ -436,4 +436,5 @@
   <plurals name="download_selected_count">
     <item quantity="other">%dà¹€à¸¥à¸·à¸­à¸</item>
   </plurals>
+  <string name="version_sheet_scroll_hint">เลื่อนเพื่อดูเพิ่มเติม</string>
 </resources>
