@@ -38,7 +38,7 @@
     <string name="language_system_default">Valor predeterminado del sistema</string>
     <string name="language_english">Inglés</string>
     <string name="language_filipino">filipino</string>
-    <string name="language_spanish">Español</string>
+    <string name="language_spanish">Spanish</string>
     <string name="language_catalan">catalán</string>
     <string name="language_indonesian">indonesio</string>
     <string name="language_french">Francés</string>
@@ -71,8 +71,8 @@
     <string name="language_korean">coreano</string>
     <string name="language_english_region">Inglés (Estados Unidos)</string>
     <string name="language_filipino_region">Filipino (Filipinas)</string>
-    <string name="language_spanish_region">Español (España)</string>
-    <string name="language_catalan_region">catalán (españa)</string>
+    <string name="language_spanish_region">Spanish (Spain)</string>
+    <string name="language_catalan_region">Catalan (Spain)</string>
     <string name="language_indonesian_region">Indonesio (Indonesia)</string>
     <string name="language_french_region">Francés (Francia)</string>
     <string name="language_german_region">Alemán (Alemania)</string>
@@ -111,14 +111,14 @@
     <string name="language_native_french_region">Français (France)</string>
     <string name="language_native_german_region">Deutsch (Deutschland)</string>
     <string name="language_native_greek_region">Ελληνικά (Ελλάδα)</string>
-    <string name="language_native_hebrew_region">עברית (ישראל)</string>
+    <string name="language_native_hebrew_region">×¢×‘×¨×™×ª (×™×©×¨××œ)</string>
     <string name="language_native_hungarian_region">Magyar (Magyarország)</string>
     <string name="language_native_portuguese_brazil_region">Português (Brasil)</string>
     <string name="language_native_portuguese_portugal_region">Português (Portugal)</string>
     <string name="language_native_italian_region">Italiano (Italia)</string>
     <string name="language_native_turkish_region">Türkçe (Türkiye)</string>
     <string name="language_native_vietnamese_region">Tiếng Việt (Việt Nam)</string>
-    <string name="language_native_thai_region">ภาษาไทย (ไทย)</string>
+    <string name="language_native_thai_region">à¸ à¸²à¸©à¸²à¹„à¸—à¸¢ (à¹„à¸—à¸¢)</string>
     <string name="language_native_polish_region">Polski (Polska)</string>
     <string name="language_native_dutch_region">Nederlands (Nederland)</string>
     <string name="language_native_danish_region">Dansk (Danmark)</string>
@@ -129,7 +129,7 @@
     <string name="language_native_romanian_region">Română (România)</string>
     <string name="language_native_chinese_simplified_region">中文 (中国)</string>
     <string name="language_native_chinese_traditional_region">繁體中文 (台灣)</string>
-    <string name="language_native_hindi_region">हिन्दी (भारत)</string>
+    <string name="language_native_hindi_region">à¤¹à¤¿à¤¨à¥à¤¦à¥€ (à¤­à¤¾à¤°à¤¤)</string>
     <string name="language_native_arabic_region">العربية</string>
     <string name="language_native_russian_region">Русский (Россия)</string>
     <string name="language_native_serbian_region">Српски (Србија)</string>
@@ -196,7 +196,7 @@
     <string name="version_format">Versión %1$s</string>
     <string name="badge_update">ACTUALIZAR</string>
     <string name="badge_installed">INSTALADO</string>
-    <string name="added_date_format">Añadido %1$s</string>
+    <string name="added_date_format">Added %1$s</string>
     <string name="downloaded_date_format">Descargado %1$s</string>
     <string name="started_date_format">Iniciado %1$s</string>
     <string name="sample_added_date">Agregado el 2 de abril a las 11:01 a.m.</string>
@@ -213,7 +213,7 @@
     <string name="download_error_network">Error de red interrumpió la descarga</string>
     <string name="download_error_http_format">El servidor devolvió HTTP %1$d</string>
     <string name="download_error_write_failed">No se pudo escribir el archivo descargado</string>
-    <string name="download_already_exists">Esta versión ya está en descargas.</string>
+    <string name="download_already_exists">This version is already in downloads</string>
     <string name="download_action_open">ABIERTO</string>
     <string name="download_action_install">INSTALAR</string>
     <string name="download_action_resume">REANUDAR</string>
@@ -228,7 +228,7 @@
     <string name="available_versions">Versiones disponibles</string>
     <string name="versions_summary_format">Versiones %1$d - %2$s</string>
     <string name="latest">El último</string>
-    <string name="release_details_unavailable">Los detalles de la versión no están disponibles temporalmente</string>
+    <string name="release_details_unavailable">Release details are temporarily unavailable</string>
     <string name="added_date_unavailable">Fecha agregada no disponible</string>
     <string name="added_to_downloads_format">%1$s %2$s agregado a descargas</string>
     <string name="version_copy_notes">Copiar notas</string>
@@ -238,8 +238,8 @@
     <string name="version_source_prefix">Fuente: %1$s</string>
     <string name="version_installed_hint">Instalado en este dispositivo</string>
     <string name="version_new_since_installed">Nuevo desde su versión instalada</string>
-    <string name="version_installed_unknown_catalog_hint">La versión instalada difiere de este catálogo.</string>
-    <string name="version_installed_newer_than_catalog_hint">La versión instalada puede ser más reciente que este catálogo.</string>
+    <string name="version_installed_unknown_catalog_hint">Installed version differs from this catalog</string>
+    <string name="version_installed_newer_than_catalog_hint">Installed version may be newer than this catalog</string>
     <string name="version_downloaded_hint">APK ya descargado en este dispositivo</string>
     <string name="version_downgrade_hint">Esta versión degradaría tu aplicación instalada</string>
     <string name="version_package_mismatch_hint">El paquete APK descargado no coincide con esta aplicación</string>
@@ -266,21 +266,21 @@
     <string name="new_changes_available">Nuevas actualizaciones están disponibles en HYDRV.</string>
     <string name="notification_channel_name">Actualizaciones de aplicaciones</string>
     <string name="notification_channel_description">Notificaciones cuando hay nuevos cambios en la aplicación disponibles.</string>
-    <string name="notification_title_updates_live">Nuevos cambios en la aplicación están disponibles</string>
-    <string name="notification_text_updates_live">Nuevas actualizaciones están disponibles en HYDRV. Ven a ver qué hay de nuevo.</string>
+    <string name="notification_title_updates_live">New app changes are live</string>
+    <string name="notification_text_updates_live">Fresh updates are available in HYDRV. Come check what\'s new.</string>
     <string name="notification_title_backend_update_format">%1$s backend actualizado</string>
-    <string name="notification_text_backend_update">Nuevas actualizaciones están disponibles en HYDRV. Abra la aplicación para ver qué cambió.</string>
+    <string name="notification_text_backend_update">Fresh updates are available in HYDRV. Open the app to see what changed.</string>
     <string name="backend_update_snackbar_format">%1$s backend actualizado.</string>
     <string name="notification_title_release_live">El nuevo lanzamiento está en vivo.</string>
     <string name="notification_title_release_live_with_version">HYDRV %1$s ya está disponible</string>
-    <string name="notification_text_release_live">Una nueva versión de HYDRV está disponible.</string>
+    <string name="notification_text_release_live">A new HYDRV release is available.</string>
     <string name="updates_open_release">Lanzamiento abierto</string>
     <string name="install_failed">La instalación falló</string>
     <string name="install_failed_file_not_found">Error de instalación: archivo no encontrado</string>
     <string name="install_failed_cancelled">Instalación cancelada</string>
     <string name="install_failed_blocked">Instalación bloqueada por la política del sistema</string>
     <string name="install_failed_conflict">Error de instalación: conflicto de paquete</string>
-    <string name="install_failed_invalid_apk">Error de instalación: APK no válido</string>
+    <string name="install_failed_invalid_apk">Install failed: invalid APK</string>
     <string name="install_failed_storage">Error de instalación: no hay suficiente almacenamiento</string>
     <string name="install_waiting_confirmation_format">Esperando confirmación de instalación para %1$s</string>
     <string name="install_success_format">%1$s instalado correctamente</string>
@@ -294,12 +294,12 @@
     <string name="rewarded_ad_required_message">Mire el anuncio recompensado para iniciar esta descarga o espere si los anuncios no están disponibles.</string>
     <string name="backend_title">Fuente del backend</string>
     <string name="backend_summary">Cambiar el enlace de origen del catálogo de aplicaciones</string>
-    <string name="backend_help_title">¿Para qué es esto?</string>
-    <string name="backend_help_body">Esto controla desde dónde se cargan los datos de la aplicación, las versiones y las actualizaciones del backend. Déjelo vacío para seguir usando el backend predeterminado integrado. Cámbielo solo si confía en el enlace personalizado.</string>
+    <string name="backend_help_title">What this is for</string>
+    <string name="backend_help_body">This controls where app data, versions, and backend updates are loaded from. Leave it empty to keep using the built-in default backend. Only change it if you trust the custom link.</string>
     <string name="ads_support_title">Anuncios de soporte</string>
     <string name="ads_support_summary">Mantener los anuncios activados ayuda a respaldar el desarrollo, las correcciones y el mantenimiento continuo.</string>
     <string name="battery_optimization_title">Optimización de la batería</string>
-    <string name="battery_optimization_summary">Opcional. Deshabilitar la optimización puede ayudar a que las verificaciones de actualizaciones en segundo plano se ejecuten de manera más confiable.</string>
+    <string name="battery_optimization_summary">Optional. Disabling optimization can help background update checks run more reliably.</string>
     <string name="battery_optimization_unrestricted">Irrestricto</string>
     <string name="battery_optimization_optimized">Optimizado</string>
     <string name="battery_optimization_not_needed">No es necesario</string>
@@ -316,7 +316,7 @@
     <string name="settings_backup_import_failed">No se pudo importar la copia de seguridad de la configuración.</string>
     <string name="backend_health_title">Estado de la aplicación</string>
     <string name="backend_health_summary">Ver backend, caché, notificaciones y estado de actualización</string>
-    <string name="backend_health_loading">Cargando estado de la aplicación…</string>
+    <string name="backend_health_loading">Loading app status…</string>
     <string name="backend_health_backend_mode_format">Modo de fuente: %1$s</string>
     <string name="backend_health_last_checked_format">Última comprobación: %1$s</string>
     <string name="backend_health_last_seen_hash_format">Hash visto por última vez: %1$d</string>
@@ -346,7 +346,7 @@
     <string name="backend_default_label">Por defecto</string>
     <string name="backend_custom_label">Costumbre</string>
     <string name="backend_dialog_title">Cambiar el servidor</string>
-    <string name="backend_dialog_message">Pegue un punto final JSON directo, no un enlace de página web normal. Si lo deja vacío, se utilizará el backend integrado.</string>
+    <string name="backend_dialog_message">Paste a direct JSON endpoint, not a normal web page link. If you leave it empty, the built-in backend will be used.</string>
     <string name="backend_manager_hint">Puede agregar, cambiar el nombre y eliminar fuentes de backend adicionales aquí. El backend HYDRV integrado permanece disponible por separado.</string>
     <string name="backend_manager_empty">Aún no hay backends personalizados. Toque Agregar backend para crear uno.</string>
     <string name="backend_add_source">Agregar backend</string>
@@ -367,7 +367,7 @@
     <string name="save_label">Ahorrar</string>
     <string name="reset_label">Reiniciar</string>
     <string name="app_details_latest_version">Última versión: %1$s</string>
-    <string name="app_details_latest_unavailable">La última versión no está disponible temporalmente</string>
+    <string name="app_details_latest_unavailable">Latest version is temporarily unavailable</string>
     <string name="app_details_versions_title">Versiones</string>
     <string name="app_details_version_title">Versión %1$s</string>
     <string name="app_details_download">Descargar</string>
@@ -380,7 +380,7 @@
     <string name="updates_downloading">Descargando…</string>
     <string name="updates_resume_download">Reanudar</string>
     <string name="updates_launch_check_title">Buscar actualizaciones en el lanzamiento</string>
-    <string name="updates_launch_check_summary">Verifique automáticamente la última versión de GitHub cada vez que abra HYDRV.</string>
+    <string name="updates_launch_check_summary">Automatically check the latest GitHub release whenever you open HYDRV.</string>
     <string name="updates_launch_message_title">Mostrar mensaje de actualización al iniciar</string>
     <string name="updates_launch_message_summary">Muestra un mensaje en la aplicación cuando cambia la última versión del repositorio.</string>
     <string name="updates_check_now">Buscar actualizaciones</string>
@@ -391,8 +391,8 @@
     <string name="updates_release_unavailable">Aún no se ha cargado ninguna versión</string>
     <string name="updates_check_failed">No se pudieron buscar actualizaciones en este momento.</string>
     <string name="updates_check_live_with_version">El nuevo lanzamiento está disponible: %1$s %2$s.</string>
-    <string name="updates_check_live_generic">La nueva versión está disponible en HYDRV.</string>
-    <string name="updates_check_up_to_date">Estás al día.</string>
+    <string name="updates_check_live_generic">New release is available in HYDRV.</string>
+    <string name="updates_check_up_to_date">You\'re up to date.</string>
     <string name="about_version_code_format">Versión %1$s (%2$d)</string>
     <string name="about_tagline">Navegación de lanzamientos de Android, mantenida limpia.</string>
     <string name="about_link_website">Sitio web</string>
@@ -432,7 +432,7 @@
     <string name="about_licenses_dialog_body">OkHttp 4.12.0\nRetrofit 2.9.0\nGson Converter 2.9.0\nPicasso 2.8\nWorkManager 2.9.1\nRecyclerView 1.3.2\nSwipeRefreshLayout 1.1.0\nFacebook Shimmer 0.5.0\nGoogle Mobile Ads 25.1.0\nComponentes de materiales\nAndroidX Core KTX\nAppCompat</string>
     <string name="about_dialog_close">Cerca</string>
     <string name="back_label">Atrás</string>
-    <string name="favorite_toggle_add" translatable="false">Añadir a favoritos</string>
+    <string name="favorite_toggle_add" translatable="false">A�adir a favoritos</string>
     <string name="favorite_toggle_remove" translatable="false">Quitar de favoritos</string>
     <plurals name="download_items_count">
         <item quantity="one">%d Item</item>

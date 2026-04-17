@@ -10,7 +10,7 @@
     <string name="settings_advance_subtitle">추가 도구, 연결 및 전력 옵션</string>
     <string name="settings_about_title">정보</string>
     <string name="settings_about_subtitle">앱 정보와 지원 세부 사항</string>
-    <string name="settings_section_appearance">이름 *</string>
+    <string name="settings_section_appearance">외관</string>
     <string name="app_icon_section_title">앱 아이콘</string>
     <string name="app_icon_section_summary">HYDRV에서 사용할 런처 아이콘을 선택하세요.</string>
     <string name="app_icon_default_title">기본</string>
@@ -111,14 +111,14 @@
     <string name="language_native_french_region">Français (France)</string>
     <string name="language_native_german_region">Deutsch (Deutschland)</string>
     <string name="language_native_greek_region">Ελληνικά (Ελλάδα)</string>
-    <string name="language_native_hebrew_region">עברית (ישראל)</string>
+    <string name="language_native_hebrew_region">×¢×‘×¨×™×ª (×™×©×¨××œ)</string>
     <string name="language_native_hungarian_region">Magyar (Magyarország)</string>
     <string name="language_native_portuguese_brazil_region">Português (Brasil)</string>
     <string name="language_native_portuguese_portugal_region">Português (Portugal)</string>
     <string name="language_native_italian_region">Italiano (Italia)</string>
     <string name="language_native_turkish_region">Türkçe (Türkiye)</string>
     <string name="language_native_vietnamese_region">Tiếng Việt (Việt Nam)</string>
-    <string name="language_native_thai_region">ภาษาไทย (ไทย)</string>
+    <string name="language_native_thai_region">à¸ à¸²à¸©à¸²à¹„à¸—à¸¢ (à¹„à¸—à¸¢)</string>
     <string name="language_native_polish_region">Polski (Polska)</string>
     <string name="language_native_dutch_region">Nederlands (Nederland)</string>
     <string name="language_native_danish_region">Dansk (Danmark)</string>
@@ -129,7 +129,7 @@
     <string name="language_native_romanian_region">Română (România)</string>
     <string name="language_native_chinese_simplified_region">中文 (中国)</string>
     <string name="language_native_chinese_traditional_region">繁體中文 (台灣)</string>
-    <string name="language_native_hindi_region">हिन्दी (भारत)</string>
+    <string name="language_native_hindi_region">à¤¹à¤¿à¤¨à¥à¤¦à¥€ (à¤­à¤¾à¤°à¤¤)</string>
     <string name="language_native_arabic_region">العربية</string>
     <string name="language_native_russian_region">Русский (Россия)</string>
     <string name="language_native_serbian_region">Српски (Србија)</string>
@@ -173,7 +173,7 @@
     <string name="downloads_select_mode">선택</string>
     <string name="downloads_select_all">모두 보기</string>
     <string name="downloads_clear_all">모든 것</string>
-    <string name="downloads_delete">이름 *</string>
+    <string name="downloads_delete">삭제</string>
     <string name="downloads_uninstall">다운로드</string>
     <string name="downloads_cancel">취소</string>
     <string name="downloads_empty">아직 다운로드 없음</string>
@@ -214,7 +214,7 @@
     <string name="download_error_http_format">서버는 HTTP를 반환%1$d</string>
     <string name="download_error_write_failed">다운로드 된 파일을 작성할 수 없습니다.</string>
     <string name="download_already_exists">이 버전은 이미 다운로드</string>
-    <string name="download_action_open">(주)</string>
+    <string name="download_action_open">열기</string>
     <string name="download_action_install">설치</string>
     <string name="download_action_resume">계속</string>
     <string name="download_action_retry">다시 시도</string>

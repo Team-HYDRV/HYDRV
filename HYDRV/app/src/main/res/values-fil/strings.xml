@@ -51,7 +51,7 @@
   <string name="language_portuguese_portugal">Portuges (Portugal)</string>
   <string name="language_italian">Italyano</string>
   <string name="language_turkish">Turko</string>
-  <string name="language_vietnamese">Biyetnames</string>
+  <string name="language_vietnamese">Vietnamese</string>
   <string name="language_thai">Tay</string>
   <string name="language_polish">Polako</string>
   <string name="language_dutch">Olandes</string>
@@ -85,7 +85,7 @@
   <string name="language_portuguese_portugal_region">Portuges (Portugal)</string>
   <string name="language_italian_region">Italyano</string>
   <string name="language_turkish_region">Turko (Turkiye)</string>
-  <string name="language_vietnamese_region">Biyetnames (Biyetnam)</string>
+  <string name="language_vietnamese_region">Vietnamese</string>
   <string name="language_thai_region">Tay</string>
   <string name="language_polish_region">Polako (Polonya)</string>
   <string name="language_dutch_region">Olandes (Netherlands)</string>
@@ -108,10 +108,10 @@
   <string name="language_native_afrikaans_region">Afrikaans (Suid-Afrika)</string>
   <string name="language_native_english_region">Ingles (Estados Unidos)</string>
   <string name="language_native_filipino_region">wikang Filipino</string>
-  <string name="language_native_spanish_region">Espanyol (Espanya)</string>
+  <string name="language_native_spanish_region">Español (España)</string>
   <string name="language_native_catalan_region">Katalan (Espanya)</string>
   <string name="language_native_indonesian_region">Indonesiyo (Indonesia)</string>
-  <string name="language_native_french_region">Pranses (Pransya)</string>
+  <string name="language_native_french_region">Français (France)</string>
   <string name="language_native_german_region">Aleman (Alemanya)</string>
   <string name="language_native_greek_region">Griyego (Gresya)</string>
   <string name="language_native_hebrew_region">Hebreo (Israel)</string>
@@ -119,8 +119,8 @@
   <string name="language_native_portuguese_brazil_region">Portuges (Brasil)</string>
   <string name="language_native_portuguese_portugal_region">Portuges (Portugal)</string>
   <string name="language_native_italian_region">Italyano (Italya)</string>
-  <string name="language_native_turkish_region">Turko (Turkiya)</string>
-  <string name="language_native_vietnamese_region">Biyetnames (Biyetnam)</string>
+  <string name="language_native_turkish_region">Türkçe (Türkiye)</string>
+  <string name="language_native_vietnamese_region">Tiếng Việt (Việt Nam)</string>
   <string name="language_native_thai_region">Thai (Thailand)</string>
   <string name="language_native_polish_region">Polako (Polonya)</string>
   <string name="language_native_dutch_region">Olandes (Netherlands)</string>
@@ -129,7 +129,7 @@
   <string name="language_native_malay_region">Malay (Malaysia)</string>
   <string name="language_native_ukrainian_region">Ukranyo (Ukranya)</string>
   <string name="language_native_czech_region">Tseko (Czechia)</string>
-  <string name="language_native_romanian_region">Rumanyan (Romania)</string>
+  <string name="language_native_romanian_region">Română (România)</string>
   <string name="language_native_chinese_simplified_region">Pinasimpleng Tsino (China)</string>
   <string name="language_native_chinese_traditional_region">Tradisyunal na Tsino (Taiwan)</string>
   <string name="language_native_hindi_region">Hindi (India)</string>

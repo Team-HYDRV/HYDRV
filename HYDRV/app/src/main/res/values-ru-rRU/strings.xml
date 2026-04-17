@@ -108,10 +108,10 @@
   <string name="language_native_afrikaans_region">Afrikaans (Suid-Afrika)</string>
   <string name="language_native_english_region">Английский (США)</string>
   <string name="language_native_filipino_region">Филиппинский (Филиппины)</string>
-  <string name="language_native_spanish_region">Испанский (Испания)</string>
+  <string name="language_native_spanish_region">Español (España)</string>
   <string name="language_native_catalan_region">Каталанский (Испания)</string>
   <string name="language_native_indonesian_region">Индонезийский (Индонезия)</string>
-  <string name="language_native_french_region">Французский (Франция)</string>
+  <string name="language_native_french_region">Français (France)</string>
   <string name="language_native_german_region">Немецкий (Германия)</string>
   <string name="language_native_greek_region">Греческий (Греция)</string>
   <string name="language_native_hebrew_region">Иврит (Израиль)</string>
@@ -119,7 +119,7 @@
   <string name="language_native_portuguese_brazil_region">Португальский (Бразилия)</string>
   <string name="language_native_portuguese_portugal_region">Португальский (Португалия)</string>
   <string name="language_native_italian_region">Итальянский (Италия)</string>
-  <string name="language_native_turkish_region">Турецкий (Турция)</string>
+  <string name="language_native_turkish_region">Türkçe (Türkiye)</string>
   <string name="language_native_vietnamese_region">Вьетнамский (Вьетнам)</string>
   <string name="language_native_thai_region">Тайский (Таиланд)</string>
   <string name="language_native_polish_region">Польский (Польша)</string>
@@ -129,7 +129,7 @@
   <string name="language_native_malay_region">Малайский (Малайзия)</string>
   <string name="language_native_ukrainian_region">Украинский (Украина)</string>
   <string name="language_native_czech_region">Чешский (Чехия)</string>
-  <string name="language_native_romanian_region">Румынский (Румыния)</string>
+  <string name="language_native_romanian_region">Română (România)</string>
   <string name="language_native_chinese_simplified_region">Китайский упрощённый (Китай)</string>
   <string name="language_native_chinese_traditional_region">Китайский традиционный (Тайвань)</string>
   <string name="language_native_hindi_region">Хинди (Индия)</string>

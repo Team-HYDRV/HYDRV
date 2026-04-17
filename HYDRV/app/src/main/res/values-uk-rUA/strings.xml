@@ -108,10 +108,10 @@
   <string name="language_native_afrikaans_region">Afrikaans (Suid-Afrika)</string>
   <string name="language_native_english_region">Англійська (США)</string>
   <string name="language_native_filipino_region">Філіппінська (Філіппіни)</string>
-  <string name="language_native_spanish_region">Іспанська (Іспанія)</string>
+  <string name="language_native_spanish_region">Español (España)</string>
   <string name="language_native_catalan_region">Каталанська (Іспанія)</string>
   <string name="language_native_indonesian_region">Індонезійська (Індонезія)</string>
-  <string name="language_native_french_region">Французька (Франція)</string>
+  <string name="language_native_french_region">Français (France)</string>
   <string name="language_native_german_region">Німецька (Німеччина)</string>
   <string name="language_native_greek_region">Грецька (Греція)</string>
   <string name="language_native_hebrew_region">Іврит (Ізраїль)</string>
@@ -119,7 +119,7 @@
   <string name="language_native_portuguese_brazil_region">Португальська (Бразилія)</string>
   <string name="language_native_portuguese_portugal_region">Португальська (Португалія)</string>
   <string name="language_native_italian_region">Італійська (Італія)</string>
-  <string name="language_native_turkish_region">Турецька (Туреччина)</string>
+  <string name="language_native_turkish_region">Türkçe (Türkiye)</string>
   <string name="language_native_vietnamese_region">В’єтнамська (В’єтнам)</string>
   <string name="language_native_thai_region">Тайська (Таїланд)</string>
   <string name="language_native_polish_region">Польська (Польща)</string>
@@ -129,7 +129,7 @@
   <string name="language_native_malay_region">Малайська (Малайзія)</string>
   <string name="language_native_ukrainian_region">українська мова</string>
   <string name="language_native_czech_region">Чеська (Чехія)</string>
-  <string name="language_native_romanian_region">Румунська (Румунія)</string>
+  <string name="language_native_romanian_region">Română (România)</string>
   <string name="language_native_chinese_simplified_region">Китайська спрощена (Китай)</string>
   <string name="language_native_chinese_traditional_region">Китайська традиційна (Тайвань)</string>
   <string name="language_native_hindi_region">Гінді (Індія)</string>
@@ -433,7 +433,7 @@
     <item quantity="other">%dВнески</item>
   </plurals>
   <string name="about_licenses_dialog_title">Бібліотека відкритих джерел</string>
-  <string name="about_licenses_dialog_body">English, Українська, Français...</string>
+  <string name="about_licenses_dialog_body">OkHttp 4.12.0\nRetrofit 2.9.0\nGson Converter 2.9.0\nPicasso 2.8\nWorkManager 2.9.1\nRecyclerView 1.3.2\nSwipeRefreshLayout 1.1.0\nFacebook Shimmer 0.5.0\nGoogle Mobile Ads 25.1.0\nMaterial Components\nAndroidX Core KTX\nAppCompat</string>
   <string name="about_dialog_close">Головна</string>
   <string name="back_label">Зареєструватися</string>
   <plurals name="download_items_count">

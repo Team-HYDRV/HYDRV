@@ -111,14 +111,14 @@
     <string name="language_native_french_region">Français (France)</string>
     <string name="language_native_german_region">Deutsch (Deutschland)</string>
     <string name="language_native_greek_region">Ελληνικά (Ελλάδα)</string>
-    <string name="language_native_hebrew_region">עברית (ישראל)</string>
+    <string name="language_native_hebrew_region">×¢×‘×¨×™×ª (×™×©×¨××œ)</string>
     <string name="language_native_hungarian_region">Magyar (Magyarország)</string>
     <string name="language_native_portuguese_brazil_region">Português (Brasil)</string>
     <string name="language_native_portuguese_portugal_region">Português (Portugal)</string>
     <string name="language_native_italian_region">Italiano (Italia)</string>
     <string name="language_native_turkish_region">Türkçe (Türkiye)</string>
     <string name="language_native_vietnamese_region">Tiếng Việt (Việt Nam)</string>
-    <string name="language_native_thai_region">ภาษาไทย (ไทย)</string>
+    <string name="language_native_thai_region">à¸ à¸²à¸©à¸²à¹„à¸—à¸¢ (à¹„à¸—à¸¢)</string>
     <string name="language_native_polish_region">Polski (Polska)</string>
     <string name="language_native_dutch_region">Nederlands (Nederland)</string>
     <string name="language_native_danish_region">Dansk (Danmark)</string>
@@ -129,7 +129,7 @@
     <string name="language_native_romanian_region">Română (România)</string>
     <string name="language_native_chinese_simplified_region">中文 (中国)</string>
     <string name="language_native_chinese_traditional_region">繁體中文 (台灣)</string>
-    <string name="language_native_hindi_region">हिन्दी (भारत)</string>
+    <string name="language_native_hindi_region">à¤¹à¤¿à¤¨à¥à¤¦à¥€ (à¤­à¤¾à¤°à¤¤)</string>
     <string name="language_native_arabic_region">العربية</string>
     <string name="language_native_russian_region">Русский (Россия)</string>
     <string name="language_native_serbian_region">Српски (Србија)</string>

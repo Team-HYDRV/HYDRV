@@ -108,10 +108,10 @@
   <string name="language_native_afrikaans_region">Afrikaans (Suid-Afrika)</string>
   <string name="language_native_english_region">Bahasa Inggeris (Amerika Syarikat)</string>
   <string name="language_native_filipino_region">Filipina (Filipina)</string>
-  <string name="language_native_spanish_region">Sepanyol (Sepanyol)</string>
+  <string name="language_native_spanish_region">Español (España)</string>
   <string name="language_native_catalan_region">Katalan (Sepanyol)</string>
   <string name="language_native_indonesian_region">bahasa Indonesia</string>
-  <string name="language_native_french_region">Perancis (Perancis)</string>
+  <string name="language_native_french_region">Français (France)</string>
   <string name="language_native_german_region">Jerman (Jerman)</string>
   <string name="language_native_greek_region">Yunani (Yunani)</string>
   <string name="language_native_hebrew_region">Ibrani (Israel)</string>
@@ -119,7 +119,7 @@
   <string name="language_native_portuguese_brazil_region">Portugis (Brazil)</string>
   <string name="language_native_portuguese_portugal_region">Portugis (Portugal)</string>
   <string name="language_native_italian_region">Itali (Itali)</string>
-  <string name="language_native_turkish_region">Turki (Turki)</string>
+  <string name="language_native_turkish_region">Türkçe (Türkiye)</string>
   <string name="language_native_vietnamese_region">Vietnam (Vietnam)</string>
   <string name="language_native_thai_region">Thai (Thailand)</string>
   <string name="language_native_polish_region">Poland (Poland)</string>
@@ -129,7 +129,7 @@
   <string name="language_native_malay_region">Melayu (Malaysia)</string>
   <string name="language_native_ukrainian_region">Ukraine (Ukraine)</string>
   <string name="language_native_czech_region">Czech (Czechia)</string>
-  <string name="language_native_romanian_region">Romania (Romania)</string>
+  <string name="language_native_romanian_region">Română (România)</string>
   <string name="language_native_chinese_simplified_region">Cina Ringkas (China)</string>
   <string name="language_native_chinese_traditional_region">Cina Tradisional (Taiwan)</string>
   <string name="language_native_hindi_region">Hindi (India)</string>
