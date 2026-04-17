@@ -9,7 +9,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
-import android.view.animation.DecelerateInterpolator
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -150,20 +149,38 @@ class MainActivity : AppCompatActivity() {
         }
 
         val navTabs = arrayOf(home, download, settings)
+        arrayOf(homeTab, downloadTab, settingsTab).forEach { tab ->
+            UiMotion.attachPress(
+                target = tab,
+                scaleDown = 0.975f,
+                pressedAlpha = 0.96f,
+                pressedTranslationYDp = 1f,
+                downDuration = 80L,
+                upDuration = 160L,
+                releaseOvershoot = 0.5f
+            )
+        }
 
         fun setActive(view: ImageView) {
             navTabs.forEach {
+                it.animate().cancel()
                 it.setColorFilter(inactiveColor)
                 it.alpha = 1f
+                it.scaleX = 1f
+                it.scaleY = 1f
+                it.translationY = 0f
             }
 
             view.setColorFilter(activeColor)
-            view.animate()
-                .alpha(0.6f)
-                .setDuration(80)
-                .withEndAction {
-                    view.animate().alpha(1f).setDuration(80)
-                }
+            UiMotion.pulse(
+                target = view,
+                scaleUp = 1.12f,
+                alphaDip = 0.82f,
+                riseDp = 1f,
+                expandDuration = 95L,
+                settleDuration = 190L,
+                settleOvershoot = 0.62f
+            )
         }
 
         fun updateBadge() {
@@ -276,7 +293,6 @@ class MainActivity : AppCompatActivity() {
             .alpha(0f)
             .setDuration(85)
             .setStartDelay(0)
-            .setInterpolator(DecelerateInterpolator())
             .withEndAction {
                 launchOverlay.visibility = View.GONE
                 launchOverlay.alpha = 1f

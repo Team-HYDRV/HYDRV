@@ -4,11 +4,8 @@ import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.DecelerateInterpolator
-import android.view.animation.OvershootInterpolator
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -61,7 +58,15 @@ class AppAdapter :
         if (AppearancePreferences.isDynamicColorEnabled(parent.context)) {
             view.setBackgroundResource(R.drawable.card_material)
         }
-        attachPressAnimation(view)
+        UiMotion.attachPress(
+            target = view,
+            scaleDown = CARD_PRESS_SCALE,
+            pressedAlpha = 0.97f,
+            pressedTranslationYDp = 0.7f,
+            downDuration = 70L,
+            upDuration = 170L,
+            releaseOvershoot = 0.5f
+        )
         return VH(view)
     }
 
@@ -217,41 +222,15 @@ class AppAdapter :
     }
 
     private fun animateStar(view: View) {
-        view.animate()
-            .scaleX(1.3f)
-            .scaleY(1.3f)
-            .setDuration(120)
-            .setInterpolator(OvershootInterpolator())
-            .withEndAction {
-                view.animate().scaleX(1f).scaleY(1f).setDuration(100)
-            }
-    }
-
-    private fun attachPressAnimation(view: View) {
-        view.setOnTouchListener { target, event ->
-            when (event.actionMasked) {
-                MotionEvent.ACTION_DOWN -> {
-                    target.animate().cancel()
-                    target.animate()
-                        .scaleX(CARD_PRESS_SCALE)
-                        .scaleY(CARD_PRESS_SCALE)
-                        .setDuration(45)
-                        .setInterpolator(DecelerateInterpolator())
-                        .start()
-                }
-
-                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
-                    target.animate().cancel()
-                    target.animate()
-                        .scaleX(1f)
-                        .scaleY(1f)
-                        .setDuration(70)
-                        .setInterpolator(DecelerateInterpolator())
-                        .start()
-                }
-            }
-            false
-        }
+        UiMotion.pulse(
+            target = view,
+            scaleUp = 1.2f,
+            alphaDip = 0.92f,
+            riseDp = 1f,
+            expandDuration = 110L,
+            settleDuration = 170L,
+            settleOvershoot = 0.75f
+        )
     }
 
     private fun isFavorite(context: Context, name: String): Boolean {

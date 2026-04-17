@@ -71,6 +71,15 @@ class DownloadAdapter(
         if (AppearancePreferences.isDynamicColorEnabled(parent.context)) {
             view.setBackgroundResource(R.drawable.card_material)
         }
+        UiMotion.attachPress(
+            target = view,
+            scaleDown = 0.988f,
+            pressedAlpha = 0.975f,
+            pressedTranslationYDp = 0.8f,
+            downDuration = 70L,
+            upDuration = 170L,
+            releaseOvershoot = 0.48f
+        )
         val checkbox = view.findViewById<CheckBox>(R.id.selectCheck)
         checkbox.setButtonDrawable(
             if (AppearancePreferences.isDynamicColorEnabled(parent.context)) {
@@ -272,36 +281,24 @@ class DownloadAdapter(
 
         val isInstalled = item.installed
 
-        @SuppressLint("ClickableViewAccessibility")
-        fun animatePress(view: View) {
-            view.setOnTouchListener { v, event ->
-                when (event.action) {
-                    MotionEvent.ACTION_DOWN -> {
-                        v.animate()
-                            .scaleX(PRESS_SCALE)
-                            .scaleY(PRESS_SCALE)
-                            .alpha(0.94f)
-                            .setDuration(85)
-                            .setInterpolator(DecelerateInterpolator())
-                            .start()
-                    }
-                    MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
-                        v.animate()
-                            .scaleX(1f)
-                            .scaleY(1f)
-                            .alpha(1f)
-                            .setDuration(110)
-                            .setInterpolator(OvershootInterpolator(0.7f))
-                            .start()
-                    }
-                }
-                false
-            }
-        }
-
-        animatePress(holder.action)
-        animatePress(holder.delete)
-        animatePress(holder.cardRoot)
+        UiMotion.attachPress(
+            target = holder.action,
+            scaleDown = PRESS_SCALE,
+            pressedAlpha = 0.94f,
+            pressedTranslationYDp = 1f,
+            downDuration = 85L,
+            upDuration = 140L,
+            releaseOvershoot = 0.62f
+        )
+        UiMotion.attachPress(
+            target = holder.delete,
+            scaleDown = PRESS_SCALE,
+            pressedAlpha = 0.94f,
+            pressedTranslationYDp = 1f,
+            downDuration = 85L,
+            upDuration = 140L,
+            releaseOvershoot = 0.62f
+        )
 
         holder.delete.setOnClickListener {
             val target = repositoryItem(item) ?: item

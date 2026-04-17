@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingHorizontal="12dp"
+        android:paddingHorizontal="16dp"
         android:paddingBottom="8dp">
 
         <ImageView
@@ -50,7 +50,7 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="8dp"
+            android:paddingHorizontal="0dp"
             android:paddingBottom="196dp">
 
             <LinearLayout
@@ -232,7 +232,7 @@
                     android:id="@+id/aboutSectionTab"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="12dp"
+                    android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="12dp"
                     android:background="@drawable/settings_section_card"
                     android:clickable="true"
@@ -241,8 +241,8 @@
                     android:gravity="center_vertical"
                     android:minHeight="92dp"
                     android:orientation="horizontal"
-                    android:paddingHorizontal="18dp"
-                    android:paddingVertical="18dp">
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="16dp">
 
                     <FrameLayout
                         android:id="@+id/aboutSectionIconBg"
@@ -327,7 +327,7 @@
                     android:background="@drawable/card"
                     android:gravity="center"
                     android:orientation="horizontal"
-                    android:paddingHorizontal="12dp"
+                    android:paddingHorizontal="16dp"
                     android:paddingVertical="14dp">
 
                     <LinearLayout
@@ -496,7 +496,7 @@
                     android:background="@drawable/card"
                     android:gravity="center"
                     android:orientation="horizontal"
-                    android:paddingHorizontal="8dp"
+                    android:paddingHorizontal="16dp"
                     android:paddingVertical="14dp">
 
                     <LinearLayout
@@ -1738,7 +1738,7 @@
                     android:layout_marginBottom="12dp"
                     android:background="@drawable/card"
                     android:orientation="vertical"
-                    android:padding="18dp">
+                    android:padding="16dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -1773,7 +1773,7 @@
                     android:layout_marginTop="16dp"
                     android:background="@drawable/card"
                     android:orientation="vertical"
-                    android:paddingHorizontal="20dp"
+                    android:paddingHorizontal="16dp"
                     android:paddingTop="22dp"
                     android:paddingBottom="20dp">
 
@@ -1861,7 +1861,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="18dp"
+                    android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="18dp"
                     android:text="@string/about_quick_label"
                     android:textColor="?attr/colorOnSurfaceVariant"

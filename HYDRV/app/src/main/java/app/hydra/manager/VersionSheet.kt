@@ -18,13 +18,12 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.OvershootInterpolator
-import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
@@ -1766,31 +1765,16 @@ class VersionSheet(
         snackbarView.translationY += (desiredTop - currentTop).toFloat()
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     private fun attachPressAnimation(view: View) {
-        view.setOnTouchListener { v, event ->
-            when (event.action) {
-                MotionEvent.ACTION_DOWN -> {
-                    v.animate()
-                        .scaleX(PRESS_SCALE)
-                        .scaleY(PRESS_SCALE)
-                        .alpha(0.96f)
-                        .setDuration(90L)
-                        .setInterpolator(DecelerateInterpolator())
-                        .start()
-                }
-                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
-                    v.animate()
-                        .scaleX(1f)
-                        .scaleY(1f)
-                        .alpha(1f)
-                        .setDuration(120L)
-                        .setInterpolator(OvershootInterpolator(0.7f))
-                        .start()
-                }
-            }
-            false
-        }
+        UiMotion.attachPress(
+            target = view,
+            scaleDown = PRESS_SCALE,
+            pressedAlpha = 0.95f,
+            pressedTranslationYDp = 0.9f,
+            downDuration = 85L,
+            upDuration = 170L,
+            releaseOvershoot = 0.58f
+        )
     }
 
     private fun copyChangelog(version: Version, changelog: String) {

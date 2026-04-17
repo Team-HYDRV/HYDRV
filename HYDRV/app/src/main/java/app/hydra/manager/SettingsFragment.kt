@@ -22,11 +22,8 @@ import android.text.style.StyleSpan
 import android.graphics.Typeface
 import android.view.Gravity
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.DecelerateInterpolator
-import android.view.animation.OvershootInterpolator
 import android.widget.Button
 import android.widget.EditText
 import android.widget.FrameLayout
@@ -1763,32 +1760,16 @@ class SettingsFragment : Fragment() {
         return this * resources.displayMetrics.density
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     private fun attachPressAnimation(target: View) {
-        target.setOnTouchListener { view, event ->
-            when (event.actionMasked) {
-                MotionEvent.ACTION_DOWN -> {
-                    view.animate()
-                        .scaleX(PRESS_SCALE)
-                        .scaleY(PRESS_SCALE)
-                        .alpha(0.94f)
-                        .setDuration(85)
-                        .setInterpolator(DecelerateInterpolator())
-                        .start()
-                }
-
-                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
-                    view.animate()
-                        .scaleX(1f)
-                        .scaleY(1f)
-                        .alpha(1f)
-                        .setDuration(130)
-                        .setInterpolator(OvershootInterpolator(0.75f))
-                        .start()
-                }
-            }
-            false
-        }
+        UiMotion.attachPress(
+            target = target,
+            scaleDown = PRESS_SCALE,
+            pressedAlpha = 0.95f,
+            pressedTranslationYDp = 0.8f,
+            downDuration = 85L,
+            upDuration = 170L,
+            releaseOvershoot = 0.58f
+        )
     }
 
     private fun showAppSortDialog(
