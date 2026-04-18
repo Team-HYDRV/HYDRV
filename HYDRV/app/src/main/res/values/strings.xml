@@ -289,7 +289,7 @@
   <string name="install_waiting_confirmation_format">Waiting for install confirmation for %1$s</string>
   <string name="install_success_format">%1$s installed successfully</string>
   <string name="uninstall_success_format">%1$s uninstalled successfully</string>
-  <string name="install_preparing_format">Preparing %1$s for install?</string>
+  <string name="install_preparing_format">Preparing %1$s for installation</string>
   <string name="install_failed_error_format">Install failed: %1$s</string>
   <string name="unknown_error">unknown error</string>
   <string name="file_not_found">File not found</string>

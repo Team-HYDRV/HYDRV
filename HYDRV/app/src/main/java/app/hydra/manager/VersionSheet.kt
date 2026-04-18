@@ -17,20 +17,33 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.os.SystemClock
+import android.content.res.Configuration
+import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.view.ViewTreeObserver
+import android.view.animation.PathInterpolator
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.DecelerateInterpolator
+import android.view.animation.LinearInterpolator
 import android.view.animation.OvershootInterpolator
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.ColorUtils
 import android.content.res.ColorStateList
 import androidx.core.view.ViewCompat
 import androidx.core.view.updatePadding
+import androidx.fragment.app.FragmentManager
+import androidx.transition.AutoTransition
+import androidx.transition.TransitionManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -39,6 +52,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import java.util.WeakHashMap
+
 class VersionSheet(
     private val app: AppModel,
     private val preferOpenInstalledAction: Boolean = false,
@@ -56,10 +71,145 @@ class VersionSheet(
         private const val DONE_HOLD_MS = 260L
         private const val RESET_DELAY_MS = 1200L
         private const val PRESS_SCALE = 0.975f
-        private const val SHEET_SNACKBAR_GAP_DP = 6
+        private const val SHEET_SNACKBAR_GAP_DP = 14
         private const val NAV_SNACKBAR_GAP_DP = 10
         private const val MAX_SHEET_HEIGHT_RATIO = 0.5f
         private const val MAX_SINGLE_VERSION_SHEET_HEIGHT_RATIO = 0.58f
+        private const val INSTALL_CIRCLE_SIZE_DP = 46
+        private const val INSTALL_PROGRESS_SIZE_DP = 24
+        private const val UNINSTALL_PROGRESS_SIZE_DP = 20
+        private const val INSTALL_PROGRESS_THICKNESS_DP = 3
+        private const val UNINSTALL_PROGRESS_THICKNESS_DP = 3
+        private const val INSTALL_PROGRESS_CAP = 92
+        private const val BUTTON_MORPH_TO_CIRCLE_MS = 255L
+        private const val BUTTON_MORPH_FROM_CIRCLE_MS = 300L
+        private const val INSTALL_OPEN_REVEAL_DELAY_MS = 620L
+        private const val INSTALL_OPEN_REVEAL_MOVE_MS = 520L
+        private const val INSTALL_OPEN_REVEAL_EXPAND_MS = 860L
+        private const val CONTENT_REVEAL_MS = 190L
+        private const val TRACK_SETTLE_MS = 210L
+        private const val PROGRESS_REVEAL_MS = 145L
+        private const val INSTALL_SUCCESS_SETTLE_DELAY_MS = 980L
+        private const val UNINSTALL_SUCCESS_SETTLE_DELAY_MS = 760L
+        private const val POST_SYSTEM_ANIMATION_DELAY_MS = 260L
+        private const val UNINSTALL_RESULT_CHECK_DELAY_MS = 80L
+        private const val UNINSTALL_RESULT_RETRY_DELAY_MS = 160L
+        private const val MAX_UNINSTALL_STILL_INSTALLED_RETRIES = 5
+        private const val UNINSTALL_CONFIRMATION_GRACE_MS = 900L
+        private const val RECENT_SYSTEM_RETURN_WINDOW_MS = 1500L
+        private const val SYSTEM_RETURN_ANIMATION_DELAY_MS = 160L
+        private const val HINT_LAYOUT_TRANSITION_MS = 165L
+        private const val SHEET_HEIGHT_ANIMATION_MS = 190L
+        @Volatile
+        private var presentationBlocked = false
+        private val singleVersionListHeightCachePx = mutableMapOf<String, Int>()
+
+        fun isPresentationBlocked(): Boolean = presentationBlocked
+
+        private fun markPresentationBlocked(blocked: Boolean) {
+            presentationBlocked = blocked
+        }
+
+        private fun cacheSingleVersionListHeight(cacheKey: String, heightPx: Int) {
+            if (cacheKey.isNotBlank() && heightPx > 0) {
+                singleVersionListHeightCachePx[cacheKey] = heightPx
+            }
+        }
+
+        private fun cachedSingleVersionListHeight(cacheKey: String): Int? {
+            if (cacheKey.isBlank()) return null
+            return singleVersionListHeightCachePx[cacheKey]
+        }
+
+        private fun stateLabel(state: Int): String {
+            return when (state) {
+                BottomSheetBehavior.STATE_EXPANDED -> "expanded"
+                BottomSheetBehavior.STATE_COLLAPSED -> "collapsed"
+                BottomSheetBehavior.STATE_HIDDEN -> "hidden"
+                BottomSheetBehavior.STATE_DRAGGING -> "dragging"
+                BottomSheetBehavior.STATE_SETTLING -> "settling"
+                BottomSheetBehavior.STATE_HALF_EXPANDED -> "half_expanded"
+                else -> state.toString()
+            }
+        }
+
+        fun present(
+            fragmentManager: FragmentManager,
+            context: android.content.Context,
+            app: AppModel,
+            tag: String,
+            preferOpenInstalledAction: Boolean = false,
+            installedVersionCodeHint: Int? = null,
+            installedVersionNameHint: String? = null
+        ): Boolean {
+            fragmentManager.executePendingTransactions()
+            val existingFragment = fragmentManager.findFragmentByTag(tag)
+            if (existingFragment != null && !fragmentManager.isStateSaved) {
+                val dialogFragment = existingFragment as? BottomSheetDialogFragment
+                val isActivelyShowing =
+                    existingFragment.isAdded &&
+                        !existingFragment.isRemoving &&
+                        (dialogFragment?.dialog?.isShowing != false)
+                if (!isActivelyShowing) {
+                    runCatching {
+                        fragmentManager.beginTransaction()
+                            .remove(existingFragment)
+                            .commitNowAllowingStateLoss()
+                    }
+                }
+            }
+            val currentFragment = fragmentManager.findFragmentByTag(tag)
+            AppDiagnostics.trace(
+                context,
+                "UI",
+                "version_sheet_show_requested",
+                "${app.name} | blocked=$presentationBlocked | stateSaved=${fragmentManager.isStateSaved} | existing=${currentFragment != null}"
+            )
+            if (
+                presentationBlocked ||
+                fragmentManager.isStateSaved ||
+                currentFragment != null
+            ) {
+                AppDiagnostics.trace(
+                    context,
+                    "UI",
+                    "version_sheet_show_skipped",
+                    "${app.name} | blocked=$presentationBlocked | stateSaved=${fragmentManager.isStateSaved} | existing=${currentFragment != null}"
+                )
+                return false
+            }
+
+            val sheet = VersionSheet(
+                app = app,
+                preferOpenInstalledAction = preferOpenInstalledAction,
+                installedVersionCodeHint = installedVersionCodeHint,
+                installedVersionNameHint = installedVersionNameHint
+            )
+
+            return runCatching {
+                markPresentationBlocked(true)
+                fragmentManager.beginTransaction()
+                    .add(sheet, tag)
+                    .commit()
+                fragmentManager.executePendingTransactions()
+                AppDiagnostics.trace(
+                    context,
+                    "UI",
+                    "version_sheet_show_committed",
+                    "${app.name} | added=${sheet.isAdded}"
+                )
+                true
+            }.getOrElse { error ->
+                markPresentationBlocked(false)
+                AppDiagnostics.trace(
+                    context,
+                    "UI",
+                    "version_sheet_show_failed",
+                    "${app.name} | ${error.javaClass.simpleName}: ${error.message.orEmpty()}"
+                )
+                false
+            }
+        }
     }
 
     private data class DownloadButtonViews(
@@ -67,12 +217,27 @@ class VersionSheet(
         val container: FrameLayout,
         val track: FrameLayout,
         val fill: ImageView,
+        val content: View,
         val label: TextView,
         val icon: ImageView,
-        val uninstallButton: View
+        val installProgress: WiggleCircularProgressIndicator,
+        val uninstallButton: FrameLayout,
+        val uninstallLabel: TextView,
+        val uninstallProgress: WiggleCircularProgressIndicator
     )
 
+    private enum class InstallVisualState {
+        WAITING_CONFIRMATION,
+        INSTALLING,
+        FINALIZING
+    }
+
+    private enum class UninstallVisualState {
+        WAITING_RESULT
+    }
+
     private data class VersionHintViews(
+        val cardRoot: ViewGroup,
         val installedHint: TextView,
         val downloadedHint: TextView,
         val actionRow: View
@@ -85,7 +250,21 @@ class VersionSheet(
     private val visualProgressByKey = mutableMapOf<String, Int>()
     private val activeSessionKeys = mutableSetOf<String>()
     private val failedKeys = mutableSetOf<String>()
+    private val pendingRewardLaunchKeys = mutableSetOf<String>()
+    private val installVisualStateByKey = mutableMapOf<String, InstallVisualState>()
+    private val installVisualProgressByKey = mutableMapOf<String, Int>()
+    private val installProgressAnimators = mutableMapOf<String, ValueAnimator>()
+    private val restoredInstallVisualKeys = mutableSetOf<String>()
+    private val morphSurfaceAnimators = WeakHashMap<View, ValueAnimator>()
+    private val installVisualCompletingKeys = mutableSetOf<String>()
+    private val installTransitioningKeys = mutableSetOf<String>()
+    private val uninstallVisualStateByKey = mutableMapOf<String, UninstallVisualState>()
+    private val uninstallTransitioningKeys = mutableSetOf<String>()
+    private val resolvedUninstallKeys = mutableSetOf<String>()
     private val resetRunnables = mutableMapOf<String, Runnable>()
+    private val hintLayoutSettleRunnables = mutableMapOf<String, Runnable>()
+    private val lastVersionSizingTracePayloads = mutableMapOf<String, String>()
+    private val lastUninstallTracePayloads = mutableMapOf<String, String>()
     private var versionsByKey = emptyMap<String, Version>()
     private var hintViewsByKey = emptyMap<String, VersionHintViews>()
     private var currentLatestVersion: Version? = null
@@ -93,15 +272,30 @@ class VersionSheet(
     private val mainHandler = Handler(Looper.getMainLooper())
     private var currentSnackbar: Snackbar? = null
     private var isCurrentSnackbarSheetBound = false
+    private var pendingSheetSnackbarMessage: String? = null
+    private var pendingSheetSnackbarIndefinite = false
     private var bottomSheetCallback: BottomSheetBehavior.BottomSheetCallback? = null
+    private var enforceExpandedRunnable: Runnable? = null
     private var versionScrollListener: RecyclerView.OnScrollListener? = null
     private var installSnapshotRunnable: Runnable? = null
+    private var deferredUiRefreshRunnable: Runnable? = null
+    private var sheetHeightAdjustRunnable: Runnable? = null
+    private var sheetHeightSettleRunnable: Runnable? = null
+    private var zeroContentHeightRetryRunnable: Runnable? = null
+    private var zeroContentHeightRetriesRemaining = 0
     private var installEventObserverStartedAt = 0L
     private var lastInstallSnapshotRefreshAt = 0L
+    private var suppressUiRefreshUntil = 0L
     private var maxSheetHeightPx = 0
     private var hasScrollableVersionContent = false
     private var versionListBasePaddingBottom = 0
+    private var pendingInitialMultiItemClamp = false
+    private var initialSheetClampListener: ViewTreeObserver.OnPreDrawListener? = null
     private var scrollHintAnimator: ObjectAnimator? = null
+    private var sheetHeightAnimator: ValueAnimator? = null
+    private val standardInterpolator = PathInterpolator(0.22f, 0f, 0.08f, 1f)
+    private val enterInterpolator = PathInterpolator(0.12f, 0f, 0f, 1f)
+    private val exitInterpolator = PathInterpolator(0.4f, 0f, 0.8f, 0.2f)
     private var currentApp: AppModel = app
     private var installedLaunchPackage: String? = null
     private lateinit var rootView: View
@@ -114,6 +308,12 @@ class VersionSheet(
     private lateinit var scrollHintIcon: ImageView
     private var installedVersionName: String? = null
     private var installedVersionCode: Int? = null
+    private var pendingInstallKey: String? = null
+    private var awaitingInstallConfirmationReturn = false
+    private var pendingUninstallKey: String? = null
+    private var awaitingUninstallResult = false
+    private var pendingUninstallStillInstalledRetries = 0
+    private var pendingUninstallStartedAtMs = 0L
     private val versionAdapter = VersionAdapter()
 
     private val versionDiff = object : DiffUtil.ItemCallback<Version>() {
@@ -127,13 +327,54 @@ class VersionSheet(
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        markPresentationBlocked(true)
+        context?.let {
+            AppDiagnostics.trace(it, "UI", "version_sheet_on_create_dialog", currentApp.name)
+        }
         return BottomSheetDialog(requireContext(), R.style.BottomSheetTheme).apply {
             dismissWithAnimation = true
         }
     }
 
+    override fun onDismiss(dialog: android.content.DialogInterface) {
+        context?.let {
+            AppDiagnostics.trace(it, "UI", "version_sheet_on_dismiss", currentApp.name)
+        }
+        markPresentationBlocked(false)
+        super.onDismiss(dialog)
+    }
+
+    override fun onCancel(dialog: android.content.DialogInterface) {
+        context?.let {
+            AppDiagnostics.trace(it, "UI", "version_sheet_on_cancel", currentApp.name)
+        }
+        super.onCancel(dialog)
+    }
+
+    override fun dismiss() {
+        context?.let {
+            AppDiagnostics.trace(it, "UI", "version_sheet_dismiss_called", currentApp.name)
+        }
+        super.dismiss()
+    }
+
+    override fun dismissAllowingStateLoss() {
+        context?.let {
+            AppDiagnostics.trace(
+                it,
+                "UI",
+                "version_sheet_dismiss_state_loss_called",
+                currentApp.name
+            )
+        }
+        super.dismissAllowingStateLoss()
+    }
+
     override fun onStart() {
         super.onStart()
+        context?.let {
+            AppDiagnostics.trace(it, "UI", "version_sheet_on_start", currentApp.name)
+        }
 
         val dialog = dialog as? BottomSheetDialog ?: return
         val context = requireContext()
@@ -149,14 +390,51 @@ class VersionSheet(
         maxSheetHeightPx = (screenHeight * MAX_SHEET_HEIGHT_RATIO).toInt()
 
         val behavior = BottomSheetBehavior.from(bottomSheet)
+        val outsideTouchView = dialog.findViewById<View>(com.google.android.material.R.id.touch_outside)
         behavior.isDraggable = true
         behavior.skipCollapsed = true
         behavior.isHideable = true
+        behavior.state = BottomSheetBehavior.STATE_EXPANDED
+        AppDiagnostics.trace(
+            context,
+            "UI",
+            "version_sheet_behavior_init",
+            "${currentApp.name} | cancelable=$isCancelable"
+        )
+        traceSheetPresentationSnapshot("version_sheet_snapshot_init", bottomSheet, behavior)
+        outsideTouchView?.setOnClickListener {
+            AppDiagnostics.trace(
+                context,
+                "UI",
+                "version_sheet_outside_dismiss",
+                currentApp.name
+            )
+            dismiss()
+        }
+        applyInitialMultiItemSheetBounds(bottomSheet, behavior)
 
         bottomSheetCallback?.let(behavior::removeBottomSheetCallback)
         val callback = object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheetView: View, newState: Int) {
+                AppDiagnostics.trace(
+                    requireContext(),
+                    "UI",
+                    "version_sheet_state_changed",
+                    "${currentApp.name} | state=${stateLabel(newState)}"
+                )
+                traceSheetPresentationSnapshot(
+                    "version_sheet_snapshot_state_changed",
+                    bottomSheetView,
+                    behavior
+                )
                 updateSheetSnackbarPosition(bottomSheetView)
+                if (versionsByKey.size <= 1 && newState == BottomSheetBehavior.STATE_COLLAPSED) {
+                    bottomSheetView.post {
+                        if (!isAdded || view == null) return@post
+                        behavior.state = BottomSheetBehavior.STATE_EXPANDED
+                    }
+                    return
+                }
                 if (newState == BottomSheetBehavior.STATE_HIDDEN) {
                     if (isCurrentSnackbarSheetBound) {
                         currentSnackbar?.dismiss()
@@ -180,9 +458,37 @@ class VersionSheet(
             background = null
         }
 
+        requestInitialSheetClamp(bottomSheet)
         bottomSheet.post {
             if (!isAdded || view == null) return@post
             adjustSheetHeight()
+            behavior.state = BottomSheetBehavior.STATE_EXPANDED
+            traceSheetPresentationSnapshot("version_sheet_snapshot_post_start", bottomSheet, behavior)
+            scheduleExpandedEnforcement(bottomSheet, behavior)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (awaitingInstallConfirmationReturn) {
+            val installKey = pendingInstallKey ?: return
+            if (installVisualStateByKey[installKey] != InstallVisualState.WAITING_CONFIRMATION) return
+            awaitingInstallConfirmationReturn = false
+            rootView.postDelayed({
+                if (!isAdded || view == null) return@postDelayed
+                if (installVisualStateByKey[installKey] != InstallVisualState.WAITING_CONFIRMATION) return@postDelayed
+                startInstallingVisualState(installKey)
+            }, 220L)
+            return
+        }
+
+        if (awaitingUninstallResult) {
+            val uninstallKey = pendingUninstallKey ?: return
+            rootView.postDelayed({
+                if (!isAdded || view == null) return@postDelayed
+                if (!awaitingUninstallResult) return@postDelayed
+                schedulePendingUninstallRefresh(uninstallKey, UNINSTALL_RESULT_CHECK_DELAY_MS)
+            }, 40L)
         }
     }
 
@@ -191,6 +497,9 @@ class VersionSheet(
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        context?.let {
+            AppDiagnostics.trace(it, "UI", "version_sheet_on_create_view", currentApp.name)
+        }
 
         val view = inflater.inflate(R.layout.bottom_sheet_versions, container, false)
         rootView = view
@@ -204,9 +513,6 @@ class VersionSheet(
         appNameView = view.findViewById(R.id.appName)
         sheetSummaryView = view.findViewById(R.id.sheetSummary)
         versionListBasePaddingBottom = versionList.paddingBottom
-        view.findViewById<View>(R.id.versionListContainer)?.setBackgroundColor(
-            sheetSurfaceColor(requireContext())
-        )
         val useDynamicColor = AppearancePreferences.isDynamicColorEnabled(requireContext())
         scrollHintPill.setBackgroundResource(
             if (useDynamicColor) {
@@ -259,18 +565,6 @@ class VersionSheet(
         return view
     }
 
-    private fun sheetSurfaceColor(context: android.content.Context): Int {
-        return when {
-            AppearancePreferences.isPureBlackActive(context) -> Color.BLACK
-            AppearancePreferences.isDynamicColorEnabled(context) -> ThemeColors.color(
-                context,
-                com.google.android.material.R.attr.colorSurface,
-                R.color.bg
-            )
-            else -> ContextCompat.getColor(context, R.color.bg)
-        }
-    }
-
     private fun sheetBackgroundRes(context: android.content.Context): Int {
         return when {
             AppearancePreferences.isPureBlackActive(context) -> R.drawable.bottom_sheet_bg_pure_black
@@ -289,6 +583,7 @@ class VersionSheet(
         val displayedVersions = displayedVersions(sortedVersions)
         val downloadsSnapshot = DownloadRepository.snapshotDownloads()
         versionsByKey = displayedVersions.associateBy(::versionKey)
+        pendingInitialMultiItemClamp = displayedVersions.size > 1
         currentLatestVersion = sortedVersions.firstOrNull()
         val latestVersionNumber = currentLatestVersion?.version
 
@@ -305,12 +600,32 @@ class VersionSheet(
         }
         buttonViewsByKey.clear()
         hintViewsByKey = emptyMap()
+        lastVersionSizingTracePayloads.clear()
+        lastUninstallTracePayloads.clear()
         completedKeys.clear()
         doneHandledKeys.clear()
         lastKnownStatuses.clear()
         visualProgressByKey.clear()
         activeSessionKeys.clear()
         failedKeys.clear()
+        pendingRewardLaunchKeys.clear()
+        installVisualStateByKey.clear()
+        installVisualProgressByKey.clear()
+        restoredInstallVisualKeys.clear()
+        installVisualCompletingKeys.clear()
+        uninstallVisualStateByKey.clear()
+        uninstallTransitioningKeys.clear()
+        resolvedUninstallKeys.clear()
+        installProgressAnimators.values.forEach(ValueAnimator::cancel)
+        installProgressAnimators.clear()
+        sheetHeightAnimator?.cancel()
+        sheetHeightAnimator = null
+        pendingInstallKey = null
+        awaitingInstallConfirmationReturn = false
+        pendingUninstallKey = null
+        awaitingUninstallResult = false
+        pendingUninstallStillInstalledRetries = 0
+        pendingUninstallStartedAtMs = 0L
 
         if (displayedVersions.isEmpty()) {
             currentInstallSnapshot = null
@@ -384,9 +699,13 @@ class VersionSheet(
         val button = card.findViewById<FrameLayout>(R.id.versionDownloadButton)
         val buttonTrack = card.findViewById<FrameLayout>(R.id.versionDownloadTrack)
         val buttonFill = card.findViewById<ImageView>(R.id.versionDownloadFill)
+        val buttonContent = card.findViewById<View>(R.id.versionDownloadContent)
         val buttonLabel = card.findViewById<TextView>(R.id.versionDownloadLabel)
         val buttonIcon = card.findViewById<ImageView>(R.id.versionDownloadIcon)
-        val uninstallButton = card.findViewById<View>(R.id.versionUninstallButton)
+        val installProgress = card.findViewById<WiggleCircularProgressIndicator>(R.id.versionInstallProgress)
+        val uninstallButton = card.findViewById<FrameLayout>(R.id.versionUninstallButton)
+        val uninstallLabel = card.findViewById<TextView>(R.id.versionUninstallLabel)
+        val uninstallProgress = card.findViewById<WiggleCircularProgressIndicator>(R.id.versionUninstallProgress)
         title.text = ctx.getString(
             R.string.version_format,
             version.displayVersionName()
@@ -447,32 +766,93 @@ class VersionSheet(
             hasInstalledHint = installedHint.visibility == View.VISIBLE,
             hasDownloadedHint = downloadedHint.visibility == View.VISIBLE
         )
-        hintViewsByKey = hintViewsByKey + (key to VersionHintViews(installedHint, downloadedHint, actionRow))
+        hintViewsByKey = hintViewsByKey + (
+            key to VersionHintViews(
+                cardRoot = card as ViewGroup,
+                installedHint = installedHint,
+                downloadedHint = downloadedHint,
+                actionRow = actionRow
+            )
+        )
 
         buttonViewsByKey[key] = DownloadButtonViews(
             actionRow = actionRow,
             container = button,
             track = buttonTrack,
             fill = buttonFill,
+            content = buttonContent,
             label = buttonLabel,
             icon = buttonIcon,
-            uninstallButton = uninstallButton
+            installProgress = installProgress,
+            uninstallButton = uninstallButton,
+            uninstallLabel = uninstallLabel,
+            uninstallProgress = uninstallProgress
         )
         applyVersionButtonPalette(buttonViewsByKey.getValue(key), ctx)
         attachPressAnimation(button)
         attachPressAnimation(uninstallButton)
+        uninstallButton.setOnTouchListener { _, event ->
+            when (event.actionMasked) {
+                MotionEvent.ACTION_DOWN,
+                MotionEvent.ACTION_UP,
+                MotionEvent.ACTION_CANCEL -> {
+                    traceUninstallInteraction(
+                        key = key,
+                        views = buttonViewsByKey[key] ?: return@setOnTouchListener false,
+                        eventName = "uninstall_touch",
+                        extra = "action=${motionActionLabel(event.actionMasked)}"
+                    )
+                }
+            }
+            false
+        }
 
         button.setOnClickListener {
             val activity = activity ?: return@setOnClickListener
             val item = DownloadRepository.snapshotDownloads()
                 .lastOrNull { versionKey(it.versionName, it.url, it.versionCode) == key }
-            when (resolveButtonAction(version, item)) {
+            val action = resolveButtonAction(version, item)
+            if (isPrimaryActionLocked(key, action)) {
+                traceVersionButtonAction(
+                    key = key,
+                    action = when (action) {
+                        VersionButtonAction.OPEN -> "open"
+                        VersionButtonAction.INSTALL -> "install"
+                        VersionButtonAction.DOWNLOAD -> "download"
+                    },
+                    button = "primary",
+                    item = item,
+                    version = version,
+                    result = "ignored_locked"
+                )
+                return@setOnClickListener
+            }
+            when (action) {
+                VersionButtonAction.OPEN -> traceVersionButtonAction(
+                    key = key,
+                    action = "open",
+                    button = "primary",
+                    item = item,
+                    version = version
+                )
+
+                VersionButtonAction.INSTALL -> traceVersionButtonAction(
+                    key = key,
+                    action = "install",
+                    button = "primary",
+                    item = item,
+                    version = version
+                )
+
+                VersionButtonAction.DOWNLOAD -> Unit
+            }
+            when (action) {
                 VersionButtonAction.OPEN -> {
                     openInstalledApp()
                 }
 
                 VersionButtonAction.INSTALL -> {
-                    installDownloadedVersion(item)
+                    installDownloadedVersion(key, item)
                 }
 
                 VersionButtonAction.DOWNLOAD -> {
@@ -485,9 +865,11 @@ class VersionSheet(
                         )
                         return@setOnClickListener
                     }
+                    pendingRewardLaunchKeys.add(key)
                     RewardedAdManager.showThen(
                         activity = activity,
                         onRewardEarned = {
+                            pendingRewardLaunchKeys.remove(key)
                             runVersionDownload(
                                 version = version,
                                 key = key,
@@ -496,6 +878,7 @@ class VersionSheet(
                             )
                         },
                         onAdUnavailable = {
+                            pendingRewardLaunchKeys.remove(key)
                             runVersionDownload(
                                 version = version,
                                 key = key,
@@ -504,6 +887,7 @@ class VersionSheet(
                             )
                         },
                         onAdDismissedWithoutReward = {
+                            pendingRewardLaunchKeys.remove(key)
                             val sheetAnchor = (dialog as? BottomSheetDialog)?.findViewById<View>(
                                 com.google.android.material.R.id.design_bottom_sheet
                             ) ?: rootView
@@ -530,7 +914,32 @@ class VersionSheet(
             }
         }
         uninstallButton.setOnClickListener {
-            launchInstalledAppUninstall()
+            if (isUninstallActionLocked(key)) {
+                traceVersionButtonAction(
+                    key = key,
+                    action = "uninstall",
+                    button = "secondary",
+                    item = DownloadRepository.snapshotDownloads()
+                        .lastOrNull { versionKey(it.versionName, it.url, it.versionCode) == key },
+                    version = version,
+                    result = "ignored_locked"
+                )
+                return@setOnClickListener
+            }
+            traceVersionButtonAction(
+                key = key,
+                action = "uninstall",
+                button = "secondary",
+                item = DownloadRepository.snapshotDownloads()
+                    .lastOrNull { versionKey(it.versionName, it.url, it.versionCode) == key },
+                version = version
+            )
+            traceUninstallInteraction(
+                key = key,
+                views = buttonViewsByKey[key] ?: return@setOnClickListener,
+                eventName = "uninstall_click"
+            )
+            launchInstalledAppUninstall(key)
         }
 
         updateDownloadButtons(DownloadRepository.snapshotDownloads())
@@ -628,6 +1037,7 @@ class VersionSheet(
 
     private fun clearVersionView(key: String) {
         buttonViewsByKey.remove(key)?.let { releaseLiquidDrawable(it.fill) }
+        hintLayoutSettleRunnables.remove(key)?.let(mainHandler::removeCallbacks)
         hintViewsByKey = hintViewsByKey - key
     }
 
@@ -656,7 +1066,19 @@ class VersionSheet(
 
         fun submitVersions(versions: List<Version>, latest: Int?) {
             latestVersionNumber = latest
-            submitList(versions)
+            submitList(versions) {
+                if (!isAdded || view == null || !this@VersionSheet::versionList.isInitialized) {
+                    return@submitList
+                }
+                AppDiagnostics.trace(
+                    requireContext(),
+                    "UI",
+                    "version_sheet_list_committed",
+                    "${currentApp.name} | count=${versions.size}"
+                )
+                requestSheetHeightAdjust()
+                requestSheetHeightAdjust(32L)
+            }
         }
 
         override fun getItemId(position: Int): Long {
@@ -683,6 +1105,9 @@ class VersionSheet(
                 latestVersionNumber = latestVersionNumber,
                 key = key
             )
+            if (position == 0) {
+                attachPrimaryVersionLayoutProbe(holder.itemView, key)
+            }
         }
 
         override fun onViewRecycled(holder: VersionViewHolder) {
@@ -697,6 +1122,10 @@ class VersionSheet(
 
         installEventObserverStartedAt = System.currentTimeMillis()
         DownloadRepository.downloadsLive.observe(viewLifecycleOwner) { downloads ->
+            if (shouldDeferAutomaticUiRefresh()) {
+                scheduleDeferredUiRefresh()
+                return@observe
+            }
             updateDownloadButtons(downloads)
             scheduleInstallSnapshotRefresh()
             refreshVersionHints()
@@ -704,57 +1133,89 @@ class VersionSheet(
 
         InstallStatusCenter.events.observe(viewLifecycleOwner) { event ->
             if (event.token < installEventObserverStartedAt) return@observe
+            handleInstallVisualEvent(event)
+            val shouldShowSnackbar =
+                event.installStage == null ||
+                    event.installStage == InstallStatusCenter.InstallStage.SUCCESS ||
+                    event.installStage == InstallStatusCenter.InstallStage.FAILURE
             val hadTrustedInstall = installedLaunchPackage != null
+            val stateRefreshDelayMs = stateRefreshDelayFor(event)
+            val installSuccessTransitionActive =
+                event.installStage == InstallStatusCenter.InstallStage.SUCCESS &&
+                    (installVisualCompletingKeys.isNotEmpty() || installTransitioningKeys.isNotEmpty())
             if (event.refreshInstalledState) {
-                scheduleInstallSnapshotRefresh()
+                if (stateRefreshDelayMs > 0L) {
+                    mainHandler.postDelayed({
+                        if (!isAdded) return@postDelayed
+                        scheduleInstallSnapshotRefresh()
+                    }, stateRefreshDelayMs)
+                } else {
+                    scheduleInstallSnapshotRefresh()
+                }
             }
-            if (hadTrustedInstall) {
-                AppStateCacheManager.forceRefreshInstalledPackages(requireContext()) {
-                    if (!isAdded) return@forceRefreshInstalledPackages
-                    refreshInstalledInfo(requireContext())
-                    val stillTrustedInstalled = AppIdentityStore.isTrustedInstalled(
-                        requireContext(),
-                        currentApp.packageName,
-                        currentApp.name
-                    )
-                    if (!stillTrustedInstalled) {
-                        if (preferOpenInstalledAction) {
-                            requestAnimatedDismiss()
-                        } else {
-                            updateDownloadButtons(DownloadRepository.snapshotDownloads())
-                            refreshVersionHints()
-                            if (event.message.isNotBlank()) {
-                                showSheetSnackbar(event.message, event.indefinite)
-                            }
-                        }
-                        return@forceRefreshInstalledPackages
-                    }
-                    updateDownloadButtons(DownloadRepository.snapshotDownloads())
-                    refreshVersionHints()
-                    if (event.message.isNotBlank()) {
-                        showSheetSnackbar(event.message, event.indefinite)
-                    }
+            if (installSuccessTransitionActive) {
+                if (shouldShowSnackbar && event.message.isNotBlank()) {
+                    showSheetSnackbar(event.message, event.indefinite)
                 }
                 return@observe
             }
-            if (event.message.isBlank()) return@observe
+            if (hadTrustedInstall) {
+                val refreshBlock = {
+                    AppStateCacheManager.forceRefreshInstalledPackages(requireContext()) {
+                        if (!isAdded) return@forceRefreshInstalledPackages
+                        refreshInstalledInfo(requireContext())
+                        val stillTrustedInstalled = AppIdentityStore.isTrustedInstalled(
+                            requireContext(),
+                            currentApp.packageName,
+                            currentApp.name
+                        )
+                        if (!stillTrustedInstalled) {
+                            if (preferOpenInstalledAction) {
+                                requestAnimatedDismiss()
+                            } else {
+                                if (!runPostUninstallTransitionIfNeeded(event)) {
+                                    updateDownloadButtons(DownloadRepository.snapshotDownloads())
+                                }
+                                refreshVersionHints()
+                                if (shouldShowSnackbar && event.message.isNotBlank()) {
+                                    showSheetSnackbar(event.message, event.indefinite)
+                                }
+                            }
+                            return@forceRefreshInstalledPackages
+                        }
+                        updateDownloadButtons(DownloadRepository.snapshotDownloads())
+                        refreshVersionHints()
+                        if (shouldShowSnackbar && event.message.isNotBlank()) {
+                            showSheetSnackbar(event.message, event.indefinite)
+                        }
+                    }
+                }
+                if (stateRefreshDelayMs > 0L) {
+                    mainHandler.postDelayed({
+                        if (!isAdded) return@postDelayed
+                        refreshBlock()
+                    }, stateRefreshDelayMs)
+                } else {
+                    refreshBlock()
+                }
+                return@observe
+            }
+            if (!shouldShowSnackbar || event.message.isBlank()) return@observe
             showSheetSnackbar(event.message, event.indefinite)
         }
     }
 
     private fun requestAnimatedDismiss() {
-        val bottomSheet = (dialog as? BottomSheetDialog)?.findViewById<View>(
-            com.google.android.material.R.id.design_bottom_sheet
-        )
-        val behavior = bottomSheet?.let { BottomSheetBehavior.from(it) }
-        if (behavior != null) {
-            behavior.state = BottomSheetBehavior.STATE_HIDDEN
-        } else {
-            dismiss()
-        }
+        dismiss()
     }
 
     private fun showSheetSnackbar(message: String, indefinite: Boolean) {
+        if (shouldDeferAutomaticUiRefresh()) {
+            pendingSheetSnackbarMessage = message
+            pendingSheetSnackbarIndefinite = indefinite
+            scheduleDeferredUiRefresh()
+            return
+        }
         val sheetAnchor = (dialog as? BottomSheetDialog)?.findViewById<View>(
             com.google.android.material.R.id.design_bottom_sheet
         ) ?: rootView
@@ -824,9 +1285,13 @@ class VersionSheet(
                     return@post
                 }
                 currentInstallSnapshot = snapshot
+                if (shouldDeferAutomaticUiRefresh()) {
+                    scheduleDeferredUiRefresh()
+                    return@post
+                }
                 updateDownloadButtons(DownloadRepository.snapshotDownloads())
                 refreshVersionHints()
-                adjustSheetHeight()
+                requestSheetHeightAdjust()
             }
         }.start()
     }
@@ -961,10 +1426,19 @@ class VersionSheet(
     }
 
     override fun onDestroyView() {
+        markPresentationBlocked(false)
+        clearInitialSheetClampListener()
+        enforceExpandedRunnable?.let(mainHandler::removeCallbacks)
+        enforceExpandedRunnable = null
+        zeroContentHeightRetryRunnable?.let(mainHandler::removeCallbacks)
+        zeroContentHeightRetryRunnable = null
         val sheet = (dialog as? BottomSheetDialog)?.findViewById<View>(
             com.google.android.material.R.id.design_bottom_sheet
         )
         val behavior = sheet?.let { BottomSheetBehavior.from(it) }
+        (dialog as? BottomSheetDialog)
+            ?.findViewById<View>(com.google.android.material.R.id.touch_outside)
+            ?.setOnClickListener(null)
         bottomSheetCallback?.let { callback ->
             behavior?.removeBottomSheetCallback(callback)
         }
@@ -974,8 +1448,20 @@ class VersionSheet(
         }
         currentSnackbar = null
         isCurrentSnackbarSheetBound = false
+        pendingSheetSnackbarMessage = null
+        pendingSheetSnackbarIndefinite = false
         installSnapshotRunnable?.let(mainHandler::removeCallbacks)
         installSnapshotRunnable = null
+        deferredUiRefreshRunnable?.let(mainHandler::removeCallbacks)
+        deferredUiRefreshRunnable = null
+        sheetHeightAdjustRunnable?.let(mainHandler::removeCallbacks)
+        sheetHeightAdjustRunnable = null
+        sheetHeightSettleRunnable?.let(mainHandler::removeCallbacks)
+        sheetHeightSettleRunnable = null
+        hintLayoutSettleRunnables.values.forEach(mainHandler::removeCallbacks)
+        hintLayoutSettleRunnables.clear()
+        sheetHeightAnimator?.cancel()
+        sheetHeightAnimator = null
         lastInstallSnapshotRefreshAt = 0L
         versionScrollListener?.let { listener ->
             if (this::versionList.isInitialized) {
@@ -998,7 +1484,133 @@ class VersionSheet(
         visualProgressByKey.clear()
         activeSessionKeys.clear()
         failedKeys.clear()
+        pendingRewardLaunchKeys.clear()
+        installVisualStateByKey.clear()
+        installVisualProgressByKey.clear()
+        restoredInstallVisualKeys.clear()
+        installVisualCompletingKeys.clear()
+        installTransitioningKeys.clear()
+        uninstallVisualStateByKey.clear()
+        uninstallTransitioningKeys.clear()
+        resolvedUninstallKeys.clear()
+        installProgressAnimators.values.forEach(ValueAnimator::cancel)
+        installProgressAnimators.clear()
+        pendingInstallKey = null
+        awaitingInstallConfirmationReturn = false
+        pendingUninstallKey = null
+        awaitingUninstallResult = false
+        pendingUninstallStillInstalledRetries = 0
+        pendingUninstallStartedAtMs = 0L
+        zeroContentHeightRetriesRemaining = 0
         super.onDestroyView()
+    }
+
+    private fun scheduleExpandedEnforcement(
+        bottomSheet: View,
+        behavior: BottomSheetBehavior<View>,
+        attemptsRemaining: Int = 4
+    ) {
+        if (attemptsRemaining <= 0) return
+        enforceExpandedRunnable?.let(mainHandler::removeCallbacks)
+        val runnable = Runnable {
+            enforceExpandedRunnable = null
+            if (!isAdded || view == null) return@Runnable
+            val targetHeight = bottomSheet.layoutParams?.height?.takeIf { it > 0 } ?: return@Runnable
+            val parentHeight = (bottomSheet.parent as? View)?.height ?: 0
+            val visibleHeight = bottomSheet.height.takeIf { it > 0 } ?: 0
+            val looksPeeked =
+                visibleHeight in 1 until targetHeight ||
+                    (parentHeight > 0 && bottomSheet.top > parentHeight / 2)
+            traceSheetPresentationSnapshot(
+                "version_sheet_snapshot_enforce_check",
+                bottomSheet,
+                behavior,
+                "visibleH=$visibleHeight targetH=$targetHeight parentH=$parentHeight top=${bottomSheet.top} attempts=$attemptsRemaining looksPeeked=$looksPeeked"
+            )
+
+            if (looksPeeked || behavior.state != BottomSheetBehavior.STATE_EXPANDED) {
+                AppDiagnostics.trace(
+                    requireContext(),
+                    "UI",
+                    "version_sheet_expand_enforced",
+                    "${currentApp.name} | visibleH=$visibleHeight targetH=$targetHeight top=${bottomSheet.top} state=${stateLabel(behavior.state)} attempts=$attemptsRemaining"
+                )
+                bottomSheet.requestLayout()
+                behavior.peekHeight = targetHeight
+                behavior.state = BottomSheetBehavior.STATE_EXPANDED
+                traceSheetPresentationSnapshot(
+                    "version_sheet_snapshot_enforced",
+                    bottomSheet,
+                    behavior
+                )
+            }
+
+            if (attemptsRemaining > 1) {
+                scheduleExpandedEnforcement(bottomSheet, behavior, attemptsRemaining - 1)
+            }
+        }
+        enforceExpandedRunnable = runnable
+        mainHandler.postDelayed(runnable, 48L)
+    }
+
+    private fun shouldDeferAutomaticUiRefresh(): Boolean {
+        return System.currentTimeMillis() < suppressUiRefreshUntil ||
+            awaitingUninstallResult ||
+            installTransitioningKeys.isNotEmpty() ||
+            uninstallTransitioningKeys.isNotEmpty() ||
+            installVisualCompletingKeys.isNotEmpty()
+    }
+
+    private fun beginUiSettleWindow(durationMs: Long) {
+        val targetUntil = System.currentTimeMillis() + durationMs
+        if (targetUntil > suppressUiRefreshUntil) {
+            suppressUiRefreshUntil = targetUntil
+        }
+        context?.let {
+            AppDiagnostics.trace(
+                it,
+                "UI",
+                "sheet_settle_window",
+                "${currentApp.name} | duration=${durationMs}ms"
+            )
+        }
+    }
+
+    private fun scheduleDeferredUiRefresh() {
+        val delayMs = (suppressUiRefreshUntil - System.currentTimeMillis()).coerceAtLeast(0L)
+        deferredUiRefreshRunnable?.let(mainHandler::removeCallbacks)
+        val runnable = Runnable {
+            deferredUiRefreshRunnable = null
+            if (!isAdded || view == null) return@Runnable
+            if (shouldDeferAutomaticUiRefresh()) {
+                scheduleDeferredUiRefresh()
+                return@Runnable
+            }
+            updateDownloadButtons(DownloadRepository.snapshotDownloads())
+            scheduleInstallSnapshotRefresh()
+            refreshVersionHints()
+            flushPendingSheetSnackbar()
+        }
+        deferredUiRefreshRunnable = runnable
+        mainHandler.postDelayed(runnable, delayMs)
+    }
+
+    private fun flushPendingSheetSnackbar() {
+        val message = pendingSheetSnackbarMessage ?: return
+        pendingSheetSnackbarMessage = null
+        val indefinite = pendingSheetSnackbarIndefinite
+        pendingSheetSnackbarIndefinite = false
+        showSheetSnackbar(message, indefinite)
+    }
+
+    private fun stateRefreshDelayFor(event: InstallStatusCenter.Event): Long {
+        val eventAppName = event.appName ?: return 0L
+        if (!eventAppName.equals(currentApp.name, ignoreCase = true)) return 0L
+        return when {
+            event.installStage == InstallStatusCenter.InstallStage.SUCCESS -> INSTALL_SUCCESS_SETTLE_DELAY_MS
+            awaitingUninstallResult && event.refreshInstalledState -> UNINSTALL_SUCCESS_SETTLE_DELAY_MS
+            else -> 0L
+        }
     }
 
     private fun updateDownloadButtons(downloads: List<DownloadItem>) {
@@ -1008,12 +1620,67 @@ class VersionSheet(
             .associateBy { versionKey(it.versionName, it.url, it.versionCode) }
 
         if (buttonViewsByKey.isEmpty()) return
+        restoreActiveInstallVisualState()
 
         buttonViewsByKey.forEach { (key, views) ->
             val context = views.container.context
             val version = versionsByKey[key]
             val item = relevantDownloads[key]
             val visualProgress = visualProgressByKey[key] ?: 0
+            val installVisualState = installVisualStateByKey[key]
+            val uninstallVisualState = uninstallVisualStateByKey[key]
+            val resolvedAction = resolveButtonAction(version, item)
+
+            if (resolvedAction == VersionButtonAction.OPEN) {
+                val successAnimationOwnsKey =
+                    installVisualCompletingKeys.contains(key) ||
+                        installTransitioningKeys.contains(key)
+                val hadStaleInstallVisualState =
+                    installVisualState != null && !successAnimationOwnsKey
+                if (hadStaleInstallVisualState) {
+                    clearInstallVisualState(key)
+                }
+                if (uninstallVisualState == null && hadStaleInstallVisualState) {
+                    applyOpenState(views, animateUninstall = false)
+                    lastKnownStatuses[key] = item?.status.orEmpty()
+                    return@forEach
+                }
+            }
+
+            if (key in installTransitioningKeys) {
+                lastKnownStatuses[key] = item?.status.orEmpty()
+                return@forEach
+            }
+
+            if (key in uninstallTransitioningKeys) {
+                lastKnownStatuses[key] = item?.status.orEmpty()
+                return@forEach
+            }
+
+            if (uninstallVisualState != null) {
+                applyUninstallVisualState(views, uninstallVisualState)
+                lastKnownStatuses[key] = item?.status.orEmpty()
+                return@forEach
+            }
+
+            if (installVisualState != null) {
+                if (
+                    resolvedAction == VersionButtonAction.OPEN &&
+                    !installVisualCompletingKeys.contains(key) &&
+                    !installTransitioningKeys.contains(key)
+                ) {
+                    clearInstallVisualState(key)
+                    applyOpenState(views, animateUninstall = false)
+                } else {
+                    applyInstallVisualState(
+                        views = views,
+                        state = installVisualState,
+                        progress = installVisualProgressByKey[key] ?: 0
+                    )
+                }
+                lastKnownStatuses[key] = item?.status.orEmpty()
+                return@forEach
+            }
 
             when {
                 item == null -> {
@@ -1252,14 +1919,1274 @@ class VersionSheet(
         item: DownloadItem?
     ) {
         when (resolveButtonAction(version, item)) {
-            VersionButtonAction.OPEN -> applyOpenState(views)
+            VersionButtonAction.OPEN -> applyOpenState(views, animateUninstall = false)
             VersionButtonAction.INSTALL -> applyInstallState(views)
             VersionButtonAction.DOWNLOAD -> applyIdleState(views)
         }
     }
 
+    private fun restoreActiveInstallVisualState() {
+        if (installVisualStateByKey.isNotEmpty()) return
+        val activeInstall = InstallStatusCenter.activeStateForApp(currentApp.name) ?: return
+        val key = activeInstall.versionKey
+        if (!buttonViewsByKey.containsKey(key) || !versionsByKey.containsKey(key)) return
+        installVisualStateByKey[key] = InstallVisualState.WAITING_CONFIRMATION
+        installVisualProgressByKey.remove(key)
+        restoredInstallVisualKeys.add(key)
+        pendingInstallKey = key
+        awaitingInstallConfirmationReturn = activeInstall.stage == InstallStatusCenter.InstallStage.WAITING_CONFIRMATION
+        context?.let {
+            AppDiagnostics.trace(
+                it,
+                "UI",
+                "version_sheet_install_visual_restored",
+                "${currentApp.name} | key=$key | stage=${activeInstall.stage}"
+            )
+        }
+    }
+
+    private fun handleInstallVisualEvent(event: InstallStatusCenter.Event) {
+        val eventAppName = event.appName ?: return
+        if (!eventAppName.equals(currentApp.name, ignoreCase = true)) return
+
+        when (event.installStage) {
+            InstallStatusCenter.InstallStage.WAITING_CONFIRMATION -> {
+                val installKey = pendingInstallKey ?: return
+                awaitingInstallConfirmationReturn = true
+                installVisualStateByKey[installKey] = InstallVisualState.WAITING_CONFIRMATION
+                installVisualProgressByKey.remove(installKey)
+                updateDownloadButtons(DownloadRepository.snapshotDownloads())
+            }
+
+            InstallStatusCenter.InstallStage.SUCCESS -> {
+                awaitingInstallConfirmationReturn = false
+                val installKey = pendingInstallKey ?: installVisualStateByKey.keys.firstOrNull() ?: return
+                completeInstallingVisualState(installKey)
+            }
+
+            InstallStatusCenter.InstallStage.FAILURE -> {
+                awaitingInstallConfirmationReturn = false
+                val installKey = pendingInstallKey ?: installVisualStateByKey.keys.firstOrNull()
+                pendingInstallKey = null
+                if (installKey != null) {
+                    val wasWaitingConfirmation =
+                        installVisualStateByKey[installKey] == InstallVisualState.WAITING_CONFIRMATION
+                    clearInstallVisualState(installKey)
+                    if (wasWaitingConfirmation) {
+                        installTransitioningKeys.add(installKey)
+                        val recentSystemReason = SystemOperationReturnGate.recentReason(RECENT_SYSTEM_RETURN_WINDOW_MS)
+                        if (recentSystemReason != null) {
+                            context?.let {
+                                AppDiagnostics.trace(
+                                    it,
+                                    "ANIM",
+                                    "install_cancel_reverse_delayed",
+                                    recentSystemReason
+                                )
+                            }
+                        }
+                        val animationDelayMs = if (recentSystemReason != null) {
+                            SYSTEM_RETURN_ANIMATION_DELAY_MS
+                        } else {
+                            0L
+                        }
+                        mainHandler.postDelayed({
+                            if (!isAdded || view == null) return@postDelayed
+                            buttonViewsByKey[installKey]?.let(::animateCancelledInstallReturn)
+                        }, animationDelayMs)
+                        mainHandler.postDelayed({
+                            installTransitioningKeys.remove(installKey)
+                            if (!isAdded || view == null) return@postDelayed
+                            updateDownloadButtons(DownloadRepository.snapshotDownloads())
+                        }, animationDelayMs + BUTTON_MORPH_FROM_CIRCLE_MS + 80L)
+                    } else {
+                        updateDownloadButtons(DownloadRepository.snapshotDownloads())
+                    }
+                }
+            }
+
+            else -> Unit
+        }
+    }
+
+    private fun runPostUninstallTransitionIfNeeded(event: InstallStatusCenter.Event): Boolean {
+        val uninstallKey = pendingUninstallKey ?: return false
+        if (event.appName?.equals(currentApp.name, ignoreCase = true) != true) return false
+        resolvePendingUninstallResult(uninstallKey, stillInstalled = false)
+        return true
+    }
+
+    private fun schedulePendingUninstallRefresh(uninstallKey: String, delayMs: Long) {
+        rootView.postDelayed({
+            if (!isAdded || view == null) return@postDelayed
+            if (!awaitingUninstallResult) return@postDelayed
+            AppStateCacheManager.forceRefreshInstalledPackages(requireContext()) {
+                if (!isAdded || view == null) return@forceRefreshInstalledPackages
+                refreshInstalledInfo(requireContext())
+                val stillInstalled = AppIdentityStore.isTrustedInstalled(
+                    requireContext(),
+                    currentApp.packageName,
+                    currentApp.name
+                )
+                val elapsedSinceUninstallStart = if (pendingUninstallStartedAtMs > 0L) {
+                    SystemClock.uptimeMillis() - pendingUninstallStartedAtMs
+                } else {
+                    Long.MAX_VALUE
+                }
+                val shouldKeepWaiting = stillInstalled &&
+                    pendingUninstallStillInstalledRetries < MAX_UNINSTALL_STILL_INSTALLED_RETRIES &&
+                    elapsedSinceUninstallStart < UNINSTALL_CONFIRMATION_GRACE_MS
+                if (shouldKeepWaiting) {
+                    pendingUninstallStillInstalledRetries += 1
+                    context?.let {
+                        AppDiagnostics.trace(
+                            it,
+                            "UI",
+                            "uninstall_result_retry",
+                            "${currentApp.name} | key=$uninstallKey | retry=$pendingUninstallStillInstalledRetries | elapsedMs=$elapsedSinceUninstallStart"
+                        )
+                    }
+                    schedulePendingUninstallRefresh(uninstallKey, UNINSTALL_RESULT_RETRY_DELAY_MS)
+                    return@forceRefreshInstalledPackages
+                }
+                resolvePendingUninstallResult(uninstallKey, stillInstalled)
+            }
+        }, delayMs)
+    }
+
+    private fun resolvePendingUninstallResult(uninstallKey: String, stillInstalled: Boolean) {
+        if (!resolvedUninstallKeys.add(uninstallKey)) return
+        awaitingUninstallResult = false
+        pendingUninstallStillInstalledRetries = 0
+        pendingUninstallStartedAtMs = 0L
+        clearUninstallVisualState(uninstallKey)
+        context?.let {
+            AppDiagnostics.trace(
+                it,
+                "UI",
+                "uninstall_result_resolved",
+                "${currentApp.name} | key=$uninstallKey | stillInstalled=$stillInstalled"
+            )
+        }
+        if (stillInstalled) {
+            uninstallTransitioningKeys.add(uninstallKey)
+            val recentSystemReason = SystemOperationReturnGate.recentReason(RECENT_SYSTEM_RETURN_WINDOW_MS)
+            if (recentSystemReason != null) {
+                context?.let {
+                    AppDiagnostics.trace(
+                        it,
+                        "ANIM",
+                        "uninstall_cancel_reverse_delayed",
+                        recentSystemReason
+                    )
+                }
+            }
+            val animationDelayMs = if (recentSystemReason != null) {
+                SYSTEM_RETURN_ANIMATION_DELAY_MS
+            } else {
+                0L
+            }
+            mainHandler.postDelayed({
+                if (!isAdded || view == null) return@postDelayed
+                buttonViewsByKey[uninstallKey]?.let(::animateCancelledUninstallReturn)
+            }, animationDelayMs)
+            mainHandler.postDelayed({
+                uninstallTransitioningKeys.remove(uninstallKey)
+                if (!isAdded || view == null) return@postDelayed
+                updateDownloadButtons(DownloadRepository.snapshotDownloads())
+            }, animationDelayMs + BUTTON_MORPH_FROM_CIRCLE_MS + 80L)
+            return
+        }
+
+        beginUiSettleWindow(UNINSTALL_SUCCESS_SETTLE_DELAY_MS)
+        if (preferOpenInstalledAction) {
+            mainHandler.postDelayed({
+                if (!isAdded || view == null) return@postDelayed
+                requestAnimatedDismiss()
+            }, POST_SYSTEM_ANIMATION_DELAY_MS)
+            return
+        }
+
+        uninstallTransitioningKeys.add(uninstallKey)
+        mainHandler.postDelayed({
+            if (!isAdded || view == null) return@postDelayed
+            buttonViewsByKey[uninstallKey]?.let(::animateOpenToInstallState)
+        }, POST_SYSTEM_ANIMATION_DELAY_MS)
+        mainHandler.postDelayed({
+            uninstallTransitioningKeys.remove(uninstallKey)
+            if (!isAdded || view == null) return@postDelayed
+            updateDownloadButtons(DownloadRepository.snapshotDownloads())
+            refreshVersionHints()
+        }, UNINSTALL_SUCCESS_SETTLE_DELAY_MS + POST_SYSTEM_ANIMATION_DELAY_MS)
+    }
+
+    private fun animateOpenToInstallState(views: DownloadButtonViews) {
+        context?.let {
+            AppDiagnostics.trace(it, "ANIM", "open_to_install_start", currentApp.name)
+        }
+        val installExpandedWidth = resolveInstallExpandedWidth(views)
+        views.uninstallButton.animate().cancel()
+        cancelMorphSurface(views.uninstallButton)
+        views.uninstallButton.alpha = 0f
+        views.uninstallButton.scaleX = 0.92f
+        views.uninstallButton.scaleY = 0.92f
+        views.uninstallButton.visibility = View.GONE
+
+        applyVersionButtonPalette(views, views.container.context)
+        views.installProgress.animate().cancel()
+        views.installProgress.visibility = View.GONE
+        views.installProgress.isIndeterminate = true
+        views.content.visibility = View.VISIBLE
+        views.content.animate().cancel()
+        views.content.alpha = 0.9f
+        views.content.scaleX = 0.988f
+        views.content.scaleY = 0.988f
+        views.content.translationY = 1.5f
+        views.container.isEnabled = true
+        views.track.animate().cancel()
+        views.track.scaleX = 1f
+        views.track.scaleY = 1f
+        views.content.animate()
+            .alpha(1f)
+            .scaleX(1f)
+            .scaleY(1f)
+            .translationY(0f)
+            .setDuration(CONTENT_REVEAL_MS)
+            .setInterpolator(enterInterpolator)
+            .withLayer()
+            .start()
+        views.label.text = getString(R.string.download_action_install)
+        views.icon.visibility = View.GONE
+        views.fill.alpha = 1f
+        animateFillTo(views.fill, 0)
+        morphInstallTrack(
+            views,
+            toCircle = false,
+            animate = true,
+            animateExpansion = true,
+            targetExpandedWidth = installExpandedWidth,
+            expandFromStart = true
+        )
+    }
+
+    private fun animateCancelledUninstallReturn(views: DownloadButtonViews) {
+        context?.let {
+            AppDiagnostics.trace(it, "ANIM", "uninstall_cancel_reverse_start", currentApp.name)
+        }
+        applyVersionButtonPalette(views, views.container.context)
+        resetInstallProgressUi(
+            views,
+            targetExpandedWidth = resolvePrimaryExpandedWidth(views)
+        )
+        views.container.isEnabled = true
+        views.label.text = getString(R.string.download_action_open)
+        views.icon.visibility = View.GONE
+        views.fill.alpha = 1f
+        animateFillTo(views.fill, 0)
+
+        views.uninstallButton.visibility = View.VISIBLE
+        views.uninstallButton.isEnabled = true
+        views.uninstallButton.animate().cancel()
+        cancelMorphSurface(views.uninstallButton)
+        views.uninstallLabel.animate().cancel()
+        views.uninstallProgress.animate().cancel()
+        views.uninstallProgress.visibility = View.GONE
+        views.uninstallProgress.isIndeterminate = true
+        views.uninstallButton.alpha = 1f
+        views.uninstallButton.scaleX = 1f
+        views.uninstallButton.scaleY = 1f
+        morphUninstallButton(views, toCircle = false, animate = true)
+        views.uninstallLabel.visibility = View.VISIBLE
+        views.uninstallLabel.alpha = 0f
+        views.uninstallLabel.scaleX = 0.94f
+        views.uninstallLabel.scaleY = 0.94f
+        views.uninstallLabel.animate()
+            .alpha(1f)
+            .scaleX(1f)
+            .scaleY(1f)
+            .setStartDelay(72L)
+            .setDuration(CONTENT_REVEAL_MS)
+            .setInterpolator(enterInterpolator)
+            .withLayer()
+            .start()
+        traceUninstallInteraction(
+            key = findButtonKey(views),
+            views = views,
+            eventName = "uninstall_button_state",
+            extra = "reason=cancel_reverse_applied"
+        )
+    }
+
+    private fun animateCancelledInstallReturn(views: DownloadButtonViews) {
+        context?.let {
+            AppDiagnostics.trace(it, "ANIM", "install_cancel_reverse_start", currentApp.name)
+        }
+        applyVersionButtonPalette(views, views.container.context)
+        views.container.isEnabled = true
+        views.icon.visibility = View.GONE
+        views.fill.alpha = 1f
+        animateFillTo(views.fill, 0)
+        resetInstallProgressUi(
+            views,
+            animateContent = true,
+            animateReverseMorph = true,
+            targetExpandedWidth = resolveInstallExpandedWidth(views)
+        )
+        views.label.text = getString(R.string.download_action_install)
+    }
+
+    private fun clearUninstallVisualState(key: String) {
+        uninstallVisualStateByKey.remove(key)
+        if (pendingUninstallKey == key) {
+            pendingUninstallKey = null
+        }
+    }
+
+    private fun startInstallingVisualState(key: String) {
+        restoredInstallVisualKeys.remove(key)
+        installVisualStateByKey[key] = InstallVisualState.INSTALLING
+        animateInstallProgressTo(
+            key = key,
+            targetProgress = 68,
+            durationMs = 1400L,
+            interpolator = LinearInterpolator()
+        ) {
+            if (installVisualStateByKey[key] == InstallVisualState.INSTALLING) {
+                animateInstallProgressTo(
+                    key = key,
+                    targetProgress = INSTALL_PROGRESS_CAP,
+                    durationMs = 1800L,
+                    interpolator = LinearInterpolator()
+                ) {
+                    if (installVisualStateByKey[key] == InstallVisualState.INSTALLING) {
+                        installVisualStateByKey[key] = InstallVisualState.FINALIZING
+                        updateDownloadButtons(DownloadRepository.snapshotDownloads())
+                    }
+                }
+            }
+        }
+        updateDownloadButtons(DownloadRepository.snapshotDownloads())
+    }
+
+    private fun completeInstallingVisualState(key: String) {
+        restoredInstallVisualKeys.remove(key)
+        beginUiSettleWindow(INSTALL_SUCCESS_SETTLE_DELAY_MS)
+        context?.let {
+            AppDiagnostics.trace(
+                it,
+                "UI",
+                "install_success_animation_start",
+                "${currentApp.name} | key=$key"
+            )
+        }
+        installVisualStateByKey[key] = InstallVisualState.INSTALLING
+        installVisualCompletingKeys.add(key)
+        animateInstallProgressTo(
+            key = key,
+            targetProgress = 100,
+            durationMs = 420L,
+            interpolator = DecelerateInterpolator()
+        ) {
+            installVisualCompletingKeys.remove(key)
+            clearInstallVisualState(key)
+            if (!isAdded || view == null) return@animateInstallProgressTo
+            installTransitioningKeys.add(key)
+            rootView.postDelayed({
+                if (!isAdded || view == null) return@postDelayed
+                buttonViewsByKey[key]?.let(::animateInstallSuccessToOpenState)
+            }, INSTALL_OPEN_REVEAL_DELAY_MS)
+            rootView.postDelayed({
+                installTransitioningKeys.remove(key)
+                if (!isAdded || view == null) return@postDelayed
+                updateDownloadButtons(DownloadRepository.snapshotDownloads())
+            }, INSTALL_OPEN_REVEAL_DELAY_MS + INSTALL_OPEN_REVEAL_EXPAND_MS + 140L)
+        }
+        updateDownloadButtons(DownloadRepository.snapshotDownloads())
+    }
+
+    private fun animateInstallSuccessToOpenState(views: DownloadButtonViews) {
+        context?.let {
+            AppDiagnostics.trace(it, "ANIM", "install_success_open_reveal_start", currentApp.name)
+        }
+        applyVersionButtonPalette(views, views.container.context)
+        applyUninstallProgressPalette(views.uninstallProgress, views.uninstallButton.context)
+        views.container.isEnabled = true
+        views.uninstallButton.animate().cancel()
+        views.uninstallLabel.animate().cancel()
+        views.uninstallProgress.animate().cancel()
+        ensureInstallTrackCircle(views)
+        val trackParams = views.track.layoutParams as? FrameLayout.LayoutParams ?: return
+        val currentWidth = views.track.width.takeIf { it > 0 } ?: dp(INSTALL_CIRCLE_SIZE_DP)
+        trackParams.width = currentWidth
+        trackParams.gravity = Gravity.CENTER
+        views.track.layoutParams = trackParams
+        views.track.translationX = 0f
+        views.track.scaleX = 1f
+        views.track.scaleY = 1f
+        views.content.animate().cancel()
+        views.content.visibility = View.INVISIBLE
+        views.content.alpha = 0f
+        views.content.scaleX = 1f
+        views.content.scaleY = 1f
+        views.content.translationY = 0f
+        views.label.text = getString(R.string.download_action_open)
+        views.label.alpha = 1f
+        views.label.translationY = 0f
+        views.icon.visibility = View.GONE
+        views.fill.alpha = 1f
+        animateFillTo(views.fill, 0)
+        views.installProgress.visibility = View.VISIBLE
+        views.installProgress.alpha = 1f
+        views.installProgress.scaleX = 1f
+        views.installProgress.scaleY = 1f
+        views.installProgress.rotation = 0f
+        views.installProgress.isIndeterminate = true
+
+        views.uninstallButton.visibility = View.VISIBLE
+        ensureUninstallButtonExpanded(views)
+        views.uninstallButton.isEnabled = true
+        views.uninstallButton.alpha = 0f
+        views.uninstallButton.scaleX = 0.94f
+        views.uninstallButton.scaleY = 0.94f
+        views.uninstallButton.translationX = 0f
+        views.uninstallLabel.visibility = View.VISIBLE
+        views.uninstallLabel.alpha = 0f
+        views.uninstallLabel.scaleX = 0.94f
+        views.uninstallLabel.scaleY = 0.94f
+        views.uninstallProgress.visibility = View.GONE
+
+        val targetExpandedWidth = resolvePrimaryExpandedWidth(views)
+        val shiftDistance = ((targetExpandedWidth - currentWidth) / 2f).coerceAtLeast(0f)
+        views.track.animate()
+            .translationX(-shiftDistance)
+            .setDuration(INSTALL_OPEN_REVEAL_MOVE_MS)
+            .setInterpolator(standardInterpolator)
+            .withLayer()
+            .setListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator) {
+                    views.track.animate().setListener(null)
+                    val leftAnchoredParams = views.track.layoutParams as? FrameLayout.LayoutParams ?: return
+                    leftAnchoredParams.width = currentWidth
+                    leftAnchoredParams.gravity = Gravity.START or Gravity.CENTER_VERTICAL
+                    views.track.layoutParams = leftAnchoredParams
+                    views.track.translationX = 0f
+                    hideCircularIndicator(views.installProgress)
+
+                    ValueAnimator.ofInt(currentWidth, targetExpandedWidth).apply {
+                        duration = INSTALL_OPEN_REVEAL_EXPAND_MS
+                        interpolator = enterInterpolator
+                        addUpdateListener { animator ->
+                            val width = animator.animatedValue as Int
+                            val expandingParams = views.track.layoutParams as FrameLayout.LayoutParams
+                            expandingParams.width = width
+                            expandingParams.gravity = Gravity.START or Gravity.CENTER_VERTICAL
+                            views.track.layoutParams = expandingParams
+                        }
+                        addListener(object : AnimatorListenerAdapter() {
+                            override fun onAnimationStart(animation: Animator) {
+                                views.content.visibility = View.VISIBLE
+                                views.content.animate().cancel()
+                                views.content.alpha = 0f
+                                views.content.scaleX = 0.985f
+                                views.content.scaleY = 0.985f
+                                views.content.animate()
+                                    .alpha(1f)
+                                    .scaleX(1f)
+                                    .scaleY(1f)
+                                    .setDuration(260L)
+                                    .setStartDelay(120L)
+                                    .setInterpolator(enterInterpolator)
+                                    .withLayer()
+                                    .start()
+                                views.uninstallButton.animate()
+                                    .alpha(1f)
+                                    .scaleX(1f)
+                                    .scaleY(1f)
+                                    .setDuration(240L)
+                                    .setStartDelay(220L)
+                                    .setInterpolator(DecelerateInterpolator())
+                                    .withLayer()
+                                    .start()
+                                views.uninstallLabel.animate()
+                                    .alpha(1f)
+                                    .scaleX(1f)
+                                    .scaleY(1f)
+                                    .setDuration(180L)
+                                    .setStartDelay(300L)
+                                    .setInterpolator(DecelerateInterpolator())
+                                    .withLayer()
+                                    .start()
+                            }
+
+                            override fun onAnimationEnd(animation: Animator) {
+                                val expandedParams = views.track.layoutParams as FrameLayout.LayoutParams
+                                expandedParams.width = MATCH_PARENT
+                                expandedParams.gravity = Gravity.FILL_HORIZONTAL
+                                views.track.layoutParams = expandedParams
+                                views.track.translationX = 0f
+                                traceUninstallInteraction(
+                                    key = findButtonKey(views),
+                                    views = views,
+                                    eventName = "uninstall_button_state",
+                                    extra = "reason=install_success_open_reveal"
+                                )
+                            }
+                        })
+                        start()
+                    }
+                }
+            })
+            .start()
+    }
+
+    private fun clearInstallVisualState(key: String) {
+        installVisualStateByKey.remove(key)
+        installVisualProgressByKey.remove(key)
+        restoredInstallVisualKeys.remove(key)
+        installVisualCompletingKeys.remove(key)
+        installProgressAnimators.remove(key)?.cancel()
+        if (pendingInstallKey == key) {
+            pendingInstallKey = null
+        }
+    }
+
+    private fun animateInstallProgressTo(
+        key: String,
+        targetProgress: Int,
+        durationMs: Long,
+        interpolator: android.animation.TimeInterpolator,
+        onEnd: (() -> Unit)? = null
+    ) {
+        val target = targetProgress.coerceIn(0, 100)
+        val current = installVisualProgressByKey[key] ?: 0
+        installProgressAnimators.remove(key)?.cancel()
+
+        if (current == target) {
+            onEnd?.invoke()
+            return
+        }
+
+        ValueAnimator.ofInt(current, target).apply {
+            duration = durationMs
+            this.interpolator = interpolator
+            addUpdateListener { animator ->
+                val progress = animator.animatedValue as Int
+                installVisualProgressByKey[key] = progress
+                buttonViewsByKey[key]?.let { views ->
+                    if (installVisualStateByKey[key] == InstallVisualState.INSTALLING) {
+                        applyInstallVisualState(views, InstallVisualState.INSTALLING, progress)
+                    }
+                }
+            }
+            addListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator) {
+                    installProgressAnimators.remove(key)
+                    onEnd?.invoke()
+                }
+
+                override fun onAnimationCancel(animation: Animator) {
+                    installProgressAnimators.remove(key)
+                }
+            })
+            installProgressAnimators[key] = this
+            start()
+        }
+    }
+
+    private fun applyInstallVisualState(
+        views: DownloadButtonViews,
+        state: InstallVisualState,
+        progress: Int
+    ) {
+        val context = views.container.context
+        val key = findButtonKey(views)
+        val restoreImmediately = key != null && restoredInstallVisualKeys.remove(key)
+        val wasShowingProgress = views.installProgress.visibility == View.VISIBLE
+        applyVersionButtonPalette(views, context)
+        applyInstallProgressPalette(views.installProgress, context)
+        views.track.setBackgroundResource(versionProgressTrackDrawable(context))
+        views.container.isEnabled = false
+        views.uninstallButton.visibility = View.GONE
+        views.container.animate().cancel()
+        views.track.animate().cancel()
+        views.label.animate().cancel()
+        views.icon.animate().cancel()
+        views.fill.animate().cancel()
+        views.content.alpha = 0f
+        views.content.scaleX = 1f
+        views.content.scaleY = 1f
+        views.content.translationY = 0f
+        views.content.visibility = View.INVISIBLE
+        views.fill.alpha = 0f
+        views.icon.visibility = View.GONE
+        if (!wasShowingProgress && !restoreImmediately) {
+            showCircularIndicator(views.installProgress)
+        } else {
+            views.installProgress.visibility = View.VISIBLE
+            views.installProgress.alpha = 1f
+            views.installProgress.scaleX = 1f
+            views.installProgress.scaleY = 1f
+            views.installProgress.rotation = 0f
+        }
+        when (state) {
+            InstallVisualState.WAITING_CONFIRMATION -> {
+                views.installProgress.isIndeterminate = true
+            }
+
+            InstallVisualState.INSTALLING -> {
+                views.installProgress.isIndeterminate = false
+                views.installProgress.setProgressCompat(progress.coerceIn(0, 100), false)
+            }
+
+            InstallVisualState.FINALIZING -> {
+                views.installProgress.isIndeterminate = true
+            }
+        }
+        if (!wasShowingProgress) {
+            if (restoreImmediately) {
+                ensureInstallTrackCircle(views)
+            } else {
+                morphInstallTrack(views, toCircle = true, animate = true)
+            }
+        } else {
+            ensureInstallTrackCircle(views)
+        }
+    }
+
+    private fun applyUninstallVisualState(
+        views: DownloadButtonViews,
+        state: UninstallVisualState
+    ) {
+        val wasShowingProgress = views.uninstallProgress.visibility == View.VISIBLE
+        applyUninstallProgressPalette(views.uninstallProgress, views.uninstallButton.context)
+        views.uninstallButton.visibility = View.VISIBLE
+        views.uninstallButton.isEnabled = false
+        views.uninstallButton.animate().cancel()
+        cancelMorphSurface(views.uninstallButton)
+        views.uninstallLabel.animate().cancel()
+        views.uninstallProgress.animate().cancel()
+        views.uninstallLabel.visibility = View.INVISIBLE
+        if (!wasShowingProgress) {
+            showCircularIndicator(views.uninstallProgress)
+        } else {
+            views.uninstallProgress.visibility = View.VISIBLE
+            views.uninstallProgress.alpha = 1f
+            views.uninstallProgress.scaleX = 1f
+            views.uninstallProgress.scaleY = 1f
+            views.uninstallProgress.rotation = 0f
+        }
+        when (state) {
+            UninstallVisualState.WAITING_RESULT -> {
+                views.uninstallProgress.isIndeterminate = true
+            }
+        }
+        morphUninstallButton(views, toCircle = true, animate = !wasShowingProgress)
+        traceUninstallInteraction(
+            key = findButtonKey(views),
+            views = views,
+            eventName = "uninstall_button_state",
+            extra = "reason=waiting_result"
+        )
+    }
+
+    private fun resetInstallProgressUi(
+        views: DownloadButtonViews,
+        animateContent: Boolean = false,
+        animateReverseMorph: Boolean = false,
+        targetExpandedWidth: Int? = null,
+        expandDurationOverrideMs: Long? = null,
+        expandFromStart: Boolean = false
+    ) {
+        val wasShowingProgress = views.installProgress.visibility == View.VISIBLE
+        views.installProgress.animate().cancel()
+        hideCircularIndicator(views.installProgress)
+        views.installProgress.isIndeterminate = true
+        views.content.visibility = View.VISIBLE
+        if (animateContent && wasShowingProgress) {
+            traceMorph(
+                "install_content_reveal_start",
+                "reverse=$animateReverseMorph | ${currentApp.name}"
+            )
+            views.content.animate().cancel()
+            views.content.alpha = 0f
+            views.content.scaleX = 0.982f
+            views.content.scaleY = 0.982f
+            views.content.translationY = 2f
+            views.content.animate()
+                .alpha(1f)
+                .scaleX(1f)
+                .scaleY(1f)
+                .translationY(0f)
+                .setDuration(CONTENT_REVEAL_MS)
+                .setStartDelay(if (animateReverseMorph) 56L else 40L)
+                .setInterpolator(enterInterpolator)
+                .withLayer()
+                .start()
+        } else {
+            views.content.animate().cancel()
+            views.content.alpha = 1f
+            views.content.scaleX = 1f
+            views.content.scaleY = 1f
+            views.content.translationY = 0f
+        }
+        views.fill.alpha = 1f
+        morphInstallTrack(
+            views,
+            toCircle = false,
+            animate = wasShowingProgress,
+            animateExpansion = animateReverseMorph,
+            targetExpandedWidth = targetExpandedWidth,
+            expandDurationOverrideMs = expandDurationOverrideMs,
+            expandFromStart = expandFromStart
+        )
+        if (animateContent && wasShowingProgress) {
+            views.track.scaleX = 0.992f
+            views.track.scaleY = 0.992f
+            views.track.animate()
+                .scaleX(1f)
+                .scaleY(1f)
+                .setDuration(if (animateReverseMorph) BUTTON_MORPH_FROM_CIRCLE_MS else TRACK_SETTLE_MS)
+                .setInterpolator(standardInterpolator)
+                .withLayer()
+                .start()
+        } else {
+            views.track.scaleX = 1f
+            views.track.scaleY = 1f
+        }
+    }
+
+    private fun resetUninstallProgressUi(
+        views: DownloadButtonViews,
+        force: Boolean = false
+    ) {
+        if (!force && isUninstallTransitionActive(views)) {
+            traceUninstallInteraction(
+                key = findButtonKey(views),
+                views = views,
+                eventName = "uninstall_button_state",
+                extra = "reason=reset_progress_skipped_transition"
+            )
+            return
+        }
+        val wasShowingProgress = views.uninstallProgress.visibility == View.VISIBLE
+        views.uninstallButton.animate().cancel()
+        cancelMorphSurface(views.uninstallButton)
+        views.uninstallLabel.animate().cancel()
+        views.uninstallProgress.animate().cancel()
+        views.uninstallButton.isEnabled = true
+        views.uninstallButton.alpha = 1f
+        views.uninstallButton.scaleX = 1f
+        views.uninstallButton.scaleY = 1f
+        views.uninstallLabel.visibility = View.VISIBLE
+        views.uninstallLabel.alpha = 1f
+        views.uninstallLabel.scaleX = 1f
+        views.uninstallLabel.scaleY = 1f
+        hideCircularIndicator(views.uninstallProgress)
+        views.uninstallProgress.isIndeterminate = true
+        morphUninstallButton(views, toCircle = false, animate = wasShowingProgress)
+        traceUninstallInteraction(
+            key = findButtonKey(views),
+            views = views,
+            eventName = "uninstall_button_state",
+            extra = "reason=reset_progress"
+        )
+    }
+
+    private fun isUninstallTransitionActive(views: DownloadButtonViews): Boolean {
+        val key = findButtonKey(views) ?: return false
+        return key in uninstallTransitioningKeys
+    }
+
+    private fun isOpenStateStable(views: DownloadButtonViews): Boolean {
+        val trackParams = views.track.layoutParams as? FrameLayout.LayoutParams ?: return false
+        val uninstallParams = views.uninstallButton.layoutParams as? LinearLayout.LayoutParams ?: return false
+        val isOpenLabel = views.label.text == getString(R.string.download_action_open)
+        val isTrackExpanded = trackParams.gravity == Gravity.FILL_HORIZONTAL
+        val isUninstallExpanded = uninstallParams.width == 0 && uninstallParams.weight > 0f
+        return views.installProgress.visibility != View.VISIBLE &&
+            views.content.visibility == View.VISIBLE &&
+            views.icon.visibility != View.VISIBLE &&
+            views.uninstallButton.visibility == View.VISIBLE &&
+            views.uninstallProgress.visibility != View.VISIBLE &&
+            views.uninstallLabel.visibility == View.VISIBLE &&
+            isOpenLabel &&
+            isTrackExpanded &&
+            isUninstallExpanded
+    }
+
+    private fun isInstallStateStable(views: DownloadButtonViews): Boolean {
+        val trackParams = views.track.layoutParams as? FrameLayout.LayoutParams ?: return false
+        val isInstallLabel = views.label.text == getString(R.string.download_action_install)
+        val isTrackExpanded = trackParams.gravity == Gravity.FILL_HORIZONTAL
+        return views.installProgress.visibility != View.VISIBLE &&
+            views.content.visibility == View.VISIBLE &&
+            views.icon.visibility != View.VISIBLE &&
+            views.uninstallButton.visibility != View.VISIBLE &&
+            isInstallLabel &&
+            isTrackExpanded
+    }
+
+    private fun morphInstallTrack(
+        views: DownloadButtonViews,
+        toCircle: Boolean,
+        animate: Boolean,
+        animateExpansion: Boolean = false,
+        targetExpandedWidth: Int? = null,
+        expandDurationOverrideMs: Long? = null,
+        expandFromStart: Boolean = false
+    ) {
+        val params = views.track.layoutParams as? FrameLayout.LayoutParams ?: return
+        val targetWidth = if (toCircle) {
+            dp(INSTALL_CIRCLE_SIZE_DP)
+        } else {
+            targetExpandedWidth ?: views.container.width.takeIf { it > 0 }
+        } ?: return
+        val currentWidth = when {
+            params.width > 0 -> params.width
+            views.track.width > 0 -> views.track.width
+            views.container.width > 0 -> views.container.width
+            else -> return
+        }
+        val targetGravity = if (toCircle) Gravity.CENTER else Gravity.FILL_HORIZONTAL
+        traceMorph(
+            "install_track_morph_start",
+            "toCircle=$toCircle | animate=$animate | expand=$animateExpansion | from=$currentWidth | to=$targetWidth | ${currentApp.name}"
+        )
+        if (currentWidth == targetWidth && params.gravity == targetGravity) {
+            if (!toCircle) {
+                params.width = MATCH_PARENT
+                params.gravity = Gravity.FILL_HORIZONTAL
+                views.track.layoutParams = params
+            }
+            traceMorph(
+                "install_track_morph_skipped",
+                "toCircle=$toCircle | width=$currentWidth | ${currentApp.name}"
+            )
+            return
+        }
+
+        if (!animate) {
+            if (toCircle) {
+                params.width = targetWidth
+                params.gravity = Gravity.CENTER
+            } else {
+                params.width = MATCH_PARENT
+                params.gravity = Gravity.FILL_HORIZONTAL
+            }
+            views.track.layoutParams = params
+            traceMorph(
+                "install_track_morph_applied",
+                "toCircle=$toCircle | target=$targetWidth | ${currentApp.name}"
+            )
+            return
+        }
+
+        animateMorphSurface(views.track, toCircle, "install_track")
+
+        if (!toCircle) {
+            params.gravity = Gravity.CENTER
+            views.track.layoutParams = params
+            if (animateExpansion && expandFromStart) {
+                params.gravity = Gravity.START or Gravity.CENTER_VERTICAL
+                params.width = currentWidth
+                views.track.layoutParams = params
+            }
+            ValueAnimator.ofInt(currentWidth, targetWidth).apply {
+                duration = if (animateExpansion) {
+                    expandDurationOverrideMs ?: BUTTON_MORPH_FROM_CIRCLE_MS
+                } else {
+                    250L
+                }
+                interpolator = enterInterpolator
+                addUpdateListener { animator ->
+                    val width = animator.animatedValue as Int
+                    val layoutParams = views.track.layoutParams as FrameLayout.LayoutParams
+                    layoutParams.width = width
+                    layoutParams.gravity =
+                        if (animateExpansion && expandFromStart) {
+                            Gravity.START or Gravity.CENTER_VERTICAL
+                        } else {
+                            Gravity.CENTER
+                        }
+                    views.track.layoutParams = layoutParams
+                }
+                addListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator) {
+                        val layoutParams = views.track.layoutParams as FrameLayout.LayoutParams
+                        layoutParams.width = MATCH_PARENT
+                        layoutParams.gravity = Gravity.FILL_HORIZONTAL
+                        views.track.layoutParams = layoutParams
+                        traceMorph(
+                            "install_track_morph_end",
+                            "toCircle=false | target=$targetWidth | ${currentApp.name}"
+                        )
+                    }
+                })
+                start()
+            }
+            return
+        }
+
+        ValueAnimator.ofInt(currentWidth, targetWidth).apply {
+            duration = BUTTON_MORPH_TO_CIRCLE_MS
+            interpolator = exitInterpolator
+            addUpdateListener { animator ->
+                val width = animator.animatedValue as Int
+                val layoutParams = views.track.layoutParams as FrameLayout.LayoutParams
+                layoutParams.width = width
+                layoutParams.gravity = Gravity.CENTER
+                views.track.layoutParams = layoutParams
+            }
+            addListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator) {
+                    val layoutParams = views.track.layoutParams as FrameLayout.LayoutParams
+                    if (toCircle) {
+                        layoutParams.width = targetWidth
+                        layoutParams.gravity = Gravity.CENTER
+                    } else {
+                        layoutParams.width = MATCH_PARENT
+                        layoutParams.gravity = Gravity.FILL_HORIZONTAL
+                    }
+                    views.track.layoutParams = layoutParams
+                    traceMorph(
+                        "install_track_morph_end",
+                        "toCircle=$toCircle | target=$targetWidth | ${currentApp.name}"
+                    )
+                }
+            })
+            start()
+        }
+    }
+
+    private fun ensureInstallTrackCircle(views: DownloadButtonViews) {
+        val params = views.track.layoutParams as? FrameLayout.LayoutParams ?: return
+        val circleWidth = dp(INSTALL_CIRCLE_SIZE_DP)
+        if (params.width == circleWidth && params.gravity == Gravity.CENTER) return
+        params.width = circleWidth
+        params.gravity = Gravity.CENTER
+        views.track.layoutParams = params
+    }
+
+    private fun ensureUninstallButtonExpanded(views: DownloadButtonViews) {
+        val params = views.uninstallButton.layoutParams as? LinearLayout.LayoutParams ?: return
+        if (params.width == 0 && params.weight == 1f) return
+        params.width = 0
+        params.weight = 1f
+        views.uninstallButton.layoutParams = params
+    }
+
+    private fun morphUninstallButton(views: DownloadButtonViews, toCircle: Boolean, animate: Boolean) {
+        val params = views.uninstallButton.layoutParams as? LinearLayout.LayoutParams ?: return
+        val targetWidth = if (toCircle) dp(INSTALL_CIRCLE_SIZE_DP) else 0
+        val targetWeight = if (toCircle) 0f else 1f
+        val currentWidth = when {
+            params.width > 0 -> params.width
+            views.uninstallButton.width > 0 -> views.uninstallButton.width
+            else -> 0
+        }
+        traceMorph(
+            "uninstall_button_morph_start",
+            "toCircle=$toCircle | animate=$animate | from=$currentWidth | ${currentApp.name}"
+        )
+
+        if (!animate) {
+            params.width = targetWidth
+            params.weight = targetWeight
+            views.uninstallButton.layoutParams = params
+            traceMorph(
+                "uninstall_button_morph_applied",
+                "toCircle=$toCircle | targetWidth=$targetWidth | targetWeight=$targetWeight | ${currentApp.name}"
+            )
+            return
+        }
+
+        animateMorphSurface(views.uninstallButton, toCircle, "uninstall_button")
+
+        if (!toCircle) {
+            val expandedWidth = resolveUninstallExpandedWidth(views)
+            params.weight = 0f
+            views.uninstallButton.layoutParams = params
+            ValueAnimator.ofInt(currentWidth, expandedWidth).apply {
+                duration = BUTTON_MORPH_FROM_CIRCLE_MS
+                interpolator = enterInterpolator
+                addUpdateListener { animator ->
+                    val width = animator.animatedValue as Int
+                    val layoutParams = views.uninstallButton.layoutParams as LinearLayout.LayoutParams
+                    layoutParams.width = width
+                    layoutParams.weight = 0f
+                    views.uninstallButton.layoutParams = layoutParams
+                }
+                addListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator) {
+                        val layoutParams = views.uninstallButton.layoutParams as LinearLayout.LayoutParams
+                        layoutParams.width = 0
+                        layoutParams.weight = 1f
+                        views.uninstallButton.layoutParams = layoutParams
+                        traceMorph(
+                            "uninstall_button_morph_end",
+                            "toCircle=false | expanded=$expandedWidth | ${currentApp.name}"
+                        )
+                    }
+                })
+                start()
+            }
+            return
+        }
+
+        params.weight = 0f
+        views.uninstallButton.layoutParams = params
+
+        ValueAnimator.ofInt(currentWidth, targetWidth).apply {
+            duration = BUTTON_MORPH_TO_CIRCLE_MS
+            interpolator = exitInterpolator
+            addUpdateListener { animator ->
+                val width = animator.animatedValue as Int
+                val layoutParams = views.uninstallButton.layoutParams as LinearLayout.LayoutParams
+                layoutParams.width = width
+                layoutParams.weight = 0f
+                views.uninstallButton.layoutParams = layoutParams
+            }
+            addListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator) {
+                    val layoutParams = views.uninstallButton.layoutParams as LinearLayout.LayoutParams
+                    layoutParams.width = targetWidth
+                    layoutParams.weight = 0f
+                    views.uninstallButton.layoutParams = layoutParams
+                    traceMorph(
+                        "uninstall_button_morph_end",
+                        "toCircle=true | target=$targetWidth | ${currentApp.name}"
+                    )
+                }
+            })
+            start()
+        }
+    }
+
+    private fun resolveUninstallExpandedWidth(views: DownloadButtonViews): Int {
+        val row = views.actionRow as? ViewGroup ?: return views.uninstallButton.width.coerceAtLeast(dp(INSTALL_CIRCLE_SIZE_DP))
+        val uninstallParams = views.uninstallButton.layoutParams as? LinearLayout.LayoutParams
+        val rowContentWidth = row.width - row.paddingLeft - row.paddingRight
+        val spacingWidth =
+            (uninstallParams?.leftMargin ?: 0) +
+                (uninstallParams?.rightMargin ?: 0)
+        val sharedWidth = (rowContentWidth - spacingWidth).coerceAtLeast(dp(INSTALL_CIRCLE_SIZE_DP) * 2)
+        return (sharedWidth / 2)
+            .coerceAtLeast(dp(INSTALL_CIRCLE_SIZE_DP))
+            .coerceAtLeast(views.uninstallButton.width)
+    }
+
+    private fun resolvePrimaryExpandedWidth(views: DownloadButtonViews): Int {
+        val row = views.actionRow as? ViewGroup ?: return views.track.width.coerceAtLeast(dp(INSTALL_CIRCLE_SIZE_DP))
+        val uninstallParams = views.uninstallButton.layoutParams as? LinearLayout.LayoutParams
+        val rowContentWidth = row.width - row.paddingLeft - row.paddingRight
+        val spacingWidth =
+            (uninstallParams?.leftMargin ?: 0) +
+                (uninstallParams?.rightMargin ?: 0)
+        val sharedWidth = (rowContentWidth - spacingWidth).coerceAtLeast(dp(INSTALL_CIRCLE_SIZE_DP) * 2)
+        return (sharedWidth / 2)
+            .coerceAtLeast(dp(INSTALL_CIRCLE_SIZE_DP))
+    }
+
+    private fun resolveInstallExpandedWidth(views: DownloadButtonViews): Int {
+        val row = views.actionRow as? ViewGroup ?: return views.track.width.coerceAtLeast(dp(INSTALL_CIRCLE_SIZE_DP))
+        val containerParams = views.container.layoutParams as? LinearLayout.LayoutParams
+        val rowContentWidth = row.width - row.paddingLeft - row.paddingRight
+        val horizontalMargins =
+            (containerParams?.leftMargin ?: 0) +
+                (containerParams?.rightMargin ?: 0)
+        return (rowContentWidth - horizontalMargins)
+            .coerceAtLeast(dp(INSTALL_CIRCLE_SIZE_DP))
+            .coerceAtLeast(views.track.width)
+    }
+
+    private fun animateMorphSurface(view: View, toCircle: Boolean, traceLabel: String) {
+        view.animate().cancel()
+        morphSurfaceAnimators.remove(view)?.cancel()
+        val duration = if (toCircle) BUTTON_MORPH_TO_CIRCLE_MS else BUTTON_MORPH_FROM_CIRCLE_MS
+        val interpolator = if (toCircle) {
+            exitInterpolator
+        } else {
+            enterInterpolator
+        }
+        traceMorph(
+            "morph_surface_start",
+            "target=$traceLabel | toCircle=$toCircle | duration=$duration | ${currentApp.name}"
+        )
+        ValueAnimator.ofFloat(0f, 1f).apply {
+            this.duration = duration
+            this.interpolator = interpolator
+            addUpdateListener { animator ->
+                val fraction = animator.animatedFraction
+                val wave = kotlin.math.sin(fraction * Math.PI).toFloat()
+                if (toCircle) {
+                    view.scaleX = 1f - (wave * 0.008f)
+                    view.scaleY = 1f - (wave * 0.013f)
+                } else {
+                    view.scaleX = 1f + (wave * 0.009f)
+                    view.scaleY = 1f + (wave * 0.007f)
+                }
+            }
+            addListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator) {
+                    morphSurfaceAnimators.remove(view)
+                    view.scaleX = 1f
+                    view.scaleY = 1f
+                    traceMorph(
+                        "morph_surface_end",
+                        "target=$traceLabel | toCircle=$toCircle | ${currentApp.name}"
+                    )
+                }
+
+                override fun onAnimationCancel(animation: Animator) {
+                    morphSurfaceAnimators.remove(view)
+                    view.scaleX = 1f
+                    view.scaleY = 1f
+                    traceMorph(
+                        "morph_surface_cancel",
+                        "target=$traceLabel | toCircle=$toCircle | ${currentApp.name}"
+                    )
+                }
+            })
+            morphSurfaceAnimators[view] = this
+            start()
+        }
+    }
+
+    private fun cancelMorphSurface(view: View) {
+        morphSurfaceAnimators.remove(view)?.cancel()
+        view.scaleX = 1f
+        view.scaleY = 1f
+    }
+
+    private fun traceMorph(stage: String, detail: String) {
+        context?.let {
+            AppDiagnostics.trace(it, "ANIM", stage, detail)
+        }
+    }
+
+    private fun applyInstallProgressPalette(
+        indicator: WiggleCircularProgressIndicator,
+        context: android.content.Context
+    ) {
+        val useDynamicColor = AppearancePreferences.isDynamicColorEnabled(context)
+        val indicatorColor = if (useDynamicColor) {
+            ThemeColors.color(
+                context,
+                androidx.appcompat.R.attr.colorPrimary,
+                R.color.accent
+            )
+        } else {
+            Color.BLACK
+        }
+        val baseTrackColor = if (useDynamicColor) {
+            ThemeColors.color(
+                context,
+                com.google.android.material.R.attr.colorSurfaceVariant,
+                R.color.bg
+            )
+        } else {
+            ContextCompat.getColor(context, R.color.nav_surface)
+        }
+        styleCircularIndicator(
+            indicator = indicator,
+            indicatorColor = indicatorColor,
+            trackColor = if (useDynamicColor) {
+                ColorUtils.setAlphaComponent(baseTrackColor, (255 * 0.22f).toInt())
+            } else {
+                ColorUtils.setAlphaComponent(baseTrackColor, (255 * 0.72f).toInt())
+            },
+            sizeDp = INSTALL_PROGRESS_SIZE_DP,
+            thicknessDp = INSTALL_PROGRESS_THICKNESS_DP
+        )
+    }
+
+    private fun applyUninstallProgressPalette(
+        indicator: WiggleCircularProgressIndicator,
+        context: android.content.Context
+    ) {
+        styleCircularIndicator(
+            indicator = indicator,
+            indicatorColor = ContextCompat.getColor(context, R.color.white),
+            trackColor = ColorUtils.setAlphaComponent(
+                ThemeColors.color(
+                    context,
+                    com.google.android.material.R.attr.colorErrorContainer,
+                    R.color.red
+                ),
+                (255 * 0.18f).toInt()
+            ),
+            sizeDp = UNINSTALL_PROGRESS_SIZE_DP,
+            thicknessDp = UNINSTALL_PROGRESS_THICKNESS_DP
+        )
+    }
+
+    private fun styleCircularIndicator(
+        indicator: WiggleCircularProgressIndicator,
+        indicatorColor: Int,
+        trackColor: Int,
+        sizeDp: Int,
+        thicknessDp: Int
+    ) {
+        indicator.indicatorSize = dp(sizeDp)
+        indicator.trackThickness = dp(thicknessDp)
+        indicator.indicatorInset = 0
+        indicator.setIndicatorColor(indicatorColor)
+        indicator.trackColor = trackColor
+    }
+
+    private fun showCircularIndicator(indicator: WiggleCircularProgressIndicator) {
+        indicator.animate().cancel()
+        indicator.visibility = View.VISIBLE
+        indicator.alpha = 0f
+        indicator.scaleX = 0.9f
+        indicator.scaleY = 0.9f
+        indicator.rotation = 0f
+        indicator.animate()
+            .alpha(1f)
+            .scaleX(1f)
+            .scaleY(1f)
+            .rotation(0f)
+            .setDuration(PROGRESS_REVEAL_MS)
+            .setInterpolator(enterInterpolator)
+            .withLayer()
+            .start()
+    }
+
+    private fun hideCircularIndicator(indicator: WiggleCircularProgressIndicator) {
+        if (indicator.visibility != View.VISIBLE) {
+            indicator.alpha = 1f
+            indicator.scaleX = 1f
+            indicator.scaleY = 1f
+            indicator.rotation = 0f
+            indicator.visibility = View.GONE
+            return
+        }
+        indicator.animate().cancel()
+        indicator.animate()
+            .alpha(0f)
+            .scaleX(0.93f)
+            .scaleY(0.93f)
+            .rotation(0f)
+            .setDuration(90L)
+            .setInterpolator(exitInterpolator)
+            .withLayer()
+            .setListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator) {
+                    indicator.visibility = View.GONE
+                    indicator.alpha = 1f
+                    indicator.scaleX = 1f
+                    indicator.scaleY = 1f
+                    indicator.rotation = 0f
+                    indicator.animate().setListener(null)
+                }
+            })
+            .start()
+    }
+
     private fun applyIdleState(views: DownloadButtonViews) {
         applyVersionButtonPalette(views, views.container.context)
+        resetInstallProgressUi(views)
+        resetUninstallProgressUi(views)
         views.container.isEnabled = true
         views.uninstallButton.visibility = View.GONE
         views.container.animate().cancel()
@@ -1272,12 +3199,16 @@ class VersionSheet(
         views.label.alpha = 1f
         views.label.translationY = 0f
         views.label.text = getString(R.string.download_label)
-        views.label.setTextColor(Color.BLACK)
         animateFillTo(views.fill, 0)
     }
 
     private fun applyInstallState(views: DownloadButtonViews) {
+        if (isInstallStateStable(views)) {
+            return
+        }
         applyVersionButtonPalette(views, views.container.context)
+        resetInstallProgressUi(views)
+        resetUninstallProgressUi(views)
         views.container.isEnabled = true
         views.uninstallButton.visibility = View.GONE
         views.container.animate().cancel()
@@ -1290,14 +3221,94 @@ class VersionSheet(
         views.label.alpha = 1f
         views.label.translationY = 0f
         views.label.text = getString(R.string.download_action_install)
-        views.label.setTextColor(Color.BLACK)
         animateFillTo(views.fill, 0)
+        traceUninstallInteraction(
+            key = findButtonKey(views),
+            views = views,
+            eventName = "uninstall_button_state",
+            extra = "reason=apply_install_state"
+        )
     }
 
-    private fun applyOpenState(views: DownloadButtonViews) {
+    private fun applyOpenState(views: DownloadButtonViews, animateUninstall: Boolean = false) {
+        if (animateUninstall) {
+            context?.let {
+                AppDiagnostics.trace(it, "ANIM", "open_reveal_start", currentApp.name)
+            }
+        } else if (isOpenStateStable(views)) {
+            return
+        }
+        val preserveUninstallTransition = !animateUninstall && isUninstallTransitionActive(views)
         applyVersionButtonPalette(views, views.container.context)
+        val targetExpandedWidth = if (animateUninstall) {
+            resolvePrimaryExpandedWidth(views)
+        } else {
+            null
+        }
+        resetInstallProgressUi(
+            views,
+            animateContent = animateUninstall,
+            targetExpandedWidth = targetExpandedWidth,
+            expandDurationOverrideMs = if (animateUninstall) INSTALL_OPEN_REVEAL_EXPAND_MS else null,
+            expandFromStart = animateUninstall
+        )
         views.container.isEnabled = true
-        views.uninstallButton.visibility = View.VISIBLE
+        applyUninstallProgressPalette(views.uninstallProgress, views.uninstallButton.context)
+        if (animateUninstall && views.uninstallButton.visibility != View.VISIBLE) {
+            views.uninstallButton.animate().cancel()
+            views.uninstallLabel.animate().cancel()
+            views.uninstallProgress.animate().cancel()
+            ensureUninstallButtonExpanded(views)
+            views.uninstallButton.isEnabled = true
+            views.uninstallLabel.alpha = 1f
+            views.uninstallLabel.scaleX = 1f
+            views.uninstallLabel.scaleY = 1f
+            views.uninstallLabel.visibility = View.VISIBLE
+            views.uninstallProgress.visibility = View.GONE
+            views.uninstallButton.alpha = 0f
+            views.uninstallButton.scaleX = 0.94f
+            views.uninstallButton.scaleY = 0.94f
+            views.uninstallButton.visibility = View.VISIBLE
+            views.uninstallLabel.alpha = 0f
+            views.uninstallLabel.scaleX = 0.94f
+            views.uninstallLabel.scaleY = 0.94f
+            views.container.translationX = 0f
+            views.uninstallButton.translationX = 0f
+            views.track.scaleX = 0.988f
+            views.track.scaleY = 0.988f
+            views.track.animate()
+                .scaleX(1f)
+                .scaleY(1f)
+                .setDuration(200L)
+                .setInterpolator(DecelerateInterpolator())
+                .withLayer()
+                .start()
+            views.uninstallButton.animate()
+                .alpha(1f)
+                .scaleX(1f)
+                .scaleY(1f)
+                .setDuration(200L)
+                .setStartDelay(80L)
+                .setInterpolator(DecelerateInterpolator())
+                .withLayer()
+                .start()
+            views.uninstallLabel.animate()
+                .alpha(1f)
+                .scaleX(1f)
+                .scaleY(1f)
+                .setDuration(160L)
+                .setStartDelay(130L)
+                .setInterpolator(DecelerateInterpolator())
+                .withLayer()
+                .start()
+        } else {
+            if (!preserveUninstallTransition) {
+                resetUninstallProgressUi(views)
+                views.uninstallButton.visibility = View.VISIBLE
+                views.container.translationX = 0f
+                views.uninstallButton.translationX = 0f
+            }
+        }
         views.container.animate().cancel()
         views.track.animate().cancel()
         views.icon.visibility = View.GONE
@@ -1308,13 +3319,24 @@ class VersionSheet(
         views.label.alpha = 1f
         views.label.translationY = 0f
         views.label.text = getString(R.string.download_action_open)
-        views.label.setTextColor(Color.BLACK)
         animateFillTo(views.fill, 0)
+        traceUninstallInteraction(
+            key = findButtonKey(views),
+            views = views,
+            eventName = "uninstall_button_state",
+            extra = when {
+                animateUninstall -> "reason=apply_open_state_animated"
+                preserveUninstallTransition -> "reason=apply_open_state_preserved_transition"
+                else -> "reason=apply_open_state"
+            }
+        )
     }
 
     private fun applyProgressState(views: DownloadButtonViews, progress: Int, label: String) {
         val context = views.container.context
         applyVersionButtonPalette(views, context)
+        resetInstallProgressUi(views)
+        resetUninstallProgressUi(views)
         views.container.isEnabled = false
         views.uninstallButton.visibility = View.GONE
         views.track.animate().cancel()
@@ -1322,7 +3344,6 @@ class VersionSheet(
         views.label.animate().cancel()
         views.label.alpha = 1f
         views.label.translationY = 0f
-        views.label.setTextColor(Color.BLACK)
         val clamped = progress.coerceIn(0, 100)
         if (
             label.startsWith(getString(R.string.download_status_paused)) ||
@@ -1339,9 +3360,10 @@ class VersionSheet(
 
     private fun applyDoneState(views: DownloadButtonViews, animate: Boolean = true) {
         applyVersionButtonPalette(views, views.container.context)
+        resetInstallProgressUi(views)
+        resetUninstallProgressUi(views)
         views.container.isEnabled = false
         views.uninstallButton.visibility = View.GONE
-        views.label.setTextColor(Color.BLACK)
         animateFillTo(views.fill, 100)
         val doneLabel = getString(R.string.download_status_done)
         val shouldAnimate = views.icon.visibility != View.VISIBLE || views.label.text != doneLabel
@@ -1394,6 +3416,8 @@ class VersionSheet(
 
     private fun applyErrorState(views: DownloadButtonViews) {
         applyVersionButtonPalette(views, views.container.context)
+        resetInstallProgressUi(views)
+        resetUninstallProgressUi(views)
         views.container.isEnabled = true
         views.uninstallButton.visibility = View.GONE
         releaseLiquidDrawable(views.fill)
@@ -1442,32 +3466,33 @@ class VersionSheet(
             return
         }
 
-        if (targetLevel != 10_000) {
-            imageView.setImageLevel(targetLevel)
-            imageView.setTag(R.id.versionDownloadFill, targetLevel)
-            imageView.setTag(R.id.versionDownloadTrack, null)
-            onUpdate?.invoke(targetLevel / 100)
-            onEnd?.invoke()
-            return
-        }
-
         val delta = kotlin.math.abs(targetLevel - currentLevel) / 100
         ValueAnimator.ofInt(currentLevel, targetLevel).apply {
             duration = if (targetLevel == 10_000) {
                 (290L + (delta * 9L)).coerceAtMost(640L)
             } else {
-                (200L + (delta * 7L)).coerceAtMost(460L)
+                (260L + (delta * 10L)).coerceAtMost(460L)
             }
-            interpolator = DecelerateInterpolator()
+            interpolator = if (targetLevel == 10_000) {
+                DecelerateInterpolator()
+            } else {
+                LinearInterpolator()
+            }
+            var lastReportedPercent = currentLevel / 100
             addUpdateListener { animator ->
                 val level = animator.animatedValue as Int
                 imageView.setImageLevel(level)
                 imageView.setTag(R.id.versionDownloadFill, level)
-                onUpdate?.invoke(level / 100)
+                val roundedPercent = ((level + 50) / 100).coerceIn(0, 100)
+                if (roundedPercent != lastReportedPercent) {
+                    lastReportedPercent = roundedPercent
+                    onUpdate?.invoke(roundedPercent)
+                }
             }
             addListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationEnd(animation: Animator) {
                     imageView.setTag(R.id.versionDownloadTrack, null)
+                    onUpdate?.invoke(targetLevel / 100)
                     if (targetLevel == 10_000) {
                         imageView.postDelayed({
                             if (!isAdded || !imageView.isAttachedToWindow) return@postDelayed
@@ -1489,7 +3514,12 @@ class VersionSheet(
         val fillDrawable = liquidVersionDrawable(views.fill, context)
         views.track.setBackgroundResource(versionTrackDrawable(context))
         views.fill.setImageDrawable(fillDrawable)
-        val textColor = if (AppearancePreferences.isDynamicColorEnabled(context)) {
+        val isNightMode =
+            (context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) ==
+                Configuration.UI_MODE_NIGHT_YES
+        val textColor = if (AppearancePreferences.isDynamicColorEnabled(context) && isNightMode) {
+            ContextCompat.getColor(context, R.color.text_on_dark_chip)
+        } else if (AppearancePreferences.isDynamicColorEnabled(context)) {
             ThemeColors.color(
                 context,
                 com.google.android.material.R.attr.colorOnPrimaryContainer,
@@ -1513,7 +3543,24 @@ class VersionSheet(
             return existingDrawable
         }
         existingDrawable?.dispose()
-        val fillColor = if (AppearancePreferences.isDynamicColorEnabled(context)) {
+        val isNightMode =
+            (context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) ==
+                Configuration.UI_MODE_NIGHT_YES
+        val fillColor = if (AppearancePreferences.isDynamicColorEnabled(context) && !isNightMode) {
+            ColorUtils.blendARGB(
+                ThemeColors.color(
+                    context,
+                    com.google.android.material.R.attr.colorPrimaryContainer,
+                    R.color.permission_button_surface
+                ),
+                ThemeColors.color(
+                    context,
+                    androidx.appcompat.R.attr.colorPrimary,
+                    R.color.accent
+                ),
+                0.38f
+            )
+        } else if (AppearancePreferences.isDynamicColorEnabled(context)) {
             ThemeColors.color(
                 context,
                 androidx.appcompat.R.attr.colorPrimary,
@@ -1539,12 +3586,25 @@ class VersionSheet(
         }
     }
 
+    private fun versionProgressTrackDrawable(context: android.content.Context): Int {
+        return if (AppearancePreferences.isDynamicColorEnabled(context)) {
+            R.drawable.version_download_progress_bg
+        } else {
+            R.drawable.version_download_progress_bg_brand
+        }
+    }
+
     private fun refreshVersionHints() {
         if (!this::versionList.isInitialized) return
+        if (shouldDeferAutomaticUiRefresh()) {
+            scheduleDeferredUiRefresh()
+            return
+        }
         val ctx = context ?: return
         val snapshot = currentInstallSnapshot ?: return
         if (hintViewsByKey.isEmpty() || versionsByKey.isEmpty()) return
 
+        var layoutChanged = false
         hintViewsByKey.forEach { (key, views) ->
             val version = versionsByKey[key] ?: return@forEach
             val insight = InstallIntelligence.insight(
@@ -1555,18 +3615,343 @@ class VersionSheet(
                 currentLatestVersion
             )
 
-            views.installedHint.text = insight.installedHint.orEmpty()
-            views.installedHint.visibility = if (insight.installedHint.isNullOrBlank()) View.GONE else View.VISIBLE
+            val nextInstalledText = insight.installedHint.orEmpty()
+            val nextInstalledVisibility = if (insight.installedHint.isNullOrBlank()) View.GONE else View.VISIBLE
+            val installedChanged =
+                views.installedHint.text.toString() != nextInstalledText ||
+                    views.installedHint.visibility != nextInstalledVisibility
+            views.installedHint.text = nextInstalledText
             applyInstalledHintPalette(views.installedHint, insight)
-            views.downloadedHint.text = insight.downloadHint.orEmpty()
-            views.downloadedHint.visibility = if (insight.downloadHint.isNullOrBlank()) View.GONE else View.VISIBLE
+            val nextDownloadedText = insight.downloadHint.orEmpty()
+            val nextDownloadedVisibility = if (insight.downloadHint.isNullOrBlank()) View.GONE else View.VISIBLE
+            val downloadedChanged =
+                views.downloadedHint.text.toString() != nextDownloadedText ||
+                    views.downloadedHint.visibility != nextDownloadedVisibility
+            val spacingChanged = actionRowTopMarginPx(
+                actionRow = views.actionRow,
+                hasInstalledHint = nextInstalledVisibility == View.VISIBLE,
+                hasDownloadedHint = nextDownloadedVisibility == View.VISIBLE
+            ) != currentActionRowTopMarginPx(views.actionRow)
+
+            val cardLayoutChanged = installedChanged || downloadedChanged || spacingChanged
+            if (cardLayoutChanged) {
+                layoutChanged = true
+                traceVersionSizing(
+                    eventName = "version_hint_layout_change",
+                    key = key,
+                    views = views,
+                    extra = buildString {
+                        append("installedChanged=")
+                        append(installedChanged)
+                        append(" downloadedChanged=")
+                        append(downloadedChanged)
+                        append(" spacingChanged=")
+                        append(spacingChanged)
+                        append(" nextInstalledVis=")
+                        append(visibilityLabel(nextInstalledVisibility))
+                        append(" nextDownloadedVis=")
+                        append(visibilityLabel(nextDownloadedVisibility))
+                    }
+                )
+                beginHintLayoutTransition(views.cardRoot)
+                requestHintLayoutSettle(key, views)
+            }
+
+            views.installedHint.visibility = nextInstalledVisibility
+            views.downloadedHint.text = nextDownloadedText
+            views.downloadedHint.visibility = nextDownloadedVisibility
             updateActionButtonSpacing(
                 actionRow = views.actionRow,
-                hasInstalledHint = views.installedHint.visibility == View.VISIBLE,
-                hasDownloadedHint = views.downloadedHint.visibility == View.VISIBLE
+                hasInstalledHint = nextInstalledVisibility == View.VISIBLE,
+                hasDownloadedHint = nextDownloadedVisibility == View.VISIBLE
             )
         }
-        versionList.post { adjustSheetHeight() }
+        if (layoutChanged) {
+            requestSheetHeightAdjust()
+            requestSheetHeightSettle()
+        }
+    }
+
+    private fun beginHintLayoutTransition(cardRoot: ViewGroup) {
+        TransitionManager.beginDelayedTransition(
+            cardRoot,
+            AutoTransition().apply {
+                duration = HINT_LAYOUT_TRANSITION_MS
+                interpolator = standardInterpolator
+            }
+        )
+    }
+
+    private fun requestSheetHeightAdjust(extraDelayMs: Long = 0L) {
+        if (!this::versionList.isInitialized) return
+        val delayMs = if (shouldDeferAutomaticUiRefresh()) {
+            (suppressUiRefreshUntil - System.currentTimeMillis()).coerceAtLeast(0L)
+        } else {
+            0L
+        } + extraDelayMs
+        sheetHeightAdjustRunnable?.let(mainHandler::removeCallbacks)
+        val runnable = Runnable {
+            sheetHeightAdjustRunnable = null
+            if (!isAdded || view == null) return@Runnable
+            if (shouldDeferAutomaticUiRefresh()) {
+                requestSheetHeightAdjust()
+                return@Runnable
+            }
+            adjustSheetHeight()
+        }
+        sheetHeightAdjustRunnable = runnable
+        if (delayMs == 0L) {
+            versionList.post(runnable)
+        } else {
+            mainHandler.postDelayed(runnable, delayMs)
+        }
+    }
+
+    private fun requestSheetHeightSettle() {
+        if (!this::versionList.isInitialized) return
+        val delayMs = if (shouldDeferAutomaticUiRefresh()) {
+            (suppressUiRefreshUntil - System.currentTimeMillis()).coerceAtLeast(0L)
+        } else {
+            HINT_LAYOUT_TRANSITION_MS
+        }
+        sheetHeightSettleRunnable?.let(mainHandler::removeCallbacks)
+        val runnable = Runnable {
+            sheetHeightSettleRunnable = null
+            if (!isAdded || view == null) return@Runnable
+            if (shouldDeferAutomaticUiRefresh()) {
+                requestSheetHeightSettle()
+                return@Runnable
+            }
+            versionList.requestLayout()
+            versionList.post {
+                if (!isAdded || view == null) return@post
+                adjustSheetHeight()
+                hintViewsByKey.entries.firstOrNull()?.let { (key, views) ->
+                    traceVersionSizing(
+                        eventName = "sheet_height_settle",
+                        key = key,
+                        views = views
+                    )
+                }
+            }
+        }
+        sheetHeightSettleRunnable = runnable
+        mainHandler.postDelayed(runnable, delayMs)
+    }
+
+    private fun attachPrimaryVersionLayoutProbe(card: View, key: String) {
+        val immediateHeight = card.height.takeIf { it > 0 } ?: card.measuredHeight
+        if (immediateHeight > 0) {
+            AppDiagnostics.trace(
+                requireContext(),
+                "UI",
+                "version_sheet_primary_card_layout",
+                "${currentApp.name} | key=$key | h=$immediateHeight | measuredH=${card.measuredHeight} | immediate=true"
+            )
+            requestSheetHeightAdjust()
+            return
+        }
+        val listener = object : View.OnLayoutChangeListener {
+            override fun onLayoutChange(
+                v: View,
+                left: Int,
+                top: Int,
+                right: Int,
+                bottom: Int,
+                oldLeft: Int,
+                oldTop: Int,
+                oldRight: Int,
+                oldBottom: Int
+            ) {
+                val height = v.height.takeIf { it > 0 } ?: v.measuredHeight
+                if (height <= 0) return
+                v.removeOnLayoutChangeListener(this)
+                AppDiagnostics.trace(
+                    requireContext(),
+                    "UI",
+                    "version_sheet_primary_card_layout",
+                    "${currentApp.name} | key=$key | h=$height | measuredH=${v.measuredHeight} | immediate=false"
+                )
+                requestSheetHeightAdjust()
+            }
+        }
+        card.addOnLayoutChangeListener(listener)
+    }
+
+    private fun requestHintLayoutSettle(key: String, views: VersionHintViews) {
+        hintLayoutSettleRunnables.remove(key)?.let(mainHandler::removeCallbacks)
+        val runnable = Runnable {
+            hintLayoutSettleRunnables.remove(key)
+            if (!isAdded || view == null) return@Runnable
+            if (shouldDeferAutomaticUiRefresh()) {
+                requestHintLayoutSettle(key, views)
+                return@Runnable
+            }
+            TransitionManager.endTransitions(views.cardRoot)
+            views.cardRoot.layoutParams = views.cardRoot.layoutParams.apply {
+                height = WRAP_CONTENT
+            }
+            views.cardRoot.forceLayout()
+            views.cardRoot.requestLayout()
+            (views.cardRoot.parent as? View)?.requestLayout()
+            versionList.requestLayout()
+            versionList.post {
+                if (!isAdded || view == null) return@post
+                TransitionManager.endTransitions(views.cardRoot)
+                views.cardRoot.layoutParams = views.cardRoot.layoutParams.apply {
+                    height = WRAP_CONTENT
+                }
+                views.cardRoot.forceLayout()
+                views.cardRoot.requestLayout()
+                (views.cardRoot.parent as? View)?.requestLayout()
+                traceVersionSizing(
+                    eventName = "version_card_layout_settle",
+                    key = key,
+                    views = views
+                )
+                adjustSheetHeight()
+            }
+        }
+        hintLayoutSettleRunnables[key] = runnable
+        mainHandler.postDelayed(runnable, HINT_LAYOUT_TRANSITION_MS + 24L)
+    }
+
+    private fun currentActionRowTopMarginPx(actionRow: View): Int {
+        val params = actionRow.layoutParams as? ViewGroup.MarginLayoutParams ?: return 0
+        return params.topMargin
+    }
+
+    private fun traceVersionSizing(
+        eventName: String,
+        key: String,
+        views: VersionHintViews,
+        extra: String? = null
+    ) {
+        val context = context ?: return
+        val dialog = dialog as? BottomSheetDialog
+        val bottomSheet = dialog?.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
+        val listContainer = dialog?.findViewById<View>(R.id.versionListContainer)
+        val actionParams = views.actionRow.layoutParams as? ViewGroup.MarginLayoutParams
+        val cardParams = views.cardRoot.layoutParams as? ViewGroup.MarginLayoutParams
+        val installedParams = views.installedHint.layoutParams as? ViewGroup.MarginLayoutParams
+        val downloadedParams = views.downloadedHint.layoutParams as? ViewGroup.MarginLayoutParams
+        val payload = buildString {
+            append(currentApp.name)
+            append(" | key=")
+            append(key)
+            if (!extra.isNullOrBlank()) {
+                append(" | ")
+                append(extra)
+            }
+            append(" | cardH=")
+            append(views.cardRoot.height)
+            append(" cardMeasuredH=")
+            append(views.cardRoot.measuredHeight)
+            append(" cardBottomMargin=")
+            append(cardParams?.bottomMargin ?: "na")
+            append(" installedVis=")
+            append(visibilityLabel(views.installedHint.visibility))
+            append(" installedH=")
+            append(views.installedHint.height)
+            append(" installedMeasuredH=")
+            append(views.installedHint.measuredHeight)
+            append(" installedTopMargin=")
+            append(installedParams?.topMargin ?: "na")
+            append(" downloadedVis=")
+            append(visibilityLabel(views.downloadedHint.visibility))
+            append(" downloadedH=")
+            append(views.downloadedHint.height)
+            append(" downloadedMeasuredH=")
+            append(views.downloadedHint.measuredHeight)
+            append(" downloadedTopMargin=")
+            append(downloadedParams?.topMargin ?: "na")
+            append(" actionTopMargin=")
+            append(actionParams?.topMargin ?: "na")
+            append(" actionH=")
+            append(views.actionRow.height)
+            append(" listH=")
+            append(if (this@VersionSheet::versionList.isInitialized) versionList.height else -1)
+            append(" listMeasuredH=")
+            append(if (this@VersionSheet::versionList.isInitialized) versionList.measuredHeight else -1)
+            append(" listRange=")
+            append(if (this@VersionSheet::versionList.isInitialized) versionList.computeVerticalScrollRange() else -1)
+            append(" listContainerH=")
+            append(listContainer?.height ?: -1)
+            append(" sheetH=")
+            append(bottomSheet?.height ?: -1)
+            append(" sheetLpH=")
+            append(bottomSheet?.layoutParams?.height ?: "na")
+        }
+        val traceKey = "$eventName|$key"
+        if (lastVersionSizingTracePayloads[traceKey] == payload) return
+        lastVersionSizingTracePayloads[traceKey] = payload
+        AppDiagnostics.trace(context, "UI", eventName, payload)
+    }
+
+    private fun traceSheetPresentationSnapshot(
+        eventName: String,
+        bottomSheet: View,
+        behavior: BottomSheetBehavior<View>,
+        extra: String? = null
+    ) {
+        val context = context ?: return
+        val parent = bottomSheet.parent as? View
+        val payload = buildString {
+            append(currentApp.name)
+            if (!extra.isNullOrBlank()) {
+                append(" | ")
+                append(extra)
+            }
+            append(" | state=")
+            append(stateLabel(behavior.state))
+            append(" top=")
+            append(bottomSheet.top)
+            append(" bottom=")
+            append(bottomSheet.bottom)
+            append(" height=")
+            append(bottomSheet.height)
+            append(" measuredH=")
+            append(bottomSheet.measuredHeight)
+            append(" y=")
+            append(bottomSheet.y)
+            append(" translationY=")
+            append(bottomSheet.translationY)
+            append(" alpha=")
+            append(String.format("%.2f", bottomSheet.alpha))
+            append(" shown=")
+            append(bottomSheet.isShown)
+            append(" attached=")
+            append(bottomSheet.isAttachedToWindow)
+            append(" lpH=")
+            append(bottomSheet.layoutParams?.height ?: "na")
+            append(" peekH=")
+            append(behavior.peekHeight)
+            append(" hideable=")
+            append(behavior.isHideable)
+            append(" draggable=")
+            append(behavior.isDraggable)
+            append(" parentH=")
+            append(parent?.height ?: -1)
+            append(" parentMeasuredH=")
+            append(parent?.measuredHeight ?: -1)
+            append(" rootH=")
+            append(view?.height ?: -1)
+        }
+        AppDiagnostics.trace(context, "UI", eventName, payload)
+    }
+
+    private fun actionRowTopMarginPx(
+        actionRow: View,
+        hasInstalledHint: Boolean,
+        hasDownloadedHint: Boolean
+    ): Int {
+        val density = actionRow.resources.displayMetrics.density
+        val targetTopMarginDp = when {
+            hasInstalledHint && hasDownloadedHint -> 20
+            hasInstalledHint || hasDownloadedHint -> 17
+            else -> 14
+        }
+        return (targetTopMarginDp * density).toInt()
     }
 
     private fun updateScrollHint(visible: Boolean) {
@@ -1581,12 +3966,21 @@ class VersionSheet(
                 scrollHintContainer.animate()
                     .alpha(1f)
                     .translationY(0f)
-                    .setDuration(180L)
-                    .setInterpolator(DecelerateInterpolator())
+                    .setDuration(170L)
+                    .setInterpolator(enterInterpolator)
                     .start()
             } else {
-                scrollHintContainer.animate().cancel()
-                scrollHintContainer.visibility = View.GONE
+                scrollHintContainer.animate()
+                    .alpha(0f)
+                    .translationY(dp(4).toFloat())
+                    .setDuration(130L)
+                    .setInterpolator(exitInterpolator)
+                    .withEndAction {
+                        scrollHintContainer.visibility = View.GONE
+                        scrollHintContainer.alpha = 1f
+                        scrollHintContainer.translationY = 0f
+                    }
+                    .start()
             }
         }
 
@@ -1641,6 +4035,60 @@ class VersionSheet(
         return (value * resources.displayMetrics.density).toInt()
     }
 
+    private fun requestInitialSheetClamp(bottomSheet: View) {
+        clearInitialSheetClampListener()
+        if (!pendingInitialMultiItemClamp) return
+        val listener = ViewTreeObserver.OnPreDrawListener {
+            if (!isAdded || view == null) {
+                clearInitialSheetClampListener()
+                return@OnPreDrawListener true
+            }
+            if (!pendingInitialMultiItemClamp || versionsByKey.size <= 1 || maxSheetHeightPx <= 0) {
+                pendingInitialMultiItemClamp = false
+                clearInitialSheetClampListener()
+                return@OnPreDrawListener true
+            }
+
+            adjustSheetHeight()
+            val targetHeight = bottomSheet.layoutParams?.height?.takeIf { it > 0 } ?: 0
+            val currentHeight = bottomSheet.height.takeIf { it > 0 } ?: 0
+            val needsClampPass = targetHeight > 0 && (currentHeight <= 0 || currentHeight != targetHeight)
+            if (needsClampPass) {
+                return@OnPreDrawListener false
+            }
+
+            pendingInitialMultiItemClamp = false
+            clearInitialSheetClampListener()
+            true
+        }
+        initialSheetClampListener = listener
+        bottomSheet.viewTreeObserver.addOnPreDrawListener(listener)
+    }
+
+    private fun applyInitialMultiItemSheetBounds(
+        bottomSheet: View,
+        behavior: BottomSheetBehavior<View>
+    ) {
+        if (!pendingInitialMultiItemClamp || versionsByKey.size <= 1 || maxSheetHeightPx <= 0) return
+        val initialHeight = maxSheetHeightPx
+        bottomSheet.layoutParams = bottomSheet.layoutParams.apply {
+            height = initialHeight
+        }
+        behavior.peekHeight = initialHeight
+        bottomSheet.requestLayout()
+    }
+
+    private fun clearInitialSheetClampListener() {
+        val listener = initialSheetClampListener ?: return
+        val dialog = dialog as? BottomSheetDialog
+        val bottomSheet = dialog?.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
+        val observer = bottomSheet?.viewTreeObserver
+        if (observer != null && observer.isAlive) {
+            observer.removeOnPreDrawListener(listener)
+        }
+        initialSheetClampListener = null
+    }
+
     private fun adjustSheetHeight() {
         if (!isAdded || !this::versionList.isInitialized || maxSheetHeightPx <= 0) return
         val dialog = dialog as? BottomSheetDialog ?: return
@@ -1657,29 +4105,102 @@ class VersionSheet(
             maxSheetHeightPx
         }
 
-        val listViewportHeight = listContainer.height.takeIf { it > 0 } ?: versionList.height
-        val listContentHeight = versionList.computeVerticalScrollRange()
-            .coerceAtLeast(versionList.minimumHeight)
-        val baseHeight = (content.height - listViewportHeight).coerceAtLeast(0)
-        val targetListHeight = if (listViewportHeight > 0) {
-            val capped = (effectiveMaxSheetHeightPx - baseHeight).coerceAtLeast(0)
-            minOf(listContentHeight, capped)
+        val currentListContainerHeight = listContainer.height.takeIf { it > 0 }
+            ?: (listContainer.layoutParams?.height?.takeIf { it > 0 })
+            ?: versionList.height
+        val currentSheetHeight = bottomSheet.height.takeIf { it > 0 }
+            ?: (bottomSheet.layoutParams?.height?.takeIf { it > 0 })
+            ?: 0
+        val scrollRangeContentHeight = versionList.computeVerticalScrollRange()
+        val childMeasuredContentHeight = visibleVersionListContentHeight()
+        val measuredListContentHeight = maxOf(
+            scrollRangeContentHeight,
+            childMeasuredContentHeight,
+            versionList.minimumHeight
+        )
+        val measuredSingleFallbackHeight = if (
+            measuredListContentHeight <= 0 &&
+                versionsByKey.size == 1
+        ) {
+            measureSingleVersionFallbackHeight(bottomSheet)
         } else {
-            listContentHeight
+            0
         }
+        val cachedSingleVersionHeight = if (versionsByKey.size == 1) {
+            cachedSingleVersionListHeight(singleVersionCacheKey())
+        } else {
+            null
+        }
+        val listContentHeight = if (
+            measuredListContentHeight <= 0 &&
+                measuredSingleFallbackHeight > 0
+        ) {
+            AppDiagnostics.trace(
+                requireContext(),
+                "UI",
+                "version_sheet_single_measure_fallback",
+                "${currentApp.name} | listH=$measuredSingleFallbackHeight"
+            )
+            measuredSingleFallbackHeight
+        } else if (
+            measuredListContentHeight <= 0 &&
+                versionsByKey.size == 1 &&
+                cachedSingleVersionHeight != null
+        ) {
+            AppDiagnostics.trace(
+                requireContext(),
+                "UI",
+                "version_sheet_cached_single_height_used",
+                "${currentApp.name} | listH=$cachedSingleVersionHeight"
+            )
+            cachedSingleVersionHeight
+        } else {
+            measuredListContentHeight
+        }
+        if (measuredListContentHeight == 0 && versionAdapter.itemCount > 0 && zeroContentHeightRetriesRemaining < 6) {
+            zeroContentHeightRetriesRemaining += 1
+            scheduleZeroContentHeightRetry()
+        } else if (measuredListContentHeight > 0) {
+            zeroContentHeightRetriesRemaining = 0
+            zeroContentHeightRetryRunnable?.let(mainHandler::removeCallbacks)
+            zeroContentHeightRetryRunnable = null
+        }
+        val stableBaseHeight = stableSheetBaseHeight(content, listContainer)
+        val cappedListHeight = (effectiveMaxSheetHeightPx - stableBaseHeight).coerceAtLeast(0)
+        val targetListHeight = minOf(listContentHeight, cappedListHeight)
+        if (versionsByKey.size == 1 && targetListHeight > 0) {
+            cacheSingleVersionListHeight(singleVersionCacheKey(), targetListHeight)
+        }
+        val baseHeight = stableBaseHeight
         hasScrollableVersionContent = listContentHeight > targetListHeight
-        updateScrollHint(hasScrollableVersionContent && shouldShowScrollHint(versionList))
         listContainer.layoutParams = listContainer.layoutParams.apply {
             height = if (targetListHeight >= listContentHeight) WRAP_CONTENT else targetListHeight
         }
+        listContainer.requestLayout()
+        updateScrollHint(hasScrollableVersionContent && shouldShowScrollHint(versionList))
         val targetHeight = (baseHeight + targetListHeight)
             .coerceAtLeast(0)
             .coerceAtMost(effectiveMaxSheetHeightPx)
-
-        bottomSheet.layoutParams = bottomSheet.layoutParams.apply {
-            height = if (targetHeight > 0) targetHeight else WRAP_CONTENT
+        val hasOpeningOvershoot =
+            versionsByKey.size > 1 &&
+                currentListContainerHeight > targetListHeight &&
+                currentSheetHeight > targetHeight
+        hintViewsByKey.entries.firstOrNull()?.let { (key, views) ->
+            traceVersionSizing(
+                eventName = "sheet_height_adjust",
+                key = key,
+                views = views,
+                extra = "baseH=$baseHeight targetListH=$targetListHeight listContentH=$listContentHeight targetSheetH=$targetHeight viewportH=$currentListContainerHeight"
+            )
         }
-        behavior.peekHeight = targetHeight
+
+        val appliedTargetHeight = if (targetHeight > 0) targetHeight else WRAP_CONTENT
+        animateSheetHeight(
+            bottomSheet = bottomSheet,
+            behavior = behavior,
+            targetHeight = appliedTargetHeight,
+            animate = !hasOpeningOvershoot
+        )
         if (
             behavior.state != BottomSheetBehavior.STATE_EXPANDED &&
             behavior.state != BottomSheetBehavior.STATE_DRAGGING &&
@@ -1689,6 +4210,154 @@ class VersionSheet(
             behavior.state = BottomSheetBehavior.STATE_EXPANDED
         }
         bottomSheet.requestLayout()
+        traceSheetPresentationSnapshot(
+            "version_sheet_snapshot_height_adjust",
+            bottomSheet,
+            behavior,
+            "targetH=$appliedTargetHeight effectiveMaxH=$effectiveMaxSheetHeightPx targetListH=$targetListHeight listContentH=$listContentHeight scrollRangeH=$scrollRangeContentHeight childContentH=$childMeasuredContentHeight"
+        )
+    }
+
+    private fun visibleVersionListContentHeight(): Int {
+        if (!this::versionList.isInitialized) return 0
+        if (versionList.childCount == 0) return 0
+        var contentHeight = versionList.paddingTop + versionList.paddingBottom
+        for (index in 0 until versionList.childCount) {
+            val child = versionList.getChildAt(index) ?: continue
+            val lp = child.layoutParams as? ViewGroup.MarginLayoutParams
+            val childHeight = child.height.takeIf { it > 0 } ?: child.measuredHeight
+            if (childHeight <= 0) continue
+            contentHeight += childHeight
+            contentHeight += lp?.topMargin ?: 0
+            contentHeight += lp?.bottomMargin ?: 0
+        }
+        return contentHeight
+    }
+
+    private fun measureSingleVersionFallbackHeight(bottomSheet: View): Int {
+        val version = versionsByKey.values.firstOrNull() ?: return 0
+        val availableWidth = (
+            versionList.width.takeIf { it > 0 }
+                ?: bottomSheet.width.takeIf { it > 0 }
+                ?: rootView.width.takeIf { it > 0 }
+                ?: resources.displayMetrics.widthPixels
+            ) - versionList.paddingLeft - versionList.paddingRight
+        if (availableWidth <= 0) return 0
+
+        val itemView = layoutInflater.inflate(R.layout.item_version_sheet, versionList, false)
+        val key = "${versionKey(version)}#measure"
+        bindVersionCard(
+            card = itemView,
+            ctx = itemView.context,
+            version = version,
+            latestVersionNumber = currentLatestVersion?.version,
+            key = key
+        )
+
+        val widthSpec = View.MeasureSpec.makeMeasureSpec(
+            availableWidth.coerceAtLeast(1),
+            View.MeasureSpec.EXACTLY
+        )
+        val heightSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+        itemView.measure(widthSpec, heightSpec)
+        clearVersionView(key)
+        val measuredHeight = itemView.measuredHeight
+        if (measuredHeight <= 0) return 0
+        return measuredHeight + versionList.paddingTop + versionList.paddingBottom
+    }
+
+    private fun singleVersionCacheKey(): String {
+        return currentApp.packageName.ifBlank { currentApp.name.lowercase() }
+    }
+
+    private fun scheduleZeroContentHeightRetry() {
+        zeroContentHeightRetryRunnable?.let(mainHandler::removeCallbacks)
+        val runnable = Runnable {
+            zeroContentHeightRetryRunnable = null
+            if (!isAdded || view == null) return@Runnable
+            AppDiagnostics.trace(
+                requireContext(),
+                "UI",
+                "version_sheet_zero_content_retry",
+                "${currentApp.name} | remaining=$zeroContentHeightRetriesRemaining | items=${versionAdapter.itemCount}"
+            )
+            adjustSheetHeight()
+        }
+        zeroContentHeightRetryRunnable = runnable
+        mainHandler.postDelayed(runnable, 48L)
+    }
+
+    private fun stableSheetBaseHeight(content: View, listContainer: View): Int {
+        if (content !is ViewGroup) {
+            val listHeight = listContainer.height.takeIf { it > 0 } ?: 0
+            return (content.height - listHeight).coerceAtLeast(0)
+        }
+        var baseHeight = content.paddingTop + content.paddingBottom
+        for (index in 0 until content.childCount) {
+            val child = content.getChildAt(index)
+            if (child === listContainer || child.visibility == View.GONE) continue
+            val lp = child.layoutParams as? ViewGroup.MarginLayoutParams
+            baseHeight += child.height
+            baseHeight += lp?.topMargin ?: 0
+            baseHeight += lp?.bottomMargin ?: 0
+        }
+        return baseHeight.coerceAtLeast(0)
+    }
+
+    private fun animateSheetHeight(
+        bottomSheet: View,
+        behavior: BottomSheetBehavior<View>,
+        targetHeight: Int,
+        animate: Boolean = true
+    ) {
+        val currentHeight = bottomSheet.height.takeIf { it > 0 }
+            ?: (bottomSheet.layoutParams?.height ?: 0)
+        if (!animate || currentHeight <= 0 || targetHeight <= 0 || currentHeight == targetHeight) {
+            sheetHeightAnimator?.cancel()
+            sheetHeightAnimator = null
+            bottomSheet.layoutParams = bottomSheet.layoutParams.apply {
+                height = targetHeight
+            }
+            behavior.peekHeight = if (targetHeight == WRAP_CONTENT) 0 else targetHeight
+            updateSheetSnackbarPosition(bottomSheet)
+            return
+        }
+
+        sheetHeightAnimator?.cancel()
+        sheetHeightAnimator = ValueAnimator.ofInt(currentHeight, targetHeight).apply {
+            val delta = kotlin.math.abs(targetHeight - currentHeight)
+            duration = (SHEET_HEIGHT_ANIMATION_MS + (delta / 6L)).coerceAtMost(290L)
+            interpolator = if (targetHeight < currentHeight) {
+                standardInterpolator
+            } else {
+                enterInterpolator
+            }
+            addUpdateListener { animator ->
+                val animatedHeight = animator.animatedValue as Int
+                bottomSheet.layoutParams = bottomSheet.layoutParams.apply {
+                    height = animatedHeight
+                }
+                behavior.peekHeight = animatedHeight
+                bottomSheet.requestLayout()
+                updateSheetSnackbarPosition(bottomSheet)
+            }
+            addListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationCancel(animation: Animator) {
+                    sheetHeightAnimator = null
+                }
+
+                override fun onAnimationEnd(animation: Animator) {
+                    bottomSheet.layoutParams = bottomSheet.layoutParams.apply {
+                        height = targetHeight
+                    }
+                    behavior.peekHeight = targetHeight
+                    bottomSheet.requestLayout()
+                    updateSheetSnackbarPosition(bottomSheet)
+                    sheetHeightAnimator = null
+                }
+            })
+            start()
+        }
     }
 
     private fun releaseLiquidDrawable(fillView: ImageView) {
@@ -1735,6 +4404,29 @@ class VersionSheet(
             doneHandledKeys.contains(key)
     }
 
+    private fun isPrimaryActionLocked(key: String, action: VersionButtonAction): Boolean {
+        if (installTransitioningKeys.contains(key) || uninstallTransitioningKeys.contains(key)) {
+            return true
+        }
+        return when (action) {
+            VersionButtonAction.OPEN -> false
+            VersionButtonAction.INSTALL ->
+                pendingInstallKey == key ||
+                    installVisualStateByKey.containsKey(key) ||
+                    installVisualCompletingKeys.contains(key)
+            VersionButtonAction.DOWNLOAD ->
+                hasActiveVisualState(key) ||
+                    pendingRewardLaunchKeys.contains(key)
+        }
+    }
+
+    private fun isUninstallActionLocked(key: String): Boolean {
+        return (awaitingUninstallResult && pendingUninstallKey == key) ||
+            uninstallVisualStateByKey.containsKey(key) ||
+            uninstallTransitioningKeys.contains(key) ||
+            installTransitioningKeys.contains(key)
+    }
+
     private fun updateSheetSnackbarPosition(bottomSheetView: View) {
         val snackbarView = currentSnackbar?.view ?: return
         val parentView = snackbarView.parent as? View ?: return
@@ -1760,7 +4452,7 @@ class VersionSheet(
             minOf(desiredTopAboveSheet, navTopInParent)
         } else {
             desiredTopAboveSheet
-        }
+        }.coerceAtLeast(gapPx)
         val currentTop = snackbarLocation[1] - parentLocation[1]
         snackbarView.translationY += (desiredTop - currentTop).toFloat()
     }
@@ -1775,6 +4467,125 @@ class VersionSheet(
             upDuration = 170L,
             releaseOvershoot = 0.58f
         )
+    }
+
+    private fun findButtonKey(views: DownloadButtonViews): String {
+        return buttonViewsByKey.entries.firstOrNull { it.value === views }?.key ?: "unknown"
+    }
+
+    private fun traceUninstallInteraction(
+        key: String,
+        views: DownloadButtonViews,
+        eventName: String,
+        extra: String? = null
+    ) {
+        val context = context ?: return
+        val uninstallParams = views.uninstallButton.layoutParams as? LinearLayout.LayoutParams
+        val trackParams = views.track.layoutParams as? FrameLayout.LayoutParams
+        val payload = buildString {
+            append(currentApp.name)
+            append(" | key=")
+            append(key)
+            if (!extra.isNullOrBlank()) {
+                append(" | ")
+                append(extra)
+            }
+            append(" | buttonVis=")
+            append(visibilityLabel(views.uninstallButton.visibility))
+            append(" enabled=")
+            append(views.uninstallButton.isEnabled)
+            append(" clickable=")
+            append(views.uninstallButton.isClickable)
+            append(" shown=")
+            append(views.uninstallButton.isShown)
+            append(" hasClick=")
+            append(views.uninstallButton.hasOnClickListeners())
+            append(" alpha=")
+            append(String.format("%.2f", views.uninstallButton.alpha))
+            append(" pressed=")
+            append(views.uninstallButton.isPressed)
+            append(" width=")
+            append(views.uninstallButton.width)
+            append(" lpWidth=")
+            append(uninstallParams?.width ?: "na")
+            append(" lpWeight=")
+            append(uninstallParams?.weight ?: "na")
+            append(" labelVis=")
+            append(visibilityLabel(views.uninstallLabel.visibility))
+            append(" progressVis=")
+            append(visibilityLabel(views.uninstallProgress.visibility))
+            append(" trackWidth=")
+            append(views.track.width)
+            append(" trackGravity=")
+            append(trackParams?.gravity ?: "na")
+            append(" containerEnabled=")
+            append(views.container.isEnabled)
+            append(" awaitingUninstall=")
+            append(awaitingUninstallResult)
+            append(" pendingKey=")
+            append(pendingUninstallKey ?: "null")
+        }
+        val traceKey = "$eventName|$key"
+        if (lastUninstallTracePayloads[traceKey] == payload) return
+        lastUninstallTracePayloads[traceKey] = payload
+        AppDiagnostics.trace(context, "UI", eventName, payload)
+    }
+
+    private fun traceVersionButtonAction(
+        key: String,
+        action: String,
+        button: String,
+        version: Version? = null,
+        item: DownloadItem? = null,
+        result: String? = null
+    ) {
+        val context = context ?: return
+        val payload = buildString {
+            append(currentApp.name)
+            append(" | key=")
+            append(key)
+            append(" | button=")
+            append(button)
+            append(" | action=")
+            append(action)
+            if (!result.isNullOrBlank()) {
+                append(" | result=")
+                append(result)
+            }
+            if (version != null) {
+                append(" | versionName=")
+                append(version.version_name)
+                append(" | versionCode=")
+                append(version.version)
+            }
+            if (item != null) {
+                append(" | downloadStatus=")
+                append(item.status)
+                append(" | downloadedInstalled=")
+                append(item.installed)
+            }
+            append(" | trustedInstalled=")
+            append(installedLaunchPackage != null)
+        }
+        AppDiagnostics.trace(context, "UI", "version_button_action", payload)
+    }
+
+    private fun motionActionLabel(action: Int): String {
+        return when (action) {
+            MotionEvent.ACTION_DOWN -> "down"
+            MotionEvent.ACTION_UP -> "up"
+            MotionEvent.ACTION_CANCEL -> "cancel"
+            else -> action.toString()
+        }
+    }
+
+    private fun visibilityLabel(visibility: Int): String {
+        return when (visibility) {
+            View.VISIBLE -> "visible"
+            View.INVISIBLE -> "invisible"
+            View.GONE -> "gone"
+            else -> visibility.toString()
+        }
     }
 
     private fun copyChangelog(version: Version, changelog: String) {
@@ -1836,33 +4647,68 @@ class VersionSheet(
         startActivity(launchIntent)
     }
 
-    private fun launchInstalledAppUninstall() {
+    private fun launchInstalledAppUninstall(key: String) {
         val context = context ?: return
-        val packageName = installedLaunchPackage ?: return
-        val candidates = linkedSetOf<String>().apply {
-            add(packageName)
-            InstallAliasStore.resolveForAppName(context, currentApp.name)?.let(::add)
-            InstallAliasStore.resolveForPackage(context, currentApp.packageName)?.let(::add)
-        }.filter { it.isNotBlank() }
-
-        val packageManager = context.packageManager
-        val uninstallTarget = candidates.firstOrNull { candidate ->
-            Intent(Intent.ACTION_DELETE, Uri.fromParts("package", candidate, null))
-                .resolveActivity(packageManager) != null
-        } ?: candidates.firstOrNull()
-
-        if (uninstallTarget == null) {
-            AppSnackbar.show(rootView, getString(R.string.install_failed))
+        if (awaitingUninstallResult && pendingUninstallKey == key) {
+            context.let {
+                AppDiagnostics.trace(it, "UI", "uninstall_click_ignored_pending", "${currentApp.name} | key=$key")
+            }
             return
         }
+        refreshInstalledInfo(context)
+        val candidates = linkedSetOf<String>().apply {
+            installedLaunchPackage?.let(::add)
+            InstallAliasStore.resolveForAppName(context, currentApp.name)?.let(::add)
+            InstallAliasStore.resolveForPackage(context, currentApp.packageName)?.let(::add)
+            currentApp.packageName.takeIf { it.isNotBlank() }?.let(::add)
+        }.filter { it.isNotBlank() }
 
-        if (!AppStateCacheManager.isInstalled(context, uninstallTarget, currentApp.name)) {
+        if (candidates.isEmpty()) {
+            context.let {
+                AppDiagnostics.trace(
+                    it,
+                    "UI",
+                    "uninstall_launch_blocked",
+                    "${currentApp.name} | key=$key | source=no_candidates"
+                )
+            }
             AppStateCacheManager.forceRefreshInstalledPackages(context) {
                 if (!isAdded || view == null) return@forceRefreshInstalledPackages
                 refreshInstalledInfo(requireContext())
-                updateDownloadButtons(DownloadRepository.snapshotDownloads())
-                refreshVersionHints()
+                context?.let {
+                    AppDiagnostics.trace(
+                        it,
+                        "UI",
+                        "uninstall_click_retry_launch",
+                        "${currentApp.name} | key=$key | source=no_candidates"
+                    )
+                }
+                launchInstalledAppUninstall(key)
             }
+            return
+        }
+
+        val installedCandidates = candidates.filter {
+            AppStateCacheManager.isInstalled(context, it, currentApp.name)
+        }
+        val candidatePool = if (installedCandidates.isNotEmpty()) installedCandidates else candidates
+
+        val packageManager = context.packageManager
+        val uninstallTarget = candidatePool.firstOrNull { candidate ->
+            Intent(Intent.ACTION_DELETE, Uri.fromParts("package", candidate, null))
+                .resolveActivity(packageManager) != null
+        } ?: candidatePool.firstOrNull()
+
+        if (uninstallTarget == null) {
+            context.let {
+                AppDiagnostics.trace(
+                    it,
+                    "UI",
+                    "uninstall_launch_blocked",
+                    "${currentApp.name} | key=$key | source=no_resolved_target | candidates=$candidatePool"
+                )
+            }
+            AppSnackbar.show(rootView, getString(R.string.install_failed))
             return
         }
 
@@ -1875,8 +4721,30 @@ class VersionSheet(
         val fallbackIntent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, uninstallUri)
 
         try {
+            context.let {
+                AppDiagnostics.trace(
+                    it,
+                    "UI",
+                    "uninstall_launch_start",
+                    "${currentApp.name} | key=$key | package=$uninstallTarget"
+                )
+            }
+            resolvedUninstallKeys.remove(key)
+            pendingUninstallKey = key
+            awaitingUninstallResult = true
+            pendingUninstallStillInstalledRetries = 0
+            pendingUninstallStartedAtMs = SystemClock.uptimeMillis()
+            uninstallVisualStateByKey[key] = UninstallVisualState.WAITING_RESULT
+            updateDownloadButtons(DownloadRepository.snapshotDownloads())
+            SystemOperationReturnGate.mark("version_sheet_uninstall_prompt")
             startActivity(uninstallIntent)
         } catch (_: Exception) {
+            resolvedUninstallKeys.remove(key)
+            awaitingUninstallResult = false
+            pendingUninstallStillInstalledRetries = 0
+            pendingUninstallStartedAtMs = 0L
+            clearUninstallVisualState(key)
+            updateDownloadButtons(DownloadRepository.snapshotDownloads())
             PendingUninstallTracker.clear()
             try {
                 startActivity(fallbackIntent)
@@ -1886,8 +4754,15 @@ class VersionSheet(
         }
     }
 
-    private fun installDownloadedVersion(item: DownloadItem?) {
+    private fun installDownloadedVersion(key: String, item: DownloadItem?) {
         val context = context ?: return
+        if (
+            pendingInstallKey == key ||
+            installVisualStateByKey.containsKey(key) ||
+            installTransitioningKeys.contains(key)
+        ) {
+            return
+        }
         val filePath = item?.filePath?.takeIf { it.isNotBlank() } ?: run {
             AppSnackbar.show(rootView, getString(R.string.install_failed_file_not_found))
             return
@@ -1897,6 +4772,17 @@ class VersionSheet(
             AppSnackbar.show(rootView, getString(R.string.install_failed_file_not_found))
             return
         }
+        clearInstallVisualState(key)
+        pendingInstallKey = key
+        awaitingInstallConfirmationReturn = false
+        installVisualStateByKey[key] = InstallVisualState.WAITING_CONFIRMATION
+        installVisualProgressByKey.remove(key)
+        updateDownloadButtons(DownloadRepository.snapshotDownloads())
+        InstallStatusCenter.markActive(
+            appName = currentApp.name,
+            versionKey = key,
+            stage = InstallStatusCenter.InstallStage.PREPARING
+        )
         InstallSessionManager.installApk(
             context = context,
             apkPath = filePath,

@@ -37,6 +37,7 @@ class HomeFragment : Fragment() {
         private const val MIN_SHIMMER_DURATION_MS = 180L
         private const val SEARCH_DEBOUNCE_MS = 180L
         private const val INITIAL_RENDER_ITEM_COUNT = 6
+        private const val VERSION_SHEET_TAG = "versions"
         private var cachedApps: List<AppModel> = emptyList()
         private var cachedHash: Int = 0
         private var cachedHomeSortMode: String = ListSortPreferences.HOME_SORT_NAME_ASC
@@ -90,17 +91,11 @@ class HomeFragment : Fragment() {
             search.setBackgroundResource(R.drawable.card_material)
         }
         search.setCompoundDrawablePadding(resources.getDimensionPixelSize(R.dimen.search_clear_icon_padding))
-        search.setPaddingRelative(
-            search.paddingStart,
-            search.paddingTop,
-            resources.getDimensionPixelSize(R.dimen.search_clear_icon_end_padding),
-            search.paddingBottom
-        )
         updateSearchClearIcon()
         search.setOnTouchListener { _, event ->
             val clearDrawable = search.compoundDrawablesRelative[2] ?: return@setOnTouchListener false
             if (event.action == MotionEvent.ACTION_UP) {
-                val touchStart = search.width - search.paddingEnd - clearDrawable.bounds.width()
+                val touchStart = search.width - search.totalPaddingEnd
                 if (event.x >= touchStart) {
                     search.text?.clear()
                     search.setSelection(0)
@@ -118,9 +113,7 @@ class HomeFragment : Fragment() {
 
         tabs.tabRippleColor = null
         tabs.removeAllTabs()
-        tabs.addTab(tabs.newTab().setText(getString(R.string.tab_all)))
-        tabs.addTab(tabs.newTab().setText(getString(R.string.tab_favorites)))
-        tabs.addTab(tabs.newTab().setText(getString(R.string.tab_installed)))
+        populateHomeTabs()
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         adapter = AppAdapter()
@@ -128,20 +121,36 @@ class HomeFragment : Fragment() {
             val activity = activity as? androidx.appcompat.app.AppCompatActivity
                 ?: return@onAppSelected
             val fm = activity.supportFragmentManager
-            val tag = "versions"
-            if (fm.isStateSaved || fm.findFragmentByTag(tag) != null) return@onAppSelected
-
+            if (
+                fm.isStateSaved ||
+                VersionSheet.isPresentationBlocked() ||
+                fm.findFragmentByTag(VERSION_SHEET_TAG) != null
+            ) {
+                return@onAppSelected
+            }
             val trustedInstall = if (currentTab == 2) {
                 AppIdentityStore.findTrustedInstalledPackage(requireContext(), app.packageName, app.name)
             } else {
                 null
             }
-            VersionSheet(
+            val shown = VersionSheet.present(
+                fragmentManager = fm,
+                context = requireContext(),
                 app = app,
+                tag = VERSION_SHEET_TAG,
                 preferOpenInstalledAction = currentTab == 2,
                 installedVersionCodeHint = trustedInstall?.versionCode?.takeIf { it > 0 },
                 installedVersionNameHint = trustedInstall?.versionName
-            ).show(fm, tag)
+            )
+            if (!shown) return@onAppSelected
+            AppDiagnostics.traceLimited(
+                requireContext(),
+                "UI",
+                "app_card_open",
+                app.name,
+                dedupeKey = "app_card_open:${app.packageName}",
+                cooldownMs = 200L
+            )
         }
         recyclerView.adapter = adapter
         recyclerView.itemAnimator = null
@@ -224,6 +233,22 @@ class HomeFragment : Fragment() {
         tabs.addOnTabSelectedListener(tabsListener!!)
 
         return view
+    }
+
+    private fun populateHomeTabs() {
+        val locale = resources.configuration.locales[0] ?: Locale.getDefault()
+        val uppercaseTabs = AppearancePreferences.isDynamicColorEnabled(requireContext())
+        val labels = listOf(
+            getString(R.string.tab_all),
+            getString(R.string.tab_favorites),
+            getString(R.string.tab_installed)
+        ).map { label ->
+            if (uppercaseTabs) label.uppercase(locale) else label
+        }
+
+        labels.forEach { label ->
+            tabs.addTab(tabs.newTab().setText(label))
+        }
     }
 
     private fun updateSearchClearIcon() {
@@ -343,11 +368,11 @@ class HomeFragment : Fragment() {
 
     private fun refreshInstalledStateForVisibleHome() {
         if (!isAdded || isHidden || !::adapter.isInitialized) return
-        AppStateCacheManager.forceRefreshInstalledPackages(requireContext()) {
-            if (!isAdded || isHidden || view == null) return@forceRefreshInstalledPackages
+        AppStateCacheManager.warmInstalledPackages(requireContext(), onComplete = {
+            if (!isAdded || isHidden || view == null) return@warmInstalledPackages
             adapter.refreshRuntimeState()
             renderCurrentTab(animate = false)
-        }
+        })
     }
 
     private fun applyHeaderInsets(view: View) {

@@ -31,6 +31,8 @@ class MainActivity : AppCompatActivity() {
         private const val TAG_DOWNLOAD = "download"
         private const val TAG_SETTINGS = "settings"
         private const val FOREGROUND_CATALOG_REFRESH_MS = 60000L
+        private const val PENDING_UNINSTALL_RETRY_DELAY_MS = 350L
+        private const val MAX_PENDING_UNINSTALL_RETRIES = 3
     }
 
     private lateinit var badgeDot: View
@@ -46,6 +48,9 @@ class MainActivity : AppCompatActivity() {
     private var deferredStartupRan = false
     private var iconSyncScheduled = false
     private var shouldShowLaunchOverlay = true
+    private var isThemeOnlyRecreation = false
+    private var skippedThemeRefreshResume = false
+    private var installEventObserverStartedAt = 0L
     private val mainHandler = Handler(Looper.getMainLooper())
     private val foregroundRefreshInFlight = AtomicBoolean(false)
     private var packageChangeReceiverRegistered = false
@@ -55,20 +60,25 @@ class MainActivity : AppCompatActivity() {
             when (intent?.action) {
                 Intent.ACTION_PACKAGE_ADDED,
                 Intent.ACTION_PACKAGE_REMOVED,
-                Intent.ACTION_PACKAGE_REPLACED,
-                Intent.ACTION_PACKAGE_CHANGED -> {
+                Intent.ACTION_PACKAGE_REPLACED -> {
                     val packageName = intent.data?.schemeSpecificPart.orEmpty()
                     val isReplacing = intent.getBooleanExtra(Intent.EXTRA_REPLACING, false)
                     AppStateCacheManager.forceRefreshInstalledPackages(this@MainActivity) {
+                        var handledSpecificPackageEvent = false
                         if (intent.action == Intent.ACTION_PACKAGE_REMOVED && !isReplacing) {
                             val appName = PendingUninstallTracker.consumeIfMatchesRemoved(packageName)
                             if (appName != null) {
+                                handledSpecificPackageEvent = true
                                 InstallStatusCenter.post(
-                                    getString(R.string.uninstall_success_format, appName)
+                                    getString(R.string.uninstall_success_format, appName),
+                                    appName = appName,
+                                    refreshInstalledState = true
                                 )
                             }
                         }
-                        InstallStatusCenter.post("", refreshInstalledState = true)
+                        if (!handledSpecificPackageEvent) {
+                            InstallStatusCenter.post("", refreshInstalledState = true)
+                        }
                     }
                 }
             }
@@ -90,11 +100,22 @@ class MainActivity : AppCompatActivity() {
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        isThemeOnlyRecreation = AppRecreationController.consumeThemeRefresh()
+        skippedThemeRefreshResume = false
+        val restoredActiveTag = savedInstanceState?.getString(KEY_ACTIVE_TAG, TAG_HOME) ?: TAG_HOME
+        val effectiveSavedState = if (isThemeOnlyRecreation && savedInstanceState != null) {
+            Bundle(savedInstanceState).apply {
+                remove("android:support:fragments")
+            }
+        } else {
+            savedInstanceState
+        }
+
         AppearancePreferences.applyActivityTheme(this)
         if (AppearancePreferences.isDynamicColorEnabled(this)) {
             DynamicColors.applyToActivityIfAvailable(this)
         }
-        super.onCreate(savedInstanceState)
+        super.onCreate(effectiveSavedState)
 
         if (!getSharedPreferences(PREFS_ONBOARDING, MODE_PRIVATE)
                 .getBoolean(KEY_QUICK_START_SHOWN, false)
@@ -143,7 +164,7 @@ class MainActivity : AppCompatActivity() {
 
         badgeDot = findViewById(R.id.nav_badge_dot)
         launchOverlay = findViewById(R.id.launchOverlay)
-        shouldShowLaunchOverlay = savedInstanceState == null
+        shouldShowLaunchOverlay = effectiveSavedState == null && !isThemeOnlyRecreation
         if (!shouldShowLaunchOverlay) {
             launchOverlay.visibility = View.GONE
         }
@@ -157,11 +178,12 @@ class MainActivity : AppCompatActivity() {
                 pressedTranslationYDp = 1f,
                 downDuration = 80L,
                 upDuration = 160L,
-                releaseOvershoot = 0.5f
+                releaseOvershoot = 0.5f,
+                traceLabel = runCatching { resources.getResourceEntryName(tab.id) }.getOrNull()
             )
         }
 
-        fun setActive(view: ImageView) {
+        fun setActive(view: ImageView, animate: Boolean = true) {
             navTabs.forEach {
                 it.animate().cancel()
                 it.setColorFilter(inactiveColor)
@@ -172,15 +194,18 @@ class MainActivity : AppCompatActivity() {
             }
 
             view.setColorFilter(activeColor)
-            UiMotion.pulse(
-                target = view,
-                scaleUp = 1.12f,
-                alphaDip = 0.82f,
-                riseDp = 1f,
-                expandDuration = 95L,
-                settleDuration = 190L,
-                settleOvershoot = 0.62f
-            )
+            if (animate) {
+                UiMotion.pulse(
+                    target = view,
+                    scaleUp = 1.12f,
+                    alphaDip = 0.82f,
+                    riseDp = 1f,
+                    expandDuration = 95L,
+                    settleDuration = 190L,
+                    settleOvershoot = 0.62f,
+                    traceLabel = runCatching { resources.getResourceEntryName(view.id) }.getOrNull()
+                )
+            }
         }
 
         fun updateBadge() {
@@ -208,35 +233,54 @@ class MainActivity : AppCompatActivity() {
             updateBadge()
         }
 
+        installEventObserverStartedAt = System.currentTimeMillis()
         InstallStatusCenter.events.observe(this) { event ->
+            if (event.token < installEventObserverStartedAt) return@observe
             showInstallSnackbar(event)
         }
 
-        if (savedInstanceState == null) {
-            val initialHomeFragment = createFragment(TAG_HOME)
-            val initialDownloadFragment = createFragment(TAG_DOWNLOAD)
-            val initialSettingsFragment = createFragment(TAG_SETTINGS)
-            supportFragmentManager.beginTransaction()
-                .setReorderingAllowed(true)
-                .add(R.id.fragment_container, initialHomeFragment, TAG_HOME)
-                .add(R.id.fragment_container, initialDownloadFragment, TAG_DOWNLOAD)
-                .hide(initialDownloadFragment)
-                .add(R.id.fragment_container, initialSettingsFragment, TAG_SETTINGS)
-                .hide(initialSettingsFragment)
-                .commitNow()
+        if (effectiveSavedState == null) {
+            if (isThemeOnlyRecreation) {
+                val initialTag = restoredActiveTag
+                val initialFragment = createFragment(initialTag)
+                supportFragmentManager.beginTransaction()
+                    .setReorderingAllowed(true)
+                    .add(R.id.fragment_container, initialFragment, initialTag)
+                    .commitNow()
 
-            activeFragment = initialHomeFragment
-            activeTag = TAG_HOME
-            setActive(home)
+                activeFragment = initialFragment
+                activeTag = initialTag
+                when (initialTag) {
+                    TAG_DOWNLOAD -> setActive(download, animate = false)
+                    TAG_SETTINGS -> setActive(settings, animate = false)
+                    else -> setActive(home, animate = false)
+                }
+            } else {
+                val initialHomeFragment = createFragment(TAG_HOME)
+                val initialDownloadFragment = createFragment(TAG_DOWNLOAD)
+                val initialSettingsFragment = createFragment(TAG_SETTINGS)
+                supportFragmentManager.beginTransaction()
+                    .setReorderingAllowed(true)
+                    .add(R.id.fragment_container, initialHomeFragment, TAG_HOME)
+                    .add(R.id.fragment_container, initialDownloadFragment, TAG_DOWNLOAD)
+                    .hide(initialDownloadFragment)
+                    .add(R.id.fragment_container, initialSettingsFragment, TAG_SETTINGS)
+                    .hide(initialSettingsFragment)
+                    .commitNow()
+
+                activeFragment = initialHomeFragment
+                activeTag = TAG_HOME
+                setActive(home)
+            }
         } else {
-            activeTag = savedInstanceState.getString(KEY_ACTIVE_TAG, TAG_HOME)
+            activeTag = effectiveSavedState.getString(KEY_ACTIVE_TAG, TAG_HOME)
             activeFragment = supportFragmentManager.findFragmentByTag(activeTag)
                 ?: supportFragmentManager.findFragmentByTag(TAG_HOME)
 
             when (activeTag) {
-                TAG_DOWNLOAD -> setActive(download)
-                TAG_SETTINGS -> setActive(settings)
-                else -> setActive(home)
+                TAG_DOWNLOAD -> setActive(download, animate = false)
+                TAG_SETTINGS -> setActive(settings, animate = false)
+                else -> setActive(home, animate = false)
             }
         }
 
@@ -244,6 +288,14 @@ class MainActivity : AppCompatActivity() {
 
         fun switchFragment(targetTag: String) {
             if (targetTag == activeTag) return
+            AppDiagnostics.traceLimited(
+                this,
+                "UI",
+                "nav_switch_start",
+                "$activeTag->$targetTag",
+                dedupeKey = "nav_switch:$activeTag:$targetTag",
+                cooldownMs = 180L
+            )
 
             val current = activeFragment ?: return
             val existingTarget = supportFragmentManager.findFragmentByTag(targetTag)
@@ -270,16 +322,37 @@ class MainActivity : AppCompatActivity() {
         }
 
         homeTab.setOnClickListener {
+            AppDiagnostics.traceLimited(
+                this,
+                "UI",
+                "nav_tab_click",
+                TAG_HOME,
+                dedupeKey = "nav_tab_click:$TAG_HOME"
+            )
             setActive(home)
             switchFragment(TAG_HOME)
         }
 
         downloadTab.setOnClickListener {
+            AppDiagnostics.traceLimited(
+                this,
+                "UI",
+                "nav_tab_click",
+                TAG_DOWNLOAD,
+                dedupeKey = "nav_tab_click:$TAG_DOWNLOAD"
+            )
             setActive(download)
             switchFragment(TAG_DOWNLOAD)
         }
 
         settingsTab.setOnClickListener {
+            AppDiagnostics.traceLimited(
+                this,
+                "UI",
+                "nav_tab_click",
+                TAG_SETTINGS,
+                dedupeKey = "nav_tab_click:$TAG_SETTINGS"
+            )
             setActive(settings)
             switchFragment(TAG_SETTINGS)
         }
@@ -309,13 +382,31 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        AppStateCacheManager.forceRefreshInstalledPackages(this) {
-            val removedApp = PendingUninstallTracker.consumeIfRemoved(this)
-            if (removedApp == null) {
-                PendingUninstallTracker.clearIfStillInstalled(this)
-            }
-            removedApp?.let { appName ->
-                InstallStatusCenter.post(getString(R.string.uninstall_success_format, appName))
+        if (isThemeOnlyRecreation && !skippedThemeRefreshResume) {
+            skippedThemeRefreshResume = true
+            mainHandler.postDelayed({
+                if (isFinishing || isDestroyed) return@postDelayed
+                if (!shouldDeferInstalledRefreshForActiveTab()) {
+                    AppStateCacheManager.warmInstalledPackages(this)
+                }
+            }, 450L)
+        } else {
+            val deferredSystemReason = SystemOperationReturnGate.consume()
+            if (deferredSystemReason != null) {
+                AppDiagnostics.trace(
+                    this,
+                    "UI",
+                    "main_resume_refresh_suppressed",
+                    deferredSystemReason
+                )
+                mainHandler.postDelayed({
+                    if (isFinishing || isDestroyed) return@postDelayed
+                    schedulePendingUninstallSnackbarReconcile()
+                }, 900L)
+            } else {
+                AppStateCacheManager.forceRefreshInstalledPackages(this) {
+                    reconcilePendingUninstallSnackbar(clearIfStillInstalled = true)
+                }
             }
         }
         ensurePackageChangeReceiverRegistered()
@@ -359,6 +450,10 @@ class MainActivity : AppCompatActivity() {
         mainHandler.post {
             if (isFinishing || isDestroyed) return@post
             val appContext = applicationContext
+            if (isThemeOnlyRecreation) {
+                AppStateCacheManager.initialize(appContext)
+                return@post
+            }
             AppStateCacheManager.initialize(appContext)
             DownloadRepository.load(appContext)
             AppNotificationHelper.ensureChannels(appContext)
@@ -391,6 +486,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun showInstallSnackbar(event: InstallStatusCenter.Event) {
         if (event.message.isBlank()) return
+        val shouldShowSnackbar =
+            event.installStage == null ||
+                event.installStage == InstallStatusCenter.InstallStage.SUCCESS ||
+                event.installStage == InstallStatusCenter.InstallStage.FAILURE
+        if (!shouldShowSnackbar) return
+        if (activeTag == TAG_DOWNLOAD) return
         installSnackbar?.dismiss()
         installSnackbar = AppSnackbar.show(
             findViewById(R.id.rootLayout),
@@ -399,13 +500,46 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
+    private fun reconcilePendingUninstallSnackbar() {
+        reconcilePendingUninstallSnackbar(clearIfStillInstalled = true)
+    }
+
+    private fun reconcilePendingUninstallSnackbar(clearIfStillInstalled: Boolean): Boolean {
+        val removedApp = PendingUninstallTracker.consumeIfRemoved(this)
+        if (removedApp == null) {
+            if (clearIfStillInstalled) {
+                PendingUninstallTracker.clearIfStillInstalled(this)
+            }
+            return false
+        }
+        InstallStatusCenter.post(
+            getString(R.string.uninstall_success_format, removedApp),
+            appName = removedApp,
+            refreshInstalledState = true
+        )
+        return true
+    }
+
+    private fun schedulePendingUninstallSnackbarReconcile(attempt: Int = 0) {
+        if (isFinishing || isDestroyed) return
+        AppStateCacheManager.forceRefreshInstalledPackages(this) {
+            val resolved = reconcilePendingUninstallSnackbar(
+                clearIfStillInstalled = attempt >= MAX_PENDING_UNINSTALL_RETRIES
+            )
+            if (resolved || !PendingUninstallTracker.hasPending()) return@forceRefreshInstalledPackages
+            if (attempt >= MAX_PENDING_UNINSTALL_RETRIES) return@forceRefreshInstalledPackages
+            mainHandler.postDelayed({
+                schedulePendingUninstallSnackbarReconcile(attempt + 1)
+            }, PENDING_UNINSTALL_RETRY_DELAY_MS)
+        }
+    }
+
     private fun ensurePackageChangeReceiverRegistered() {
         if (packageChangeReceiverRegistered) return
         val filter = IntentFilter().apply {
             addAction(Intent.ACTION_PACKAGE_ADDED)
             addAction(Intent.ACTION_PACKAGE_REMOVED)
             addAction(Intent.ACTION_PACKAGE_REPLACED)
-            addAction(Intent.ACTION_PACKAGE_CHANGED)
             addDataScheme("package")
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -498,7 +632,9 @@ class MainActivity : AppCompatActivity() {
                         activeResult?.let { result ->
                             CatalogStateCenter.update(result.apps)
                             AppStateCacheManager.refreshFavorites(appContext)
-                            AppStateCacheManager.warmInstalledPackages(appContext)
+                            if (!shouldDeferInstalledRefreshForActiveTab()) {
+                                AppStateCacheManager.warmInstalledPackages(appContext)
+                            }
                             if (result.hash != 0) {
                                 AppUpdateState.setLastSeenHash(this, result.hash)
                             }
@@ -542,6 +678,10 @@ class MainActivity : AppCompatActivity() {
                 foregroundRefreshInFlight.set(false)
             }
         }.start()
+    }
+
+    private fun shouldDeferInstalledRefreshForActiveTab(): Boolean {
+        return activeTag == TAG_SETTINGS
     }
 
     private fun resolveDisplayNameForPackage(packageName: String): String {

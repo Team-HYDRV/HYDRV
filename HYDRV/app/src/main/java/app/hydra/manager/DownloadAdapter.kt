@@ -9,16 +9,20 @@ import android.net.Uri
 import android.view.*
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.DecelerateInterpolator
+import android.view.animation.LinearInterpolator
 import android.view.animation.OvershootInterpolator
 import android.widget.*
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.core.content.FileProvider
+import androidx.core.graphics.ColorUtils
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import android.webkit.MimeTypeMap
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
 
 class DownloadAdapter(
     private val list: MutableList<DownloadItem>
@@ -41,6 +45,8 @@ class DownloadAdapter(
     private var selectionMode = false
     var onSelectionChanged: ((selectedCount: Int, totalCount: Int, allSelected: Boolean) -> Unit)? = null
     var onUninstallRequested: ((packageName: String, appName: String) -> Unit)? = null
+    var onInstallRequested: ((appName: String) -> Unit)? = null
+    private val installUiStateByKey = mutableMapOf<String, String>()
 
     init {
         setHasStableIds(true)
@@ -51,6 +57,7 @@ class DownloadAdapter(
         val name: TextView = v.findViewById(R.id.name)
         val selectCheck: CheckBox = v.findViewById(R.id.selectCheck)
         val downloadedTime: TextView = v.findViewById(R.id.downloadedTime)
+        val installLoadingBar: ComposeView = v.findViewById(R.id.installLoadingBar)
         val progress: ProgressBar = v.findViewById(R.id.progress)
         val percent: TextView = v.findViewById(R.id.percent)
         val status: TextView = v.findViewById(R.id.status)
@@ -68,6 +75,10 @@ class DownloadAdapter(
         val liquid = liquidProgressDrawable(view.context)
         progress.progressDrawable = liquid
         progress.setTag(R.id.liquidProgressDrawable, liquid)
+        val installLoadingBar = view.findViewById<ComposeView>(R.id.installLoadingBar)
+        installLoadingBar.setViewCompositionStrategy(
+            ViewCompositionStrategy.DisposeOnDetachedFromWindowOrReleasedFromPool
+        )
         if (AppearancePreferences.isDynamicColorEnabled(parent.context)) {
             view.setBackgroundResource(R.drawable.card_material)
         }
@@ -78,7 +89,8 @@ class DownloadAdapter(
             pressedTranslationYDp = 0.8f,
             downDuration = 70L,
             upDuration = 170L,
-            releaseOvershoot = 0.48f
+            releaseOvershoot = 0.48f,
+            traceLabel = "download_card"
         )
         val checkbox = view.findViewById<CheckBox>(R.id.selectCheck)
         checkbox.setButtonDrawable(
@@ -204,6 +216,7 @@ class DownloadAdapter(
             alpha = 1f
             scaleY = 1f
         }
+        holder.installLoadingBar.visibility = View.GONE
         holder.percent.apply {
             clearAnimation()
             visibility = if (item.status == "Done" && item.doneHandled) View.GONE else View.VISIBLE
@@ -262,12 +275,28 @@ class DownloadAdapter(
         holder.eta.text = if (etaText == "--") "" else context.getString(R.string.download_eta_format, etaText)
 
         holder.itemView.setOnClickListener {
+            AppDiagnostics.traceLimited(
+                context,
+                "UI",
+                "download_card_click",
+                item.status,
+                dedupeKey = "download_card_click:$itemKey",
+                cooldownMs = 180L
+            )
             if (selectionMode) {
                 toggleSelection(item)
             }
         }
 
         holder.itemView.setOnLongClickListener {
+            AppDiagnostics.traceLimited(
+                context,
+                "UI",
+                "download_card_long_press",
+                item.status,
+                dedupeKey = "download_card_long_press:$itemKey",
+                cooldownMs = 220L
+            )
             if (selectionMode) {
                 false
             } else {
@@ -280,6 +309,29 @@ class DownloadAdapter(
         }
 
         val isInstalled = item.installed
+        val activeInstallState = InstallStatusCenter.activeStateForApp(item.name)
+        val isInstallInFlight = activeInstallState != null && isApkDownload(item) && item.status == "Done"
+        val shouldShowInstallProgressBar = isInstallInFlight &&
+            (activeInstallState.stage == InstallStatusCenter.InstallStage.PREPARING ||
+                activeInstallState.stage == InstallStatusCenter.InstallStage.WAITING_CONFIRMATION ||
+                activeInstallState.stage == InstallStatusCenter.InstallStage.SUCCESS)
+        val installUiState = when {
+            !isInstallInFlight -> "idle"
+            !activeInstallState.confirmationRequested ->
+                "waiting:${activeInstallState.stage}:${activeInstallState.progress}"
+            shouldShowInstallProgressBar -> "bar:${activeInstallState.stage}:${activeInstallState.progress}"
+            else -> "holding:${activeInstallState.stage}:${activeInstallState.progress}"
+        }
+        val previousInstallUiState = installUiStateByKey[itemKey]
+        if (previousInstallUiState != installUiState) {
+            installUiStateByKey[itemKey] = installUiState
+            AppDiagnostics.trace(
+                context,
+                "INSTALL_UI",
+                "download_item_install_state",
+                "${item.name} | key=$itemKey | state=$installUiState | installed=$isInstalled"
+            )
+        }
 
         UiMotion.attachPress(
             target = holder.action,
@@ -288,7 +340,8 @@ class DownloadAdapter(
             pressedTranslationYDp = 1f,
             downDuration = 85L,
             upDuration = 140L,
-            releaseOvershoot = 0.62f
+            releaseOvershoot = 0.62f,
+            traceLabel = "download_primary_action"
         )
         UiMotion.attachPress(
             target = holder.delete,
@@ -297,10 +350,26 @@ class DownloadAdapter(
             pressedTranslationYDp = 1f,
             downDuration = 85L,
             upDuration = 140L,
-            releaseOvershoot = 0.62f
+            releaseOvershoot = 0.62f,
+            traceLabel = "download_secondary_action"
         )
 
         holder.delete.setOnClickListener {
+            traceDownloadButtonAction(
+                context = context,
+                item = item,
+                itemKey = itemKey,
+                button = "secondary",
+                action = "delete"
+            )
+            AppDiagnostics.traceLimited(
+                context,
+                "UI",
+                "download_delete_tap",
+                "${displayName(item)} | ${item.status}",
+                dedupeKey = "download_delete:$itemKey",
+                cooldownMs = 200L
+            )
             val target = repositoryItem(item) ?: item
             DownloadRepository.delete(context, target)
 
@@ -357,10 +426,12 @@ class DownloadAdapter(
                         holder.delete.text = context.getString(R.string.downloads_uninstall)
                         holder.action.setOnClickListener {
                             if (!tryBeginControlAction(holder, itemKey)) return@setOnClickListener
+                            traceDownloadButtonAction(context, item, itemKey, "primary", "open")
                             openApp(context, item.packageName, item.name)
                         }
                         holder.delete.setOnClickListener {
                             if (!tryBeginControlAction(holder, itemKey)) return@setOnClickListener
+                            traceDownloadButtonAction(context, item, itemKey, "secondary", "uninstall")
                             onUninstallRequested?.invoke(item.packageName, item.name)
                         }
                     } else if (isApkDownload) {
@@ -369,10 +440,12 @@ class DownloadAdapter(
                         holder.delete.text = context.getString(R.string.downloads_delete)
                         holder.action.setOnClickListener {
                             if (!tryBeginControlAction(holder, itemKey)) return@setOnClickListener
+                            traceDownloadButtonAction(context, item, itemKey, "primary", "install")
                             installApk(context, item.filePath, item.name, item.packageName)
                         }
                         holder.delete.setOnClickListener {
                             if (!tryBeginControlAction(holder, itemKey)) return@setOnClickListener
+                            traceDownloadButtonAction(context, item, itemKey, "secondary", "delete")
                             val target = repositoryItem(item) ?: item
                             DownloadRepository.delete(context, target)
 
@@ -388,10 +461,12 @@ class DownloadAdapter(
                         holder.delete.text = context.getString(R.string.downloads_delete)
                         holder.action.setOnClickListener {
                             if (!tryBeginControlAction(holder, itemKey)) return@setOnClickListener
+                            traceDownloadButtonAction(context, item, itemKey, "primary", "open")
                             openDownloadedFile(context, item.filePath)
                         }
                         holder.delete.setOnClickListener {
                             if (!tryBeginControlAction(holder, itemKey)) return@setOnClickListener
+                            traceDownloadButtonAction(context, item, itemKey, "secondary", "delete")
                             val target = repositoryItem(item) ?: item
                             DownloadRepository.delete(context, target)
 
@@ -464,6 +539,7 @@ class DownloadAdapter(
                 holder.delete.text = context.getString(R.string.downloads_delete)
                 holder.delete.setOnClickListener {
                     if (!tryBeginControlAction(holder, itemKey)) return@setOnClickListener
+                    traceDownloadButtonAction(context, item, itemKey, "secondary", "delete")
                     val target = repositoryItem(item) ?: item
                     DownloadRepository.delete(context, target)
 
@@ -526,19 +602,79 @@ class DownloadAdapter(
                     holder.eta.visibility = View.GONE
                 }
 
+                if (shouldShowInstallProgressBar) {
+                    val indicatorColor = ThemeColors.color(
+                        context,
+                        androidx.appcompat.R.attr.colorPrimary,
+                        R.color.accent
+                    )
+                    val trackColor = ThemeColors.color(
+                        context,
+                        com.google.android.material.R.attr.colorSurfaceVariant,
+                        R.color.subtext
+                    )
+                    holder.installLoadingBar.visibility = View.VISIBLE
+                    val installBarRenderKey =
+                        "${activeInstallState.stage}|${activeInstallState.confirmationRequested}|${activeInstallState.progress}|$indicatorColor|$trackColor"
+                    if (holder.installLoadingBar.getTag() != installBarRenderKey) {
+                        holder.installLoadingBar.setTag(installBarRenderKey)
+                        holder.installLoadingBar.setContent {
+                            DownloadInstallWavyIndicator(
+                                stage = activeInstallState.stage,
+                                visualProgress = activeInstallState.progress,
+                                confirmationRequested = activeInstallState.confirmationRequested,
+                                indicatorColorArgb = indicatorColor,
+                                trackColorArgb = trackColor
+                            )
+                        }
+                    }
+                    holder.progress.visibility = View.GONE
+                    holder.percent.visibility = View.GONE
+                    holder.speed.visibility = View.GONE
+                    holder.eta.visibility = View.GONE
+                    holder.status.text = when (activeInstallState?.stage) {
+                        InstallStatusCenter.InstallStage.WAITING_CONFIRMATION ->
+                            context.getString(R.string.install_waiting_confirmation_format, item.name)
+                        else ->
+                            context.getString(R.string.install_preparing_format, item.name)
+                    }
+                    holder.status.setTextColor(
+                        ThemeColors.color(
+                            context,
+                            androidx.appcompat.R.attr.colorPrimary,
+                            R.color.accent
+                        )
+                    )
+                } else {
+                    holder.installLoadingBar.visibility = View.GONE
+                    holder.installLoadingBar.setTag(null)
+                }
+
                 val isApkDownload = isApkDownload(item)
 
-                if (isApkDownload && item.installed) {
+                if (isInstallInFlight) {
+                    holder.action.text = context.getString(R.string.download_action_install)
+                    holder.action.isEnabled = false
+                    holder.action.alpha = 0.7f
+                    holder.delete.visibility = View.VISIBLE
+                    holder.delete.text = context.getString(R.string.downloads_delete)
+                    holder.delete.isEnabled = false
+                    holder.delete.alpha = 0.7f
+                    holder.action.setOnClickListener(null)
+                    holder.delete.setOnClickListener(null)
+                } else if (isApkDownload && item.installed) {
                     holder.action.text = context.getString(R.string.download_action_open)
                     holder.delete.visibility = View.VISIBLE
                     holder.delete.text = context.getString(R.string.downloads_uninstall)
 
                     holder.action.setOnClickListener {
                         if (!tryBeginControlAction(holder, itemKey)) return@setOnClickListener
+                        traceDownloadButtonAction(context, item, itemKey, "primary", "open")
                         openApp(context, item.packageName, item.name)
                     }
                     holder.delete.setOnClickListener {
                         if (!tryBeginControlAction(holder, itemKey)) return@setOnClickListener
+                        traceDownloadButtonAction(context, item, itemKey, "secondary", "uninstall")
                         onUninstallRequested?.invoke(item.packageName, item.name)
                     }
                 } else if (isApkDownload) {
@@ -548,10 +684,12 @@ class DownloadAdapter(
 
                     holder.action.setOnClickListener {
                         if (!tryBeginControlAction(holder, itemKey)) return@setOnClickListener
+                        traceDownloadButtonAction(context, item, itemKey, "primary", "install")
                         installApk(context, item.filePath, item.name, item.packageName)
                     }
                     holder.delete.setOnClickListener {
                         if (!tryBeginControlAction(holder, itemKey)) return@setOnClickListener
+                        traceDownloadButtonAction(context, item, itemKey, "secondary", "delete")
                         val target = repositoryItem(item) ?: item
                         DownloadRepository.delete(context, target)
 
@@ -568,10 +706,12 @@ class DownloadAdapter(
 
                     holder.action.setOnClickListener {
                         if (!tryBeginControlAction(holder, itemKey)) return@setOnClickListener
+                        traceDownloadButtonAction(context, item, itemKey, "primary", "open")
                         openDownloadedFile(context, item.filePath)
                     }
                     holder.delete.setOnClickListener {
                         if (!tryBeginControlAction(holder, itemKey)) return@setOnClickListener
+                        traceDownloadButtonAction(context, item, itemKey, "secondary", "delete")
                         val target = repositoryItem(item) ?: item
                         DownloadRepository.delete(context, target)
 
@@ -709,6 +849,10 @@ class DownloadAdapter(
         super.onBindViewHolder(holder, position, payloads)
     }
 
+    fun notifyInstallStateChanged() {
+        notifyItemRangeChanged(0, itemCount, PAYLOAD_RUNTIME_STATE_CHANGED)
+    }
+
     private fun animateDone(holder: VH) {
         holder.progress.animate()
             .alpha(0f)
@@ -785,19 +929,32 @@ class DownloadAdapter(
         val from = progressBar.progress
         val delta = (to - from).coerceAtLeast(1)
         val animator = ValueAnimator.ofInt(progressBar.progress, to)
-        animator.duration = (280L + (delta * 9L)).coerceAtMost(620L)
-        animator.interpolator = DecelerateInterpolator()
+        animator.duration = if (to >= 100) {
+            (280L + (delta * 9L)).coerceAtMost(620L)
+        } else {
+            (260L + (delta * 10L)).coerceAtMost(460L)
+        }
+        animator.interpolator = if (to >= 100) {
+            DecelerateInterpolator()
+        } else {
+            LinearInterpolator()
+        }
+        var lastReportedPercent = from
         animator.addUpdateListener {
             val value = it.animatedValue as Int
             progressBar.progress = value
             syncLiquidProgress(progressBar, value)
-            onUpdate?.invoke(value)
+            if (value != lastReportedPercent) {
+                lastReportedPercent = value
+                onUpdate?.invoke(value)
+            }
         }
         animator.addListener(object : android.animation.AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: android.animation.Animator) {
                 if (progressBar.getTag(R.id.progress) === animation) {
                     progressBar.setTag(R.id.progress, null)
                 }
+                onUpdate?.invoke(to)
                 onEnd?.invoke()
             }
         })
@@ -839,6 +996,12 @@ class DownloadAdapter(
         }
 
         try {
+            onInstallRequested?.invoke(appName)
+            InstallStatusCenter.markActive(
+                appName = appName,
+                versionKey = "$appName|$path",
+                stage = InstallStatusCenter.InstallStage.PREPARING
+            )
             InstallSessionManager.installApk(context, path, appName, backendPackage)
         } catch (e: Exception) {
             Toast.makeText(context, context.getString(R.string.install_failed), Toast.LENGTH_SHORT).show()
@@ -981,6 +1144,38 @@ class DownloadAdapter(
         return true
     }
 
+    private fun traceDownloadButtonAction(
+        context: Context,
+        item: DownloadItem,
+        itemKey: String,
+        button: String,
+        action: String,
+        extra: String? = null
+    ) {
+        val payload = buildString {
+            append(displayName(item))
+            append(" | key=")
+            append(itemKey)
+            append(" | button=")
+            append(button)
+            append(" | action=")
+            append(action)
+            append(" | status=")
+            append(item.status)
+            append(" | progress=")
+            append(item.progress)
+            append(" | installed=")
+            append(item.installed)
+            append(" | package=")
+            append(item.packageName.ifBlank { "n/a" })
+            if (!extra.isNullOrBlank()) {
+                append(" | ")
+                append(extra)
+            }
+        }
+        AppDiagnostics.trace(context, "UI", "download_button_action", payload)
+    }
+
     private fun repositoryItem(item: DownloadItem): DownloadItem? {
         val key = progressKey(item)
         return DownloadRepository.downloads.lastOrNull { progressKey(it) == key }
@@ -1036,6 +1231,7 @@ class DownloadAdapter(
         controlCooldownUntil.keys.retainAll(keysInList)
         pauseLockedProgress.keys.retainAll(keysInList)
         pauseLockedUntil.keys.retainAll(keysInList)
+        installUiStateByKey.keys.retainAll(keysInList)
     }
 
     fun refreshRuntimeState() {

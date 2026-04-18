@@ -1,12 +1,11 @@
-﻿<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/headerContainer"
-    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="?android:colorBackground"
     android:fitsSystemWindows="true"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical">
 
-    
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -40,19 +39,19 @@
                 android:textColor="?attr/colorOnSurfaceVariant"
                 android:textSize="14sp" />
 
-        <TextView
-            android:id="@+id/buttonSelectMode"
+            <TextView
+                android:id="@+id/buttonSelectMode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-            android:background="@drawable/download_select_button"
-            android:gravity="center"
-            android:minWidth="72dp"
-            android:text="@string/downloads_select_mode"
-            android:textColor="?attr/colorOnPrimary"
-            android:textSize="13sp"
-            android:textStyle="bold"
-            android:paddingHorizontal="14dp"
-            android:paddingVertical="8dp" />
+                android:background="@drawable/download_select_button"
+                android:gravity="center"
+                android:minWidth="72dp"
+                android:paddingHorizontal="14dp"
+                android:paddingVertical="8dp"
+                android:text="@string/downloads_select_mode"
+                android:textColor="?attr/colorOnPrimary"
+                android:textSize="13sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
     </LinearLayout>
@@ -83,12 +82,12 @@
             android:layout_height="wrap_content"
             android:background="@drawable/download_selection_button_green"
             android:gravity="center"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="7dp"
             android:text="@string/downloads_select_all"
             android:textColor="?attr/colorOnPrimary"
             android:textSize="13sp"
-            android:textStyle="bold"
-            android:paddingHorizontal="12dp"
-            android:paddingVertical="7dp" />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/buttonDeleteSelected"
@@ -97,12 +96,12 @@
             android:layout_marginStart="8dp"
             android:background="@drawable/download_selection_button_red"
             android:gravity="center"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="7dp"
             android:text="@string/downloads_delete"
             android:textColor="?attr/colorOnError"
             android:textSize="13sp"
-            android:textStyle="bold"
-            android:paddingHorizontal="12dp"
-            android:paddingVertical="7dp" />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/buttonCancelSelection"
@@ -111,20 +110,18 @@
             android:layout_marginStart="8dp"
             android:background="@drawable/download_selection_button_neutral"
             android:gravity="center"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="7dp"
             android:text="@string/downloads_cancel"
             android:textColor="?attr/colorOnSurface"
             android:textSize="13sp"
-            android:textStyle="bold"
-            android:paddingHorizontal="12dp"
-            android:paddingVertical="7dp" />
+            android:textStyle="bold" />
     </LinearLayout>
 
-    
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerDownloads"
             android:layout_width="match_parent"
@@ -133,25 +130,20 @@
             android:paddingStart="16dp"
             android:paddingTop="12dp"
             android:paddingEnd="16dp"
-            android:paddingBottom="196dp"/>
+            android:paddingBottom="196dp" />
 
-        
         <TextView
             android:id="@+id/emptyText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:gravity="center"
+            android:includeFontPadding="false"
             android:text="@string/downloads_empty"
+            android:textAlignment="center"
             android:textColor="?attr/colorOnSurfaceVariant"
             android:textSize="14sp"
-            android:gravity="center"
-            android:textAlignment="center"
-            android:includeFontPadding="false"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
     </FrameLayout>
 
 </LinearLayout>
-
-
-
-

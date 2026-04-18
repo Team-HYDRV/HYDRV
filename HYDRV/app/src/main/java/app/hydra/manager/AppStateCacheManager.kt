@@ -10,6 +10,7 @@ object AppStateCacheManager {
 
     private const val PREFS_FAVORITES = "fav"
     private const val INSTALLED_REFRESH_MIN_INTERVAL_MS = 15_000L
+    private const val FORCED_REFRESH_COOLDOWN_MS = 900L
 
     private val favoriteNames = linkedSetOf<String>()
     private val installedPackages = linkedSetOf<String>()
@@ -30,6 +31,9 @@ object AppStateCacheManager {
 
     @Volatile
     private var lastInstalledRefreshAt = 0L
+
+    @Volatile
+    private var lastForcedRefreshAt = 0L
 
     fun initialize(context: Context) {
         if (initialized) return
@@ -84,7 +88,18 @@ object AppStateCacheManager {
         onComplete: (() -> Unit)? = null,
         force: Boolean = false
     ) {
+        val appContext = context.applicationContext
         if (!force && installedLoaded && !shouldRefreshInstalledPackages()) {
+            onComplete?.let { callback -> mainHandler.post(callback) }
+            return
+        }
+        if (force && installedLoaded && !shouldForceRefreshInstalledPackages()) {
+            AppDiagnostics.trace(
+                appContext,
+                "PACKAGE",
+                "refresh_skipped_recent_force",
+                "cooldownMs=$FORCED_REFRESH_COOLDOWN_MS"
+            )
             onComplete?.let { callback -> mainHandler.post(callback) }
             return
         }
@@ -97,13 +112,21 @@ object AppStateCacheManager {
             return
         }
 
-        val appContext = context.applicationContext
         onComplete?.let { callback ->
             synchronized(lock) {
                 pendingInstalledCallbacks.add(callback)
             }
         }
         installedRefreshInFlight = true
+        if (force) {
+            lastForcedRefreshAt = System.currentTimeMillis()
+        }
+        AppDiagnostics.trace(
+            appContext,
+            "PACKAGE",
+            "refresh_start",
+            "force=$force | installedLoaded=$installedLoaded"
+        )
         executor.execute {
             val packages = linkedSetOf<String>()
             val versions = mutableMapOf<String, Int>()
@@ -130,6 +153,12 @@ object AppStateCacheManager {
                 installedRefreshInFlight = false
             }
 
+            AppDiagnostics.trace(
+                appContext,
+                "PACKAGE",
+                "refresh_done",
+                "packages=${packages.size} | callbacks=${callbacks.size} | loaded=$installedLoaded"
+            )
             callbacks.forEach { callback ->
                 mainHandler.post(callback)
             }
@@ -215,6 +244,10 @@ object AppStateCacheManager {
 
     private fun shouldRefreshInstalledPackages(): Boolean {
         return System.currentTimeMillis() - lastInstalledRefreshAt >= INSTALLED_REFRESH_MIN_INTERVAL_MS
+    }
+
+    private fun shouldForceRefreshInstalledPackages(): Boolean {
+        return System.currentTimeMillis() - lastForcedRefreshAt >= FORCED_REFRESH_COOLDOWN_MS
     }
 
     private fun resolveKnownPackage(context: Context, packageName: String, appName: String): String {

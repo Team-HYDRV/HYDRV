@@ -25,6 +25,11 @@
     <color name="placeholder_alt">#222222</color>
     <color name="dialog_input_surface">#2A2A2D</color>
     <color name="dialog_input_stroke">#343438</color>
+    <color name="dynamic_bg">#151419</color>
+    <color name="dynamic_card">#1E1D22</color>
+    <color name="dynamic_nav_surface">#19181D</color>
+    <color name="dynamic_elevated">#242228</color>
+    <color name="dynamic_stroke">#2C2933</color>
     <color name="text_on_accent_chip">#000000</color>
     <color name="text_on_red_chip">#FFFFFF</color>
     <color name="text_on_dark_chip">#FFFFFF</color>

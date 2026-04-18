@@ -15,6 +15,9 @@ import androidx.core.view.WindowInsetsCompat
 class DownloadFragment : Fragment() {
     companion object {
         private const val VISIBLE_REFRESH_DELAY_MS = 200L
+        private const val VISIBLE_INSTALLED_SYNC_COOLDOWN_MS = 2500L
+        private const val RECENT_SYSTEM_RETURN_WINDOW_MS = 1500L
+        private const val SYSTEM_RETURN_UI_DELAY_MS = 180L
     }
 
 
@@ -30,9 +33,11 @@ class DownloadFragment : Fragment() {
     private lateinit var buttonSelectAll: TextView
     private lateinit var buttonDeleteSelected: TextView
     private lateinit var buttonCancelSelection: TextView
+    private var installEventObserverStartedAt = 0L
     private var installedStateRefreshPending = false
+    private var lastVisibleInstalledSyncAt = 0L
     private val visibleRefreshRunnable = Runnable {
-        if (!isAdded || view == null) return@Runnable
+        if (!isDownloadTabVisible()) return@Runnable
         refreshInstalledStateAndUi()
     }
 
@@ -70,6 +75,7 @@ class DownloadFragment : Fragment() {
         adapter.onUninstallRequested = { packageName, appName ->
             launchUninstall(packageName, appName)
         }
+        adapter.onInstallRequested = {}
         renderDownloads(DownloadRepository.snapshotDownloads(), stopScroll = false)
 
         buttonSelectMode.setOnClickListener {
@@ -91,9 +97,51 @@ class DownloadFragment : Fragment() {
             renderDownloads(list, stopScroll = false)
         }
 
+        installEventObserverStartedAt = System.currentTimeMillis()
         InstallStatusCenter.events.observe(viewLifecycleOwner) { event ->
-            if (!event.refreshInstalledState || !isAdded) return@observe
-            refreshInstalledStateAndUi(force = true)
+            if (event.token < installEventObserverStartedAt) return@observe
+            val activeState = InstallStatusCenter.activeStateForApp(event.appName)
+            val isGenericRefreshEvent =
+                event.installStage == null &&
+                    event.appName.isNullOrBlank() &&
+                    event.message.isBlank() &&
+                    event.refreshInstalledState
+            val shouldSurfacePreparingToDownloads =
+                event.installStage != InstallStatusCenter.InstallStage.PREPARING ||
+                    activeState?.confirmationRequested == true
+            val shouldShowSnackbar =
+                event.installStage == null ||
+                    event.installStage == InstallStatusCenter.InstallStage.SUCCESS ||
+                    event.installStage == InstallStatusCenter.InstallStage.FAILURE
+            if (!isGenericRefreshEvent) {
+                AppDiagnostics.trace(
+                    requireContext(),
+                    "INSTALL_UI",
+                    "download_fragment_install_event",
+                    "stage=${event.installStage} | app=${event.appName.orEmpty()} | progress=${event.progress ?: -1} | refresh=${event.refreshInstalledState} | confirmed=${activeState?.confirmationRequested == true} | surfaced=$shouldSurfacePreparingToDownloads | snackbar=$shouldShowSnackbar"
+                )
+            }
+            when (event.installStage) {
+                InstallStatusCenter.InstallStage.PREPARING ->
+                    if (shouldSurfacePreparingToDownloads) adapter.notifyInstallStateChanged()
+                InstallStatusCenter.InstallStage.WAITING_CONFIRMATION,
+                InstallStatusCenter.InstallStage.SUCCESS,
+                InstallStatusCenter.InstallStage.FAILURE -> adapter.notifyInstallStateChanged()
+                null ->
+                    if (event.refreshInstalledState || !event.appName.isNullOrBlank()) {
+                        adapter.notifyInstallStateChanged()
+                    }
+            }
+            if (event.refreshInstalledState && isDownloadTabVisible()) {
+                refreshInstalledStateAndUi(force = true)
+            }
+            if (!shouldShowSnackbar || event.message.isBlank() || !isAdded || view == null) return@observe
+            AppSnackbar.show(
+                requireView(),
+                event.message,
+                anchorTarget = activity?.findViewById(R.id.bottomNav),
+                baseBottomMarginDp = 6
+            )
         }
 
         return view
@@ -103,6 +151,7 @@ class DownloadFragment : Fragment() {
         super.onResume()
         DownloadRepository.pruneStaleCompleted(requireContext())
         renderDownloads(DownloadRepository.snapshotDownloads(), stopScroll = false)
+        adapter.notifyInstallStateChanged()
         scheduleVisibleRefresh()
     }
 
@@ -111,6 +160,8 @@ class DownloadFragment : Fragment() {
 
         if (!hidden && ::adapter.isInitialized) {
             scheduleVisibleRefresh()
+        } else if (hidden && ::recycler.isInitialized) {
+            recycler.removeCallbacks(visibleRefreshRunnable)
         }
     }
 
@@ -235,6 +286,7 @@ class DownloadFragment : Fragment() {
         val fallbackIntent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, uninstallUri)
 
         try {
+            SystemOperationReturnGate.mark("download_uninstall_prompt")
             startActivity(uninstallIntent)
         } catch (_: Exception) {
             PendingUninstallTracker.clear()
@@ -247,13 +299,42 @@ class DownloadFragment : Fragment() {
     }
 
     private fun refreshInstalledStateAndUi(force: Boolean = false) {
-        if (!::adapter.isInitialized || !isAdded || installedStateRefreshPending) return
+        if (!::adapter.isInitialized || !isDownloadTabVisible() || installedStateRefreshPending) return
+        if (!force) {
+            val now = System.currentTimeMillis()
+            if (now - lastVisibleInstalledSyncAt < VISIBLE_INSTALLED_SYNC_COOLDOWN_MS) {
+                AppDiagnostics.trace(
+                    requireContext(),
+                    "UI",
+                    "download_visible_refresh_skipped_recent",
+                    "cooldownMs=$VISIBLE_INSTALLED_SYNC_COOLDOWN_MS"
+                )
+                refreshDownloads()
+                return
+            }
+            lastVisibleInstalledSyncAt = now
+        }
         installedStateRefreshPending = true
         val onComplete = onComplete@{
             installedStateRefreshPending = false
-            if (!isAdded || view == null) return@onComplete
-            DownloadRepository.syncInstalledState(requireContext())
-            refreshDownloads()
+            if (!isDownloadTabVisible()) return@onComplete
+            val recentSystemReason = SystemOperationReturnGate.recentReason(RECENT_SYSTEM_RETURN_WINDOW_MS)
+            if (recentSystemReason != null) {
+                AppDiagnostics.trace(
+                    requireContext(),
+                    "UI",
+                    "download_refresh_delayed_after_system_return",
+                    recentSystemReason
+                )
+                recycler.postDelayed({
+                    if (!isDownloadTabVisible()) return@postDelayed
+                    DownloadRepository.syncInstalledState(requireContext())
+                    refreshDownloads()
+                }, SYSTEM_RETURN_UI_DELAY_MS)
+            } else {
+                DownloadRepository.syncInstalledState(requireContext())
+                refreshDownloads()
+            }
         }
         if (force) {
             AppStateCacheManager.forceRefreshInstalledPackages(requireContext(), onComplete)
@@ -263,8 +344,16 @@ class DownloadFragment : Fragment() {
     }
 
     private fun scheduleVisibleRefresh() {
-        if (!::recycler.isInitialized) return
+        if (!::recycler.isInitialized || !isDownloadTabVisible()) return
         recycler.removeCallbacks(visibleRefreshRunnable)
         recycler.postDelayed(visibleRefreshRunnable, VISIBLE_REFRESH_DELAY_MS)
+    }
+
+    private fun isDownloadTabVisible(): Boolean {
+        return isAdded &&
+            view != null &&
+            !isHidden &&
+            this::recycler.isInitialized &&
+            recycler.isAttachedToWindow
     }
 }

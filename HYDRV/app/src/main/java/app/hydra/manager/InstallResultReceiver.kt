@@ -6,12 +6,34 @@ import android.content.Intent
 import android.content.pm.PackageInstaller
 import android.os.Handler
 import android.os.Looper
+import android.os.SystemClock
 
 class InstallResultReceiver : BroadcastReceiver() {
 
     companion object {
         private const val MAX_INSTALL_REFRESH_RETRIES = 12
         private const val INSTALL_REFRESH_DELAY_MS = 500L
+        private const val RESULT_DEDUPE_WINDOW_MS = 900L
+
+        private val dedupeLock = Any()
+        private var lastResultSignature: String? = null
+        private var lastResultAt = 0L
+
+        private fun shouldIgnoreDuplicateResult(
+            appName: String,
+            status: Int,
+            message: String
+        ): Boolean {
+            val now = SystemClock.elapsedRealtime()
+            val signature = "$appName|$status|$message"
+            synchronized(dedupeLock) {
+                val isDuplicate = signature == lastResultSignature &&
+                    now - lastResultAt <= RESULT_DEDUPE_WINDOW_MS
+                lastResultSignature = signature
+                lastResultAt = now
+                return isDuplicate
+            }
+        }
     }
 
     override fun onReceive(context: Context, intent: Intent) {
@@ -25,12 +47,31 @@ class InstallResultReceiver : BroadcastReceiver() {
             PackageInstaller.STATUS_FAILURE
         )
         val message = intent.getStringExtra(PackageInstaller.EXTRA_STATUS_MESSAGE).orEmpty()
+        AppDiagnostics.trace(
+            context,
+            "INSTALL",
+            "result_received",
+            "$appName | status=$status | message=${message.ifBlank { "<none>" }}"
+        )
+        if (shouldIgnoreDuplicateResult(appName, status, message)) {
+            AppDiagnostics.trace(
+                context,
+                "INSTALL",
+                "result_ignored_duplicate",
+                "$appName | status=$status"
+            )
+            return
+        }
 
         when (status) {
             PackageInstaller.STATUS_PENDING_USER_ACTION -> {
                 AppDiagnostics.log(context, "INSTALL", "Waiting for user confirmation for $appName")
+                AppDiagnostics.trace(context, "INSTALL", "waiting_confirmation", appName)
                 InstallStatusCenter.post(
-                    context.getString(R.string.install_waiting_confirmation_format, appName)
+                    context.getString(R.string.install_waiting_confirmation_format, appName),
+                    installStage = InstallStatusCenter.InstallStage.WAITING_CONFIRMATION,
+                    appName = appName,
+                    progress = 82
                 )
                 val confirmIntent =
                     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
@@ -41,11 +82,13 @@ class InstallResultReceiver : BroadcastReceiver() {
                     }
                 confirmIntent?.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 if (confirmIntent != null) {
+                    SystemOperationReturnGate.mark("install_confirmation")
                     context.startActivity(confirmIntent)
                 }
             }
             PackageInstaller.STATUS_SUCCESS -> {
                 AppDiagnostics.log(context, "INSTALL", "Install completed for $appName")
+                AppDiagnostics.trace(context, "INSTALL", "status_success", appName)
                 val pendingResult = goAsync()
                 val expectedPackage = resolveArchivePackageName(context, apkPath)
                 DownloadRepository.handleInstallSuccess(context, appName, apkPath, backendPackage)
@@ -58,7 +101,10 @@ class InstallResultReceiver : BroadcastReceiver() {
                 ) {
                     InstallStatusCenter.post(
                         context.getString(R.string.install_success_format, appName),
-                        refreshInstalledState = true
+                        refreshInstalledState = true,
+                        installStage = InstallStatusCenter.InstallStage.SUCCESS,
+                        appName = appName,
+                        progress = 100
                     )
                     pendingResult.finish()
                 }
@@ -70,7 +116,12 @@ class InstallResultReceiver : BroadcastReceiver() {
                     "INSTALL",
                     "Install failed for $appName with status=$status message=$message"
                 )
-                InstallStatusCenter.post(failureMessage)
+                InstallStatusCenter.post(
+                    failureMessage,
+                    installStage = InstallStatusCenter.InstallStage.FAILURE,
+                    appName = appName,
+                    progress = 0
+                )
             }
         }
     }
@@ -98,6 +149,12 @@ class InstallResultReceiver : BroadcastReceiver() {
         attempt: Int,
         onReady: () -> Unit
     ) {
+        AppDiagnostics.trace(
+            context,
+            "PACKAGE",
+            "install_refresh_attempt",
+            "$appName | attempt=${attempt + 1}"
+        )
         AppStateCacheManager.forceRefreshInstalledPackages(context) {
             val isInstalled = if (!expectedPackage.isNullOrBlank()) {
                 AppStateCacheManager.isInstalled(context, expectedPackage)
@@ -106,6 +163,12 @@ class InstallResultReceiver : BroadcastReceiver() {
             }
 
             if (isInstalled || attempt >= MAX_INSTALL_REFRESH_RETRIES) {
+                AppDiagnostics.trace(
+                    context,
+                    "PACKAGE",
+                    "install_refresh_resolved",
+                    "$appName | installed=$isInstalled | attempts=${attempt + 1}"
+                )
                 onReady()
             } else {
                 Handler(Looper.getMainLooper()).postDelayed(

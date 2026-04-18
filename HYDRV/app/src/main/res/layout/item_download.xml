@@ -44,6 +44,13 @@
         android:textColor="?attr/colorOnSurfaceVariant"
         android:textSize="12sp" />
 
+    <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/installLoadingBar"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_marginTop="10dp"
+        android:visibility="gone" />
+
     
     <ProgressBar
         android:id="@+id/progress"

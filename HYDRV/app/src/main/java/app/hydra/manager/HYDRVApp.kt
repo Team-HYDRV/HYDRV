@@ -5,8 +5,15 @@ import android.os.Process
 import kotlin.system.exitProcess
 
 class HYDRVApp : Application() {
+    companion object {
+        @Volatile
+        var appContext: Application? = null
+            private set
+    }
+
     override fun onCreate() {
         super.onCreate()
+        appContext = this
         installCrashLogger()
         AppIconPreferences.ensureDefaultOnFirstLaunch(this)
         val prefs = getSharedPreferences(ThemePreferences.PREFS_NAME, MODE_PRIVATE)

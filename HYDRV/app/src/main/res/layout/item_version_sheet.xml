@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="12dp"
-    android:background="@drawable/card"
+    android:background="@android:color/transparent"
     android:orientation="vertical"
     android:paddingHorizontal="16dp"
     android:paddingTop="16dp"
@@ -163,22 +163,46 @@
                         android:textSize="13sp"
                         android:textStyle="bold" />
                 </LinearLayout>
+
+                <app.hydra.manager.WiggleCircularProgressIndicator
+                    android:id="@+id/versionInstallProgress"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:visibility="gone"
+                    />
             </FrameLayout>
         </FrameLayout>
 
-        <androidx.appcompat.widget.AppCompatButton
+        <FrameLayout
             android:id="@+id/versionUninstallButton"
             android:layout_width="0dp"
             android:layout_height="46dp"
             android:layout_weight="1"
             android:layout_marginStart="10dp"
             android:background="@drawable/button_delete_version_sheet"
-            android:backgroundTint="@null"
-            android:text="@string/downloads_uninstall"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="12sp"
             android:visibility="gone"
-            app:backgroundTint="@null" />
+            android:clickable="true"
+            android:focusable="true">
+
+            <TextView
+                android:id="@+id/versionUninstallLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:includeFontPadding="false"
+                android:text="@string/downloads_uninstall"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <app.hydra.manager.WiggleCircularProgressIndicator
+                android:id="@+id/versionUninstallProgress"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                />
+        </FrameLayout>
     </LinearLayout>
 </LinearLayout>

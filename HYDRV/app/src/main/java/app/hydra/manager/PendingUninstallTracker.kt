@@ -36,6 +36,10 @@ object PendingUninstallTracker {
         return appName
     }
 
+    fun hasPending(): Boolean {
+        return !pendingAppName.isNullOrBlank() && !pendingPackageName.isNullOrBlank()
+    }
+
     fun clear() {
         pendingAppName = null
         pendingPackageName = null

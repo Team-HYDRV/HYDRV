@@ -15,6 +15,7 @@ object DownloadRepository {
 
     private const val SAVE_DEBOUNCE_MS = 350L
     private const val PROGRESS_NOTIFY_INTERVAL_MS = 120L
+    private const val INSTALLED_SYNC_COOLDOWN_MS = 700L
 
     enum class StartResult {
         STARTED,
@@ -31,6 +32,7 @@ object DownloadRepository {
     private var saveRunnable: Runnable? = null
     private var progressNotifyRunnable: Runnable? = null
     private var lastProgressNotifyAt = 0L
+    private var lastInstalledSyncAt = 0L
     private val startLock = Any()
 
     fun isSelfUpdateDownload(item: DownloadItem): Boolean {
@@ -191,6 +193,12 @@ object DownloadRepository {
                 context,
                 "DOWNLOAD",
                 "Start queued for ${newItem.name} ${newItem.versionName} token=${newItem.requestToken}"
+            )
+            AppDiagnostics.trace(
+                context,
+                "DOWNLOAD",
+                "start_request",
+                "${newItem.name} ${newItem.versionName} | token=${newItem.requestToken}"
             )
             notifyChange()
 
@@ -400,8 +408,19 @@ object DownloadRepository {
         }
     }
 
-    fun syncInstalledState(context: Context) {
+    fun syncInstalledState(context: Context, force: Boolean = false) {
         synchronized(startLock) {
+            val now = System.currentTimeMillis()
+            if (!force && now - lastInstalledSyncAt < INSTALLED_SYNC_COOLDOWN_MS) {
+                AppDiagnostics.trace(
+                    context,
+                    "DOWNLOAD",
+                    "sync_installed_state_skipped_recent",
+                    "cooldownMs=$INSTALLED_SYNC_COOLDOWN_MS | items=${downloads.size}"
+                )
+                return
+            }
+            lastInstalledSyncAt = now
             var changed = false
 
             downloads.forEach { item ->
@@ -443,6 +462,12 @@ object DownloadRepository {
                 }
             }
 
+            AppDiagnostics.trace(
+                context,
+                "DOWNLOAD",
+                "sync_installed_state",
+                "changed=$changed | items=${downloads.size}"
+            )
             if (!changed) return
 
             scheduleSave(context)
@@ -510,6 +535,12 @@ object DownloadRepository {
                 "DOWNLOAD",
                 "Marked done for ${item.name} ${item.versionName} token=${item.requestToken}"
             )
+            AppDiagnostics.trace(
+                context,
+                "DOWNLOAD",
+                "mark_done",
+                "${item.name} ${item.versionName} | token=${item.requestToken}"
+            )
 
             if (!isApkValid(context, item)) {
                 delete(context, item)
@@ -552,7 +583,13 @@ object DownloadRepository {
 
         InstallAliasStore.saveAlias(context, appName, backendPackage, actualPackage)
         AppIdentityStore.recordInstall(context, appName, backendPackage, archiveInfo)
-        syncInstalledState(context)
+        AppDiagnostics.trace(
+            context,
+            "DOWNLOAD",
+            "handle_install_success",
+            "$appName | backend=$backendPackage | actual=$actualPackage"
+        )
+        syncInstalledState(context, force = true)
         if (metadataChanged) {
             scheduleSave(context)
             notifyChange()
@@ -569,6 +606,12 @@ object DownloadRepository {
                 context,
                 "DOWNLOAD",
                 "Marked failed for ${item.name} ${item.versionName} token=${item.requestToken} reason=$errorMessage"
+            )
+            AppDiagnostics.trace(
+                context,
+                "DOWNLOAD",
+                "mark_failed",
+                "${item.name} ${item.versionName} | token=${item.requestToken} | reason=$errorMessage"
             )
             scheduleSave(context)
             notifyChange()

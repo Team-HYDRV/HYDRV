@@ -35,7 +35,12 @@
     </style>
 
     <style name="Theme.HYDRV.Material" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="colorOutline">@android:color/transparent</item>
+        <item name="android:colorBackground">@color/dynamic_bg</item>
+        <item name="colorSurface">@color/dynamic_card</item>
+        <item name="colorSurfaceVariant">@color/dynamic_nav_surface</item>
+        <item name="colorSurfaceContainerLow">@color/dynamic_card</item>
+        <item name="colorSurfaceContainerHigh">@color/dynamic_elevated</item>
+        <item name="colorOutline">@color/dynamic_stroke</item>
         <item name="android:statusBarColor">@android:color/black</item>
         <item name="android:navigationBarColor">@android:color/black</item>
         <item name="android:colorControlHighlight">#00000000</item>

@@ -65,7 +65,8 @@ class AppAdapter :
             pressedTranslationYDp = 0.7f,
             downDuration = 70L,
             upDuration = 170L,
-            releaseOvershoot = 0.5f
+            releaseOvershoot = 0.5f,
+            traceLabel = "home_app_card"
         )
         return VH(view)
     }
@@ -95,6 +96,14 @@ class AppAdapter :
         updateBadge(holder, installedVersion, latest.version)
 
         holder.fav.setOnClickListener {
+            AppDiagnostics.traceLimited(
+                context,
+                "UI",
+                "favorite_toggle_tap",
+                app.name,
+                dedupeKey = "favorite_toggle:${app.packageName}",
+                cooldownMs = 200L
+            )
             animateStar(holder.fav)
             toggleFavorite(context, app.name)
             bindFavoriteState(holder, context, app.name)
@@ -108,9 +117,28 @@ class AppAdapter :
             val activity = context as? AppCompatActivity ?: return@setOnClickListener
             val fm = activity.supportFragmentManager
             val tag = "versions"
-            if (!fm.isStateSaved && fm.findFragmentByTag(tag) == null) {
-                VersionSheet(app = app).show(fm, tag)
+            if (
+                fm.isStateSaved ||
+                VersionSheet.isPresentationBlocked() ||
+                fm.findFragmentByTag(tag) != null
+            ) {
+                return@setOnClickListener
             }
+            val shown = VersionSheet.present(
+                fragmentManager = fm,
+                context = context,
+                app = app,
+                tag = tag
+            )
+            if (!shown) return@setOnClickListener
+            AppDiagnostics.traceLimited(
+                context,
+                "UI",
+                "app_card_open",
+                app.name,
+                dedupeKey = "app_card_open:${app.packageName}",
+                cooldownMs = 200L
+            )
         }
     }
 
@@ -229,7 +257,8 @@ class AppAdapter :
             riseDp = 1f,
             expandDuration = 110L,
             settleDuration = 170L,
-            settleOvershoot = 0.75f
+            settleOvershoot = 0.75f,
+            traceLabel = "favorite_star"
         )
     }
 

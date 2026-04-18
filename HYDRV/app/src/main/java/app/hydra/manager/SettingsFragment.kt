@@ -124,6 +124,7 @@ class SettingsFragment : Fragment() {
     companion object {
         private const val PRESS_SCALE = 0.985f
         private const val UPDATES_DEBUG_REFRESH_MS = 2000L
+        private const val THEME_REFRESH_DELAY_MS = 140L
         private const val STATE_VISIBLE_SECTION = "settings_visible_section"
     }
 
@@ -234,12 +235,23 @@ class SettingsFragment : Fragment() {
     private lateinit var aboutVersionText: TextView
     private var currentVisiblePanel: View? = null
     private var currentSection: SettingsSection? = null
+    private var themeRefreshScheduled = false
     private val mainHandler = Handler(Looper.getMainLooper())
+    private val themeRefreshRunnable = Runnable {
+        if (!isAdded || view == null) {
+            themeRefreshScheduled = false
+            return@Runnable
+        }
+        themeRefreshScheduled = false
+        AppRecreationController.markSettingsSection(currentSection?.name)
+        AppRecreationController.markThemeRefresh()
+        activity?.recreate()
+        activity?.overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+    }
     private val updatesDebugRefreshRunnable = object : Runnable {
         override fun run() {
-            if (!isAdded || view == null) return
-            updateUpdatesSummary()
-            refreshUpdateActionButton()
+            if (!shouldKeepUpdatesUiHot()) return
+            refreshUpdatesUi(force = true)
             mainHandler.postDelayed(this, UPDATES_DEBUG_REFRESH_MS)
         }
     }
@@ -369,13 +381,14 @@ class SettingsFragment : Fragment() {
         updateUpdatesSummary()
         updateSortLabels()
         updateAboutVersion()
-        val restoredSection = savedInstanceState
-            ?.getString(STATE_VISIBLE_SECTION)
+        val restoredSectionName = savedInstanceState?.getString(STATE_VISIBLE_SECTION)
+            ?: AppRecreationController.consumeSettingsSection()
+        val restoredSection = restoredSectionName
             ?.let { sectionName -> runCatching { SettingsSection.valueOf(sectionName) }.getOrNull() }
         if (restoredSection != null) {
-            showSection(restoredSection)
+            showSection(restoredSection, animate = false)
         } else {
-            showOverview()
+            showOverview(animate = false)
         }
 
         backButton.setOnClickListener {
@@ -437,51 +450,66 @@ class SettingsFragment : Fragment() {
         }
 
         view.findViewById<View>(R.id.downloadNetworkRow).setOnClickListener {
+            traceSettingsAction("download_network_dialog")
             showDownloadNetworkDialog()
         }
         view.findViewById<View>(R.id.dynamicColorRow).setOnClickListener {
+            traceSettingsAction("dynamic_color_toggle")
             toggleDynamicColor()
         }
         view.findViewById<View>(R.id.pureBlackRow).setOnClickListener {
+            traceSettingsAction("pure_black_toggle")
             togglePureBlackTheme()
         }
         view.findViewById<View>(R.id.backendUrlRow).setOnClickListener {
+            traceSettingsAction("backend_manager_open")
             startActivity(Intent(requireContext(), BackendManagerActivity::class.java))
         }
         view.findViewById<View>(R.id.backendHealthRow).setOnClickListener {
+            traceSettingsAction("backend_health_dialog")
             showBackendHealthDialog()
         }
         view.findViewById<View>(R.id.batteryOptimizationRow).setOnClickListener {
+            traceSettingsAction("battery_optimization_open")
             openBatteryOptimizationSettings()
         }
         view.findViewById<View>(R.id.adsSupportRow).setOnClickListener {
+            traceSettingsAction("ads_support_toggle")
             toggleAdsSupport()
         }
         view.findViewById<View>(R.id.exportDebugLogsRow).setOnClickListener {
+            traceSettingsAction("export_debug_logs")
             exportDebugLogs()
         }
         view.findViewById<View>(R.id.exportSettingsBackupRow).setOnClickListener {
+            traceSettingsAction("export_settings_backup")
             exportSettingsBackup()
         }
         view.findViewById<View>(R.id.importSettingsBackupRow).setOnClickListener {
+            traceSettingsAction("import_settings_backup")
             importSettingsBackupLauncher.launch(arrayOf("application/json", "text/plain"))
         }
         view.findViewById<View>(R.id.languageRow).setOnClickListener {
+            traceSettingsAction("language_selection_open")
             languageSelectionLauncher.launch(
                 Intent(requireContext(), LanguageSelectionActivity::class.java)
             )
         }
 
         view.findViewById<View>(R.id.updateNotificationsRow).setOnClickListener {
+            traceSettingsAction("update_notifications_toggle")
             toggleUpdateNotifications()
         }
         view.findViewById<View>(R.id.checkUpdatesOnLaunchRow).setOnClickListener {
+            traceSettingsAction("check_updates_on_launch_toggle")
             toggleCheckUpdatesOnLaunch()
         }
         view.findViewById<View>(R.id.showUpdateMessageRow).setOnClickListener {
+            traceSettingsAction("show_update_message_toggle")
             toggleShowUpdateMessageOnLaunch()
         }
         viewChangelogButton.setOnClickListener {
+            traceSettingsAction("view_changelog_dialog")
             showUpdatesChangelogDialog()
         }
         refreshUpdateActionButton()
@@ -584,25 +612,55 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         DownloadRepository.downloadsLive.observe(viewLifecycleOwner, Observer {
-            refreshUpdateActionButton()
+            refreshUpdatesUi()
         })
-        refreshUpdateActionButton()
+        refreshUpdatesUi(force = true)
     }
 
-    private fun showOverview() {
+    private fun showOverview(animate: Boolean = true) {
         currentSection = null
-        animateHeaderTitle(getString(R.string.settings_title))
-        backButton.animate()
-            .alpha(0f)
-            .setDuration(120)
-            .withEndAction {
-                backButton.visibility = View.GONE
+        syncUpdatesUiHotState()
+        if (animate) {
+            context?.let {
+                AppDiagnostics.traceLimited(
+                    it,
+                    "UI",
+                    "settings_overview_start",
+                    "animate=$animate",
+                    dedupeKey = "settings_overview_start",
+                    cooldownMs = 180L
+                )
             }
-            .start()
-        transitionTo(sectionList, currentVisiblePanel, reverse = true)
+        }
+        animateHeaderTitle(getString(R.string.settings_title), animate)
+        if (animate) {
+            backButton.animate()
+                .alpha(0f)
+                .setDuration(120)
+                .withEndAction {
+                    backButton.visibility = View.GONE
+                }
+                .start()
+            transitionTo(sectionList, currentVisiblePanel, reverse = true)
+        } else {
+            backButton.animate().cancel()
+            backButton.alpha = 0f
+            backButton.visibility = View.GONE
+            transitionTo(sectionList, currentVisiblePanel, reverse = true, animate = false)
+        }
     }
 
     private fun handleBackNavigation() {
+        context?.let {
+            AppDiagnostics.traceLimited(
+                it,
+                "UI",
+                "settings_back_tap",
+                currentSection?.name ?: "OVERVIEW",
+                dedupeKey = "settings_back_tap",
+                cooldownMs = 180L
+            )
+        }
         if (currentSection != null) {
             showOverview()
             return
@@ -615,8 +673,21 @@ class SettingsFragment : Fragment() {
         activity?.onBackPressedDispatcher?.onBackPressed()
     }
 
-    private fun showSection(section: SettingsSection) {
+    private fun showSection(section: SettingsSection, animate: Boolean = true) {
         currentSection = section
+        syncUpdatesUiHotState()
+        if (animate) {
+            context?.let {
+                AppDiagnostics.traceLimited(
+                    it,
+                    "UI",
+                    "settings_section_open",
+                    "${section.name} | animate=$animate",
+                    dedupeKey = "settings_section_open:${section.name}",
+                    cooldownMs = 180L
+                )
+            }
+        }
         val targetView = when (section) {
             SettingsSection.GENERAL -> generalSection
             SettingsSection.UPDATES -> updatesSection
@@ -624,25 +695,53 @@ class SettingsFragment : Fragment() {
             SettingsSection.ABOUT -> aboutSection
         }
 
-        animateHeaderTitle(getString(section.titleRes))
-        if (backButton.visibility != View.VISIBLE) {
+        animateHeaderTitle(getString(section.titleRes), animate)
+        if (backButton.visibility != View.VISIBLE && animate) {
             backButton.alpha = 0f
             backButton.visibility = View.VISIBLE
             backButton.animate()
                 .alpha(1f)
                 .setDuration(140)
                 .start()
+        } else if (!animate) {
+            backButton.animate().cancel()
+            backButton.alpha = 1f
+            backButton.visibility = View.VISIBLE
         }
-        transitionTo(targetView, currentVisiblePanel, reverse = false)
+        transitionTo(targetView, currentVisiblePanel, reverse = false, animate = animate)
+        refreshUpdatesUi()
     }
 
-    private fun transitionTo(target: View, current: View?, reverse: Boolean) {
+    private fun transitionTo(target: View, current: View?, reverse: Boolean, animate: Boolean = true) {
         if (current === target) return
+        if (animate) {
+            context?.let {
+                AppDiagnostics.traceLimited(
+                    it,
+                    "ANIM",
+                    "settings_panel_transition_start",
+                    "${panelName(current)}->${panelName(target)} | reverse=$reverse | animate=$animate",
+                    dedupeKey = "settings_panel_transition:${panelName(current)}:${panelName(target)}",
+                    cooldownMs = 120L
+                )
+            }
+        }
 
         val distance = if (reverse) -32f else 32f
 
         current?.animate()?.cancel()
         target.animate().cancel()
+
+        if (!animate) {
+            listOf(sectionList, generalSection, updatesSection, advanceSection, aboutSection)
+                .forEach {
+                    it.visibility = if (it === target) View.VISIBLE else View.GONE
+                    it.alpha = 1f
+                    it.translationX = 0f
+                }
+            currentVisiblePanel = target
+            return
+        }
 
         if (current != null) {
             current.animate()
@@ -681,8 +780,28 @@ class SettingsFragment : Fragment() {
         currentSection?.name?.let { outState.putString(STATE_VISIBLE_SECTION, it) }
     }
 
-    private fun animateHeaderTitle(title: String) {
+    private fun animateHeaderTitle(title: String, animate: Boolean = true) {
         if (headerTitle.text == title) return
+        if (animate) {
+            context?.let {
+                AppDiagnostics.traceLimited(
+                    it,
+                    "ANIM",
+                    "settings_header_title_start",
+                    "$title | animate=$animate",
+                    dedupeKey = "settings_header_title:$title",
+                    cooldownMs = 160L
+                )
+            }
+        }
+
+        if (!animate) {
+            headerTitle.animate().cancel()
+            headerTitle.alpha = 1f
+            headerTitle.translationY = 0f
+            headerTitle.text = title
+            return
+        }
 
         headerTitle.animate()
             .alpha(0f)
@@ -836,7 +955,12 @@ class SettingsFragment : Fragment() {
 
     private fun updateNotificationLabel() {
         val enabled = NotificationPreferences.areUpdateNotificationsEnabled(requireContext())
-        updateToggle(updateNotificationsSwitchTrack, updateNotificationsSwitchThumb, enabled)
+        updateToggle(
+            updateNotificationsSwitchTrack,
+            updateNotificationsSwitchThumb,
+            enabled,
+            animate = false
+        )
     }
 
     private fun updateBackendUrlLabel() {
@@ -864,12 +988,14 @@ class SettingsFragment : Fragment() {
         updateToggle(
             dynamicColorSwitchTrack,
             dynamicColorSwitchThumb,
-            AppearancePreferences.isDynamicColorEnabled(context)
+            AppearancePreferences.isDynamicColorEnabled(context),
+            animate = false
         )
         updateToggle(
             pureBlackSwitchTrack,
             pureBlackSwitchThumb,
-            AppearancePreferences.isPureBlackEnabled(context)
+            AppearancePreferences.isPureBlackEnabled(context),
+            animate = false
         )
         updatePureBlackSummary(context)
         if (this::appIconOptions.isInitialized) {
@@ -962,7 +1088,8 @@ class SettingsFragment : Fragment() {
         updateToggle(
             adsSupportSwitchTrack,
             adsSupportSwitchThumb,
-            AdsPreferences.areRewardedAdsEnabled(requireContext())
+            AdsPreferences.areRewardedAdsEnabled(requireContext()),
+            animate = false
         )
     }
 
@@ -975,7 +1102,12 @@ class SettingsFragment : Fragment() {
         val context = requireContext()
         val enabled = !NotificationPreferences.areUpdateNotificationsEnabled(context)
         NotificationPreferences.setUpdateNotificationsEnabled(context, enabled)
-        updateNotificationLabel()
+        updateToggle(
+            updateNotificationsSwitchTrack,
+            updateNotificationsSwitchThumb,
+            enabled,
+            animate = true
+        )
     }
 
     private fun toggleAdsSupport() {
@@ -987,21 +1119,44 @@ class SettingsFragment : Fragment() {
         } else {
             RewardedAdManager.clear()
         }
-        updateAdsSupportLabel()
+        updateToggle(
+            adsSupportSwitchTrack,
+            adsSupportSwitchThumb,
+            enabled,
+            animate = true
+        )
     }
 
     private fun toggleDynamicColor() {
         val context = requireContext()
+        if (themeRefreshScheduled) return
+        val enabled = !AppearancePreferences.isDynamicColorEnabled(context)
         AppearancePreferences.setDynamicColorEnabled(
             context,
-            !AppearancePreferences.isDynamicColorEnabled(context)
+            enabled
         )
-        updateAppearanceSwitches()
-        activity?.recreate()
+        updateToggle(
+            dynamicColorSwitchTrack,
+            dynamicColorSwitchThumb,
+            enabled,
+            animate = true
+        )
+        updateToggle(
+            pureBlackSwitchTrack,
+            pureBlackSwitchThumb,
+            AppearancePreferences.isPureBlackEnabled(context),
+            animate = false
+        )
+        updatePureBlackSummary(context)
+        if (this::appIconOptions.isInitialized) {
+            updateAppIconCards()
+        }
+        requestThemeRefresh()
     }
 
     private fun togglePureBlackTheme() {
         val context = requireContext()
+        if (themeRefreshScheduled) return
         val enabled = !AppearancePreferences.isPureBlackEnabled(context)
         AppearancePreferences.setPureBlackEnabled(
             context,
@@ -1012,12 +1167,36 @@ class SettingsFragment : Fragment() {
             updateThemeSelection(R.id.themeOptionDark)
             val prefs = context.getSharedPreferences(ThemePreferences.PREFS_NAME, 0)
             prefs.edit { putInt(ThemePreferences.KEY_THEME, AppCompatDelegate.MODE_NIGHT_YES) }
+            mainHandler.removeCallbacks(themeRefreshRunnable)
+            themeRefreshScheduled = true
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            mainHandler.postDelayed(themeRefreshRunnable, THEME_REFRESH_DELAY_MS)
             return
         }
 
-        updateAppearanceSwitches()
-        activity?.recreate()
+        updateToggle(
+            pureBlackSwitchTrack,
+            pureBlackSwitchThumb,
+            enabled,
+            animate = true
+        )
+        updateToggle(
+            dynamicColorSwitchTrack,
+            dynamicColorSwitchThumb,
+            AppearancePreferences.isDynamicColorEnabled(context),
+            animate = false
+        )
+        updatePureBlackSummary(context)
+        if (this::appIconOptions.isInitialized) {
+            updateAppIconCards()
+        }
+        requestThemeRefresh()
+    }
+
+    private fun requestThemeRefresh() {
+        mainHandler.removeCallbacks(themeRefreshRunnable)
+        themeRefreshScheduled = true
+        mainHandler.postDelayed(themeRefreshRunnable, THEME_REFRESH_DELAY_MS)
     }
 
     private fun isDarkThemeEffective(context: android.content.Context): Boolean {
@@ -1058,12 +1237,13 @@ class SettingsFragment : Fragment() {
             updateBatteryOptimizationLabel()
         }
         refreshSettingsUi()
-        mainHandler.removeCallbacks(updatesDebugRefreshRunnable)
-        mainHandler.postDelayed(updatesDebugRefreshRunnable, UPDATES_DEBUG_REFRESH_MS)
+        syncUpdatesUiHotState()
     }
 
     override fun onPause() {
         mainHandler.removeCallbacks(updatesDebugRefreshRunnable)
+        mainHandler.removeCallbacks(themeRefreshRunnable)
+        themeRefreshScheduled = false
         super.onPause()
     }
 
@@ -1085,6 +1265,12 @@ class SettingsFragment : Fragment() {
                 appendLine()
                 appendLine(getString(R.string.debug_recent_diagnostics))
                 appendLine(diagnostics)
+            }
+            val performanceTrace = AppDiagnostics.readTrace(context)
+            if (performanceTrace.isNotBlank()) {
+                appendLine()
+                appendLine("Performance trace (temporary)")
+                appendLine(performanceTrace)
             }
         }
 
@@ -1208,22 +1394,54 @@ class SettingsFragment : Fragment() {
         val checkOnLaunch = UpdatePreferences.isCheckOnLaunchEnabled(context)
         val showMessage = UpdatePreferences.isLaunchMessageEnabled(context)
 
-        updateToggle(checkUpdatesOnLaunchSwitchTrack, checkUpdatesOnLaunchSwitchThumb, checkOnLaunch)
-        updateToggle(showUpdateMessageSwitchTrack, showUpdateMessageSwitchThumb, showMessage)
+        updateToggle(
+            checkUpdatesOnLaunchSwitchTrack,
+            checkUpdatesOnLaunchSwitchThumb,
+            checkOnLaunch,
+            animate = false
+        )
+        updateToggle(
+            showUpdateMessageSwitchTrack,
+            showUpdateMessageSwitchThumb,
+            showMessage,
+            animate = false
+        )
     }
 
     private fun toggleCheckUpdatesOnLaunch() {
         val context = requireContext()
         val enabled = !UpdatePreferences.isCheckOnLaunchEnabled(context)
         UpdatePreferences.setCheckOnLaunchEnabled(context, enabled)
-        updateLaunchUpdateSwitches()
+        updateToggle(
+            checkUpdatesOnLaunchSwitchTrack,
+            checkUpdatesOnLaunchSwitchThumb,
+            enabled,
+            animate = true
+        )
+        updateToggle(
+            showUpdateMessageSwitchTrack,
+            showUpdateMessageSwitchThumb,
+            UpdatePreferences.isLaunchMessageEnabled(context),
+            animate = false
+        )
     }
 
     private fun toggleShowUpdateMessageOnLaunch() {
         val context = requireContext()
         val enabled = !UpdatePreferences.isLaunchMessageEnabled(context)
         UpdatePreferences.setLaunchMessageEnabled(context, enabled)
-        updateLaunchUpdateSwitches()
+        updateToggle(
+            showUpdateMessageSwitchTrack,
+            showUpdateMessageSwitchThumb,
+            enabled,
+            animate = true
+        )
+        updateToggle(
+            checkUpdatesOnLaunchSwitchTrack,
+            checkUpdatesOnLaunchSwitchThumb,
+            UpdatePreferences.isCheckOnLaunchEnabled(context),
+            animate = false
+        )
     }
 
     private fun updateUpdatesSummary() {
@@ -1266,6 +1484,26 @@ class SettingsFragment : Fragment() {
         refreshUpdateActionButton()
         updateSortLabels()
         updateAboutVersion()
+    }
+
+    private fun shouldKeepUpdatesUiHot(): Boolean {
+        return isAdded &&
+            view != null &&
+            this::updatesSection.isInitialized &&
+            currentSection == SettingsSection.UPDATES
+    }
+
+    private fun syncUpdatesUiHotState() {
+        mainHandler.removeCallbacks(updatesDebugRefreshRunnable)
+        if (shouldKeepUpdatesUiHot()) {
+            mainHandler.postDelayed(updatesDebugRefreshRunnable, UPDATES_DEBUG_REFRESH_MS)
+        }
+    }
+
+    private fun refreshUpdatesUi(force: Boolean = false) {
+        if (!force && !shouldKeepUpdatesUiHot()) return
+        updateUpdatesSummary()
+        refreshUpdateActionButton()
     }
 
     private fun exportSettingsBackup() {
@@ -1687,7 +1925,24 @@ class SettingsFragment : Fragment() {
         refreshUpdateActionButton()
     }
 
-    private fun updateToggle(track: FrameLayout, thumb: View, enabled: Boolean) {
+    private fun updateToggle(
+        track: FrameLayout,
+        thumb: View,
+        enabled: Boolean,
+        animate: Boolean
+    ) {
+        if (animate) {
+            context?.let {
+                AppDiagnostics.traceLimited(
+                    it,
+                    "ANIM",
+                    "settings_toggle_thumb_start",
+                    "${viewTraceLabel(track)} | enabled=$enabled",
+                    dedupeKey = "settings_toggle_thumb:${viewTraceLabel(track)}:$enabled",
+                    cooldownMs = 140L
+                )
+            }
+        }
         val useMaterial = AppearancePreferences.isDynamicColorEnabled(requireContext())
         track.setBackgroundResource(
             if (useMaterial) {
@@ -1719,10 +1974,16 @@ class SettingsFragment : Fragment() {
                 }
             }
         )
-        thumb.animate()
-            .translationX(if (enabled) 20f.dpToPx() else 0f)
-            .setDuration(150)
-            .start()
+        thumb.animate().cancel()
+        val targetTranslation = if (enabled) 20f.dpToPx() else 0f
+        if (animate) {
+            thumb.animate()
+                .translationX(targetTranslation)
+                .setDuration(150)
+                .start()
+        } else {
+            thumb.translationX = targetTranslation
+        }
     }
 
     private fun configureSwitchRows(root: View) {
@@ -1768,8 +2029,43 @@ class SettingsFragment : Fragment() {
             pressedTranslationYDp = 0.8f,
             downDuration = 85L,
             upDuration = 170L,
-            releaseOvershoot = 0.58f
+            releaseOvershoot = 0.58f,
+            traceLabel = viewTraceLabel(target)
         )
+    }
+
+    private fun panelName(panel: View?): String {
+        return when (panel?.id) {
+            R.id.sectionList -> "overview"
+            R.id.generalSection -> "general"
+            R.id.updatesSection -> "updates"
+            R.id.advanceSection -> "advance"
+            R.id.aboutSection -> "about"
+            else -> "unknown"
+        }
+    }
+
+    private fun viewTraceLabel(view: View): String {
+        return runCatching {
+            if (view.id != View.NO_ID) {
+                resources.getResourceEntryName(view.id)
+            } else {
+                view.javaClass.simpleName
+            }
+        }.getOrDefault(view.javaClass.simpleName)
+    }
+
+    private fun traceSettingsAction(action: String) {
+        context?.let {
+            AppDiagnostics.traceLimited(
+                it,
+                "UI",
+                "settings_action",
+                action,
+                dedupeKey = "settings_action:$action",
+                cooldownMs = 180L
+            )
+        }
     }
 
     private fun showAppSortDialog(
