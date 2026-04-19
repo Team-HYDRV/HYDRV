@@ -437,12 +437,4 @@
     <item quantity="other">%d已選擇</item>
   </plurals>
   <string name="version_sheet_scroll_hint">滑動查看更多</string>
-  <string name="debug_section_app_device">應用程式與裝置</string>
-  <string name="debug_section_crashes_failures">當機與錯誤</string>
-  <string name="debug_section_install_download_timeline">安裝 / 下載時間軸</string>
-  <string name="debug_section_animations_ui_trace">動畫與 UI 追蹤</string>
-  <string name="debug_section_performance_package_state">效能與套件狀態</string>
-  <string name="debug_section_focus_format">焦點: %1$s</string>
-  <string name="debug_section_entries_format">項目: %1$d</string>
-  <string name="debug_section_performance_trace_temporary">效能追蹤（暫時）</string>
 </resources>
