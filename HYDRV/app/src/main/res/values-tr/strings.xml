@@ -440,4 +440,12 @@
         <item quantity="other">%dSe�ilen se�ilen se�ilmis se�ilmis se�ilmis se�ilmis se�ilmis se�ilmis se�ilmis</item>
     </plurals>
   <string name="version_sheet_scroll_hint">Daha fazlası için kaydırın</string>
+  <string name="debug_section_app_device">Uygulama ve cihaz</string>
+  <string name="debug_section_crashes_failures">Çökmeler ve hatalar</string>
+  <string name="debug_section_install_download_timeline">Yükleme / indirme zaman çizelgesi</string>
+  <string name="debug_section_animations_ui_trace">Animasyonlar ve UI izi</string>
+  <string name="debug_section_performance_package_state">Performans ve paket durumu</string>
+  <string name="debug_section_focus_format">Odak: %1$s</string>
+  <string name="debug_section_entries_format">Girdiler: %1$d</string>
+  <string name="debug_section_performance_trace_temporary">Performans izi (geçici)</string>
 </resources>

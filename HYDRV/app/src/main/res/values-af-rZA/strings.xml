@@ -440,4 +440,12 @@
     <item quantity="other">%d gekies</item>
   </plurals>
   <string name="version_sheet_scroll_hint">Rol vir meer</string>
+  <string name="debug_section_app_device">App en toestel</string>
+  <string name="debug_section_crashes_failures">Ongelukke en mislukkings</string>
+  <string name="debug_section_install_download_timeline">Installasie / aflaai tydlyn</string>
+  <string name="debug_section_animations_ui_trace">Animasies en UI-spoor</string>
+  <string name="debug_section_performance_package_state">Werkverrigting en pakketstatus</string>
+  <string name="debug_section_focus_format">Fokus: %1$s</string>
+  <string name="debug_section_entries_format">Inskrywings: %1$d</string>
+  <string name="debug_section_performance_trace_temporary">Werkverrigtingspoor (tydelik)</string>
 </resources>

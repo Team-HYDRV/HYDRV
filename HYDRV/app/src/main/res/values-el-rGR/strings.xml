@@ -440,4 +440,12 @@
     <item quantity="other">%d επιλεγμένα</item>
   </plurals>
   <string name="version_sheet_scroll_hint">Κύλιση για περισσότερα</string>
+  <string name="debug_section_app_device">Εφαρμογή και συσκευή</string>
+  <string name="debug_section_crashes_failures">Σφάλματα και αποτυχίες</string>
+  <string name="debug_section_install_download_timeline">Χρονολόγιο εγκατάστασης / λήψης</string>
+  <string name="debug_section_animations_ui_trace">Κινήσεις και ίχνος UI</string>
+  <string name="debug_section_performance_package_state">Απόδοση και κατάσταση πακέτου</string>
+  <string name="debug_section_focus_format">Εστίαση: %1$s</string>
+  <string name="debug_section_entries_format">Καταχωρίσεις: %1$d</string>
+  <string name="debug_section_performance_trace_temporary">Ίχνος απόδοσης (προσωρινό)</string>
 </resources>
