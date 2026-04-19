@@ -36,6 +36,9 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
 import android.content.res.ColorStateList
@@ -77,7 +80,7 @@ class VersionSheet(
         private const val MAX_SINGLE_VERSION_SHEET_HEIGHT_RATIO = 0.58f
         private const val INSTALL_CIRCLE_SIZE_DP = 46
         private const val INSTALL_PROGRESS_SIZE_DP = 24
-        private const val UNINSTALL_PROGRESS_SIZE_DP = 20
+        private const val UNINSTALL_PROGRESS_SIZE_DP = 24
         private const val INSTALL_PROGRESS_THICKNESS_DP = 3
         private const val UNINSTALL_PROGRESS_THICKNESS_DP = 3
         private const val INSTALL_PROGRESS_CAP = 92
@@ -220,10 +223,10 @@ class VersionSheet(
         val content: View,
         val label: TextView,
         val icon: ImageView,
-        val installProgress: WiggleCircularProgressIndicator,
+        val installProgress: ComposeView,
         val uninstallButton: FrameLayout,
         val uninstallLabel: TextView,
-        val uninstallProgress: WiggleCircularProgressIndicator
+        val uninstallProgress: ComposeView
     )
 
     private enum class InstallVisualState {
@@ -702,10 +705,16 @@ class VersionSheet(
         val buttonContent = card.findViewById<View>(R.id.versionDownloadContent)
         val buttonLabel = card.findViewById<TextView>(R.id.versionDownloadLabel)
         val buttonIcon = card.findViewById<ImageView>(R.id.versionDownloadIcon)
-        val installProgress = card.findViewById<WiggleCircularProgressIndicator>(R.id.versionInstallProgress)
+        val installProgress = card.findViewById<ComposeView>(R.id.versionInstallProgress)
         val uninstallButton = card.findViewById<FrameLayout>(R.id.versionUninstallButton)
         val uninstallLabel = card.findViewById<TextView>(R.id.versionUninstallLabel)
-        val uninstallProgress = card.findViewById<WiggleCircularProgressIndicator>(R.id.versionUninstallProgress)
+        val uninstallProgress = card.findViewById<ComposeView>(R.id.versionUninstallProgress)
+        installProgress.setViewCompositionStrategy(
+            ViewCompositionStrategy.DisposeOnDetachedFromWindowOrReleasedFromPool
+        )
+        uninstallProgress.setViewCompositionStrategy(
+            ViewCompositionStrategy.DisposeOnDetachedFromWindowOrReleasedFromPool
+        )
         title.text = ctx.getString(
             R.string.version_format,
             version.displayVersionName()
@@ -1183,6 +1192,17 @@ class VersionSheet(
                             }
                             return@forceRefreshInstalledPackages
                         }
+                        if (
+                            awaitingUninstallResult &&
+                            pendingUninstallKey != null &&
+                            !PendingUninstallTracker.matches(currentApp.name, currentApp.packageName)
+                        ) {
+                            resolvePendingUninstallResult(pendingUninstallKey!!, stillInstalled = true)
+                            if (shouldShowSnackbar && event.message.isNotBlank()) {
+                                showSheetSnackbar(event.message, event.indefinite)
+                            }
+                            return@forceRefreshInstalledPackages
+                        }
                         updateDownloadButtons(DownloadRepository.snapshotDownloads())
                         refreshVersionHints()
                         if (shouldShowSnackbar && event.message.isNotBlank()) {
@@ -1621,6 +1641,7 @@ class VersionSheet(
 
         if (buttonViewsByKey.isEmpty()) return
         restoreActiveInstallVisualState()
+        restorePendingUninstallVisualState()
 
         buttonViewsByKey.forEach { (key, views) ->
             val context = views.container.context
@@ -1928,10 +1949,28 @@ class VersionSheet(
     private fun restoreActiveInstallVisualState() {
         if (installVisualStateByKey.isNotEmpty()) return
         val activeInstall = InstallStatusCenter.activeStateForApp(currentApp.name) ?: return
-        val key = activeInstall.versionKey
+        val key = resolveActiveInstallKey(activeInstall) ?: return
         if (!buttonViewsByKey.containsKey(key) || !versionsByKey.containsKey(key)) return
-        installVisualStateByKey[key] = InstallVisualState.WAITING_CONFIRMATION
-        installVisualProgressByKey.remove(key)
+        when (activeInstall.stage) {
+            InstallStatusCenter.InstallStage.WAITING_CONFIRMATION -> {
+                installVisualStateByKey[key] = InstallVisualState.WAITING_CONFIRMATION
+                installVisualProgressByKey.remove(key)
+            }
+            InstallStatusCenter.InstallStage.PREPARING -> {
+                if (activeInstall.confirmationRequested) {
+                    installVisualStateByKey[key] = InstallVisualState.INSTALLING
+                    installVisualProgressByKey[key] = activeInstall.progress.coerceIn(0, 100)
+                } else {
+                    installVisualStateByKey[key] = InstallVisualState.WAITING_CONFIRMATION
+                    installVisualProgressByKey.remove(key)
+                }
+            }
+            InstallStatusCenter.InstallStage.SUCCESS -> {
+                installVisualStateByKey[key] = InstallVisualState.INSTALLING
+                installVisualProgressByKey[key] = activeInstall.progress.coerceIn(0, 100)
+            }
+            InstallStatusCenter.InstallStage.FAILURE -> return
+        }
         restoredInstallVisualKeys.add(key)
         pendingInstallKey = key
         awaitingInstallConfirmationReturn = activeInstall.stage == InstallStatusCenter.InstallStage.WAITING_CONFIRMATION
@@ -1950,8 +1989,28 @@ class VersionSheet(
         if (!eventAppName.equals(currentApp.name, ignoreCase = true)) return
 
         when (event.installStage) {
+            InstallStatusCenter.InstallStage.PREPARING -> {
+                val activeInstall = InstallStatusCenter.activeStateForApp(currentApp.name)
+                val installKey = pendingInstallKey
+                    ?: activeInstall?.let(::resolveActiveInstallKey)
+                    ?: return
+                pendingInstallKey = installKey
+                if (activeInstall?.confirmationRequested == true) {
+                    installVisualStateByKey[installKey] = InstallVisualState.INSTALLING
+                    installVisualProgressByKey[installKey] = event.progress?.coerceIn(0, 100) ?: 0
+                    updateDownloadButtons(DownloadRepository.snapshotDownloads())
+                } else if (installVisualStateByKey[installKey] != InstallVisualState.WAITING_CONFIRMATION) {
+                    installVisualStateByKey[installKey] = InstallVisualState.WAITING_CONFIRMATION
+                    installVisualProgressByKey.remove(installKey)
+                    updateDownloadButtons(DownloadRepository.snapshotDownloads())
+                }
+            }
+
             InstallStatusCenter.InstallStage.WAITING_CONFIRMATION -> {
-                val installKey = pendingInstallKey ?: return
+                val installKey = pendingInstallKey
+                    ?: InstallStatusCenter.activeStateForApp(currentApp.name)?.let(::resolveActiveInstallKey)
+                    ?: return
+                pendingInstallKey = installKey
                 awaitingInstallConfirmationReturn = true
                 installVisualStateByKey[installKey] = InstallVisualState.WAITING_CONFIRMATION
                 installVisualProgressByKey.remove(installKey)
@@ -1997,6 +2056,7 @@ class VersionSheet(
                         mainHandler.postDelayed({
                             installTransitioningKeys.remove(installKey)
                             if (!isAdded || view == null) return@postDelayed
+                            buttonViewsByKey[installKey]?.let(::applyInstallState)
                             updateDownloadButtons(DownloadRepository.snapshotDownloads())
                         }, animationDelayMs + BUTTON_MORPH_FROM_CIRCLE_MS + 80L)
                     } else {
@@ -2010,10 +2070,30 @@ class VersionSheet(
     }
 
     private fun runPostUninstallTransitionIfNeeded(event: InstallStatusCenter.Event): Boolean {
-        val uninstallKey = pendingUninstallKey ?: return false
         if (event.appName?.equals(currentApp.name, ignoreCase = true) != true) return false
+        val uninstallKey = pendingUninstallKey ?: resolveInstalledOrOpenVersionKey() ?: return false
+        pendingUninstallKey = uninstallKey
         resolvePendingUninstallResult(uninstallKey, stillInstalled = false)
         return true
+    }
+
+    private fun restorePendingUninstallVisualState() {
+        if (awaitingUninstallResult || uninstallVisualStateByKey.isNotEmpty()) return
+        if (!PendingUninstallTracker.matches(currentApp.name, currentApp.packageName)) return
+        val uninstallKey = resolveInstalledOrOpenVersionKey() ?: return
+        pendingUninstallKey = uninstallKey
+        awaitingUninstallResult = true
+        pendingUninstallStillInstalledRetries = 0
+        pendingUninstallStartedAtMs = SystemClock.uptimeMillis()
+        uninstallVisualStateByKey[uninstallKey] = UninstallVisualState.WAITING_RESULT
+        context?.let {
+            AppDiagnostics.trace(
+                it,
+                "UI",
+                "version_sheet_uninstall_visual_restored",
+                "${currentApp.name} | key=$uninstallKey"
+            )
+        }
     }
 
     private fun schedulePendingUninstallRefresh(uninstallKey: String, delayMs: Long) {
@@ -2059,6 +2139,9 @@ class VersionSheet(
         awaitingUninstallResult = false
         pendingUninstallStillInstalledRetries = 0
         pendingUninstallStartedAtMs = 0L
+        if (stillInstalled) {
+            context?.let { PendingUninstallTracker.clearIfStillInstalled(it) }
+        }
         clearUninstallVisualState(uninstallKey)
         context?.let {
             AppDiagnostics.trace(
@@ -2135,7 +2218,7 @@ class VersionSheet(
         applyVersionButtonPalette(views, views.container.context)
         views.installProgress.animate().cancel()
         views.installProgress.visibility = View.GONE
-        views.installProgress.isIndeterminate = true
+        applyInstallProgressPalette(views.installProgress, views.container.context, indeterminate = true)
         views.content.visibility = View.VISIBLE
         views.content.animate().cancel()
         views.content.alpha = 0.9f
@@ -2191,7 +2274,7 @@ class VersionSheet(
         views.uninstallLabel.animate().cancel()
         views.uninstallProgress.animate().cancel()
         views.uninstallProgress.visibility = View.GONE
-        views.uninstallProgress.isIndeterminate = true
+        applyUninstallProgressPalette(views.uninstallProgress, views.uninstallButton.context, indeterminate = true)
         views.uninstallButton.alpha = 1f
         views.uninstallButton.scaleX = 1f
         views.uninstallButton.scaleY = 1f
@@ -2309,7 +2392,7 @@ class VersionSheet(
             AppDiagnostics.trace(it, "ANIM", "install_success_open_reveal_start", currentApp.name)
         }
         applyVersionButtonPalette(views, views.container.context)
-        applyUninstallProgressPalette(views.uninstallProgress, views.uninstallButton.context)
+        applyUninstallProgressPalette(views.uninstallProgress, views.uninstallButton.context, indeterminate = true)
         views.container.isEnabled = true
         views.uninstallButton.animate().cancel()
         views.uninstallLabel.animate().cancel()
@@ -2340,7 +2423,7 @@ class VersionSheet(
         views.installProgress.scaleX = 1f
         views.installProgress.scaleY = 1f
         views.installProgress.rotation = 0f
-        views.installProgress.isIndeterminate = true
+        applyInstallProgressPalette(views.installProgress, views.container.context, indeterminate = true)
 
         views.uninstallButton.visibility = View.VISIBLE
         ensureUninstallButtonExpanded(views)
@@ -2503,7 +2586,6 @@ class VersionSheet(
         val restoreImmediately = key != null && restoredInstallVisualKeys.remove(key)
         val wasShowingProgress = views.installProgress.visibility == View.VISIBLE
         applyVersionButtonPalette(views, context)
-        applyInstallProgressPalette(views.installProgress, context)
         views.track.setBackgroundResource(versionProgressTrackDrawable(context))
         views.container.isEnabled = false
         views.uninstallButton.visibility = View.GONE
@@ -2529,18 +2611,19 @@ class VersionSheet(
             views.installProgress.rotation = 0f
         }
         when (state) {
-            InstallVisualState.WAITING_CONFIRMATION -> {
-                views.installProgress.isIndeterminate = true
-            }
+            InstallVisualState.WAITING_CONFIRMATION ->
+                applyInstallProgressPalette(views.installProgress, context, indeterminate = true)
 
-            InstallVisualState.INSTALLING -> {
-                views.installProgress.isIndeterminate = false
-                views.installProgress.setProgressCompat(progress.coerceIn(0, 100), false)
-            }
+            InstallVisualState.INSTALLING ->
+                applyInstallProgressPalette(
+                    views.installProgress,
+                    context,
+                    progress = progress.coerceIn(0, 100),
+                    indeterminate = false
+                )
 
-            InstallVisualState.FINALIZING -> {
-                views.installProgress.isIndeterminate = true
-            }
+            InstallVisualState.FINALIZING ->
+                applyInstallProgressPalette(views.installProgress, context, indeterminate = true)
         }
         if (!wasShowingProgress) {
             if (restoreImmediately) {
@@ -2558,7 +2641,7 @@ class VersionSheet(
         state: UninstallVisualState
     ) {
         val wasShowingProgress = views.uninstallProgress.visibility == View.VISIBLE
-        applyUninstallProgressPalette(views.uninstallProgress, views.uninstallButton.context)
+        applyUninstallProgressPalette(views.uninstallProgress, views.uninstallButton.context, indeterminate = true)
         views.uninstallButton.visibility = View.VISIBLE
         views.uninstallButton.isEnabled = false
         views.uninstallButton.animate().cancel()
@@ -2576,9 +2659,8 @@ class VersionSheet(
             views.uninstallProgress.rotation = 0f
         }
         when (state) {
-            UninstallVisualState.WAITING_RESULT -> {
-                views.uninstallProgress.isIndeterminate = true
-            }
+            UninstallVisualState.WAITING_RESULT ->
+                applyUninstallProgressPalette(views.uninstallProgress, views.uninstallButton.context, indeterminate = true)
         }
         morphUninstallButton(views, toCircle = true, animate = !wasShowingProgress)
         traceUninstallInteraction(
@@ -2600,7 +2682,7 @@ class VersionSheet(
         val wasShowingProgress = views.installProgress.visibility == View.VISIBLE
         views.installProgress.animate().cancel()
         hideCircularIndicator(views.installProgress)
-        views.installProgress.isIndeterminate = true
+        applyInstallProgressPalette(views.installProgress, views.container.context, indeterminate = true)
         views.content.visibility = View.VISIBLE
         if (animateContent && wasShowingProgress) {
             traceMorph(
@@ -2682,7 +2764,7 @@ class VersionSheet(
         views.uninstallLabel.scaleX = 1f
         views.uninstallLabel.scaleY = 1f
         hideCircularIndicator(views.uninstallProgress)
-        views.uninstallProgress.isIndeterminate = true
+        applyUninstallProgressPalette(views.uninstallProgress, views.uninstallButton.context, indeterminate = true)
         morphUninstallButton(views, toCircle = false, animate = wasShowingProgress)
         traceUninstallInteraction(
             key = findButtonKey(views),
@@ -3065,44 +3147,29 @@ class VersionSheet(
     }
 
     private fun applyInstallProgressPalette(
-        indicator: WiggleCircularProgressIndicator,
-        context: android.content.Context
+        indicator: ComposeView,
+        context: android.content.Context,
+        progress: Int? = null,
+        indeterminate: Boolean = true
     ) {
-        val useDynamicColor = AppearancePreferences.isDynamicColorEnabled(context)
-        val indicatorColor = if (useDynamicColor) {
-            ThemeColors.color(
-                context,
-                androidx.appcompat.R.attr.colorPrimary,
-                R.color.accent
-            )
-        } else {
-            Color.BLACK
-        }
-        val baseTrackColor = if (useDynamicColor) {
-            ThemeColors.color(
-                context,
-                com.google.android.material.R.attr.colorSurfaceVariant,
-                R.color.bg
-            )
-        } else {
-            ContextCompat.getColor(context, R.color.nav_surface)
-        }
+        val indicatorColor = installButtonContentColor(context)
+        val baseTrackColor = installButtonSurfaceColor(context)
         styleCircularIndicator(
             indicator = indicator,
             indicatorColor = indicatorColor,
-            trackColor = if (useDynamicColor) {
-                ColorUtils.setAlphaComponent(baseTrackColor, (255 * 0.22f).toInt())
-            } else {
-                ColorUtils.setAlphaComponent(baseTrackColor, (255 * 0.72f).toInt())
-            },
+            trackColor = ColorUtils.setAlphaComponent(baseTrackColor, 255),
             sizeDp = INSTALL_PROGRESS_SIZE_DP,
-            thicknessDp = INSTALL_PROGRESS_THICKNESS_DP
+            thicknessDp = INSTALL_PROGRESS_THICKNESS_DP,
+            progress = progress,
+            indeterminate = indeterminate
         )
     }
 
     private fun applyUninstallProgressPalette(
-        indicator: WiggleCircularProgressIndicator,
-        context: android.content.Context
+        indicator: ComposeView,
+        context: android.content.Context,
+        progress: Int? = null,
+        indeterminate: Boolean = true
     ) {
         styleCircularIndicator(
             indicator = indicator,
@@ -3116,25 +3183,45 @@ class VersionSheet(
                 (255 * 0.18f).toInt()
             ),
             sizeDp = UNINSTALL_PROGRESS_SIZE_DP,
-            thicknessDp = UNINSTALL_PROGRESS_THICKNESS_DP
+            thicknessDp = UNINSTALL_PROGRESS_THICKNESS_DP,
+            progress = progress,
+            indeterminate = indeterminate
         )
     }
 
     private fun styleCircularIndicator(
-        indicator: WiggleCircularProgressIndicator,
+        indicator: ComposeView,
         indicatorColor: Int,
         trackColor: Int,
         sizeDp: Int,
-        thicknessDp: Int
+        thicknessDp: Int,
+        progress: Int? = null,
+        indeterminate: Boolean = true
     ) {
-        indicator.indicatorSize = dp(sizeDp)
-        indicator.trackThickness = dp(thicknessDp)
-        indicator.indicatorInset = 0
-        indicator.setIndicatorColor(indicatorColor)
-        indicator.trackColor = trackColor
+        val strokeWidthDp = thicknessDp.dp
+        val normalizedProgress = if (indeterminate) null else (progress?.coerceIn(0, 100) ?: 0) / 100f
+        val renderState = "$indicatorColor|$trackColor|$sizeDp|$thicknessDp|$normalizedProgress|$indeterminate"
+        if (indicator.getTag(R.id.versionSheetSpinnerRenderState) != renderState) {
+            indicator.setTag(R.id.versionSheetSpinnerRenderState, renderState)
+            indicator.setContent {
+                VersionSheetCircularIndicator(
+                    progress = normalizedProgress,
+                    indicatorColorArgb = indicatorColor,
+                    trackColorArgb = trackColor,
+                    strokeWidth = strokeWidthDp
+                )
+            }
+        }
+        val layoutParams = indicator.layoutParams
+        val targetSize = dp(sizeDp)
+        if (layoutParams.width != targetSize || layoutParams.height != targetSize) {
+            layoutParams.width = targetSize
+            layoutParams.height = targetSize
+            indicator.layoutParams = layoutParams
+        }
     }
 
-    private fun showCircularIndicator(indicator: WiggleCircularProgressIndicator) {
+    private fun showCircularIndicator(indicator: ComposeView) {
         indicator.animate().cancel()
         indicator.visibility = View.VISIBLE
         indicator.alpha = 0f
@@ -3152,7 +3239,7 @@ class VersionSheet(
             .start()
     }
 
-    private fun hideCircularIndicator(indicator: WiggleCircularProgressIndicator) {
+    private fun hideCircularIndicator(indicator: ComposeView) {
         if (indicator.visibility != View.VISIBLE) {
             indicator.alpha = 1f
             indicator.scaleX = 1f
@@ -3514,10 +3601,28 @@ class VersionSheet(
         val fillDrawable = liquidVersionDrawable(views.fill, context)
         views.track.setBackgroundResource(versionTrackDrawable(context))
         views.fill.setImageDrawable(fillDrawable)
+        val textColor = installButtonContentColor(context)
+        views.label.setTextColor(textColor)
+        views.icon.imageTintList = ColorStateList.valueOf(textColor)
+    }
+
+    private fun installButtonSurfaceColor(context: android.content.Context): Int {
+        return if (AppearancePreferences.isDynamicColorEnabled(context)) {
+            ThemeColors.color(
+                context,
+                com.google.android.material.R.attr.colorPrimaryContainer,
+                R.color.about_pill
+            )
+        } else {
+            ContextCompat.getColor(context, R.color.about_pill)
+        }
+    }
+
+    private fun installButtonContentColor(context: android.content.Context): Int {
         val isNightMode =
             (context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) ==
                 Configuration.UI_MODE_NIGHT_YES
-        val textColor = if (AppearancePreferences.isDynamicColorEnabled(context) && isNightMode) {
+        return if (AppearancePreferences.isDynamicColorEnabled(context) && isNightMode) {
             ContextCompat.getColor(context, R.color.text_on_dark_chip)
         } else if (AppearancePreferences.isDynamicColorEnabled(context)) {
             ThemeColors.color(
@@ -3528,8 +3633,6 @@ class VersionSheet(
         } else {
             Color.BLACK
         }
-        views.label.setTextColor(textColor)
-        views.icon.imageTintList = ColorStateList.valueOf(textColor)
     }
 
     private fun liquidVersionDrawable(
@@ -3587,11 +3690,7 @@ class VersionSheet(
     }
 
     private fun versionProgressTrackDrawable(context: android.content.Context): Int {
-        return if (AppearancePreferences.isDynamicColorEnabled(context)) {
-            R.drawable.version_download_progress_bg
-        } else {
-            R.drawable.version_download_progress_bg_brand
-        }
+        return versionTrackDrawable(context)
     }
 
     private fun refreshVersionHints() {
@@ -4382,6 +4481,72 @@ class VersionSheet(
         return "$versionName|$versionCode|$url"
     }
 
+    private fun resolveInstalledOrOpenVersionKey(): String? {
+        val relevantDownloads = DownloadRepository.snapshotDownloads()
+            .asSequence()
+            .filter { downloadPackageKey(it) == currentApp.packageName }
+            .associateBy { versionKey(it.versionName, it.url, it.versionCode) }
+
+        val openEntry = versionsByKey.entries.firstOrNull { (key, version) ->
+            resolveButtonAction(version, relevantDownloads[key]) == VersionButtonAction.OPEN
+        }
+        if (openEntry != null) {
+            return openEntry.key
+        }
+
+        val installedName = installedVersionName?.trim()?.takeIf { it.isNotBlank() }
+        if (installedName != null) {
+            val installedMatch = versionsByKey.entries.firstOrNull { (_, version) ->
+                version.version_name.equals(installedName, ignoreCase = true)
+            }
+            if (installedMatch != null) {
+                return installedMatch.key
+            }
+        }
+
+        return null
+    }
+
+    private fun resolveActiveInstallKey(activeInstall: InstallStatusCenter.ActiveInstallState): String? {
+        val exactKey = activeInstall.versionKey
+        if (buttonViewsByKey.containsKey(exactKey) && versionsByKey.containsKey(exactKey)) {
+            return exactKey
+        }
+
+        val normalizedApkPath = activeInstall.apkPath?.trim()?.takeIf { it.isNotBlank() }
+        if (normalizedApkPath != null) {
+            val matchingDownload = DownloadRepository.snapshotDownloads()
+                .lastOrNull { item ->
+                    downloadPackageKey(item) == currentApp.packageName &&
+                        item.filePath.equals(normalizedApkPath, ignoreCase = true)
+                }
+            if (matchingDownload != null) {
+                val resolvedKey = versionKey(
+                    matchingDownload.versionName,
+                    matchingDownload.url,
+                    matchingDownload.versionCode
+                )
+                if (buttonViewsByKey.containsKey(resolvedKey) && versionsByKey.containsKey(resolvedKey)) {
+                    return resolvedKey
+                }
+            }
+        }
+
+        val fallbackDownload = DownloadRepository.snapshotDownloads()
+            .asReversed()
+            .firstOrNull { item ->
+                downloadPackageKey(item) == currentApp.packageName &&
+                    downloadFileExists(item)
+            }
+            ?: return null
+        val fallbackKey = versionKey(
+            fallbackDownload.versionName,
+            fallbackDownload.url,
+            fallbackDownload.versionCode
+        )
+        return fallbackKey.takeIf { buttonViewsByKey.containsKey(it) && versionsByKey.containsKey(it) }
+    }
+
     private fun downloadPackageKey(item: DownloadItem): String {
         return item.backendPackageName.takeIf { it.isNotBlank() } ?: item.packageName
     }
@@ -4781,7 +4946,8 @@ class VersionSheet(
         InstallStatusCenter.markActive(
             appName = currentApp.name,
             versionKey = key,
-            stage = InstallStatusCenter.InstallStage.PREPARING
+            stage = InstallStatusCenter.InstallStage.PREPARING,
+            apkPath = filePath
         )
         InstallSessionManager.installApk(
             context = context,

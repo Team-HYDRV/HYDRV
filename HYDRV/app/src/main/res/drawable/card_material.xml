@@ -1,4 +1,18 @@
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="@color/dynamic_card" />
-    <corners android:radius="16dp" />
-</shape>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <solid android:color="@color/dynamic_card_shadow" />
+            <corners android:radius="17dp" />
+        </shape>
+    </item>
+    <item
+        android:left="1dp"
+        android:top="1dp"
+        android:right="1dp"
+        android:bottom="1dp">
+        <shape>
+            <solid android:color="@color/dynamic_card" />
+            <corners android:radius="16dp" />
+        </shape>
+    </item>
+</layer-list>

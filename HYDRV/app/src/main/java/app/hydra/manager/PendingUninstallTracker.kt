@@ -40,6 +40,14 @@ object PendingUninstallTracker {
         return !pendingAppName.isNullOrBlank() && !pendingPackageName.isNullOrBlank()
     }
 
+    fun matches(appName: String, packageName: String? = null): Boolean {
+        val normalizedAppName = appName.trim()
+        if (normalizedAppName.isBlank()) return false
+        if (!pendingAppName.equals(normalizedAppName, ignoreCase = true)) return false
+        val normalizedPackage = packageName?.trim().orEmpty()
+        return normalizedPackage.isBlank() || pendingPackageName.equals(normalizedPackage, ignoreCase = true)
+    }
+
     fun clear() {
         pendingAppName = null
         pendingPackageName = null

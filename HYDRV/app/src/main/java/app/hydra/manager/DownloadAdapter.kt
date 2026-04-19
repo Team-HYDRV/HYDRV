@@ -1000,7 +1000,8 @@ class DownloadAdapter(
             InstallStatusCenter.markActive(
                 appName = appName,
                 versionKey = "$appName|$path",
-                stage = InstallStatusCenter.InstallStage.PREPARING
+                stage = InstallStatusCenter.InstallStage.PREPARING,
+                apkPath = path
             )
             InstallSessionManager.installApk(context, path, appName, backendPackage)
         } catch (e: Exception) {

@@ -10,6 +10,8 @@
     <color name="bg">#151419</color>
     <color name="card">#1C1C1E</color>
     <color name="card_stroke">#00000000</color>
+    <color name="card_shadow">#32000000</color>
+    <color name="button_shadow">#22000000</color>
     <color name="nav_surface">#171719</color>
     <color name="nav_stroke">#242428</color>
     <color name="settings_section_selected">#25282A</color>
@@ -30,6 +32,8 @@
     <color name="dynamic_nav_surface">#19181D</color>
     <color name="dynamic_elevated">#242228</color>
     <color name="dynamic_stroke">#2C2933</color>
+    <color name="dynamic_card_shadow">#2C000000</color>
+    <color name="dynamic_button_shadow">#1E000000</color>
     <color name="text_on_accent_chip">#000000</color>
     <color name="text_on_red_chip">#FFFFFF</color>
     <color name="text_on_dark_chip">#FFFFFF</color>

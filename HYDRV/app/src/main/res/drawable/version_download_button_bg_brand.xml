@@ -1,4 +1,18 @@
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="#D3D8D2" />
-    <corners android:radius="999dp" />
-</shape>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <solid android:color="@color/button_shadow" />
+            <corners android:radius="1000dp" />
+        </shape>
+    </item>
+    <item
+        android:left="1dp"
+        android:top="1dp"
+        android:right="1dp"
+        android:bottom="1dp">
+        <shape>
+            <solid android:color="#CCD4CE" />
+            <corners android:radius="999dp" />
+        </shape>
+    </item>
+</layer-list>

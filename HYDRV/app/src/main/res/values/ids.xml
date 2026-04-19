@@ -2,4 +2,5 @@
     <item name="liquidProgressDrawable" type="id" />
     <item name="liquidProgressPaletteState" type="id" />
     <item name="appIconUrl" type="id" />
+    <item name="versionSheetSpinnerRenderState" type="id" />
 </resources>

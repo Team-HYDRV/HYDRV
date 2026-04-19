@@ -28,6 +28,7 @@ object InstallStatusCenter {
 
     data class ActiveInstallState(
         val versionKey: String,
+        val apkPath: String? = null,
         val stage: InstallStage,
         val progress: Int = 0,
         val confirmationRequested: Boolean = false,
@@ -129,12 +130,19 @@ object InstallStatusCenter {
     }
 
     @Synchronized
-    fun markActive(appName: String, versionKey: String, stage: InstallStage, progress: Int = 0) {
+    fun markActive(
+        appName: String,
+        versionKey: String,
+        stage: InstallStage,
+        progress: Int = 0,
+        apkPath: String? = null
+    ) {
         if (appName.isBlank() || versionKey.isBlank()) return
         val normalized = appName.trim().lowercase()
         pendingClear.remove(normalized)?.let(mainHandler::removeCallbacks)
         activeInstalls[normalized] = ActiveInstallState(
             versionKey = versionKey,
+            apkPath = apkPath?.takeIf { it.isNotBlank() },
             stage = stage,
             progress = progress.coerceIn(0, 100),
             confirmationRequested = false,
@@ -195,6 +203,7 @@ object InstallStatusCenter {
                 }
                 activeInstalls[normalized] = ActiveInstallState(
                     versionKey = resolvedKey,
+                    apkPath = existing?.apkPath,
                     stage = stage,
                     progress = visualProgress,
                     confirmationRequested = confirmationRequested,
@@ -221,6 +230,7 @@ object InstallStatusCenter {
                 val resolvedKey = versionKey?.takeIf { it.isNotBlank() } ?: existing?.versionKey ?: return
                 activeInstalls[normalized] = ActiveInstallState(
                     versionKey = resolvedKey,
+                    apkPath = existing?.apkPath,
                     stage = InstallStage.SUCCESS,
                     progress = 100,
                     confirmationRequested = existing?.confirmationRequested ?: true,
