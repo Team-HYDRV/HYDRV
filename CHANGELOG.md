@@ -20,16 +20,30 @@ All notable changes to HYDRV are recorded here.
 
 ### Added
 
-- Nothing queued for the next tag yet.
+- A richer diagnostics export focused on the signals that are actually useful for support and debugging, including crashes, install and download flow, animation traces, ads state, and package and performance events.
+- Localized diagnosis report section labels for the shipped language set.
+- New shared visual treatment for cards and buttons through softer elevated surfaces and refined surface styling across the app.
 
 ### Changed
 
-- Refreshed the safe AndroidX and test dependency set while leaving the network stack untouched.
-- Normalized the About quick-link card heights so the Website, Discord, Donate, and GitHub tiles read as a more consistent set.
+- Reworked the VersionSheet install and uninstall experience with smoother morph choreography, cleaner progress states, and better synchronization with the Downloads surface.
+- Refined install and uninstall indicators to use the newer circular visual style and align their palette more closely with the active button and theme treatment.
+- Polished sheet, card, button, spacing, and pure-black theme surfaces so key UI elements feel more intentional and less flat.
+- Normalized the About quick-link cards so the Website, Discord, Donate, and GitHub tiles present as a more consistent set.
+- Refreshed the safe AndroidX and test dependency set while leaving the network stack and Ads SDK untouched.
 
 ### Fixed
 
+- Stuck install and uninstall spinners in VersionSheet were resolved, including cancel and success paths that could previously leave the sheet in the wrong visual state.
+- VersionSheet and Downloads now share install and uninstall state more reliably so progress, waiting states, and completion feedback stay aligned between surfaces.
 - Android CI now installs JetBrains Runtime 17 so GitHub Actions matches the Gradle toolchain request instead of failing on Foojay vendor resolution.
+- Cleaned up dead legacy indicator leftovers and tightened diagnostics formatting so support reports are easier to read.
+
+### Recent work
+
+- Restored and locked the stable VersionSheet success morph behavior after regression-prone download and install flow changes.
+- Brought the VersionSheet spinner and uninstall indicator in line with the newer visual direction while preserving theme-aware coloring and existing button identity.
+- Refined diagnostics export presentation, localization, and section grouping so shared reports are easier to scan and act on.
 
 ## [1.1.1] - 2026-04-15
 
