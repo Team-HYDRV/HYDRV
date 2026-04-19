@@ -81,10 +81,10 @@ dependencies {
     val composeBom = platform(libs.androidx.compose.bom)
 
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
-    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0")
     implementation("com.facebook.shimmer:shimmer:0.5.0")
-    implementation("androidx.recyclerview:recyclerview:1.3.2")
-    implementation("androidx.work:work-runtime-ktx:2.9.1")
+    implementation("androidx.recyclerview:recyclerview:1.4.0")
+    implementation("androidx.work:work-runtime-ktx:2.11.2")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.squareup.picasso:picasso:2.8")
