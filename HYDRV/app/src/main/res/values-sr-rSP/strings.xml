@@ -443,12 +443,4 @@
     <item quantity="other">%d označenih</item>
   </plurals>
   <string name="version_sheet_scroll_hint">Скролуј за још</string>
-  <string name="debug_section_app_device">Aplikacija i uređaj</string>
-  <string name="debug_section_crashes_failures">Padovi i greške</string>
-  <string name="debug_section_install_download_timeline">Vremenska linija instalacije / preuzimanja</string>
-  <string name="debug_section_animations_ui_trace">Animacije i UI praćenje</string>
-  <string name="debug_section_performance_package_state">Performanse i stanje paketa</string>
-  <string name="debug_section_focus_format">Fokus: %1$s</string>
-  <string name="debug_section_entries_format">Stavke: %1$d</string>
-  <string name="debug_section_performance_trace_temporary">Praćenje performansi (privremeno)</string>
 </resources>

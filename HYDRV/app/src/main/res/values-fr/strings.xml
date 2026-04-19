@@ -440,12 +440,4 @@
         <item quantity="other">%dsélectionné</item>
     </plurals>
   <string name="version_sheet_scroll_hint">Faites défiler pour en voir plus</string>
-  <string name="debug_section_app_device">Application et appareil</string>
-  <string name="debug_section_crashes_failures">Plantages et erreurs</string>
-  <string name="debug_section_install_download_timeline">Chronologie d\'installation / téléchargement</string>
-  <string name="debug_section_animations_ui_trace">Animations et trace UI</string>
-  <string name="debug_section_performance_package_state">Performances et état du paquet</string>
-  <string name="debug_section_focus_format">Focus : %1$s</string>
-  <string name="debug_section_entries_format">Entrées : %1$d</string>
-  <string name="debug_section_performance_trace_temporary">Trace de performances (temporaire)</string>
 </resources>
