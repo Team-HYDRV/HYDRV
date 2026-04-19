@@ -1250,29 +1250,7 @@ class SettingsFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     private fun exportDebugLogs() {
         val context = requireContext()
-
-        val report = buildString {
-            appendLine(getString(R.string.debug_report_title))
-            appendLine()
-            appendLine(buildDeviceInfoBlock(context))
-            appendLine()
-            appendLine(getString(R.string.backend_title) + ": " + backendUrlValue.text)
-            appendLine()
-            appendLine(getString(R.string.debug_ads_section_title))
-            appendLine(RewardedAdManager.debugReport(context))
-            val diagnostics = AppDiagnostics.read(context)
-            if (diagnostics.isNotBlank()) {
-                appendLine()
-                appendLine(getString(R.string.debug_recent_diagnostics))
-                appendLine(diagnostics)
-            }
-            val performanceTrace = AppDiagnostics.readTrace(context)
-            if (performanceTrace.isNotBlank()) {
-                appendLine()
-                appendLine("Performance trace (temporary)")
-                appendLine(performanceTrace)
-            }
-        }
+        val report = buildDebugReportExport(context)
 
         startActivity(
             Intent.createChooser(
@@ -1284,6 +1262,126 @@ class SettingsFragment : Fragment() {
                 getString(R.string.debug_share_chooser)
             )
         )
+    }
+
+    private fun buildDebugReportExport(context: Context): String {
+        val diagnostics = AppDiagnostics.read(context)
+        val performanceTrace = AppDiagnostics.readTrace(context)
+        val crashDiagnostics = diagnostics.filterReportLines(
+            sectionName = getString(R.string.debug_section_crashes_failures),
+            maxLines = 24
+        ) { line ->
+            line.contains("[CRASH]") ||
+                line.contains(" failed ", ignoreCase = true) ||
+                line.contains("exception", ignoreCase = true)
+        }
+        val installDiagnostics = diagnostics.filterReportLines(
+            sectionName = getString(R.string.debug_section_install_download_timeline),
+            maxLines = 48
+        ) { line ->
+            line.contains("[INSTALL]") ||
+                line.contains("[DOWNLOAD]") ||
+                line.contains("[UNINSTALL]")
+        }
+        val animationTrace = performanceTrace.filterReportLines(
+            sectionName = getString(R.string.debug_section_animations_ui_trace),
+            maxLines = 60
+        ) { line ->
+            line.contains("[ANIM]") ||
+                line.contains("[INSTALL_UI]") ||
+                line.contains("[UI]")
+        }
+        val performanceSignals = performanceTrace.filterReportLines(
+            sectionName = getString(R.string.debug_section_performance_package_state),
+            maxLines = 40
+        ) { line ->
+            line.contains("[PACKAGE]") ||
+                line.contains("[DOWNLOAD]") ||
+                line.contains("[CATALOG]") ||
+                line.contains("[INSTALL]")
+        }
+        return buildString {
+            appendLine(getString(R.string.debug_report_title))
+            appendLine()
+            appendReportSection(
+                title = getString(R.string.debug_section_app_device),
+                body = buildDeviceInfoBlock(context)
+            )
+            appendReportSection(
+                title = getString(R.string.backend_title),
+                body = backendUrlValue.text?.toString().orEmpty().ifBlank {
+                    getString(R.string.device_info_unknown)
+                }
+            )
+            appendReportSection(
+                title = getString(R.string.debug_ads_section_title),
+                body = RewardedAdManager.debugReport(context)
+            )
+            if (crashDiagnostics.isNotBlank()) {
+                appendReportSection(
+                    title = getString(R.string.debug_section_crashes_failures),
+                    body = crashDiagnostics,
+                    summary = getString(R.string.debug_section_entries_format, crashDiagnostics.lineCount())
+                )
+            }
+            if (installDiagnostics.isNotBlank()) {
+                appendReportSection(
+                    title = getString(R.string.debug_section_install_download_timeline),
+                    body = installDiagnostics,
+                    summary = getString(R.string.debug_section_entries_format, installDiagnostics.lineCount())
+                )
+            }
+            if (animationTrace.isNotBlank()) {
+                appendReportSection(
+                    title = getString(R.string.debug_section_animations_ui_trace),
+                    body = animationTrace,
+                    summary = getString(R.string.debug_section_entries_format, animationTrace.lineCount())
+                )
+            }
+            if (performanceSignals.isNotBlank()) {
+                appendReportSection(
+                    title = getString(R.string.debug_section_performance_package_state),
+                    body = performanceSignals,
+                    summary = getString(R.string.debug_section_entries_format, performanceSignals.lineCount())
+                )
+            }
+        }.trimEnd()
+    }
+
+    private fun StringBuilder.appendReportSection(
+        title: String,
+        body: String,
+        summary: String? = null
+    ) {
+        if (isNotEmpty()) appendLine()
+        appendLine("=".repeat(48))
+        appendLine(title)
+        summary?.takeIf { it.isNotBlank() }?.let { appendLine(it) }
+        appendLine()
+        appendLine(body.trim())
+    }
+
+    private fun String.lineCount(): Int {
+        return lineSequence().count { it.isNotBlank() }
+    }
+
+    private fun String.filterReportLines(
+        sectionName: String,
+        maxLines: Int,
+        predicate: (String) -> Boolean
+    ): String {
+        val matched = lineSequence()
+            .map { it.trimEnd() }
+            .filter { it.isNotBlank() }
+            .filter(predicate)
+            .toList()
+            .takeLast(maxLines)
+        if (matched.isEmpty()) return ""
+        return buildString {
+            appendLine(getString(R.string.debug_section_focus_format, sectionName))
+            appendLine()
+            matched.forEach { line -> appendLine(line) }
+        }.trimEnd()
     }
 
     private fun buildBackendHealthSummary(
