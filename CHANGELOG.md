@@ -16,6 +16,21 @@ All notable changes to HYDRV are recorded here.
 
 - Bug fixes continue to roll in with each release.
 
+## [1.1.2] - 2026-04-19
+
+### Added
+
+- Nothing queued for the next tag yet.
+
+### Changed
+
+- Refreshed the safe AndroidX and test dependency set while leaving the network stack untouched.
+- Normalized the About quick-link card heights so the Website, Discord, Donate, and GitHub tiles read as a more consistent set.
+
+### Fixed
+
+- Android CI now installs JetBrains Runtime 17 so GitHub Actions matches the Gradle toolchain request instead of failing on Foojay vendor resolution.
+
 ## [1.1.1] - 2026-04-15
 
 ### Added
