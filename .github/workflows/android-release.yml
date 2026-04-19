@@ -25,7 +25,7 @@ jobs:
       - name: Set up JDK 17
         uses: actions/setup-java@v5
         with:
-          distribution: temurin
+          distribution: jetbrains
           java-version: "17"
           cache: gradle
 
@@ -106,6 +106,39 @@ jobs:
             ' "$changelog" | sed '/^[[:space:]]*$/d'
           }
 
+          section_has_placeholder() {
+            local body="$1"
+            printf '%s\n' "$body" | grep -Eiq '^- (Nothing queued for the next tag yet\.|Ongoing polish and refinements continue as usual\.|Bug fixes continue to roll in with each release\.|None)$'
+          }
+
+          validate_release_notes() {
+            local titles=("Added" "Changed" "Fixed" "Recent work")
+            local title
+            local body
+            local has_real_content=0
+
+            for title in "${titles[@]}"; do
+              body="$(extract_section "$title")"
+
+              if [ -z "$body" ]; then
+                echo "::error::CHANGELOG.md is missing a populated '$title' section for $release_version."
+                exit 1
+              fi
+
+              if section_has_placeholder "$body"; then
+                echo "::error::CHANGELOG.md still contains placeholder text in the '$title' section for $release_version. Replace placeholder bullets before tagging a release."
+                exit 1
+              fi
+
+              has_real_content=1
+            done
+
+            if [ "$has_real_content" -eq 0 ]; then
+              echo "::error::No usable release notes were found for $release_version."
+              exit 1
+            fi
+          }
+
           write_section() {
             local title="$1"
             local body
@@ -138,6 +171,7 @@ jobs:
           }
 
           {
+            validate_release_notes
             write_section Added
             write_section Changed
             write_section Fixed
