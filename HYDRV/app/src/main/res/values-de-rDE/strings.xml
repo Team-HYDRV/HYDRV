@@ -440,4 +440,12 @@
     <item quantity="other">%d selected</item>
   </plurals>
   <string name="version_sheet_scroll_hint">Für mehr scrollen</string>
+  <string name="debug_section_app_device">App und Gerät</string>
+  <string name="debug_section_crashes_failures">Abstürze und Fehler</string>
+  <string name="debug_section_install_download_timeline">Installations-/Download-Zeitleiste</string>
+  <string name="debug_section_animations_ui_trace">Animationen und UI-Ablaufverfolgung</string>
+  <string name="debug_section_performance_package_state">Leistung und Paketstatus</string>
+  <string name="debug_section_focus_format">Fokus: %1$s</string>
+  <string name="debug_section_entries_format">Einträge: %1$d</string>
+  <string name="debug_section_performance_trace_temporary">Leistungsprotokoll (vorübergehend)</string>
 </resources>

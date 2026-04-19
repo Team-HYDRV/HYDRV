@@ -440,4 +440,12 @@
     <item quantity="other">%dvald</item>
   </plurals>
   <string name="version_sheet_scroll_hint">Scrolla för mer</string>
+  <string name="debug_section_app_device">App och enhet</string>
+  <string name="debug_section_crashes_failures">Krascher och fel</string>
+  <string name="debug_section_install_download_timeline">Tidslinje för installation / nedladdning</string>
+  <string name="debug_section_animations_ui_trace">Animationer och UI-spårning</string>
+  <string name="debug_section_performance_package_state">Prestanda och paketstatus</string>
+  <string name="debug_section_focus_format">Fokus: %1$s</string>
+  <string name="debug_section_entries_format">Poster: %1$d</string>
+  <string name="debug_section_performance_trace_temporary">Prestandaspårning (tillfällig)</string>
 </resources>

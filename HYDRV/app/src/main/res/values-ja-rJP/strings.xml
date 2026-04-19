@@ -437,4 +437,12 @@
     <item quantity="other">%d選択する</item>
   </plurals>
   <string name="version_sheet_scroll_hint">さらに見るにはスクロール</string>
+  <string name="debug_section_app_device">アプリと端末</string>
+  <string name="debug_section_crashes_failures">クラッシュと失敗</string>
+  <string name="debug_section_install_download_timeline">インストール / ダウンロードのタイムライン</string>
+  <string name="debug_section_animations_ui_trace">アニメーションとUIトレース</string>
+  <string name="debug_section_performance_package_state">パフォーマンスとパッケージ状態</string>
+  <string name="debug_section_focus_format">対象: %1$s</string>
+  <string name="debug_section_entries_format">件数: %1$d</string>
+  <string name="debug_section_performance_trace_temporary">パフォーマンストレース（一時的）</string>
 </resources>

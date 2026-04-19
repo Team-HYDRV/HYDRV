@@ -440,4 +440,12 @@
         <item quantity="few">%d</item><item quantity="many">%d</item><item quantity="other">%dzvoleno</item>
     </plurals>
   <string name="version_sheet_scroll_hint">Posuňte pro více</string>
+  <string name="debug_section_app_device">Aplikace a zařízení</string>
+  <string name="debug_section_crashes_failures">Pády a selhání</string>
+  <string name="debug_section_install_download_timeline">Časová osa instalace / stahování</string>
+  <string name="debug_section_animations_ui_trace">Animace a trasování UI</string>
+  <string name="debug_section_performance_package_state">Výkon a stav balíčku</string>
+  <string name="debug_section_focus_format">Zaměření: %1$s</string>
+  <string name="debug_section_entries_format">Položky: %1$d</string>
+  <string name="debug_section_performance_trace_temporary">Trasování výkonu (dočasné)</string>
 </resources>
