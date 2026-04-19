@@ -1889,6 +1889,7 @@
                         android:clickable="true"
                         android:focusable="true"
                         android:foreground="@android:color/transparent"
+                        android:minHeight="96dp"
                         android:orientation="vertical"
                         android:paddingHorizontal="16dp"
                         android:paddingVertical="16dp">
@@ -1920,6 +1921,7 @@
                         android:clickable="true"
                         android:focusable="true"
                         android:foreground="@android:color/transparent"
+                        android:minHeight="96dp"
                         android:orientation="vertical"
                         android:paddingHorizontal="16dp"
                         android:paddingVertical="16dp">
@@ -1959,6 +1961,7 @@
                         android:clickable="true"
                         android:focusable="true"
                         android:foreground="@android:color/transparent"
+                        android:minHeight="96dp"
                         android:orientation="vertical"
                         android:paddingHorizontal="16dp"
                         android:paddingVertical="16dp">
@@ -1990,6 +1993,7 @@
                         android:clickable="true"
                         android:focusable="true"
                         android:foreground="@android:color/transparent"
+                        android:minHeight="96dp"
                         android:orientation="vertical"
                         android:paddingHorizontal="16dp"
                         android:paddingVertical="16dp">
